@@ -7,7 +7,7 @@
  */
 module blackbird {
 	exports main.app;
-
+	exports main.db;
 	requires java.sql;
 	requires javafx.base;
 	requires javafx.fxml;
