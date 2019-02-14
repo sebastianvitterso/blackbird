@@ -1,0 +1,38 @@
+.jfx-tab-pane .depth-container .tab-header-area .control-buttons-tab {
+	visibility: hidden;
+	-fx-pref-width: 0;
+}
+.jfx-tab-pane .depth-container .tab-header-area .control-buttons-tab .jfx-rippler{
+	visibility: hidden;
+}
+
+.jfx-tab-pane .depth-container .tab-header-area .tab-header-background {
+	-fx-pref-width: 0;
+	visibility: hidden;
+}
+
+.jfx-tab-pane .depth-container .tab-header-area .headers-region {
+	-fx-translate-x: 5;
+}
+.jfx-tab-pane .depth-container .tab-header-area .headers-region .tab-selected-line{
+	-fx-background-color:  #202020;
+	-fx-min-width: 150;
+	-fx-pref-width: 150;
+	-fx-max-width: 150;
+	-fx-scale-shape: false;
+}
+
+.jfx-tab-pane:top .depth-container .tab-header-area .headers-region .tab .jfx-rippler {
+	-jfx-rippler-fill:  #450000;
+}
+
+.jfx-tab-pane:top .depth-container .tab-header-area .headers-region .tab:selected {
+	-fx-background-color: #e7e7e7;
+	-fx-effect: innershadow( gaussian, rgba( 180, 180, 180, 0.5 ), 30, 0, 0, 10 );
+}
+
+
+.jfx-tab-pane .depth-container .tab-header-area .headers-region .tab .jfx-rippler .tab-container .tab-label{
+	-fx-text-fill: #202020;
+	-fx-font: bold 9pt "System";
+}
