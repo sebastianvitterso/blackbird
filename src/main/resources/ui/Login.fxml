@@ -26,7 +26,7 @@
                   </ImageView>
                   <Label alignment="CENTER" contentDisplay="CENTER" styleClass="login-screen" text="BlackBird" textAlignment="CENTER" textFill="#070505">
                      <font>
-                        <Font name="Bell MT" size="22.0" />
+                        <Font name="Serif Regular" size="22.0" />
                      </font>
                   </Label>
                   <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
@@ -75,13 +75,10 @@
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
                   </JFXButton>
                   <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="30.0" onAction="#handleExitClick" prefHeight="35.0" prefWidth="90.0" styleClass="primary-button" text="Avslutt" textFill="#9e9e9e" viewOrder="4.0">
                      <font>
-                        <Font name="Gabriola" size="20.0" />
+                        <Font name="Serif Regular" size="17.0" />
                      </font>
                   </JFXButton>
                </children>

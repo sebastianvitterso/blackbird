@@ -65,6 +65,7 @@ public class LoginController {
     
     @FXML
     void handleLoginClick(ActionEvent event) {
+    	System.out.println(javafx.scene.text.Font.getFamilies());
     }
     
     @FXML

@@ -26,7 +26,7 @@
 
 .primary-button {
 	-fx-background-color: -fx-primary;
-	-fx-font: normal 20px gabriola;
+	-fx-font: normal 17px serif;
 }
 .primary-button .jfx-rippler {
 	-jfx-rippler-fill: -fx-primary-rippler;
