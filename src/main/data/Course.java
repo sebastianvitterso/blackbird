@@ -1,14 +1,14 @@
 package main.data;
 
-public class Class {
-	private final String classCode;
+public class Course {
+	private final String courseCode;
 	private final String name;
-	public Class(String classCode, String name) {
-		this.classCode = classCode;
+	public Course(String courseCode, String name) {
+		this.courseCode = courseCode;
 		this.name = name;
 	}
 	public String getClassCode() {
-		return classCode;
+		return courseCode;
 	}
 	public String getName() {
 		return name;
