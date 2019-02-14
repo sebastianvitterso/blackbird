@@ -11,8 +11,7 @@ public class UserManager {
 	
 	
 	public static String login() throws SQLException, IOException {
-		DatabaseManager dbManager = new DatabaseManager();
-		ArrayList<HashMap<String, String>> resultArray = dbManager.createConnection("select * from bruker");
+		ArrayList<HashMap<String, String>> resultArray = DatabaseManager.sendQuery("select * from bruker");
 		Scanner s = new Scanner(System.in);
 		System.out.print("Please input username: ");
 		String username = s.nextLine();
@@ -50,7 +49,6 @@ public class UserManager {
 		try {
 			System.out.println(UserManager.login()); 
 		} catch (SQLException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

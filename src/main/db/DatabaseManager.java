@@ -2,50 +2,34 @@ package main.db;
 
 import java.sql.*;
 import java.util.ArrayList;
-// import java.util.Scanner;
-// TODO : Lage ArrayList med Dictionaries inni.
 import java.util.HashMap;
 
 public class DatabaseManager {
-	private Connection connection;
 	
-	public ArrayList<HashMap<String, String>> createConnection(String query) {
+	public static ArrayList<HashMap<String, String>> sendQuery(String query) {
 		try {
-			// Load MySQL Driver
+			// Kobler til mySQL-server, og henter data derfra, avhengig av query-et som mates inn.
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			// Establish connection to database
 			String conString = "jdbc:mysql://mysql.stud.ntnu.no/sebastvi_blackbird_db?serverTimezone=UTC";  
-			// String query = "SELECT * FROM bruker";
-			
-			
-			connection = DriverManager.getConnection(conString, "sebastvi_blackbird", "blackbird");
-			
-			// System.out.println("Connection successful."); 
-			
-			//------------------------------------------------------------------
+			Connection connection = DriverManager.getConnection(conString, "sebastvi_blackbird", "blackbird");
 			Statement statement = connection.createStatement();
-			
 			ResultSet resultSet = statement.executeQuery(query);
-			
 			ResultSetMetaData rsmd = resultSet.getMetaData();
+			connection.close();
 			
-			ArrayList<HashMap<String, String>> resultArray = new ArrayList<>();
+			// return-liste som inneholder hvert objekt som en hashmap mellom kolonne-overskrift og kolonne-verdi.
+			ArrayList<HashMap<String, String>> resultArray = new ArrayList<>(); 
 			
 			while (resultSet.next()) {
 				HashMap<String, String> currentRow = new HashMap<String, String>();
 			       for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-			           String columnValue = resultSet.getString(i);
-			           String columnTitle = rsmd.getColumnName(i);
-			           currentRow.put(columnTitle, columnValue);
-			       }
-			       resultArray.add(currentRow);
+			           currentRow.put(rsmd.getColumnName(i), resultSet.getString(i));
+			       } // lagrer et objekt i hashmappet "currentRow"
+			       resultArray.add(currentRow); // lagrer currentRow i return-lista
 		    }
-			// henter all data fra hver rad i bruker-tabellen paa sebastvi_blackbird_db.
-			//------------------------------------------------------------------
 			
-			connection.close();
 			return resultArray;
+			
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println("Connection failed.");
 			e.printStackTrace();
@@ -53,13 +37,28 @@ public class DatabaseManager {
 		}
 	}
 	
+	public static int sendUpdate(String update) {
+		try {
+			// Kobler til mySQL-server, og henter data derfra, avhengig av update-n som mates inn.
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			String conString = "jdbc:mysql://mysql.stud.ntnu.no/sebastvi_blackbird_db?serverTimezone=UTC";  
+			Connection connection = DriverManager.getConnection(conString, "sebastvi_blackbird", "blackbird");
+			Statement statement = connection.createStatement();
+			int rowsAffected = statement.executeUpdate(update);
+			connection.close();
+			
+			
+			return rowsAffected;
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			System.out.println("Connection failed.");
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
 	public static void main(String[] args) {
-		// DatabaseManager dbm = new DatabaseManager();
-		// Scanner s = new Scanner(System.in);
-		// System.out.print("Please enter SQL-query: ");
-		// String query = s.nextLine();
-		// s.close();
-		// dbm.createConnection(query);
+		
 	}
 	
 }
