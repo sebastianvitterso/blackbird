@@ -7,16 +7,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DatabaseManager {
-	private Connection connection;
-	
-	public ArrayList<HashMap<String, String>> createConnection(String query) {
+
+	private static Connection connection; 
+	public static ArrayList<HashMap<String, String>> createConnection(String query) {
 		try {
 			// Load MySQL Driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
 			// Establish connection to database
 			String conString = "jdbc:mysql://mysql.stud.ntnu.no/sebastvi_blackbird_db?serverTimezone=UTC";  
-			// String query = "SELECT * FROM bruker";
 			
 			
 			connection = DriverManager.getConnection(conString, "sebastvi_blackbird", "blackbird");
@@ -52,7 +51,7 @@ public class DatabaseManager {
 			return null;
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		// DatabaseManager dbm = new DatabaseManager();
 		// Scanner s = new Scanner(System.in);
