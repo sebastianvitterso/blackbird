@@ -52,6 +52,15 @@
 	-jfx-unfocus-color: #FF8080;
 }
 
+.menu {
+	-fx-background-color: -fx-primary;
+}
 
+.menu-text {
+	-fx-text-fill: -fx-primary-text;
+}
 
-
+.menu-link {
+	-fx-text-fill: -fx-primary-text;
+	-fx-font-size: 16px;
+}
