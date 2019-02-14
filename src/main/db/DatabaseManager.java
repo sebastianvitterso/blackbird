@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DatabaseManager {
+
 	
 	public static ArrayList<HashMap<String, String>> sendQuery(String query) {
 		try {
@@ -15,7 +16,6 @@ public class DatabaseManager {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
 			ResultSetMetaData rsmd = resultSet.getMetaData();
-			connection.close();
 			
 			// return-liste som inneholder hvert objekt som en hashmap mellom kolonne-overskrift og kolonne-verdi.
 			ArrayList<HashMap<String, String>> resultArray = new ArrayList<>(); 
@@ -27,7 +27,8 @@ public class DatabaseManager {
 			       } // lagrer et objekt i hashmappet "currentRow"
 			       resultArray.add(currentRow); // lagrer currentRow i return-lista
 		    }
-			
+
+			connection.close();
 			return resultArray;
 			
 		} catch (ClassNotFoundException | SQLException e) {
@@ -36,7 +37,7 @@ public class DatabaseManager {
 			return null;
 		}
 	}
-	
+
 	public static int sendUpdate(String update) {
 		try {
 			// Kobler til mySQL-server, og henter data derfra, avhengig av update-n som mates inn.
