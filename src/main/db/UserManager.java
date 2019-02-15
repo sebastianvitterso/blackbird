@@ -14,8 +14,11 @@ public class UserManager {
 	
 	public static User getUser(String username) {
 		ArrayList<HashMap<String, String>> userMaps = DatabaseManager.sendQuery("SELECT * FROM user WHERE username = '" + username + "'");
-		if (userMaps.size() != 1)
+		if (userMaps.size() == 0) {
 			return null;
+		} else if(userMaps.size() > 1) {
+			throw new IllegalStateException("Two primary keys in user");
+		}
 		return DatabaseUtil.MapsToUsers(userMaps).get(0);
 	}
 	
@@ -28,7 +31,7 @@ public class UserManager {
 	}
 	public static List<User> usersFromCourse(String courseCode){
 		String query = "SELECT * FROM user WHERE username IN (SELECT username FROM user_course WHERE course_code = '" + courseCode + "')";
-		ArrayList<HashMap<String, String>> userNames = DatabaseManager.sendQuery(query);
-		return DatabaseUtil.MapsToUsers(userNames);
+		ArrayList<HashMap<String, String>> userMaps = DatabaseManager.sendQuery(query);
+		return DatabaseUtil.MapsToUsers(userMaps);
 	}
 }
