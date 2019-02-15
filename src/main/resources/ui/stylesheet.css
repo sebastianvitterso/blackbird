@@ -26,7 +26,8 @@
 
 .primary-button {
 	-fx-background-color: -fx-primary;
-	-fx-font: normal 17px serif;
+	-fx-font: normal 14px "System";
+	-fx-text-fill: -fx-primary-text;
 }
 .primary-button .jfx-rippler {
 	-jfx-rippler-fill: -fx-primary-rippler;

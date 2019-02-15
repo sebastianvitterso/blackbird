@@ -76,11 +76,7 @@
                         <Insets />
                      </HBox.margin>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="30.0" onAction="#handleExitClick" prefHeight="35.0" prefWidth="90.0" styleClass="primary-button" text="Avslutt" textFill="#9e9e9e" viewOrder="4.0">
-                     <font>
-                        <Font name="Serif Regular" size="17.0" />
-                     </font>
-                  </JFXButton>
+                  <JFXButton buttonType="RAISED" layoutX="84.0" layoutY="30.0" onAction="#handleExitClick" prefHeight="35.0" prefWidth="90.0" styleClass="primary-button" text="Avslutt" textFill="#9e9e9e" viewOrder="4.0" />
                </children>
                <padding>
                   <Insets top="30.0" />

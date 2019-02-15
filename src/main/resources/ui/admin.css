@@ -1,0 +1,32 @@
+* {
+}
+
+.add-button-round {
+	-fx-background-color: #456045;
+	-fx-background-radius: 20px;
+	-fx-text-fill: #DDDDDD;
+}
+
+.edit-button-round {
+	-fx-background-color: #907010;
+	-fx-background-radius: 20px;
+	-fx-text-fill: #DDDDDD;
+}
+
+.delete-button-round {
+	-fx-background-color: #604545;
+	-fx-background-radius: 20px;
+	-fx-text-fill: #DDDDDD;
+}
+
+.region-separator {
+	-fx-background-color: #DDDDDD;
+	-fx-background-radius: 20px;
+	
+}
+
+.primary-button-light {
+	-fx-background-color: #e7e7e7;
+	-fx-text-fill: #202020;
+	-fx-effect: innershadow( gaussian, rgba( 180, 180, 180, 0.5 ), 10, 0, 0, 10 );
+}
