@@ -6,6 +6,10 @@ import java.util.EnumMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+/**
+ * Preloader class for FXML files, runnable on a separate thread.
+ * @author Patrik
+ */
 public class Loader implements Runnable {
 
 	private static EnumMap<View, FXMLLoader> viewToLoader = new EnumMap<>(View.class);
@@ -38,7 +42,7 @@ public class Loader implements Runnable {
 
 		}
 	}
-
+	
 	public static FXMLLoader getFXMLLoader(View view) {
 		return viewToLoader.get(view);
 	}

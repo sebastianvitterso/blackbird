@@ -12,6 +12,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import main.app.StageManager;
+import main.app.View;
 
 public class LoginController {
 
@@ -52,9 +54,6 @@ public class LoginController {
             }});
 	}
     
-	private void triggerInvalidLogin() {
-	}
-    
 	// Event handlers
     @FXML
     void handlePasswordFieldKeyPressed(KeyEvent event) {
@@ -65,7 +64,7 @@ public class LoginController {
     
     @FXML
     void handleLoginClick(ActionEvent event) {
-    	System.out.println(javafx.scene.text.Font.getFamilies());
+    	StageManager.loadView(View.ADMIN_VIEW);
     }
     
     @FXML

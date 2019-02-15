@@ -16,21 +16,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@admin.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.AdminController">
    <children>
-      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox>
          <children>
-            <JFXTabPane prefHeight="600.0" prefWidth="800.0" stylesheets="@tabpane.css" tabMinWidth="395.0">
+            <JFXTabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../stylesheets/tabpane.css" tabMinWidth="395.0" VBox.vgrow="ALWAYS">
                <tabs>
                   <Tab text="Emneoversikt">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+                                    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                                          <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <StackPane>
                                                    <children>
@@ -46,12 +46,12 @@
                                                                   <Font name="System Bold" size="12.0" />
                                                                </font>
                                                             </JFXButton>
-                                                            <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleEditCourseClick" prefHeight="25.0" prefWidth="25.0" styleClass="edit-button-round" text="...">
+                                                            <JFXButton fx:id="courseEditButton" alignment="CENTER" buttonType="RAISED" onAction="#handleEditCourseClick" prefHeight="25.0" prefWidth="25.0" styleClass="edit-button-round" text="...">
                                                                <font>
                                                                   <Font name="System Bold" size="12.0" />
                                                                </font>
                                                             </JFXButton>
-                                                            <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteCourseClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-">
+                                                            <JFXButton fx:id="courseDeleteButton" alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteCourseClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-">
                                                                <font>
                                                                   <Font name="System Bold" size="12.0" />
                                                                </font>
@@ -70,16 +70,43 @@
                                                 <Insets left="10.0" right="10.0" top="10.0" />
                                              </padding>
                                           </VBox>
-                                          <Region prefHeight="200.0" prefWidth="2.0" styleClass="region-separator" />
-                                          <VBox maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
+                                          <Region maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="2.0" styleClass="region-separator" />
+                                          <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label fx:id="courseNameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Programvareutvikling" textAlignment="CENTER">
+                                                <Label fx:id="courseNameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Programvareutvikling (TDT4140)" textAlignment="CENTER">
                                                    <font>
                                                       <Font name="System Bold" size="16.0" />
                                                    </font>
                                                 </Label>
                                                 <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                                                    <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                                                         <children>
+                                                            <StackPane>
+                                                               <children>
+                                                                  <Label maxWidth="1.7976931348623157E308" text="Emneansvarlig" textAlignment="CENTER">
+                                                                     <font>
+                                                                        <Font name="System Bold" size="12.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <HBox alignment="CENTER_RIGHT" fillHeight="false" prefWidth="60.0" spacing="5.0">
+                                                                     <children>
+                                                                        <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleAddProfessorClick" prefHeight="25.0" prefWidth="25.0" styleClass="add-button-round" text="+" />
+                                                                        <JFXButton fx:id="professorDeleteButton" alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteProfessorClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-" />
+                                                                     </children>
+                                                                  </HBox>
+                                                               </children>
+                                                            </StackPane>
+                                                            <JFXListView fx:id="professorListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </JFXListView>
+                                                         </children>
+                                                         <padding>
+                                                            <Insets left="10.0" right="10.0" top="10.0" />
+                                                         </padding>
+                                                      </VBox>
                                                       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <StackPane>
@@ -92,7 +119,7 @@
                                                                   <HBox alignment="CENTER_RIGHT" fillHeight="false" prefWidth="60.0" spacing="5.0">
                                                                      <children>
                                                                         <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleAddAssistantClick" prefHeight="25.0" prefWidth="25.0" styleClass="add-button-round" text="+" />
-                                                                        <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteAssistantClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-" />
+                                                                        <JFXButton fx:id="assistantDeleteButton" alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteAssistantClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-" />
                                                                      </children>
                                                                   </HBox>
                                                                </children>
@@ -119,7 +146,7 @@
                                                                   <HBox alignment="CENTER_RIGHT" fillHeight="false" prefWidth="60.0" spacing="5.0">
                                                                      <children>
                                                                         <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleAddStudentClick" prefHeight="25.0" prefWidth="25.0" styleClass="add-button-round" text="+" />
-                                                                        <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteStudentClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-" />
+                                                                        <JFXButton fx:id="studentDeleteButton" alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteStudentClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-" />
                                                                      </children>
                                                                   </HBox>
                                                                </children>
@@ -165,12 +192,12 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleEditUserClick" prefHeight="25.0" prefWidth="25.0" styleClass="edit-button-round" text="...">
+                                          <JFXButton fx:id="userEditButton" alignment="CENTER" buttonType="RAISED" onAction="#handleEditUserClick" prefHeight="25.0" prefWidth="25.0" styleClass="edit-button-round" text="...">
                                              <font>
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteUserClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-">
+                                          <JFXButton fx:id="userDeleteButton" alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteUserClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-">
                                              <font>
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
@@ -199,9 +226,8 @@
             </JFXTabPane>
             <HBox nodeOrientation="RIGHT_TO_LEFT" spacing="10.0">
                <children>
-                  <JFXButton buttonType="RAISED" onAction="#handleApplyClick" styleClass="primary-button-light" text="Bruk" />
-                  <JFXButton buttonType="RAISED" onAction="#handleSaveClick" styleClass="primary-button-light" text="Lagre" />
-                  <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="10.0" onAction="#handleExitClick" styleClass="primary-button-light" text="Avbryt" />
+                  <JFXButton buttonType="RAISED" onAction="#handleLogOutClick" styleClass="primary-button-light" text="Logg ut" />
+                  <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="10.0" onAction="#handleExitClick" styleClass="primary-button-light" text="Avslutt" />
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="30.0" top="10.0" />
@@ -210,4 +236,4 @@
          </children>
       </VBox>
    </children>
-</AnchorPane>
+</StackPane>
