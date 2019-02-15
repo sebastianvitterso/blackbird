@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import main.data.Course;
+import main.data.Period;
 import main.data.User;
 
 public class DatabaseUtil {
@@ -17,6 +18,7 @@ public class DatabaseUtil {
 		}
 		return courses;
 	}
+	
 	public static List<User> MapsToUsers(List<HashMap<String, String>> userMaps){
 		List<User> users = new ArrayList<User>();
 		for (HashMap<String, String> userMap : userMaps) {
@@ -26,5 +28,17 @@ public class DatabaseUtil {
 			users.add(new User(username, password, name));
 		}
 		return users;
+	}
+
+	public static List<Period> MapsToPeriods(List<HashMap<String, String>> periodMaps){
+		List<Period> periods = new ArrayList<Period>();
+		for (HashMap<String, String> periodMap : periodMaps) {
+			String assistant_username = periodMap.get("assistant_username");
+			String course_code = periodMap.get("course_code");
+			String timestamp = periodMap.get("timestamp");
+			String student_username = periodMap.get("student_username");
+			periods.add(new Period(assistant_username, course_code, timestamp, student_username));
+		}
+		return periods;
 	}
 }
