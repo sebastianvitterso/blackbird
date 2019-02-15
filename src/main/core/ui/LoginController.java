@@ -12,9 +12,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import main.data.LoginManager;
 
 public class LoginController {
-
+	
 	private double xOffset;
 	private double yOffset;
 	
@@ -53,6 +54,7 @@ public class LoginController {
 	}
     
 	private void triggerInvalidLogin() {
+		
 	}
     
 	// Event handlers
@@ -65,12 +67,12 @@ public class LoginController {
     
     @FXML
     void handleLoginClick(ActionEvent event) {
+    	System.out.println(LoginManager.login(usernameTextField.getText(), passwordField.getText()));
     }
     
     @FXML
     void handleExitClick(ActionEvent event) {
     	((Stage) root.getScene().getWindow()).close();
     }
-
-	
+    
 }
