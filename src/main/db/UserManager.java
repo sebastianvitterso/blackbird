@@ -1,6 +1,5 @@
 package main.db;
 
-import main.data.Course;
 import main.data.User;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,9 +26,9 @@ public class UserManager {
 	public static void addUser(String username, String password, String name) {
 		DatabaseManager.sendUpdate("INSERT INTO user VALUES('" + username + "','" + password + "','" + name + "');");
 	}
-	public static List<Course> usersFromCourse(String courseCode){
+	public static List<User> usersFromCourse(String courseCode){
 		String query = "SELECT * FROM user WHERE username IN (SELECT username FROM user_course WHERE course_code = '" + courseCode + "')";
 		ArrayList<HashMap<String, String>> userNames = DatabaseManager.sendQuery(query);
-		return DatabaseUtil.MapsToCourses(userNames);
+		return DatabaseUtil.MapsToUsers(userNames);
 	}
 }
