@@ -7,7 +7,7 @@ public class Course {
 		this.courseCode = courseCode;
 		this.name = name;
 	}
-	public String getClassCode() {
+	public String getCourseCode() {
 		return courseCode;
 	}
 	public String getName() {

@@ -1,5 +1,6 @@
 package main.db;
 
+import main.data.Course;
 import main.data.User;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,24 +10,14 @@ public class UserManager {
 	
 	public static List<User> getUsers(){
 		ArrayList<HashMap<String, String>> userMaps = DatabaseManager.sendQuery("SELECT * FROM user");
-		List<User> users = new ArrayList<User>();
-		for (HashMap<String, String> userMap : userMaps) {
-			String username = userMap.get("username");
-			String password = userMap.get("password");
-			String name = userMap.get("name");
-			users.add(new User(username, password, name));
-		}
-		return users;
+		return DatabaseUtil.MapsToUsers(userMaps);
 	}
 	
 	public static User getUser(String username) {
 		ArrayList<HashMap<String, String>> userMaps = DatabaseManager.sendQuery("SELECT * FROM user WHERE username = '" + username + "'");
 		if (userMaps.size() != 1)
 			return null;
-		HashMap<String, String> userMap = userMaps.get(0);
-		String password = userMap.get("password");
-		String name = userMap.get("name");
-		return new User(username, password, name);
+		return DatabaseUtil.MapsToUsers(userMaps).get(0);
 	}
 	
 	public static void deleteUser(String username) {
@@ -35,5 +26,10 @@ public class UserManager {
 	
 	public static void addUser(String username, String password, String name) {
 		DatabaseManager.sendUpdate("INSERT INTO user VALUES('" + username + "','" + password + "','" + name + "');");
+	}
+	public static List<Course> usersFromCourse(String courseCode){
+		String query = "SELECT * FROM user WHERE username IN (SELECT username FROM user_course WHERE course_code = '" + courseCode + "')";
+		ArrayList<HashMap<String, String>> userNames = DatabaseManager.sendQuery(query);
+		return DatabaseUtil.MapsToCourses(userNames);
 	}
 }

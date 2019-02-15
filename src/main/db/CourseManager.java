@@ -8,23 +8,15 @@ import main.data.Course;
 public class CourseManager {
 	
 	public static List<Course> getCourses(){
-		ArrayList<HashMap<String, String>> CourseMaps = DatabaseManager.sendQuery("SELECT * FROM course");
-		List<Course> courses = new ArrayList<Course>();
-		for (HashMap<String, String> CourseMap : CourseMaps) {
-			String courseCode = CourseMap.get("course_code");
-			String name = CourseMap.get("name");
-			courses.add(new Course(courseCode, name));
-		}
-		return courses;
+		ArrayList<HashMap<String, String>> courseMaps = DatabaseManager.sendQuery("SELECT * FROM course");
+		return DatabaseUtil.MapsToCourses(courseMaps);
 	}
 	
 	public static Course getCourse(String courseCode) {
-		ArrayList<HashMap<String, String>> userMaps = DatabaseManager.sendQuery("SELECT * FROM course WHERE course_code = '" + courseCode + "'");
-		if (userMaps.size() != 1)
-			return null;
-		HashMap<String, String> userMap = userMaps.get(0);
-		String name = userMap.get("name");
-		return new Course(courseCode, name);
+		ArrayList<HashMap<String, String>> courseMaps = DatabaseManager.sendQuery("SELECT * FROM course WHERE course_code = '" + courseCode + "'");
+		if (courseMaps.size() != 1)
+			return null;		
+		return DatabaseUtil.MapsToCourses(courseMaps).get(0);
 	}
 	
 	public static void deleteCourse(String courseCode) {
@@ -34,7 +26,9 @@ public class CourseManager {
 	public static void addCourse(String courseCode, String name) {
 		DatabaseManager.sendUpdate("INSERT INTO course VALUES('" + courseCode + "','" + name + "');");
 	}
-	public static void main(String[] args) {
-		System.out.println(getCourses().get(0).getClassCode());
+	public static List<Course> coursesFromUser(String username){
+		String query = "SELECT * FROM course WHERE course_code IN (SELECT course_code FROM user_course WHERE username = '" + username + "')";
+		ArrayList<HashMap<String, String>> courseCodes = DatabaseManager.sendQuery(query);
+		return DatabaseUtil.MapsToCourses(courseCodes);
 	}
 }
