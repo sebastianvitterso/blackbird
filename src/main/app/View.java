@@ -30,5 +30,4 @@ public enum View {
 	public String getPathToFXML() {
 		return pathToFXML;
 	}
-	
 }

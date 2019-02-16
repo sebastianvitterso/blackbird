@@ -1,12 +1,10 @@
 /**
- * 
- */
-/**
  * @author Patrik
- *
  */
 module blackbird {
 	exports main.app;
+	exports main.db;
+	exports main.data;
 	exports main.core.ui;
 
 	requires java.sql;
