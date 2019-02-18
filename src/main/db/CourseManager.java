@@ -1,19 +1,19 @@
 package main.db;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import main.data.Course;
 
 public class CourseManager {
 	
 	public static List<Course> getCourses(){
-		ArrayList<HashMap<String, String>> courseMaps = DatabaseManager.sendQuery("SELECT * FROM course");
+		List<Map<String, String>> courseMaps = DatabaseManager.sendQuery("SELECT * FROM course");
 		return DatabaseUtil.MapsToCourses(courseMaps);
 	}
 	
 	public static Course getCourse(String courseCode) {
-		ArrayList<HashMap<String, String>> courseMaps = DatabaseManager.sendQuery("SELECT * FROM course WHERE course_code = '" + courseCode + "'");
+		List<Map<String, String>> courseMaps = DatabaseManager.sendQuery("SELECT * FROM course WHERE course_code = '" + courseCode + "'");
 		if (courseMaps.size() == 0) {
 			return null;	
 		} else if(courseMaps.size() > 1) {
@@ -32,7 +32,9 @@ public class CourseManager {
 	}
 	public static List<Course> coursesFromUser(String username){
 		String query = "SELECT * FROM course WHERE course_code IN (SELECT course_code FROM user_course WHERE username = '" + username + "')";
-		ArrayList<HashMap<String, String>> courseMaps = DatabaseManager.sendQuery(query);
+		List<Map<String, String>> courseMaps = DatabaseManager.sendQuery(query);
 		return DatabaseUtil.MapsToCourses(courseMaps);
 	}
+	
+	
 }

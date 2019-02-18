@@ -5,10 +5,8 @@ public enum View {
 	ADMIN_VIEW("BlackBird - Admin", "ui/Admin.fxml"), 
 	MAIN_VIEW("BlackBird - Main", "ui/Main.fxml"), 
 	
-	POPUP_PROFESSOR_VIEW(null, "ui/popups/ProfessorPopup.fxml"), 
-	POPUP_ASSISTANT_VIEW(null, "ui/popups/AssistantPopup.fxml"),
-	POPUP_STUDENT_VIEW(null, "ui/popups/StudentPopup.fxml"), 
 	POPUP_COURSE_VIEW(null, "ui/popups/CoursePopup.fxml"), 
+	POPUP_USER_SELECTION_VIEW(null, "ui/popups/UserSelectionPopup.fxml"), 
 	POPUP_USER_VIEW(null, "ui/popups/UserPopup.fxml"); 
 	
 //	EXERCISE_VIEW, 

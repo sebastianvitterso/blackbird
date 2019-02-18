@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Blend?>
@@ -11,12 +12,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.StudentPopupController">
+<StackPane fx:id="rootPane" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.UserSelectionPopupController">
    <children>
       <VBox focusTraversable="true" spacing="20.0">
          <children>
-            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="header-text" text="Velg studenter" />
-            <JFXListView fx:id="studentListView" prefHeight="300.0" VBox.vgrow="ALWAYS" />
+            <Label fx:id="titleLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="header-text" text="Tittel" />
+            <StackPane VBox.vgrow="ALWAYS">
+               <children>
+                  <JFXListView fx:id="userSelectionListView" prefHeight="300.0" />
+                  <JFXSpinner fx:id="listViewSpinner" styleClass="list-view-spinner" />
+               </children>
+            </StackPane>
             <HBox nodeOrientation="RIGHT_TO_LEFT">
                <children>
                   <Region HBox.hgrow="ALWAYS" />

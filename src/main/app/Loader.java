@@ -5,9 +5,11 @@ import java.util.EnumMap;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import main.core.ui.Refreshable;
 
 /**
  * Preloader class for FXML files, runnable on a separate thread.
+ * 
  * @author Patrik
  */
 public class Loader implements Runnable {
@@ -34,21 +36,25 @@ public class Loader implements Runnable {
 
 			// Load FXML file and cache parent
 			try {
-				viewToParent.put(view, loader.load());
+				Parent parent = loader.load();
+				viewToParent.put(view, parent);
 			} catch (IOException e) {
 				System.err.printf("FXML load failed: %s", view.name());
 				e.printStackTrace();
 			}
-
 		}
 	}
-	
+
 	public static FXMLLoader getFXMLLoader(View view) {
 		return viewToLoader.get(view);
 	}
 
 	public static Parent getParent(View view) {
 		return viewToParent.get(view);
+	}
+
+	public static Refreshable getController(View view) {
+		return viewToLoader.get(view).getController();
 	}
 
 }

@@ -1,8 +1,7 @@
 package main.db;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import main.data.Period;
 
@@ -11,7 +10,7 @@ public class PeriodManager {
 	// TODO: Fikser nå database, legg til så den fikser java-objekter også. Hvor skal alle periods lagres? Course?
 	
 	public static List<Period> getPeriodsFromCourseCode(String courseCode){
-		ArrayList<HashMap<String, String>> periodMaps = DatabaseManager.sendQuery("SELECT * FROM period where course_code = '" + courseCode + "';");
+		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery("SELECT * FROM period where course_code = '" + courseCode + "';");
 		return DatabaseUtil.MapsToPeriods(periodMaps);
 	}
 	

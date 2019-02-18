@@ -19,6 +19,7 @@ public class StageManager {
 	private static Stage stage;
 	private static Image icon;
 	private static EnumMap<View, Scene> viewToScene;
+	private static Thread loaderThread;
 	
 	/**
 	 * This method must be called from FXML Application thread on startup.
@@ -35,7 +36,8 @@ public class StageManager {
 
 		// Preloading all FXML files while in login screen.
 		Loader loader = new Loader(loginLoader, loginParent);
-		new Thread(loader).start();
+		loaderThread = new Thread(loader);
+		loaderThread.start();
 		
 	}
 	
@@ -77,7 +79,16 @@ public class StageManager {
 			break;
 		}
 		
+		// Refresh and display
+		Loader.getController(view).refresh();
 		stage.show();
+	}
+	
+	/**
+	 * Returns the thread used when running the {@code Loader} class.
+	 */
+	protected static Thread getLoaderThread() {
+		return loaderThread;
 	}
 	
 	/**

@@ -1,17 +1,17 @@
 package main.db;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import main.data.Course;
 import main.data.Period;
 import main.data.User;
 
 public class DatabaseUtil {
-	public static List<Course> MapsToCourses(List<HashMap<String, String>> courseMaps){
+	public static List<Course> MapsToCourses(List<Map<String, String>> courseMaps){
 		List<Course> courses = new ArrayList<Course>();
-		for (HashMap<String, String> courseMap : courseMaps) {
+		for (Map<String, String> courseMap : courseMaps) {
 			String courseCode = courseMap.get("course_code");
 			String name = courseMap.get("name");
 			courses.add(new Course(courseCode, name));
@@ -19,9 +19,9 @@ public class DatabaseUtil {
 		return courses;
 	}
 	
-	public static List<User> MapsToUsers(List<HashMap<String, String>> userMaps){
+	public static List<User> MapsToUsers(List<Map<String, String>> userMaps){
 		List<User> users = new ArrayList<User>();
-		for (HashMap<String, String> userMap : userMaps) {
+		for (Map<String, String> userMap : userMaps) {
 			String username = userMap.get("username");
 			String password = userMap.get("password");
 			String name = userMap.get("name");
@@ -30,9 +30,9 @@ public class DatabaseUtil {
 		return users;
 	}
 
-	public static List<Period> MapsToPeriods(List<HashMap<String, String>> periodMaps){
+	public static List<Period> MapsToPeriods(List<Map<String, String>> periodMaps){
 		List<Period> periods = new ArrayList<Period>();
-		for (HashMap<String, String> periodMap : periodMaps) {
+		for (Map<String, String> periodMap : periodMaps) {
 			String assistant_username = periodMap.get("assistant_username");
 			String course_code = periodMap.get("course_code");
 			String timestamp = periodMap.get("timestamp");
