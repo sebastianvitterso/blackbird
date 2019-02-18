@@ -56,8 +56,11 @@ public class AdminController implements Refreshable {
     
     @FXML private JFXButton courseEditButton;
     @FXML private JFXButton courseDeleteButton;
+    @FXML private JFXButton professorAddButton;
     @FXML private JFXButton professorDeleteButton;
+    @FXML private JFXButton assistantAddButton;
     @FXML private JFXButton assistantDeleteButton;
+    @FXML private JFXButton studentAddButton;
     @FXML private JFXButton studentDeleteButton;
     @FXML private JFXButton userEditButton;
     @FXML private JFXButton userDeleteButton;
@@ -97,14 +100,19 @@ public class AdminController implements Refreshable {
     	assistants = assistantListView.getItems();
     	students = studentListView.getItems();
     	
-    	// Bind delete button to being disabled when no entities are selected.
+    	// Bind delete button to being disabled when no entities are selected.    	
+    	BooleanBinding notSelectedCourse = courseListView.getSelectionModel().selectedItemProperty().isNull();
     	BooleanBinding notSelectedProfessor = professorListView.getSelectionModel().selectedItemProperty().isNull();
     	BooleanBinding notSelectedAssistant = professorListView.getSelectionModel().selectedItemProperty().isNull();
     	BooleanBinding notSelectedStudent = professorListView.getSelectionModel().selectedItemProperty().isNull();
 
+    	professorAddButton.disableProperty().bind(notSelectedCourse);
+    	assistantAddButton.disableProperty().bind(notSelectedCourse);
+    	studentAddButton.disableProperty().bind(notSelectedCourse);
+
     	professorDeleteButton.disableProperty().bind(notSelectedProfessor);
-    	professorDeleteButton.disableProperty().bind(notSelectedAssistant);
-    	professorDeleteButton.disableProperty().bind(notSelectedStudent);
+    	assistantDeleteButton.disableProperty().bind(notSelectedAssistant);
+    	studentDeleteButton.disableProperty().bind(notSelectedStudent);
     	
     }
 

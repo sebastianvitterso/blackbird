@@ -91,7 +91,7 @@
                                                                   </Label>
                                                                   <HBox alignment="CENTER_RIGHT" fillHeight="false" prefWidth="60.0" spacing="5.0">
                                                                      <children>
-                                                                        <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleAddProfessorClick" prefHeight="25.0" prefWidth="25.0" styleClass="add-button-round" text="+" />
+                                                                        <JFXButton fx:id="professorAddButton" alignment="CENTER" buttonType="RAISED" onAction="#handleAddProfessorClick" prefHeight="25.0" prefWidth="25.0" styleClass="add-button-round" text="+" />
                                                                         <JFXButton fx:id="professorDeleteButton" alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteProfessorClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-" />
                                                                      </children>
                                                                   </HBox>
@@ -118,7 +118,7 @@
                                                                   </Label>
                                                                   <HBox alignment="CENTER_RIGHT" fillHeight="false" prefWidth="60.0" spacing="5.0">
                                                                      <children>
-                                                                        <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleAddAssistantClick" prefHeight="25.0" prefWidth="25.0" styleClass="add-button-round" text="+" />
+                                                                        <JFXButton fx:id="assistantAddButton" alignment="CENTER" buttonType="RAISED" onAction="#handleAddAssistantClick" prefHeight="25.0" prefWidth="25.0" styleClass="add-button-round" text="+" />
                                                                         <JFXButton fx:id="assistantDeleteButton" alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteAssistantClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-" />
                                                                      </children>
                                                                   </HBox>
@@ -145,7 +145,7 @@
                                                                   </Label>
                                                                   <HBox alignment="CENTER_RIGHT" fillHeight="false" prefWidth="60.0" spacing="5.0">
                                                                      <children>
-                                                                        <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleAddStudentClick" prefHeight="25.0" prefWidth="25.0" styleClass="add-button-round" text="+" />
+                                                                        <JFXButton fx:id="studentAddButton" alignment="CENTER" buttonType="RAISED" onAction="#handleAddStudentClick" prefHeight="25.0" prefWidth="25.0" styleClass="add-button-round" text="+" />
                                                                         <JFXButton fx:id="studentDeleteButton" alignment="CENTER" buttonType="RAISED" onAction="#handleDeleteStudentClick" prefHeight="25.0" prefWidth="25.0" styleClass="delete-button-round" text="-" />
                                                                      </children>
                                                                   </HBox>
