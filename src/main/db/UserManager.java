@@ -75,7 +75,8 @@ public class UserManager {
 	}
 	
 	public static int updateUser(User user) {
-		String query = String.format("UPDATE user SET name = %s, email = %s, password = %s", user.getName(), user.getEmail(), user.getPassword() );
+		String query = String.format("UPDATE user SET name = %s, email = %s, password = %s where username = %s;", 
+				user.getName(), user.getEmail(), user.getPassword(), user.getUsername() );
 		return DatabaseManager.sendUpdate(query);
 	}
 		

@@ -24,11 +24,11 @@ public class CourseManager {
 	}
 	
 	public static void deleteCourse(String courseCode) {
-		DatabaseManager.sendUpdate("DELETE FROM course WHERE course_code = '" + courseCode + "'");
+		DatabaseManager.sendUpdate(String.format("DELETE FROM course WHERE course_code = '%s'", courseCode));
 	}
 	
-	public static void addCourse(String courseCode, String name) {
-		DatabaseManager.sendUpdate("INSERT INTO course VALUES('" + courseCode + "','" + name + "');");
+	public static void addCourse(String courseCode, String name, String description) {
+		DatabaseManager.sendUpdate(String.format("INSERT INTO course VALUES('%s', '%s', '%s');", courseCode, name, description));
 	}
 	
 	public static List<Course> coursesFromUser(String username){
@@ -37,20 +37,22 @@ public class CourseManager {
 		return DatabaseUtil.MapsToCourses(courseMaps);
 	}
 	
-	
-	// TODO Implement method below
+
 	/**
 	 * Updates the database entry associated with input courses' primary key. 
 	 */
-	public static void updateCourse(Course course) {
+	public static int updateCourse(Course course) {
+		String query = String.format("UPDATE course SET name = %s, description = %s where course_code = %s;", 
+				course.getName(), course.getDescription(), course.getCourseCode() );
 		
+		return DatabaseManager.sendUpdate(query);
 	}
 
 	/**
 	 * Registers input course in database. 
 	 */
 	public static void registerCourse(Course course) {
-		System.out.printf("Registering course: %s\n", course);
+		addCourse(course.getCourseCode(), course.getName(), course.getDescription());
 	}
 	
 }
