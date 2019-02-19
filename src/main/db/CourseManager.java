@@ -22,9 +22,13 @@ public class CourseManager {
 				
 		return DatabaseUtil.MapsToCourses(courseMaps).get(0);
 	}
-	
+
 	public static void deleteCourse(String courseCode) {
 		DatabaseManager.sendUpdate(String.format("DELETE FROM course WHERE course_code = '%s'", courseCode));
+	}
+
+	public static void deleteCourse(Course course) {
+		DatabaseManager.sendUpdate(String.format("DELETE FROM course WHERE course_code = '%s'", course.getCourseCode()));
 	}
 	
 	public static void addCourse(String courseCode, String name, String description) {
