@@ -1,6 +1,5 @@
 package main.db;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,24 +43,29 @@ public class UserManager {
 		return DatabaseUtil.MapsToUsers(userMaps);
 	}
 	
-	// TODO Implement methods below
 	
-	/**
-	 * Returns a list of all users with specified role for a given course.
-	 */
 	public static List<User> getUsersByRole(Course course, Role role) {
-		List<User> users = new ArrayList<>();
-		users.add(new User("adriankj", "manpower123", "Adrian Kjærran"));
-		return users;
+		String query = "SELECT * FROM user WHERE username IN "
+				+ "(SELECT username FROM user_course WHERE course_code = '" 
+				+ course.getCourseCode() + "' and role = '" + role.name() + "');";
+		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
+		return DatabaseUtil.MapsToUsers(userMaps);
+		
+//		List<User> users = new ArrayList<>();
+//		users.add(new User("adriankj", "manpower123", "Adrian Kjærran"));
+//		return users;
 	}
 	
-	/**
-	 * Returns a list of all users, excluding users in possession of specified role for a given course.
-	 */
 	public static List<User> getUsersExcludingRole(Course course, Role role) {
-		List<User> users = new ArrayList<>();
-		users.add(new User("patrikkj", "manpower123", "Patrik Kjærran"));
-		return users;
+		String query = "SELECT * FROM user WHERE username not IN "
+				+ "(SELECT username FROM user_course WHERE course_code = '" 
+				+ course.getCourseCode() + "' and role = '" + role.name() + "');";
+		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
+		return DatabaseUtil.MapsToUsers(userMaps);
+		
+//		List<User> users = new ArrayList<>();
+//		users.add(new User("patrikkj", "manpower123", "Patrik Kjærran"));
+//		return users;
 	}
 		
 }
