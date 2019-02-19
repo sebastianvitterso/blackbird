@@ -21,10 +21,11 @@
 }
 .jfx-tab-pane .depth-container .tab-header-area .headers-region .tab-selected-line{
 	-fx-background-color: -fx-primary;
+	/*
 	-fx-min-width: 150;
 	-fx-pref-width: 150;
 	-fx-max-width: 150;
-	-fx-scale-shape: false;
+	-fx-scale-shape: false;*/
 }
 
 .jfx-tab-pane:top .depth-container .tab-header-area .headers-region .tab .jfx-rippler {
