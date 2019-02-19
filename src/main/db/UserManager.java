@@ -24,32 +24,40 @@ public class UserManager {
 		}
 		return DatabaseUtil.MapsToUsers(userMaps).get(0);
 	}
-	
+
 	public static int deleteUser(String username) {
-		return DatabaseManager.sendUpdate("DELETE FROM user WHERE username = '" + username + "'");
+		return DatabaseManager.sendUpdate(String.format("DELETE FROM user WHERE username = '%s';", username));
+	}
+	
+	public static int deleteUser(User user) {
+		return DatabaseManager.sendUpdate(String.format("DELETE FROM user WHERE username = '%s';", user.getUsername()));
 	}
 
 	public static int deleteUsers(List<String> usernames) {
 		String parsedUsernames = usernames.stream().collect(Collectors.joining("', '", "('", "');"));
-		String myQuery = String.format("DELETE FROM user WHERE user.username in %s", parsedUsernames); //'" + user.userName + "'
-		return DatabaseManager.sendUpdate(myQuery);
+		String query = String.format("DELETE FROM user WHERE user.username in %s", parsedUsernames); //'" + user.userName + "'
+		return DatabaseManager.sendUpdate(query);
 	}
 	
-	public static int addUser(String username, String password, String name) {
-		return DatabaseManager.sendUpdate("INSERT INTO user VALUES('" + username + "','" + password + "','" + name + "');");
+	public static int addUser(String username, String password, String firstName, String lastName, String email) {
+		return DatabaseManager.sendUpdate(String.format("INSERT INTO user VALUES('%s','%s','%s','%s','%s');", username, password, firstName, lastName, email));
+	}
+	
+	public static int addUser(User user) {
+		return DatabaseManager.sendUpdate(String.format("INSERT INTO user VALUES('%s','%s','%s','%s','%s');", 
+						user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail() ));
 	}
 
 	public static List<User> usersFromCourse(String courseCode){
-		String query = "SELECT * FROM user WHERE username IN (SELECT username FROM user_course WHERE course_code = '" + courseCode + "')";
+		String query = String.format("SELECT * FROM user WHERE username IN (SELECT username FROM user_course WHERE course_code = '%s')", courseCode);
 		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
 		return DatabaseUtil.MapsToUsers(userMaps);
 	}
 	
 	
 	public static List<User> getUsersByRole(Course course, Role role) {
-		String query = "SELECT * FROM user WHERE username IN "
-				+ "(SELECT username FROM user_course WHERE course_code = '" 
-				+ course.getCourseCode() + "' and role = '" + role.name() + "');";
+		String query = String.format("SELECT * FROM user WHERE username IN "
+				+ "(SELECT username FROM user_course WHERE course_code = '%s' and role = '%s');", course.getCourseCode(), role.name());
 		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
 		return DatabaseUtil.MapsToUsers(userMaps);
 	}

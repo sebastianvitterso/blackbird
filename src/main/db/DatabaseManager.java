@@ -22,7 +22,7 @@ public class DatabaseManager {
 	public static List<Map<String, String>> sendQuery(String query) {
 		Future<List<Map<String, String>>> future = IOExecutor.submit(() -> {
 			// Kobler til mySQL-server, og henter data derfra, avhengig av query-et som mates inn.
-			System.out.println("Connecting to database");
+			System.out.print("Connecting to database - ");
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			String conString = "jdbc:mysql://mysql.stud.ntnu.no/sebastvi_blackbird_db?serverTimezone=UTC";  
 			Connection connection = DriverManager.getConnection(conString, "sebastvi_blackbird", "blackbird");

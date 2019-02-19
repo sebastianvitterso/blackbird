@@ -2,7 +2,6 @@ package main.db;
 
 import java.util.List;
 import java.util.Map;
-
 import main.data.Course;
 
 public class CourseManager {
@@ -13,11 +12,11 @@ public class CourseManager {
 	}
 	
 	public static Course getCourse(String courseCode) {
-		List<Map<String, String>> courseMaps = DatabaseManager.sendQuery("SELECT * FROM course WHERE course_code = '" + courseCode + "'");
+		List<Map<String, String>> courseMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM course WHERE course_code = '%s'", courseCode));
 		if (courseMaps.size() == 0) {
 			return null;	
 		} else if(courseMaps.size() > 1) {
-			throw new IllegalStateException("Two primary keys in course");
+			throw new IllegalStateException(String.format("Too many courses matching primary key courseCode: %s", courseCode));
 		}
 				
 		return DatabaseUtil.MapsToCourses(courseMaps).get(0);
