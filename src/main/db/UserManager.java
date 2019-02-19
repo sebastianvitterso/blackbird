@@ -71,9 +71,31 @@ public class UserManager {
 //		return users;
 	}
 	
-	public static int addUserToCourse(User user, Course course, Role role) {
-		return DatabaseManager.sendUpdate("INSERT INTO user_course values "
-				+ "('" + user.getUsername() + "','" + course.getCourseCode() + "','" + role + "');");
+	public static int addUsersToCourse(List<User> users, Course course, Role role) {
+		List<String> usernames = users.stream().map(User::getUsername).collect(Collectors.toList());
+//		return DatabaseManager.sendUpdate("INSERT INTO user_course values "
+//				+ "('" + user.getUsername() + "','" + course.getCourseCode() + "','" + role + "');");
+		
+		String parsedUserCourseList = usernames.stream().collect(Collectors.joining(
+				String.format("', '%s', '%s'), (", course.getCourseCode(), role),
+				"('", 
+				String.format("', '%s', '%s');", course.getCourseCode(), role)));
+		
+		String myQuery = String.format("INSERT INTO user_course values %s;", parsedUserCourseList);
+		return DatabaseManager.sendUpdate(myQuery);
+		
+	}
+	
+	public static int updateUser(User user) {
+		
+		String query = String.format("UPDATE user SET name = %s, email = %s, password = %s", user.getName(), user.getEmail(), user.getPassword() );
+		
+		return DatabaseManager.sendUpdate(query);
+		
+		
+//		UPDATE table_name
+//		SET column1 = value1, column2 = value2, ...
+//		WHERE condition;
 	}
 		
 }
