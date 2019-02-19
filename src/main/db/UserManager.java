@@ -24,18 +24,26 @@ public class UserManager {
 		return DatabaseUtil.MapsToUsers(userMaps).get(0);
 	}
 	
-	public static void deleteUser(String username) {
-		DatabaseManager.sendUpdate("DELETE FROM user WHERE username = '" + username + "'");
+	public static int deleteUser(String username) {
+		return DatabaseManager.sendUpdate("DELETE FROM user WHERE username = '" + username + "'");
+	}
+
+
+	public static int deleteUsers(List<String> usernames) {
+		String myQuery = "DELETE FROM user WHERE user.username in ("; //'" + user.userName + "'
+		for(int i = 0; i < usernames.size(); i++) {
+			if(i>0) {
+				myQuery = myQuery + ", ";
+			}
+			myQuery = myQuery + "'" + usernames.get(i) + "'";
+		}
+		myQuery = myQuery + ");";
+		return DatabaseManager.sendUpdate(myQuery);
 	}
 	
-	// TODO Implement method below
-	public static void deleteUsers(List<String> usernames) {
-		
-	}
 	
-	
-	public static void addUser(String username, String password, String name) {
-		DatabaseManager.sendUpdate("INSERT INTO user VALUES('" + username + "','" + password + "','" + name + "');");
+	public static int addUser(String username, String password, String name) {
+		return DatabaseManager.sendUpdate("INSERT INTO user VALUES('" + username + "','" + password + "','" + name + "');");
 	}
 	public static List<User> usersFromCourse(String courseCode){
 		String query = "SELECT * FROM user WHERE username IN (SELECT username FROM user_course WHERE course_code = '" + courseCode + "')";
@@ -67,5 +75,22 @@ public class UserManager {
 //		users.add(new User("patrikkj", "manpower123", "Patrik Kjærran"));
 //		return users;
 	}
+	
+	public static int addUserToCourse(User user, Course course, Role role) {
+		return DatabaseManager.sendUpdate("INSERT INTO user_course values "
+				+ "('" + user.getUsername() + "','" + course.getCourseCode() + "','" + role + "');");
+	}
 		
 }
+
+
+
+
+
+
+
+
+
+
+
+
