@@ -66,9 +66,10 @@
 }
 
 .menu-combobox {
-	-fx-background-color: -fx-primary;
-	-fx-border-style: hidden hidden solid hidden;
-    -fx-border-color: #fff;
+	-fx-prompt-text-fill: #fff;
+	/*-fx-background-color: -fx-primary;
+	/*-fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: #fff;*/
 }
 
 .menu-combobox .text {
