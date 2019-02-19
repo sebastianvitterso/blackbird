@@ -16,7 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import main.data.LoginManager;
+import main.db.LoginManager;
 
 public class LoginController implements Refreshable {
 	private LoginManager loginManager;
