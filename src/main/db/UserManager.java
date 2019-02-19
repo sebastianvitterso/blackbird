@@ -69,8 +69,8 @@ public class UserManager {
 				String.format("', '%s', '%s'), (", course.getCourseCode(), role),
 				"('", 
 				String.format("', '%s', '%s');", course.getCourseCode(), role)));
-		
 		String myQuery = String.format("INSERT INTO user_course values %s;", parsedUserCourseList);
+		System.out.printf("My query: %s%n", myQuery);
 		return DatabaseManager.sendUpdate(myQuery);
 	}
 	

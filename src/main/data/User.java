@@ -59,8 +59,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return String.format("User [username=%s, password=%s, firstName=%s, lastName=%s, email=%s]", username, password,
-				firstName, lastName, email);
+		return getName();
 	}
 	
 }

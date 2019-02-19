@@ -59,13 +59,6 @@ public class UserSelectionPopupController implements Refreshable {
     		// Retrive list of addable users
     		List<User> users = UserManager.getUsersExcludingRole(course, role);
     		
-    		try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		
     		// Update visuals in FX Application thread
     		Platform.runLater(() -> {
     			listViewSpinner.setVisible(false);
@@ -89,6 +82,8 @@ public class UserSelectionPopupController implements Refreshable {
     	
     	// Close dialog
     	dialog.close();
+    	
+    	controller.updateDescendantListViews();
     }
     
     

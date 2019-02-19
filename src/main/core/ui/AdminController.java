@@ -238,6 +238,11 @@ public class AdminController implements Refreshable {
     
     @FXML
     void handleDeleteCourseClick(ActionEvent event) {
+    	DatabaseManager.submitRunnable(() -> {
+    		Course selectedCourse = courseListView.getSelectionModel().getSelectedItem();
+    		CourseManager.deleteCourse(selectedCourse);
+    		Platform.runLater(() -> refresh());
+    	});
 
     }
 
@@ -335,10 +340,6 @@ public class AdminController implements Refreshable {
     		// Update user list reflecting GUI in FX Application thread
         	Platform.runLater(() -> users.removeAll(usersForDeletion));
     	});
-    	
-    	
-    	
-    	
     }
 
     
