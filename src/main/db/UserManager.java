@@ -2,6 +2,7 @@ package main.db;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import main.data.Course;
 import main.data.Course.Role;
@@ -30,14 +31,8 @@ public class UserManager {
 
 
 	public static int deleteUsers(List<String> usernames) {
-		String myQuery = "DELETE FROM user WHERE user.username in ("; //'" + user.userName + "'
-		for(int i = 0; i < usernames.size(); i++) {
-			if(i>0) {
-				myQuery = myQuery + ", ";
-			}
-			myQuery = myQuery + "'" + usernames.get(i) + "'";
-		}
-		myQuery = myQuery + ");";
+		String parsedUsernames = usernames.stream().collect(Collectors.joining("', '", "('", "');"));
+		String myQuery = String.format("DELETE FROM user WHERE user.username in %s", parsedUsernames); //'" + user.userName + "'
 		return DatabaseManager.sendUpdate(myQuery);
 	}
 	
