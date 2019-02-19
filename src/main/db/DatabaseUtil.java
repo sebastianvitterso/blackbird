@@ -14,7 +14,8 @@ public class DatabaseUtil {
 		for (Map<String, String> courseMap : courseMaps) {
 			String courseCode = courseMap.get("course_code");
 			String name = courseMap.get("name");
-			courses.add(new Course(courseCode, name));
+			String description = courseMap.get("description");
+			courses.add(new Course(courseCode, name, description));
 		}
 		return courses;
 	}
@@ -24,8 +25,10 @@ public class DatabaseUtil {
 		for (Map<String, String> userMap : userMaps) {
 			String username = userMap.get("username");
 			String password = userMap.get("password");
-			String name = userMap.get("name");
-			users.add(new User(username, password, name));
+			String firstName = userMap.get("first_name");
+			String lastName = userMap.get("last_name");
+			String email = userMap.get("email");
+			users.add(new User(username, password, firstName, lastName, email));
 		}
 		return users;
 	}

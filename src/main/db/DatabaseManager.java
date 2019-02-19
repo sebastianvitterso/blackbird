@@ -102,11 +102,11 @@ public class DatabaseManager {
 		}
 	}
 	
-	public static <T> Future<T> submitCallable(Callable<T> callable){
+	public static <T> Future<T> submitCallable(Callable<T> callable) {
 		return IOExecutor.submit(callable);
 	}
 	
-	public static void submitRunnable(Runnable runnable){
+	public static void submitRunnable(Runnable runnable) {
 		IOExecutor.execute(runnable);
 	}
 
