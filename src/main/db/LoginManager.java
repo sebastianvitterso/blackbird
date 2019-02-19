@@ -1,4 +1,4 @@
-package main.data;
+package main.db;
 
 import java.util.List;
 import java.util.Map;
@@ -7,8 +7,7 @@ import javafx.application.Platform;
 import main.app.StageManager;
 import main.app.View;
 import main.core.ui.LoginController;
-import main.db.DatabaseManager;
-import main.db.UserManager;
+import main.data.User;
 
 public class LoginManager {
 	private LoginController loginController;
