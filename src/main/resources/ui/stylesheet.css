@@ -57,10 +57,30 @@
 }
 
 .menu-text {
-	-fx-text-fill: -fx-primary-text;
+	-fx-text-fill: #fff;
 }
 
 .menu-link {
-	-fx-text-fill: -fx-primary-text;
+	-fx-text-fill: #fff;
 	-fx-font-size: 16px;
+}
+
+.menu-combobox {
+	-fx-background-color: -fx-primary;
+	-fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: #fff;
+}
+
+.menu-combobox .text {
+	-fx-fill: #fff;	
+	-fx-font-size: 16px;
+}
+
+.menu-combobox .arrow-button .arrow {
+	-fx-background-color: #fff;
+}
+
+.menu-hbox {
+	-fx-alignment: center-left;
+	-fx-spacing: 7;
 }
