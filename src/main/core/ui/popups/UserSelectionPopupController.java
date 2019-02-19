@@ -9,7 +9,6 @@ import com.jfoenix.controls.JFXSpinner;
 
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -17,14 +16,13 @@ import javafx.scene.layout.StackPane;
 import main.app.Loader;
 import main.app.View;
 import main.core.ui.AdminController;
-import main.core.ui.Refreshable;
 import main.data.Course;
 import main.data.Course.Role;
 import main.data.User;
 import main.db.DatabaseManager;
 import main.db.UserManager;
 
-public class UserSelectionPopupController implements Refreshable {
+public class UserSelectionPopupController {
 	@FXML private StackPane rootPane;
     @FXML private Label titleLabel;
     @FXML private JFXListView<User> userSelectionListView;
@@ -66,11 +64,6 @@ public class UserSelectionPopupController implements Refreshable {
     		});
     	});
     }
-    
-    @Override
-	public void refresh() {
-    	
-	}
     
     @FXML
     void handleAddSelectedClick(ActionEvent event) {

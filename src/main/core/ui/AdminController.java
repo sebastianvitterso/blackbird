@@ -39,7 +39,7 @@ import main.db.CourseManager;
 import main.db.DatabaseManager;
 import main.db.UserManager;
 
-public class AdminController implements Refreshable {
+public class AdminController {
 	@FXML private StackPane rootPane;
     @FXML private Label courseNameLabel;
 
@@ -69,6 +69,9 @@ public class AdminController implements Refreshable {
     private ObservableList<Course> courses;
     private ObservableList<RecursiveTreeUser> users;
     
+    public AdminController() {
+    	System.out.println("Creating singleton adminController");
+    }
 
     @FXML
     private void initialize() {
@@ -146,10 +149,11 @@ public class AdminController implements Refreshable {
 	}
 
 	
-	@Override
-	public void refresh() {
+	
+	public void update() {
 		updateCourseListView();
 		updateDescendantListViews();
+		updateUserTreeTableView();
 	}
 	
 	public void updateCourseListView() {
@@ -161,8 +165,65 @@ public class AdminController implements Refreshable {
 			Platform.runLater(() -> courses.setAll(courseList));
 		});
     }
+	
+	public void updateProfessorListView() {
+		DatabaseManager.submitRunnable(() -> {
+    		// Retrive selected course
+    		Course course = courseListView.getSelectionModel().getSelectedItem();
+    		
+    		// Cancel if no course is selected
+    		if (course == null)
+    			return;
+    		
+    		// Fetch updated user lists from database
+    		List<User> professorList = UserManager.getUsersByRole(course, Role.PROFESSOR);
+    		
+    		// Update lists reflecting GUI in FX Application thread
+    		Platform.runLater(() -> {
+    			professorListView.getItems().setAll(professorList);
+    		});	
+    	});
+	}
 
-    public void updateDescendantListViews() {
+	public void updateAssistantListView() {
+		DatabaseManager.submitRunnable(() -> {
+			// Retrive selected course
+			Course course = courseListView.getSelectionModel().getSelectedItem();
+			
+			// Cancel if no course is selected
+			if (course == null)
+				return;
+			
+			// Fetch updated user lists from database
+			List<User> assistantList = UserManager.getUsersByRole(course, Role.ASSISTANT);
+			
+			// Update lists reflecting GUI in FX Application thread
+			Platform.runLater(() -> {
+				assistantListView.getItems().setAll(assistantList);
+			});	
+		});
+	}
+
+	public void updateStudentListView() {
+		DatabaseManager.submitRunnable(() -> {
+			// Retrive selected course
+			Course course = courseListView.getSelectionModel().getSelectedItem();
+			
+			// Cancel if no course is selected
+			if (course == null)
+				return;
+			
+			// Fetch updated user lists from database
+			List<User> studentList = UserManager.getUsersByRole(course, Role.STUDENT);
+			
+			// Update lists reflecting GUI in FX Application thread
+			Platform.runLater(() -> {
+				studentListView.getItems().setAll(studentList);
+			});	
+		});
+	}
+	
+	public void updateDescendantListViews() {
     	DatabaseManager.submitRunnable(() -> {
     		// Retrive selected course
     		Course course = courseListView.getSelectionModel().getSelectedItem();
@@ -222,7 +283,10 @@ public class AdminController implements Refreshable {
 	
     @FXML
     void handleAddCourseClick(ActionEvent event) {
+    	// Create dialog box
     	JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_COURSE_VIEW), DialogTransition.CENTER);
+    	
+    	// Initialize popup
     	CoursePopupController controller = (CoursePopupController) Loader.getController(View.POPUP_COURSE_VIEW);
     	controller.connectDialog(dialog);
     	controller.loadNewCourse();
@@ -241,7 +305,7 @@ public class AdminController implements Refreshable {
     	DatabaseManager.submitRunnable(() -> {
     		Course selectedCourse = courseListView.getSelectionModel().getSelectedItem();
     		CourseManager.deleteCourse(selectedCourse);
-    		Platform.runLater(() -> refresh());
+    		Platform.runLater(() -> updateCourseListView());
     	});
 
     }

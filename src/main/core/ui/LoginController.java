@@ -18,7 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.data.LoginManager;
 
-public class LoginController implements Refreshable {
+public class LoginController {
 	private LoginManager loginManager;
 	
 	private double xOffset;

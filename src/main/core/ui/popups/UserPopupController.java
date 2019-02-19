@@ -6,9 +6,8 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import main.core.ui.Refreshable;
 
-public class UserPopupController implements Refreshable {
+public class UserPopupController {
 	@FXML private Label headerLabel;
     @FXML private JFXTextField firstNameTextField;
     @FXML private JFXTextField lastNameTextField;
@@ -27,8 +26,4 @@ public class UserPopupController implements Refreshable {
     	
     }
 
-	@Override
-	public void refresh() {
-		
-	}
 }

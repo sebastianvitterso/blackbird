@@ -14,7 +14,6 @@ import main.app.View;
 import main.core.ui.AdminController;
 import main.core.ui.Refreshable;
 import main.data.Course;
-import main.data.Course.Role;
 import main.db.DatabaseManager;
 
 public class CoursePopupController implements Refreshable {
@@ -42,6 +41,9 @@ public class CoursePopupController implements Refreshable {
     	this.dialog = dialog;
     	adminController = (AdminController) Loader.getController(View.ADMIN_VIEW);
     }
+    
+    
+    
     
     public void loadEditCourse(Course course) {
     	// Layout configurations for 'edit' mode.

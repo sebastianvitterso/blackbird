@@ -1,11 +1,6 @@
 package main.core.ui;
 
-public class MainController implements Refreshable {
+public class MainController {
 
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
