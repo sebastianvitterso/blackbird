@@ -19,17 +19,16 @@ public class UserPopupController implements Refreshable {
     
     @FXML
     void initialize() {
-    	System.out.println("Initializing");
+    	registerButton.disableProperty().bind(usernameTextField.textProperty().isEmpty());
     }
     
     @FXML
     void handleRegisterClick(ActionEvent event) {
-
+    	
     }
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
 		
 	}
 }

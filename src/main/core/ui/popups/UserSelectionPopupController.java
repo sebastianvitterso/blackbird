@@ -76,16 +76,7 @@ public class UserSelectionPopupController implements Refreshable {
     
     @Override
 	public void refresh() {
-		Task<Void> task = new Task<>() {
-			@Override
-			protected Void call() throws Exception {
-				return null;
-			}
-		};
-		
-		task.setOnSucceeded(event -> {
-			listViewSpinner.setVisible(false);
-		});
+    	
 	}
     
     @FXML

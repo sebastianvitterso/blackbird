@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 import main.app.Loader;
 import main.app.StageManager;
 import main.app.View;
+import main.core.ui.popups.CoursePopupController;
 import main.core.ui.popups.UserSelectionPopupController;
 import main.data.Course;
 import main.data.Course.Role;
@@ -66,9 +67,6 @@ public class AdminController implements Refreshable {
     @FXML private JFXButton userDeleteButton;
     
     private ObservableList<Course> courses;
-    private ObservableList<User> professors;
-    private ObservableList<User> assistants;
-    private ObservableList<User> students;
     private ObservableList<RecursiveTreeUser> users;
     
 
@@ -95,10 +93,10 @@ public class AdminController implements Refreshable {
     }
 
     private void initializeDescendantListViews() {
-    	// Observable ListViews reflected in GUI
-    	professors = professorListView.getItems();
-    	assistants = assistantListView.getItems();
-    	students = studentListView.getItems();
+//    	// Observable ListViews reflected in GUI
+//    	professors = professorListView.getItems();
+//    	assistants = assistantListView.getItems();
+//    	students = studentListView.getItems();
     	
     	// Bind delete button to being disabled when no entities are selected.    	
     	BooleanBinding notSelectedCourse = courseListView.getSelectionModel().selectedItemProperty().isNull();
@@ -154,7 +152,7 @@ public class AdminController implements Refreshable {
 		updateDescendantListViews();
 	}
 	
-	private void updateCourseListView() {
+	public void updateCourseListView() {
 		DatabaseManager.submitRunnable(() -> {
 			// Fetch list of courses from database
 			List<Course> courseList = CourseManager.getCourses();
@@ -164,7 +162,7 @@ public class AdminController implements Refreshable {
 		});
     }
 
-    private void updateDescendantListViews() {
+    public void updateDescendantListViews() {
     	DatabaseManager.submitRunnable(() -> {
     		// Retrive selected course
     		Course course = courseListView.getSelectionModel().getSelectedItem();
@@ -180,29 +178,74 @@ public class AdminController implements Refreshable {
     		
     		// Update lists reflecting GUI in FX Application thread
     		Platform.runLater(() -> {
-    			professors.setAll(professorList);
-    			assistants.setAll(assistantList);
-    			students.setAll(studentList);
+    			professorListView.getItems().setAll(professorList);
+    			assistantListView.getItems().setAll(assistantList);
+    			studentListView.getItems().setAll(studentList);
     		});	
     	});
     }
 
-	private void updateUserTreeTableView() {
+	public void updateUserTreeTableView() {
 	
 	}
+	
+	
 	
 	public void addUsersToCourse(List<User> users, Course course, Role role) {
-		
+		DatabaseManager.submitRunnable(() -> {
+			UserManager.addUsersToCourse(users, course, role);
+		});
+	}
+	
+	public void registerCourse(Course course) {
+		DatabaseManager.submitRunnable(() -> {
+			CourseManager.registerCourse(course);
+		});
+	}
+
+	public void updateCourse(Course course) {
+		DatabaseManager.submitRunnable(() -> {
+			CourseManager.updateCourse(course);
+		});
+	}
+
+	public void updateUser(User user) {
+		DatabaseManager.submitRunnable(() -> {
+			UserManager.updateUser(user);
+		});
 	}
 	
 	
-
+	/*
+	 * Course view
+	 */
+	
     @FXML
     void handleAddCourseClick(ActionEvent event) {
     	JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_COURSE_VIEW), DialogTransition.CENTER);
+    	CoursePopupController controller = (CoursePopupController) Loader.getController(View.POPUP_COURSE_VIEW);
+    	controller.connectDialog(dialog);
+    	controller.loadNewCourse();
     	dialog.show();
     }
+    
+    @FXML
+    void handleEditCourseClick(ActionEvent event) {
+    	JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_COURSE_VIEW), DialogTransition.CENTER);
+    	dialog.show();
 
+    }
+    
+    @FXML
+    void handleDeleteCourseClick(ActionEvent event) {
+
+    }
+
+    
+    /*
+     * Professor view
+     */
+    
     @FXML
     void handleAddProfessorClick(ActionEvent event) {
     	JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_USER_SELECTION_VIEW), DialogTransition.CENTER);
@@ -211,6 +254,16 @@ public class AdminController implements Refreshable {
     	controller.fetchUsers();
     	dialog.show();
     }
+
+    @FXML
+    void handleDeleteProfessorClick(ActionEvent event) {
+
+    }
+    
+    
+    /*
+     * Assistant view
+     */
     
     @FXML
     void handleAddAssistantClick(ActionEvent event) {
@@ -222,6 +275,16 @@ public class AdminController implements Refreshable {
     }
     
     @FXML
+    void handleDeleteAssistantClick(ActionEvent event) {
+
+    }
+    
+    
+    /*
+     * Student view
+     */
+    
+    @FXML
     void handleAddStudentClick(ActionEvent event) {
     	JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_USER_SELECTION_VIEW), DialogTransition.CENTER);
     	UserSelectionPopupController controller = (UserSelectionPopupController) Loader.getController(View.POPUP_USER_SELECTION_VIEW);
@@ -231,31 +294,26 @@ public class AdminController implements Refreshable {
     }
 
     @FXML
+    void handleDeleteStudentClick(ActionEvent event) {
+
+    }
+    
+    
+    /*
+     * User view
+     */
+    
+    @FXML
     void handleAddUserClick(ActionEvent event) {
     	JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_USER_VIEW), DialogTransition.CENTER);
     	dialog.show();
     }
 
     @FXML
-    void handleDeleteAssistantClick(ActionEvent event) {
+    void handleEditUserClick(ActionEvent event) {
 
     }
-
-    @FXML
-    void handleDeleteCourseClick(ActionEvent event) {
-
-    }
-
-    @FXML
-    void handleDeleteProfessorClick(ActionEvent event) {
-
-    }
-
-    @FXML
-    void handleDeleteStudentClick(ActionEvent event) {
-
-    }
-
+    
     @FXML
     void handleDeleteUserClick(ActionEvent event) {
     	DatabaseManager.submitRunnable(() -> {
@@ -283,16 +341,11 @@ public class AdminController implements Refreshable {
     	
     }
 
-    @FXML
-    void handleEditCourseClick(ActionEvent event) {
-
-    }
-
-    @FXML
-    void handleEditUserClick(ActionEvent event) {
-
-    }
-
+    
+    /*
+     * Main view
+     */
+    
     @FXML
     void handleExitClick(ActionEvent event) {
     	((Stage) rootPane.getScene().getWindow()).close();
