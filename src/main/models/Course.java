@@ -1,4 +1,4 @@
-package main.data;
+package main.models;
 
 public class Course {
 	private final String courseCode;

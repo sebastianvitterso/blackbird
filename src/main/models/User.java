@@ -1,4 +1,4 @@
-package main.data;
+package main.models;
 
 public class User {
 	private final String username;

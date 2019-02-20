@@ -1,4 +1,4 @@
-package main.data;
+package main.models;
 
 public class Period {
 	private final String assistantUsername;
