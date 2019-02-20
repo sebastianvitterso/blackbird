@@ -17,8 +17,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.db.LoginManager;
+import main.util.Clearable;
 
-public class LoginController {
+public class LoginController implements Clearable {
 	private LoginManager loginManager;
 	
 	private double xOffset;
@@ -86,7 +87,7 @@ public class LoginController {
 	}
     
 	@Override
-	public void refresh() {
+	public void clear() {
 		usernameTextField.setText(null);
 		passwordField.setText(null);
 		usernameTextField.requestFocus();

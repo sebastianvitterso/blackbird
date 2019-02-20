@@ -3,11 +3,13 @@ package main.db;
 import java.util.List;
 import java.util.Map;
 
-import javafx.application.Platform;
+import main.app.Loader;
 import main.app.StageManager;
-import main.app.View;
+import main.core.ui.AdminController;
 import main.core.ui.LoginController;
-import main.data.User;
+import main.core.ui.MainController;
+import main.models.User;
+import main.util.View;
 
 public class LoginManager {
 	private LoginController loginController;
@@ -20,20 +22,30 @@ public class LoginManager {
 	
 
 	public void login(String username, String password) {
-		DatabaseManager.submitRunnable(() -> {
-			if (loginQuery(username, password)) {
-				activeUser = UserManager.getUser(username);
-				
-				// Swap view based on type of user logging in
-				View nextView = (username.equals("admin") ? View.ADMIN_VIEW : View.MAIN_VIEW);
-				
-				// GUI tasks must be executed by FX Application thread, therefore Platform.runLater()
-				Platform.runLater(() -> StageManager.loadView(nextView));
-			} else {
-				// In case of invalid login credentials
-				Platform.runLater(() -> loginController.invalidCredentials());
+//		DatabaseManager.submitRunnable(() -> {
+			// In case of invalid login credentials
+			if (!loginQuery(username, password)) {
+//				Platform.runLater(() -> {
+					loginController.invalidCredentials();
+//				});
+				return;
 			}
-		});
+			
+			activeUser = UserManager.getUser(username);
+			
+			// Swap view based on type of user logging in
+			if (username.equals("admin")) {
+//				Platform.runLater(() -> {
+					StageManager.loadView(View.ADMIN_VIEW);
+					((AdminController) Loader.getController(View.ADMIN_VIEW)).update();
+//				});
+			} else {
+//				Platform.runLater(() -> {
+					StageManager.loadView(View.MAIN_VIEW);
+					((MainController) Loader.getController(View.MAIN_VIEW)).update();
+//				});
+			}
+//		});
 	}
 
 	private boolean loginQuery(String username, String password) {
