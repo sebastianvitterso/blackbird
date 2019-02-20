@@ -9,8 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.util.Clearable;
-import main.util.View;
+import main.utils.Clearable;
+import main.utils.View;
 
 /**
  * Class for managing transitions between different scenes in the application. 

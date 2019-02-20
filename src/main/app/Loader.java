@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import main.util.PostInitialize;
-import main.util.View;
+import main.utils.PostInitialize;
+import main.utils.View;
 
 /**
  * Preloader class for FXML files, runnable on a separate thread.
