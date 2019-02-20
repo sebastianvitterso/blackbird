@@ -3,9 +3,9 @@ package main.db;
 import java.util.List;
 import java.util.Map;
 
-import main.data.Course;
-import main.data.Period;
-import main.data.User;
+import main.models.Course;
+import main.models.Period;
+import main.models.User;
 
 public class PeriodManager {
 	

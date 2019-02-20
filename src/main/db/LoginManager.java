@@ -9,7 +9,7 @@ import main.core.ui.AdminController;
 import main.core.ui.LoginController;
 import main.core.ui.MainController;
 import main.models.User;
-import main.util.View;
+import main.utils.View;
 
 public class LoginManager {
 	private LoginController loginController;
