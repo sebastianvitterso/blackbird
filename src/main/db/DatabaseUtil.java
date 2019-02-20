@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import main.data.Course;
-import main.data.Period;
-import main.data.User;
+import main.models.Course;
+import main.models.Period;
+import main.models.User;
 
 public class DatabaseUtil {
 	public static List<Course> MapsToCourses(List<Map<String, String>> courseMaps){
