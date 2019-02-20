@@ -40,7 +40,6 @@ public class DatabaseManager {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
 			ResultSetMetaData rsmd = resultSet.getMetaData();
-			statement.close();
 			
 			// return-liste som inneholder hvert objekt som en hashmap mellom kolonne-overskrift og kolonne-verdi.
 			List<Map<String, String>> resultArray = new ArrayList<>(); 
@@ -52,6 +51,7 @@ public class DatabaseManager {
 			       } // lagrer et objekt i hashmappet "currentRow"
 			       resultArray.add(currentRow); // lagrer currentRow i return-lista
 		    }
+			statement.close();
 			
 			return resultArray;
 			
