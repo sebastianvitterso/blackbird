@@ -12,9 +12,9 @@ import main.app.Loader;
 import main.core.ui.AdminController;
 import main.db.CourseManager;
 import main.models.Course;
-import main.util.Clearable;
-import main.util.PostInitialize;
-import main.util.View;
+import main.utils.Clearable;
+import main.utils.PostInitialize;
+import main.utils.View;
 
 public class CoursePopupController implements Clearable {
 	@FXML private Label headerLabel;

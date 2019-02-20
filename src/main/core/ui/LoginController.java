@@ -17,7 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.db.LoginManager;
-import main.util.Clearable;
+import main.utils.Clearable;
 
 public class LoginController implements Clearable {
 	private LoginManager loginManager;

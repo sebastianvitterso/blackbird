@@ -12,9 +12,9 @@ import main.core.ui.AdminController;
 import main.core.ui.AdminController.RecursiveTreeUser;
 import main.db.UserManager;
 import main.models.User;
-import main.util.Clearable;
-import main.util.PostInitialize;
-import main.util.View;
+import main.utils.Clearable;
+import main.utils.PostInitialize;
+import main.utils.View;
 
 public class UserPopupController implements Clearable {
 	@FXML private Label headerLabel;

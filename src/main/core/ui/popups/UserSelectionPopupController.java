@@ -18,10 +18,10 @@ import main.core.ui.AdminController;
 import main.db.UserManager;
 import main.models.Course;
 import main.models.Course.Role;
+import main.utils.Clearable;
+import main.utils.PostInitialize;
+import main.utils.View;
 import main.models.User;
-import main.util.Clearable;
-import main.util.PostInitialize;
-import main.util.View;
 
 public class UserSelectionPopupController implements Clearable {
 	@FXML private StackPane rootPane;

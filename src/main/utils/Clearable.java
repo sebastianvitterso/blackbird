@@ -1,4 +1,4 @@
-package main.util;
+package main.utils;
 
 /**
  * A 'Clearable' view allow reuse of the graphical user interface without reloading.
