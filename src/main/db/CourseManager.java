@@ -2,7 +2,8 @@ package main.db;
 
 import java.util.List;
 import java.util.Map;
-import main.data.Course;
+
+import main.models.Course;
 
 public class CourseManager {
 	
@@ -28,6 +29,10 @@ public class CourseManager {
 
 	public static void deleteCourse(Course course) {
 		DatabaseManager.sendUpdate(String.format("DELETE FROM course WHERE course_code = '%s'", course.getCourseCode()));
+	}
+
+	public static void deleteCourses(List<Course> courses) {
+		System.err.println("deleteCourses(List<Course> courses) not implemented! :)");
 	}
 	
 	public static void addCourse(String courseCode, String name, String description) {

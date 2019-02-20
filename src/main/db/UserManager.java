@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import main.data.Course;
-import main.data.Course.Role;
-import main.data.User;
+import main.models.Course;
+import main.models.Course.Role;
+import main.models.User;
 
 public class UserManager {
 	
@@ -73,18 +73,27 @@ public class UserManager {
 	public static int addUsersToCourse(List<User> users, Course course, Role role) {
 		List<String> usernames = users.stream().map(User::getUsername).collect(Collectors.toList());
 		
-		String parsedUserCourseList = usernames.stream().collect(Collectors.joining(
-				String.format("', '%s', '%s'), (", course.getCourseCode(), role),
-				"('", 
-				String.format("', '%s', '%s');", course.getCourseCode(), role)));
+		String parsedUserCourseList = usernames.stream()
+				.map(username -> String.format("('%s', '%s', '%s')", 
+						username, 
+						course.getCourseCode(), 
+						role))
+				.collect(Collectors.joining(", ", "", ";"));
+		
 		String myQuery = String.format("INSERT INTO user_course values %s;", parsedUserCourseList);
 		System.out.printf("My query: %s%n", myQuery);
 		return DatabaseManager.sendUpdate(myQuery);
 	}
 	
+	// TODO: Implement method below
+	public static int deleteUsersFromCourse(List<User> users, Course course, Role role) {
+		System.err.println("deleteUsersFromCourse(List<User> users, Course course, Role role) not implemented! :)");
+		return -1;
+	}
+	
 	public static int updateUser(User user) {
-		String query = String.format("UPDATE user SET name = %s, email = %s, password = %s where username = %s;", 
-				user.getName(), user.getEmail(), user.getPassword(), user.getUsername() );
+		String query = String.format("UPDATE user SET first_name = '%s', last_name = '%s', email = '%s', password = '%s' where username = '%s';", 
+				user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getUsername());
 		return DatabaseManager.sendUpdate(query);
 	}
 		
