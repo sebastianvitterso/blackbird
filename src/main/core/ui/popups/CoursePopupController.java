@@ -5,18 +5,18 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import main.app.Loader;
-import main.app.View;
 import main.core.ui.AdminController;
-import main.core.ui.Refreshable;
-import main.data.Course;
-import main.db.DatabaseManager;
+import main.db.CourseManager;
+import main.models.Course;
+import main.util.Clearable;
+import main.util.PostInitialize;
+import main.util.View;
 
-public class CoursePopupController implements Refreshable {
+public class CoursePopupController implements Clearable {
 	@FXML private Label headerLabel;
     @FXML private JFXTextField courseCodeTextField;
     @FXML private JFXTextField courseNameTextField;
@@ -27,7 +27,12 @@ public class CoursePopupController implements Refreshable {
     private AdminController adminController;
     private JFXDialog dialog;
     
-   
+    
+    //// Initialization ////
+    /**
+     * Initializes every component in the user interface.
+     * This method is automatically invoked when loading the corresponding FXML file.
+     */
     @FXML
     private void initialize() {
     	// Bind 'register' button to being disabled when no course code is given
@@ -39,12 +44,23 @@ public class CoursePopupController implements Refreshable {
      */
     public void connectDialog(JFXDialog dialog) {
     	this.dialog = dialog;
-    	adminController = (AdminController) Loader.getController(View.ADMIN_VIEW);
+    }
+    
+    /**
+     * Runs any methods that require every controller to be initialized.
+     * This method should only be invoked by the FXML Loader class.
+     */
+    @PostInitialize
+    public void postInitialize() {
+    	adminController = Loader.getController(View.ADMIN_VIEW);
     }
     
     
-    
-    
+    //// Loading ////
+    /**
+     * Prepares popup for displaying 'edit course' mode.
+     * This method must be called prior to displaying the dialog box.
+     */
     public void loadEditCourse(Course course) {
     	// Layout configurations for 'edit' mode.
     	editMode = true;
@@ -60,21 +76,20 @@ public class CoursePopupController implements Refreshable {
     	courseCodeTextField.setDisable(true);
     }
     
+    /**
+     * Prepares popup for displaying 'new course' mode.
+     * This method must be called prior to displaying the dialog box.
+     */
     public void loadNewCourse() {
     	// Layout configurations for 'new' mode.
     	editMode = false;
     	headerLabel.setText("Registrer emne");
     	registerButton.setText("Registrer");
-    	
-    	// Clear current course info
-    	courseCodeTextField.clear();
-    	courseNameTextField.clear();
-    	courseDescriptionTextArea.clear();
-    	
-    	// Enable 'course code' text field.
-    	courseCodeTextField.setDisable(false);
     }
     
+    /**
+     * Reads input parameters, creating a new 'Course' object.
+     */
     private Course createCourseFromInput() {
     	String courseCode = courseCodeTextField.getText();
     	String courseName = courseNameTextField.getText();
@@ -82,29 +97,41 @@ public class CoursePopupController implements Refreshable {
     	return new Course(courseCode, courseName, courseDescription);
     }
     
-    @FXML
-    void handleRegisterClick(ActionEvent event) {
-    	DatabaseManager.submitRunnable(() -> {
-        	Course course = createCourseFromInput();
-        	
-        	if (editMode) {
-        		adminController.updateCourse(course);
-        	} else {
-        		adminController.registerCourse(course);
-        	}
-        	
-        	Platform.runLater(() -> {
-        		adminController.refresh();
-        		dialog.close();
-        	});
-    	});
-    }
-
+    
+    //// Overrides ////
+    /**
+     * {@inheritDoc}
+     */
 	@Override
-	public void refresh() {
-		courseCodeTextField.setDisable(false);
+	public void clear() {
 		courseCodeTextField.clear();
 		courseNameTextField.clear();
 		courseDescriptionTextArea.clear();
+		courseCodeTextField.setDisable(false);
 	}
+    
+	
+	//// Event handlers ////
+    @FXML
+    void handleRegisterClick(ActionEvent event) {
+//    	DatabaseManager.submitRunnable(() -> {
+        	Course course = createCourseFromInput();
+        	
+        	if (editMode) {
+//    			DatabaseManager.submitRunnable(() -> {
+    				CourseManager.updateCourse(course);
+//    			});
+        	} else {
+//    			DatabaseManager.submitRunnable(() -> {
+    				CourseManager.registerCourse(course);
+//    			});
+        	}
+        	
+//        	Platform.runLater(() -> {
+        		adminController.updateCourseView();
+        		dialog.close();
+//        	});
+//    	});
+    }
+    
 }
