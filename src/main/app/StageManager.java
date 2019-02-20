@@ -9,13 +9,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.util.Clearable;
+import main.util.View;
 
 /**
  * Class for managing transitions between different scenes in the application. 
  * @author Patrik
  */
 public class StageManager {
-	private static Loader loader;
 	private static Stage stage;
 	private static Image icon;
 	private static EnumMap<View, Scene> viewToScene;
@@ -68,7 +69,7 @@ public class StageManager {
 			break;
 
 		case ADMIN_VIEW:
-			stage.setResizable(false);
+			stage.setResizable(true);
 			break;
 		
 		case MAIN_VIEW:
@@ -79,8 +80,13 @@ public class StageManager {
 			break;
 		}
 		
-		// Refresh and display
-		Loader.getController(view).refresh();
+		// Clear and display
+		Object controller = Loader.getController(view);
+		if (controller instanceof Clearable)
+			((Clearable) controller).clear();
+		else
+			System.err.printf("StageManager can only handle controllers of type 'Clearable', missing in '%s'.", controller.getClass().getSimpleName());
+		
 		stage.show();
 	}
 	
