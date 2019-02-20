@@ -122,24 +122,16 @@ public class UserPopupController implements Clearable {
 	//// Event handlers ////
 	@FXML
 	void handleRegisterClick(ActionEvent event) {
-//		DatabaseManager.submitRunnable(() -> {
-			User user = createUserFromInput();
+		User user = createUserFromInput();
 
-			if (editMode) {
-//				DatabaseManager.submitRunnable(() -> {
-					UserManager.updateUser(user);
-//				});
-			} else {
-//				DatabaseManager.submitRunnable(() -> {
-					UserManager.addUser(user);
-//				});
-			}
+		if (editMode) {
+			UserManager.updateUser(user);
+		} else {
+			UserManager.addUser(user);
+		}
 
-//			Platform.runLater(() -> {
-				adminController.updateUserView();
-				dialog.close();
-//			});
-//		});
+		adminController.updateUserView();
+		dialog.close();
 	}
 
 }

@@ -23,7 +23,6 @@ public class DatabaseManager {
 	
 	private static ExecutorService IOExecutor;
 	private static Connection connection;
-//	private static Statement statement;
 	
 	// Setting up a connection to the database
 	static {
@@ -36,46 +35,12 @@ public class DatabaseManager {
 		}
 	}
 	
-	
-	
 	public static List<Map<String, String>> sendQuery(String query) {
-//		Future<List<Map<String, String>>> future = IOExecutor.submit(() -> {
-//		// Kobler til mySQL-server, og henter data derfra, avhengig av query-et som mates inn.
-//		System.out.println("Connecting to database - ");
-//		Class.forName("com.mysql.cj.jdbc.Driver");
-//		String conString = "jdbc:mysql://mysql.stud.ntnu.no/sebastvi_blackbird_db?serverTimezone=UTC";  
-//		Connection connection = DriverManager.getConnection(conString, "sebastvi_blackbird", "blackbird");
-//		Statement statement = connection.createStatement();
-//		
-//		ResultSet resultSet = statement.executeQuery(query);
-//		ResultSetMetaData rsmd = resultSet.getMetaData();
-//		
-//		// return-liste som inneholder hvert objekt som en hashmap mellom kolonne-overskrift og kolonne-verdi.
-//		List<Map<String, String>> resultArray = new ArrayList<>(); 
-//		
-//		while (resultSet.next()) {
-//			Map<String, String> currentRow = new HashMap<String, String>();
-//		       for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-//		           currentRow.put(rsmd.getColumnName(i), resultSet.getString(i));
-//		       } // lagrer et objekt i hashmappet "currentRow"
-//		       resultArray.add(currentRow); // lagrer currentRow i return-lista
-//	    }
-//		connection.close();
-//		System.out.println("Connection closed");
-//		return resultArray;
-//		});
-//		
-//		try {
-//			return future.get();
-//		} catch (InterruptedException | ExecutionException e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-		
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
 			ResultSetMetaData rsmd = resultSet.getMetaData();
+			statement.close();
 			
 			// return-liste som inneholder hvert objekt som en hashmap mellom kolonne-overskrift og kolonne-verdi.
 			List<Map<String, String>> resultArray = new ArrayList<>(); 
@@ -87,7 +52,6 @@ public class DatabaseManager {
 			       } // lagrer et objekt i hashmappet "currentRow"
 			       resultArray.add(currentRow); // lagrer currentRow i return-lista
 		    }
-			statement.close();
 			
 			return resultArray;
 			
@@ -100,20 +64,14 @@ public class DatabaseManager {
 	
 	public static int sendUpdate(String update) {
 		try {
-//			// Kobler til mySQL-server, og henter data derfra, avhengig av update-n som mates inn.
-//			Class.forName("com.mysql.cj.jdbc.Driver");
-//			String conString = "jdbc:mysql://mysql.stud.ntnu.no/sebastvi_blackbird_db?serverTimezone=UTC";  
-//			Connection connection = DriverManager.getConnection(conString, "sebastvi_blackbird", "blackbird");
-//			Statement statement = connection.createStatement();
 			Statement statement = connection.createStatement();
 			int rowsAffected = statement.executeUpdate(update);
 			statement.close();
 			
-			
 			return rowsAffected;
 			
 		} catch (SQLException e) {
-			System.out.println("Connection failed.");
+			System.err.println("Connection failed.");
 			e.printStackTrace();
 			return 0;
 		}

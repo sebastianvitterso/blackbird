@@ -114,24 +114,16 @@ public class CoursePopupController implements Clearable {
 	//// Event handlers ////
     @FXML
     void handleRegisterClick(ActionEvent event) {
-//    	DatabaseManager.submitRunnable(() -> {
-        	Course course = createCourseFromInput();
-        	
-        	if (editMode) {
-//    			DatabaseManager.submitRunnable(() -> {
-    				CourseManager.updateCourse(course);
-//    			});
-        	} else {
-//    			DatabaseManager.submitRunnable(() -> {
-    				CourseManager.registerCourse(course);
-//    			});
-        	}
-        	
-//        	Platform.runLater(() -> {
-        		adminController.updateCourseView();
-        		dialog.close();
-//        	});
-//    	});
+    	Course course = createCourseFromInput();
+    	
+    	if (editMode) {
+			CourseManager.updateCourse(course);
+    	} else {
+			CourseManager.registerCourse(course);
+    	}
+    	
+		adminController.updateCourseView();
+		dialog.close();
     }
     
 }

@@ -36,10 +36,10 @@ import main.db.CourseManager;
 import main.db.UserManager;
 import main.models.Course;
 import main.models.Course.Role;
+import main.models.User;
 import main.utils.Clearable;
 import main.utils.PostInitialize;
 import main.utils.View;
-import main.models.User;
 
 public class AdminController implements Clearable {
 	@FXML private StackPane rootPane;
@@ -171,14 +171,6 @@ public class AdminController implements Clearable {
     	TreeItem<RecursiveTreeUser> root = new RecursiveTreeItem<RecursiveTreeUser>(users, RecursiveTreeObject::getChildren);
     	userTreeTableView.setRoot(root);
     	userTreeTableView.setShowRoot(false);
-    	
-//    	// Sample data
-//    	users.add(new RecursiveTreeUser("Patrik", "Kjærran", "patrikkj@stud.ntnu.no", "patrikkj", "manpower123"));
-//    	users.add(new RecursiveTreeUser("Eric", "Veliyulin", "ericve@stud.ntnu.no", "ericve", "manpower123"));
-//    	users.add(new RecursiveTreeUser("Beatrice", "Kiær", "beatriceki@stud.ntnu.no", "beatriceki", "girlpower123"));
-//    	users.add(new RecursiveTreeUser("Sebastian", "Vittersø", "sebastianvi@stud.ntnu.no", "sebastianvi", "manpower123"));
-//    	users.add(new RecursiveTreeUser("Eivind Yu", "Nilsen", "eivindni@stud.ntnu.no", "eivindni", "manpower123"));
-//    	users.add(new RecursiveTreeUser("Francis Dao Quang", "Dao", "francisda@stud.ntnu.no", "francisda", "manpower123"));
 	}
 
 	/** 
@@ -286,16 +278,12 @@ public class AdminController implements Clearable {
 	 * Changes are reflected in the user interface.
 	 */
 	public void updateCourseView() {
-//		DatabaseManager.submitRunnable(() -> {
-			// Fetch list of courses from database
-			List<Course> courseList = CourseManager.getCourses();
-			
-    		// Update course list via FX Application thread
-//			Platform.runLater(() -> {
-				courseListView.getItems().setAll(courseList);
-				courseListView.getSelectionModel().clearSelection();
-//			});
-//		});
+		// Fetch list of courses from database
+		List<Course> courseList = CourseManager.getCourses();
+		
+		// Update course list via FX Application thread
+		courseListView.getItems().setAll(courseList);
+		courseListView.getSelectionModel().clearSelection();
     }
 	
 	/**
@@ -313,35 +301,31 @@ public class AdminController implements Clearable {
 	 * Changes are reflected in the user interface.
 	 */
 	public void updateViewByRole(Role role) {
-//		DatabaseManager.submitRunnable(() -> {
-    		// Break if no single course is selected
-    		if (courseSelectionSize.isNotEqualTo(1).get())
-    			return;
-    		
-    		// Fetch updated user lists from database
-    		List<User> updatedList = UserManager.getUsersByRole(selectedCourses.get(0), role);
-    		
-    		// TODO: Add concurrency
-    		// Update lists reflecting GUI in FX Application thread
-//    		Platform.runLater(() -> {
-    			switch (role) {
-    			case PROFESSOR:
-    				professorListView.getItems().setAll(updatedList);
-    				professorListView.getSelectionModel().clearSelection();
-    				break;
-    			
-    			case ASSISTANT:
-        			assistantListView.getItems().setAll(updatedList);
-        			assistantListView.getSelectionModel().clearSelection();
-    				break;
-    			
-    			case STUDENT:
-    				studentListView.getItems().setAll(updatedList);
-    				studentListView.getSelectionModel().clearSelection();
-    				break;
-    			}
-//    		});	
-//    	});
+		// Break if no single course is selected
+		if (courseSelectionSize.isNotEqualTo(1).get())
+			return;
+		
+		// Fetch updated user lists from database
+		List<User> updatedList = UserManager.getUsersByRole(selectedCourses.get(0), role);
+		
+		// TODO: Add concurrency
+		// Update lists reflecting GUI in FX Application thread
+		switch (role) {
+		case PROFESSOR:
+			professorListView.getItems().setAll(updatedList);
+			professorListView.getSelectionModel().clearSelection();
+			break;
+		
+		case ASSISTANT:
+			assistantListView.getItems().setAll(updatedList);
+			assistantListView.getSelectionModel().clearSelection();
+			break;
+		
+		case STUDENT:
+			studentListView.getItems().setAll(updatedList);
+			studentListView.getSelectionModel().clearSelection();
+			break;
+		}
 	}
 	
 	/**
@@ -349,22 +333,18 @@ public class AdminController implements Clearable {
 	 * Changes are reflected in the user interface.
 	 */
 	public void updateUserView() {
-//		DatabaseManager.submitRunnable(() -> {
-			// Fetch list of courses from database
-			List<User> userList = UserManager.getUsers();
-			
-			// Convert users to internal format
-			List<RecursiveTreeUser> formattedUsers = userList.stream()
-					.map(u -> new RecursiveTreeUser(u.getFirstName(), u.getLastName(), u.getEmail(), u.getUsername(), u.getPassword()))
-					.collect(Collectors.toList());
-			
-    		// Update course list via FX Application thread
-//			Platform.runLater(() -> {
-				users.clear();
-				users.addAll(formattedUsers);
-				userTreeTableView.getSelectionModel().clearSelection();
-//			});
-//		});
+		// Fetch list of courses from database
+		List<User> userList = UserManager.getUsers();
+		
+		// Convert users to internal format
+		List<RecursiveTreeUser> formattedUsers = userList.stream()
+				.map(u -> new RecursiveTreeUser(u.getFirstName(), u.getLastName(), u.getEmail(), u.getUsername(), u.getPassword()))
+				.collect(Collectors.toList());
+		
+		// Update course list via FX Application thread
+		users.clear();
+		users.addAll(formattedUsers);
+		userTreeTableView.getSelectionModel().clearSelection();
 	}
 	
 	
@@ -460,12 +440,8 @@ public class AdminController implements Clearable {
     
     @FXML
     void handleDeleteCourseClick(ActionEvent event) {
-//    	DatabaseManager.submitRunnable(() -> {
-    		CourseManager.deleteCourses(selectedCourses);
-//    		Platform.runLater(() -> {
-    			updateCourseView();
-//    		});
-//    	});
+		CourseManager.deleteCourses(selectedCourses);
+		updateCourseView();
 
     }
 
@@ -486,13 +462,8 @@ public class AdminController implements Clearable {
 
     @FXML
     void handleDeleteProfessorClick(ActionEvent event) {
-//    	DatabaseManager.submitRunnable(() -> {
-    	System.out.println("Deleting professor");
-    		UserManager.deleteUsersFromCourse(selectedProfessors, selectedCourses.get(0), Role.PROFESSOR);
-//    		Platform.runLater(() -> {
-    			updateViewByRole(Role.PROFESSOR);
-//    		});
-//    	});
+		UserManager.deleteUsersFromCourse(selectedProfessors, selectedCourses.get(0), Role.PROFESSOR);
+		updateViewByRole(Role.PROFESSOR);
     }
     
     
@@ -512,12 +483,8 @@ public class AdminController implements Clearable {
     
     @FXML
     void handleDeleteAssistantClick(ActionEvent event) {
-//    	DatabaseManager.submitRunnable(() -> {
-    		UserManager.deleteUsersFromCourse(selectedAssistants, selectedCourses.get(0), Role.ASSISTANT);
-//    		Platform.runLater(() -> {
-    			updateViewByRole(Role.ASSISTANT);
-//    		});
-//    	});
+		UserManager.deleteUsersFromCourse(selectedAssistants, selectedCourses.get(0), Role.ASSISTANT);
+		updateViewByRole(Role.ASSISTANT);
     }
     
     
@@ -537,12 +504,8 @@ public class AdminController implements Clearable {
 
     @FXML
     void handleDeleteStudentClick(ActionEvent event) {
-//    	DatabaseManager.submitRunnable(() -> {
-    		UserManager.deleteUsersFromCourse(selectedStudents, selectedCourses.get(0), Role.STUDENT);
-//    		Platform.runLater(() -> {
-    			updateViewByRole(Role.STUDENT);
-//    		});
-//    	});
+		UserManager.deleteUsersFromCourse(selectedStudents, selectedCourses.get(0), Role.STUDENT);
+		updateViewByRole(Role.STUDENT);
     }
     
     
@@ -576,27 +539,23 @@ public class AdminController implements Clearable {
     
     @FXML
     void handleDeleteUserClick(ActionEvent event) {
-//    	DatabaseManager.submitRunnable(() -> {
-    		// Fetch selected users from TableView.
-    		List<RecursiveTreeUser> usersForDeletion = userTreeTableView.getSelectionModel()
-        			.getSelectedItems()
-        			.stream()
-        			.map(TreeItem::getValue)
-        			.collect(Collectors.toList());
-    		
-    		// Map from TableView's internal format to list of usernames.
-    		List<String> usernames = usersForDeletion.stream()
-    				.map(e -> e.username.get())
-    				.collect(Collectors.toList());
-    		
-    		// Remove users from database
-    		UserManager.deleteUsers(usernames);
-    		
-    		// Update user list reflecting GUI in FX Application thread
-//        	Platform.runLater(() -> {
-        		updateUserView();
-//        	});
-//    	});
+		// Fetch selected users from TableView.
+		List<RecursiveTreeUser> usersForDeletion = userTreeTableView.getSelectionModel()
+    			.getSelectedItems()
+    			.stream()
+    			.map(TreeItem::getValue)
+    			.collect(Collectors.toList());
+		
+		// Map from TableView's internal format to list of usernames.
+		List<String> usernames = usersForDeletion.stream()
+				.map(e -> e.username.get())
+				.collect(Collectors.toList());
+		
+		// Remove users from database
+		UserManager.deleteUsers(usernames);
+		
+		// Update user list reflecting GUI in FX Application thread
+		updateUserView();
     }
 
     

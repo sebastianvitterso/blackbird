@@ -18,10 +18,10 @@ import main.core.ui.AdminController;
 import main.db.UserManager;
 import main.models.Course;
 import main.models.Course.Role;
+import main.models.User;
 import main.utils.Clearable;
 import main.utils.PostInitialize;
 import main.utils.View;
-import main.models.User;
 
 public class UserSelectionPopupController implements Clearable {
 	@FXML private StackPane rootPane;
@@ -77,17 +77,13 @@ public class UserSelectionPopupController implements Clearable {
 		titleLabel.setText(title);
 		this.course = course;
 		this.role = role;
-		
-//		DatabaseManager.submitRunnable(() -> {
-			// Retrive list of addable users
-			List<User> users = UserManager.getUsersExcludingRole(course, role);
+	
+		// Retrive list of addable users
+		List<User> users = UserManager.getUsersExcludingRole(course, role);
 
-			// Update visuals in FX Application thread
-//			Platform.runLater(() -> {
-				listViewSpinner.setVisible(false);
-				userSelectionListView.getItems().setAll(users);
-//			});
-//		});
+		// Update visuals in FX Application thread
+		listViewSpinner.setVisible(false);
+		userSelectionListView.getItems().setAll(users);
 	}
 
 	
@@ -105,19 +101,15 @@ public class UserSelectionPopupController implements Clearable {
 	//// Event handlers ////
 	@FXML
 	void handleAddSelectedClick(ActionEvent event) {
-//		DatabaseManager.submitRunnable(() -> {
-			// Retrive selected users
-			List<User> selectedUsers = userSelectionListView.getSelectionModel().getSelectedItems();
+		// Retrive selected users
+		List<User> selectedUsers = userSelectionListView.getSelectionModel().getSelectedItems();
 
-			// Add database entries for new user relations
-			UserManager.addUsersToCourse(selectedUsers, course, role);
+		// Add database entries for new user relations
+		UserManager.addUsersToCourse(selectedUsers, course, role);
 
-			// Update admin view and close dialog
-//			Platform.runLater(() -> {
-				adminController.updateViewByRole(role);
-				dialog.close();
-//			});
-//		});
+		// Update admin view and close dialog
+		adminController.updateViewByRole(role);
+		dialog.close();
 	}
 
 }
