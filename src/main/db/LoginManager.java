@@ -6,6 +6,7 @@ import java.util.Map;
 import main.app.Loader;
 import main.app.StageManager;
 import main.core.ui.AdminController;
+import main.core.ui.CalendarController;
 import main.core.ui.LoginController;
 import main.core.ui.MainController;
 import main.models.User;
@@ -34,6 +35,9 @@ public class LoginManager {
 		if (username.equals("admin")) {
 			StageManager.loadView(View.ADMIN_VIEW);
 			((AdminController) Loader.getController(View.ADMIN_VIEW)).update();
+		} else if (username.equals("bea")){
+			StageManager.loadView(View.CALENDAR_VIEW);
+//			((CalendarController) Loader.getController(View.CALENDAR_VIEW)).update();
 		} else {
 			StageManager.loadView(View.MAIN_VIEW);
 			((MainController) Loader.getController(View.MAIN_VIEW)).update();
