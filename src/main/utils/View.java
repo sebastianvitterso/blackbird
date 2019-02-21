@@ -5,6 +5,7 @@ public enum View {
 	LOGIN_SCREEN(				"BlackBird - Login", 		"ui/Login.fxml"), 
 	ADMIN_VIEW(					"BlackBird - Admin", 		"ui/Admin.fxml"), 
 	MAIN_VIEW(					"BlackBird - Main", 		"ui/Main.fxml"), 
+	CALENDAR_VIEW(				"BlackBird - Calendar",		"ui/Calendar.fxml"),
 	
 	POPUP_COURSE_VIEW(			null, 						"ui/popups/CoursePopup.fxml"), 
 	POPUP_USER_SELECTION_VIEW(	null,						"ui/popups/UserSelectionPopup.fxml"), 
