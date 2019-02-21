@@ -12,4 +12,12 @@ INSERT INTO user values(5, "Francis");
 INSERT INTO user values(6, "Eric");
 
 
-select * from user
+select * from user;
+
+create table person(
+	PID 		int not null,
+    name		varchar(40),
+    birthDate	varchar(10)
+);
+
+insert into person values(1, "seb", "03.02.1995");

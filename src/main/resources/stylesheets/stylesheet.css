@@ -1,0 +1,176 @@
+* {
+	/* Dark theme */
+	-fx-primary: #202020; 
+	-fx-primary-text: #8e8e8e;
+	-fx-primary-lines: #707070;
+	-fx-primary-rippler: #979797;
+	
+	/* Light theme */
+	-fx-secondary: #D6D6D9;
+	-fx-secondary-text: -fx-primary;
+	-fx-secondary-lines: -fx-primary-lines;
+	-fx-secondary-header: #2F2F40;
+
+	/* Grey tones */	
+	-fx-dark-grey-1: #454545;
+	-fx-dark-grey-1-text: #DDDDDD;
+	-fx-dark-grey-1-rippler: #979797;
+	
+/* -fx-light-grey-1: #E7E7E7;*/
+	-fx-light-grey-1: #F5F5F5;
+	
+	-fx-text-unfocused: #606060;
+	-fx-text-focused: #202020;
+	
+	
+}
+
+
+/*
+ * LOGIN SCREEN
+ */
+
+.login-screen {
+	-fx-text-fill: -fx-primary-text;
+	-fx-background-color: -fx-primary;
+}
+
+.line-separator {
+	-fx-opacity: 0.25;	
+}
+
+.primary-button {
+	-fx-background-color: -fx-primary;
+	-fx-font: normal 14px "System";
+	-fx-text-fill: -fx-primary-text;
+}
+
+.primary-button .jfx-rippler {
+	-jfx-rippler-fill: -fx-primary-rippler;
+}
+
+.primary-button:hover {
+	-fx-background-color: derive(-fx-primary, 20%);
+}
+
+.login-input-fields {
+	-fx-font-size: 13px;
+	-fx-text-fill: -fx-primary-text;
+	-jfx-focus-color: #7A6E52;
+}
+
+.login-input-fields:focused {
+	-fx-text-fill: #7A6E52;
+}
+
+.login-input-fields .error-label {
+	-fx-font: normal 10px "System";
+	-fx-translate-y: -4;
+}
+
+.login-input-fields:error {
+	-jfx-unfocus-color: #900000;
+}
+
+.login-validator-icon {
+	-fx-scale-x: 0.4;
+	-fx-scale-y: 0.4;
+	-fx-translate-x: 10;
+	-fx-translate-y: -5;
+}
+
+.status-label {
+	-fx-text-fill: #900000;
+	-fx-font: bold 10px "System";
+}
+
+
+/*
+ * ADMIN VIEW
+ */
+ 
+.add-button-round {
+	-fx-background-color: #456045;
+	-fx-background-radius: 20px;
+	-fx-text-fill: #DDDDDD;
+}
+
+.edit-button-round {
+	-fx-background-color: #907010;
+	-fx-background-radius: 20px;
+	-fx-text-fill: #DDDDDD;
+}
+
+.delete-button-round {
+	-fx-background-color: #604545;
+	-fx-background-radius: 20px;
+	-fx-text-fill: #DDDDDD;
+}
+
+.region-separator {
+	-fx-background-color: #DDDDDD;
+	-fx-background-radius: 20px;
+	
+}
+
+.primary-button-light {
+	-fx-background-color: -fx-dark-grey-1;
+	-fx-text-fill: -fx-dark-grey-1-text;
+}
+.primary-button-light .jfx-rippler {
+	-jfx-rippler-fill: -fx-dark-grey-1-rippler;
+}
+
+.jfx-tree-table-view .tree-table-cell {
+	-fx-alignment: center;
+}
+
+.list-view-spinner {
+	-jfx-radius: 30;
+	-fx-opacity: 0.5;
+}
+
+
+/*
+ * POPUP VIEWS
+ */
+.root-background {
+	-fx-background-color: -fx-light-grey-1;
+	
+}
+
+.header-text {
+	-fx-font: bold 15px "System";
+}
+
+.primary-button-grey {
+	-fx-background-color: -fx-dark-grey-1;
+	-fx-font: bold 13px "System";
+	-fx-text-fill: -fx-dark-grey-1-text;
+}
+
+.primary-button-grey .jfx-rippler {
+	-jfx-rippler-fill: -fx-dark-grey-1-rippler;
+}
+
+.primary-button-grey:hover {
+	-fx-background-color: derive(-fx-dark-grey-1, 20%);
+}
+
+.close-button .jfx-rippler {
+	-jfx-rippler-fill: -fx-dark-grey-1-rippler;
+}
+
+.input-field-light-bg {
+	-fx-font-size: 13px;
+	-fx-text-fill: -fx-text-unfocused;
+	-jfx-focus-color: -fx-dark-grey-1;
+}
+
+.input-field-light-bg:focused {
+	-fx-text-fill: -fx-text-focused;
+}
+
+.input-field-light-bg .error-label {
+	-fx-font: normal 10px gabriola;
+}
