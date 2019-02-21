@@ -14,27 +14,52 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 public class CalendarGenerator {
+	private int weeknum;
 	private LocalDate startOfWeek;
 	private VBox view;
 	private Map<LocalDateTime, Room> rooms = new HashMap<LocalDateTime, Room>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
 
 	public CalendarGenerator() {
-		int dayNumInWeek = LocalDate.now().getDayOfWeek().getValue();
-		startOfWeek = LocalDate.now().minusDays(dayNumInWeek - 1);
+		weeknum = getRelevantWeek();
+		startOfWeek = calculateStartOfWeek();
 		
 		demoOppsett(); //Byttes med f.eks lastInnInfo() når databasen er koblet til
 		
-		StackPaneNode weekLabel = createWeekLabel();
 		GridPane dayLabels = createDayLabels();
 		GridPane calendar = createCalendar();
-		view = new VBox(weekLabel, dayLabels, calendar);
+		view = new VBox(dayLabels, calendar);
 	}
+	//Current week if monday-friday, else next week
+	public int getRelevantWeek() {
+		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+		int weekNumber = LocalDate.now().plusDays(2).get(woy);
+		return weekNumber;
+	}
+	
+	public void changeWeekUpdate(int weeknum) {
+		this.weeknum = weeknum;
+		startOfWeek = calculateStartOfWeek();
+		updateAllCells();
+	}
+	//TODO: bug ved årendring, må fikses
+	public LocalDate calculateStartOfWeek() {
+		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+		int dayNumInWeek = LocalDate.now().getDayOfWeek().getValue();
+		int thisWeekNumber = LocalDate.now().get(woy);
+		if (thisWeekNumber > weeknum) {
+			return LocalDate.now().minusDays(dayNumInWeek - 1).plusDays((thisWeekNumber - weeknum) * 7);
+		} else {
+			return LocalDate.now().minusDays(dayNumInWeek - 1).minusDays((weeknum - thisWeekNumber) * 7);
+		}
+	}
+	
 	private void demoOppsett() {
 		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8)), new Room(0,4));
 		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8.5)), new Room(0,4));
@@ -48,17 +73,6 @@ public class CalendarGenerator {
 		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11.5)), new Room(2,4));
 		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12)), new Room(0,4));
 		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12.5)), new Room(0,4));
-	}
-
-	private StackPaneNode createWeekLabel() {
-		// @@@@@ Legg til at den går til neste uke hvis lørdag eller søndag og på date
-		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-		int weekNumber = startOfWeek.get(woy);
-
-		StackPaneNode weekLabel = new StackPaneNode();
-		weekLabel.setPrefSize(200, 10);
-		weekLabel.addText("Week " + weekNumber);
-		return weekLabel;
 	}
 
 	private GridPane createDayLabels() {
