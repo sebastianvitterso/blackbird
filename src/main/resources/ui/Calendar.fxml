@@ -11,47 +11,21 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1010.0" stylesheets="@../stylesheets/calendarstyle.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController">
+<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1010.0" stylesheets="@../stylesheets/calendarstyle.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="600.0" styleClass="calendar-header">
+            <StackPane prefHeight="80.0" styleClass="calendar-header">
                <children>
-                  <JFXButton fx:id="todaybtn" buttonType="RAISED" ripplerFill="#9494d6c2" styleClass="btn" text="I dag" textAlignment="CENTER" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="20.0" top="40.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="System Bold Italic" size="16.0" />
-                     </font>
-                     <effect>
-                        <Lighting specularConstant="1.86">
-                           <bumpInput>
-                              <Shadow height="255.0" radius="127.0" width="255.0" />
-                           </bumpInput>
-                           <light>
-                              <Light.Distant />
-                           </light>
-                        </Lighting>
-                     </effect>
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/today.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <HBox prefHeight="100.0" prefWidth="160.0">
-                     <HBox.margin>
-                        <Insets left="300.0" />
-                     </HBox.margin>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
                      <children>
-                        <JFXButton fx:id="left" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" ripplerFill="#9494d6c2" text=" " textAlignment="CENTER" textFill="WHITE">
+                        <Region HBox.hgrow="ALWAYS" />
+                        <JFXButton fx:id="left" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleLeftBtn" ripplerFill="#9494d6c2" text=" " textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="System Bold Italic" size="16.0" />
                            </font>
@@ -76,18 +50,18 @@
                               </ImageView>
                            </graphic>
                            <HBox.margin>
-                              <Insets top="40.0" />
+                              <Insets />
                            </HBox.margin>
                         </JFXButton>
-                        <Label fx:id="weekLabel" styleClass="text" text="Uke" textFill="#fcf7f7">
+                        <Label fx:id="weekLabel" alignment="BOTTOM_CENTER" text="Uke 00" textFill="#fcf7f7" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets top="55.0" />
+                              <Insets />
                            </HBox.margin>
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <JFXButton fx:id="right" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" ripplerFill="#9494d6c2" textAlignment="CENTER" textFill="WHITE">
+                        <JFXButton fx:id="right" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleRightBtn" ripplerFill="#9494d6c2" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="System Bold Italic" size="16.0" />
                            </font>
@@ -109,13 +83,36 @@
                               </ImageView>
                            </graphic>
                            <HBox.margin>
-                              <Insets top="40.0" />
+                              <Insets />
                            </HBox.margin>
                         </JFXButton>
+                        <Region layoutX="10.0" layoutY="10.0" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
+                  <JFXButton fx:id="todaybtn" buttonType="RAISED" onAction="#handleTodayBtn" ripplerFill="#9494d6c2" styleClass="btn" text="Denne uken" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER_LEFT">
+                     <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                     </font>
+                     <effect>
+                        <Lighting specularConstant="1.86">
+                           <bumpInput>
+                              <Shadow height="255.0" radius="127.0" width="255.0" />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/today.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
                </children>
-            </HBox>
+            </StackPane>
             <StackPane fx:id="calendarPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>

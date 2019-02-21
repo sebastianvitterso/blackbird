@@ -24,16 +24,48 @@ public class CalendarController {
 	@FXML
 	private Label weekLabel;
 
+	CalendarGenerator generator = new CalendarGenerator();
+	private int displayWeek = generator.getRelevantWeek(); 
+	
 	@FXML
 	void initialize() {
-		CalendarGenerator generator = new CalendarGenerator();
 		calendarPane.getChildren().setAll(generator.getView());
+		updateWeek(displayWeek);
+	}
+	
+	void updateWeek(int week) {
+		weekLabel.setText("Uke " + Integer.toString(week));
 	}
 
 	@FXML
-	void btn1handle(ActionEvent event) {
+	void handleTodayBtn() {
+		displayWeek = generator.getRelevantWeek(); 
+		generator.changeWeekUpdate(displayWeek);
+		updateWeek(displayWeek);
 
 	}
+	
+	@FXML
+	void handleLeftBtn() {
+		displayWeek--; 
+		if (displayWeek <= 1) {
+			displayWeek = 1; 
+		}
+		generator.changeWeekUpdate(displayWeek);
+		updateWeek(displayWeek);
+	}
+	
+	@FXML
+	void handleRightBtn() {
+		displayWeek++; 
+		if (displayWeek >= 52) {
+			displayWeek = 52; 
+		}
+		generator.changeWeekUpdate(displayWeek);
+		updateWeek(displayWeek);
+	}
+	
+	
 
 	/*
 	 * @FXML void changeCBox() { weekbtn.setOnAction(new EventHandler<ActionEvent>()
