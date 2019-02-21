@@ -36,11 +36,13 @@ public class DatabaseUtil {
 	public static List<Period> MapsToPeriods(List<Map<String, String>> periodMaps){
 		List<Period> periods = new ArrayList<Period>();
 		for (Map<String, String> periodMap : periodMaps) {
-			String assistant_username = periodMap.get("assistant_username");
+			int periodID = Integer.parseInt(periodMap.get("period_id"));
 			String course_code = periodMap.get("course_code");
 			String timestamp = periodMap.get("timestamp");
+			String professor_username = periodMap.get("professor_username");
+			String assistant_username = periodMap.get("assistant_username");
 			String student_username = periodMap.get("student_username");
-			periods.add(new Period(assistant_username, course_code, timestamp, student_username));
+			periods.add(new Period(periodID, course_code, timestamp, professor_username, assistant_username, student_username));
 		}
 		return periods;
 	}

@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import main.models.Course;
-import main.models.User;
 
 public class CourseManager {
 	
@@ -50,7 +49,6 @@ public class CourseManager {
 		return DatabaseUtil.MapsToCourses(courseMaps);
 	}
 	
-
 	/**
 	 * Updates the database entry associated with input courses' primary key. 
 	 */
