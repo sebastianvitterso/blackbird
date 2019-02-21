@@ -24,7 +24,7 @@ public class CalendarGenerator {
 	private VBox view;
 	private Map<LocalDateTime, Room> rooms = new HashMap<LocalDateTime, Room>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
-
+	private StackPaneNode[] dayPaneNodes = new StackPaneNode[5];
 	public CalendarGenerator() {
 		weeknum = getRelevantWeek();
 		startOfWeek = calculateStartOfWeek();
@@ -45,6 +45,7 @@ public class CalendarGenerator {
 	public void changeWeekUpdate(int weeknum) {
 		this.weeknum = weeknum;
 		startOfWeek = calculateStartOfWeek();
+		updateDayPaneNodes();
 		updateAllCells();
 	}
 	//TODO: bug ved årendring, må fikses
@@ -53,9 +54,9 @@ public class CalendarGenerator {
 		int dayNumInWeek = LocalDate.now().getDayOfWeek().getValue();
 		int thisWeekNumber = LocalDate.now().get(woy);
 		if (thisWeekNumber > weeknum) {
-			return LocalDate.now().minusDays(dayNumInWeek - 1).plusDays((thisWeekNumber - weeknum) * 7);
+			return LocalDate.now().minusDays(dayNumInWeek - 1).minusDays((thisWeekNumber - weeknum) * 7);
 		} else {
-			return LocalDate.now().minusDays(dayNumInWeek - 1).minusDays((weeknum - thisWeekNumber) * 7);
+			return LocalDate.now().minusDays(dayNumInWeek - 1).plusDays((weeknum - thisWeekNumber) * 7);
 		}
 	}
 	
@@ -75,14 +76,33 @@ public class CalendarGenerator {
 	}
 
 	private GridPane createDayLabels() {
-		// Empty string below is there to make the StackPaneNode take up as much space
-		// as the time columns
-		String[] days = new String[] { "               ", "Mon", "Tue", "Wed", "Thu", "Fri" };
-		for (int n = 1; n <= 5; n++) {
-			LocalDate dateOfWeek = startOfWeek.plusDays(n - 1);
-			days[n] += " " + dateOfWeek.getDayOfMonth() + "." + dateOfWeek.getMonthValue();
+		GridPane dayLabels = new GridPane();
+		// dayLabels.setPrefWidth(1200);
+		Integer col = 0;
+		for (int n = 0; n < 6; n++) {
+			StackPaneNode sp = new StackPaneNode();
+			sp.setPrefSize(400, 10);
+			dayLabels.add(sp, col++, 0);
+			if (n == 0) {
+				sp.addText("               ");
+				//Empty string is there to make the StackPaneNode 
+				//take up as much space as the time columns
+			} else {
+				dayPaneNodes[n-1] = sp;	
+			}
 		}
-		return createLabels(days);
+		updateDayPaneNodes();
+		return dayLabels;
+	}
+
+	private void updateDayPaneNodes() {
+		String[] days = new String[] {"Mon", "Tue", "Wed", "Thu", "Fri" };
+		for (int n = 0; n < 5; n++) {
+			LocalDate dateOfWeek = startOfWeek.plusDays(n);
+			days[n] += " " + dateOfWeek.getDayOfMonth() + "." + dateOfWeek.getMonthValue();
+			dayPaneNodes[n].getChildren().clear();
+			dayPaneNodes[n].addText(days[n]);
+		}
 	}
 
 	private GridPane createLabels(String[] labelnames) {
