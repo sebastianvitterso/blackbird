@@ -57,7 +57,7 @@ public class UserManager {
 	
 	public static List<User> getUsersByRole(Course course, Role role) {
 		String query = String.format("SELECT * FROM user WHERE username IN "
-				+ "(SELECT username FROM user_course WHERE course_code = '%s' and role = '%s');", course.getCourseCode(), role.name());
+				+ "(SELECT username FROM user_course WHERE course_code = '%s' AND role = '%s');", course.getCourseCode(), role.name());
 		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
 		return DatabaseUtil.MapsToUsers(userMaps);
 	}
@@ -77,7 +77,7 @@ public class UserManager {
 						course.getCourseCode(), 
 						role))
 				.collect(Collectors.joining(", ", "", ";"));
-		String myQuery = String.format("INSERT INTO user_course values %s;", parsedUserCourseList);
+		String myQuery = String.format("INSERT INTO user_course VALUES %s;", parsedUserCourseList);
 		System.out.printf("My query: %s%n", myQuery);
 		return DatabaseManager.sendUpdate(myQuery);
 	}
@@ -85,14 +85,16 @@ public class UserManager {
 	public static int deleteUsersFromCourseGivenRole(List<User> users, Course course, Role role) {
 		List<String> usernames = users.stream().map(User::getUsername).collect(Collectors.toList());
 		String parsedUsernames = usernames.stream().collect(Collectors.joining("', '", "('", "')"));
-		String queryEnd = "and course_code = 'tdt1' and role = 'student';";
-		String query = String.format("DELETE FROM user_course WHERE user.username in %s %s",parsedUsernames,queryEnd);
+		String queryEnd = String.format("AND course_code = '%s' AND role = '%s';", course.getCourseCode(), role);
+		String query = String.format("DELETE FROM user_course WHERE username IN %s %s", parsedUsernames,queryEnd);
+		System.out.println("Deleting users" + users);
+		System.out.printf("Query : %s%n", query);
 		return DatabaseManager.sendUpdate(query);
 		
 	}
 	
 	public static int updateUser(User user) {
-		String query = String.format("UPDATE user SET first_name = '%s', last_name = '%s', email = '%s', password = '%s' where username = '%s';", 
+		String query = String.format("UPDATE user SET first_name = '%s', last_name = '%s', email = '%s', password = '%s' WHERE username = '%s';", 
 				user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getUsername());
 		return DatabaseManager.sendUpdate(query);
 	}
