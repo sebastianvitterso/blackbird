@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1010.0" stylesheets="@calendarstyle.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController>
+   <children>
+      <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="600.0" styleClass="calendar-header" AnchorPane.bottomAnchor="700.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <JFXButton fx:id="todaybtn" buttonType="RAISED" ripplerFill="#9494d6c2" styleClass="btn" text="I dag" textAlignment="CENTER" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="20.0" top="40.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font>
+               <effect>
+                  <Lighting specularConstant="1.86">
+                     <bumpInput>
+                        <Shadow height="255.0" radius="127.0" width="255.0" />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/today.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <HBox prefHeight="100.0" prefWidth="160.0">
+               <HBox.margin>
+                  <Insets left="300.0" />
+               </HBox.margin>
+               <children>
+                  <JFXButton fx:id="left" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" ripplerFill="#9494d6c2" text=" " textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                     </font>
+                     <effect>
+                        <Lighting specularConstant="1.86">
+                           <bumpInput>
+                              <Shadow height="255.0" radius="127.0" width="255.0" />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/left.png" />
+                           </image>
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets top="40.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <Label fx:id="weekLabel" styleClass="text" text="Uke" textFill="#fcf7f7">
+                     <HBox.margin>
+                        <Insets top="55.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="right" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" ripplerFill="#9494d6c2" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                     </font>
+                     <effect>
+                        <Lighting specularConstant="1.86">
+                           <bumpInput>
+                              <Shadow height="255.0" radius="127.0" width="255.0" />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/right.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets top="40.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

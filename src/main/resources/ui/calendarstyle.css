@@ -1,0 +1,22 @@
+.calendar-header {
+	-fx-background-color: #000000;
+}
+
+.menu-combobox {
+    -fx-prompt-text-fill: #fff;
+}
+
+.menu-combobox .text {
+    -fx-fill: #fff;    
+    -fx-font-size: 16px;
+}
+
+.menu-combobox .arrow-button .arrow {
+    -fx-background-color: #fff;
+}
+
+.btn {
+	-fx-border-with: 15px; 
+	-fx-border-color: #fff; 
+	-border-radius: 6px;
+}
