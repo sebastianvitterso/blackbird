@@ -2,6 +2,7 @@ package main.db;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import main.models.Course;
 
@@ -32,7 +33,10 @@ public class CourseManager {
 	}
 
 	public static void deleteCourses(List<Course> courses) {
-		System.err.println("deleteCourses(List<Course> courses) not implemented! :)");
+		List<String> courseCodeList = courses.stream().map(Course::getCourseCode).collect(Collectors.toList());
+		String parsedCourseCodes = courseCodeList.stream().collect(Collectors.joining("', '", "('", "')"));
+		String query = String.format("DELETE FROM course WHERE course_code in %s;", parsedCourseCodes);
+		DatabaseManager.sendUpdate(query);
 	}
 	
 	public static void addCourse(String courseCode, String name, String description) {
@@ -45,7 +49,6 @@ public class CourseManager {
 		return DatabaseUtil.MapsToCourses(courseMaps);
 	}
 	
-
 	/**
 	 * Updates the database entry associated with input courses' primary key. 
 	 */

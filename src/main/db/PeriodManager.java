@@ -2,12 +2,20 @@ package main.db;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import main.models.Course;
 import main.models.Period;
 import main.models.User;
 
 public class PeriodManager {
+	
+	/* PERIOD INSERTION:
+	 * INSERT INTO period VALUES(course_code, timestamp[, prof_username, ass_username, stud_username])
+	 * 												   [------THESE CAN BE SET TO NULL AS null------]
+	 * INSERT INTO period VALUES('TDT4100', '2019-02-21 15:00:00', 'hallvard', null, null);
+	 */
+	
 	
 	/*
 	 * Returns a list of all periods in a course given a courseCode string.
@@ -25,24 +33,34 @@ public class PeriodManager {
 		return DatabaseUtil.MapsToPeriods(periodMaps);
 	}
 	
+	
 	/*
-	 * Deletes period from database, given arguments (all keys).
+	 * Deletes period from database, given period object.
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
-	public static int deletePeriod(String assistantUserName, String courseCode, String timeStamp) {
-		int linesChanged = DatabaseManager.sendUpdate("DELETE FROM period WHERE coursecode = '" 
-				+ courseCode + "' and assistant_username = '" + assistantUserName + "' and timestamp = '" + timeStamp + "'");
-		return linesChanged;
+	public static int deletePeriod(Period period) {
+		return DatabaseManager.sendUpdate(String.format("DELETE FROM period WHERE period_id = %s", period.getPeriodID()));
+	}
+	
+	
+	/*
+	 * Deletes periods from database, given list of period object.
+	 * Returns amount of changed lines: 1 (success) or 0 (failure).
+	 */
+	public static int deletePeriods(List<Period> periods) {
+		List<Integer> periodIDList = periods.stream().mapToInt(Period::getPeriodID).boxed().collect(Collectors.toList());
+		String parsedCourseCodes = periodIDList.stream().map(i -> String.valueOf(i)).collect(Collectors.joining("', '", "('", "')"));
+		return DatabaseManager.sendUpdate(String.format("DELETE FROM period WHERE period_id in %s", parsedCourseCodes));
 	}
 	
 	/*
 	 * Adds period to database, given argument strings (all keys).
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
-	public static int addPeriod(String assistantUsername, String courseCode, String timeStamp) {
-		int linesChanged = DatabaseManager.sendUpdate("INSERT INTO period (assistant_username, course_code, timestamp) VALUES ('" 
-				+ assistantUsername + "','" + courseCode + "','" + timeStamp + "');");
-		return linesChanged;
+	public static int addPeriod(String courseCode, String timeStamp, String professorUsername) {
+		String query = String.format("INSERT INTO period VALUES('%s', '%s', '%s', null, null);",
+				courseCode, timeStamp, professorUsername);
+		return DatabaseManager.sendUpdate(query);
 	} 
 	
 	/*
@@ -50,12 +68,12 @@ public class PeriodManager {
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
 	public static int addPeriod(Period period) {
-		String assistantUsername = period.getAssistantUsername();
+		String professorUsername = period.getProfessorUsername();
 		String courseCode = period.getCourseCode();
 		String timeStamp = period.getTimeStamp();
-		int linesChanged = DatabaseManager.sendUpdate("INSERT INTO period (assistant_username, course_code, timestamp) VALUES ('" 
-				+ assistantUsername + "','" + courseCode + "','" + timeStamp + "');");
-		return linesChanged;
+		String query = String.format("INSERT INTO period VALUES('%s', '%s', '%s', null, null);",
+				courseCode, timeStamp, professorUsername);
+		return DatabaseManager.sendUpdate(query);
 	}
 
 	/*
