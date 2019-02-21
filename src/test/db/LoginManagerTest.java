@@ -1,4 +1,4 @@
-package test.data;
+package test.db;
 
 import static org.junit.Assert.*;
 
@@ -9,8 +9,14 @@ import main.db.LoginManager;
 public class LoginManagerTest {
 
 	@Test
-	public void loginSuccessful() {
-		Boolean result = LoginManager.login("admin", "password");
+	public void adminLogin() {
+		Boolean result1 = LoginManager.login("admin", "password");
+		assertTrue(result1);
+	}
+	
+	@Test
+	public void userLogin() {
+		Boolean result = LoginManager.login("seb", "password");
 		assertTrue(result);
 	}
 
@@ -37,5 +43,7 @@ public class LoginManagerTest {
 		Boolean result = LoginManager.login("", "");
 		assertFalse(result);
 	}
+	
+	
 
 }
