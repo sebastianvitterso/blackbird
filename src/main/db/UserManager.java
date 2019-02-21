@@ -77,13 +77,11 @@ public class UserManager {
 						course.getCourseCode(), 
 						role))
 				.collect(Collectors.joining(", ", "", ";"));
-		// TODO: Sjekk om funker.
 		String myQuery = String.format("INSERT INTO user_course values %s;", parsedUserCourseList);
 		System.out.printf("My query: %s%n", myQuery);
 		return DatabaseManager.sendUpdate(myQuery);
 	}
 	
-	// TODO: Si ifra til patrik.
 	public static int deleteUsersFromCourseGivenRole(List<User> users, Course course, Role role) {
 		List<String> usernames = users.stream().map(User::getUsername).collect(Collectors.toList());
 		String parsedUsernames = usernames.stream().collect(Collectors.joining("', '", "('", "')"));
