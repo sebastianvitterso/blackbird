@@ -462,7 +462,7 @@ public class AdminController implements Clearable {
 
     @FXML
     void handleDeleteProfessorClick(ActionEvent event) {
-		UserManager.deleteUsersFromCourse(selectedProfessors, selectedCourses.get(0), Role.PROFESSOR);
+		UserManager.deleteUsersFromCourseGivenRole(selectedProfessors, selectedCourses.get(0), Role.PROFESSOR);
 		updateViewByRole(Role.PROFESSOR);
     }
     
@@ -483,7 +483,7 @@ public class AdminController implements Clearable {
     
     @FXML
     void handleDeleteAssistantClick(ActionEvent event) {
-		UserManager.deleteUsersFromCourse(selectedAssistants, selectedCourses.get(0), Role.ASSISTANT);
+		UserManager.deleteUsersFromCourseGivenRole(selectedAssistants, selectedCourses.get(0), Role.ASSISTANT);
 		updateViewByRole(Role.ASSISTANT);
     }
     
@@ -504,7 +504,7 @@ public class AdminController implements Clearable {
 
     @FXML
     void handleDeleteStudentClick(ActionEvent event) {
-		UserManager.deleteUsersFromCourse(selectedStudents, selectedCourses.get(0), Role.STUDENT);
+		UserManager.deleteUsersFromCourseGivenRole(selectedStudents, selectedCourses.get(0), Role.STUDENT);
 		updateViewByRole(Role.STUDENT);
     }
     
