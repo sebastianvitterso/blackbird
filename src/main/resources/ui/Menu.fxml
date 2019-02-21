@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.MenuController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="75.0" layoutY="277.0" prefHeight="200.0" prefWidth="100.0" styleClass="menu" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,12 +29,12 @@
                         <Insets />
                      </VBox.margin>
                   </ImageView>
-                  <Label styleClass="menu-text" text="Ola Nordmann" textFill="WHITE" wrapText="true">
+                  <Label fx:id="nameLabel" styleClass="menu-text" text="Ola Nordmann" textFill="WHITE" wrapText="true">
                      <font>
                         <Font size="21.0" />
                      </font>
                   </Label>
-                  <Label text="Student" textFill="#a1a1a1" wrapText="true">
+                  <Label fx:id="roleLabel" text="Student" textFill="#a1a1a1" wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -46,12 +46,12 @@
             </VBox>
             <VBox spacing="4.0">
                <children>
-                  <JFXComboBox fx:id="cboEmne" focusColor="WHITE" maxWidth="1.7976931348623157E308" promptText="Velg emne" styleClass="menu-combobox" unFocusColor="WHITE">
+                  <JFXComboBox fx:id="courseComboBox" focusColor="WHITE" maxWidth="1.7976931348623157E308" promptText="Velg emne" styleClass="menu-combobox" unFocusColor="WHITE">
                      <VBox.margin>
                         <Insets bottom="30.0" />
                      </VBox.margin>
                   </JFXComboBox>
-                  <JFXButton fx:id="btnOversikt" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#handleOversiktClick" styleClass="jfxbutton" text="Oversikt" textFill="WHITE">
+                  <JFXButton fx:id="overviewButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#handleOverviewClick" styleClass="jfxbutton" text="Oversikt" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -69,7 +69,7 @@
                         <Insets />
                      </VBox.margin>
                   </JFXButton>
-                  <JFXButton fx:id="btnOvinger" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#handleOvingerClick" text="Øvinger" textFill="WHITE">
+                  <JFXButton fx:id="exercisesButton" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#handleExercisesClick" text="Øvinger" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -84,7 +84,7 @@
                         <Insets />
                      </opaqueInsets>
                   </JFXButton>
-                  <JFXButton fx:id="btnTimebestilling" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#handleTimebestillingClick" text="Timebestilling" textFill="WHITE">
+                  <JFXButton fx:id="schedulingButton" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#handleSchedulingClick" text="Timebestilling" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -99,7 +99,7 @@
                         <Insets />
                      </opaqueInsets>
                   </JFXButton>
-                  <JFXButton fx:id="btnKalender" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#handleKalenderClick" text="Kalender" textFill="WHITE">
+                  <JFXButton fx:id="calendarButton" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#handleCalendarClick" text="Kalender" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -114,7 +114,7 @@
                         <Insets />
                      </opaqueInsets>
                   </JFXButton>
-                  <JFXButton fx:id="btnMedlemmer" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="178.0" maxWidth="1.7976931348623157E308" onAction="#handleMedlemmerClick" text="Medlemmer" textFill="WHITE">
+                  <JFXButton fx:id="membersButton" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="178.0" maxWidth="1.7976931348623157E308" onAction="#handleMembersClick" text="Medlemmer" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>

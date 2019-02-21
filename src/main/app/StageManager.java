@@ -58,6 +58,8 @@ public class StageManager {
 		stage.setScene(scene);
 		stage.setTitle(view.getTitle());
 		stage.getIcons().add(icon);
+		stage.setMinWidth(800);
+		stage.setMinHeight(600);
 		stage.sizeToScene();
 		stage.centerOnScreen();
 		
@@ -73,7 +75,7 @@ public class StageManager {
 			break;
 		
 		case MAIN_VIEW:
-			stage.setResizable(false);
+			stage.setResizable(true);
 			break;
 			
 		default:

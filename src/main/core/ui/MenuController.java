@@ -1,48 +1,71 @@
 package main.core.ui;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import main.app.Loader;
+import main.models.Course;
+import main.utils.PostInitialize;
+import main.utils.View;
 
 public class MenuController {
+	private MainController mainController;
+	
+	@FXML private Label nameLabel;
+    @FXML private Label roleLabel;
+    @FXML private JFXComboBox<Course> courseComboBox;
+    @FXML private JFXButton overviewButton;
+    @FXML private JFXButton exercisesButton;
+    @FXML private JFXButton schedulingButton;
+    @FXML private JFXButton calendarButton;
+    @FXML private JFXButton membersButton;
+    
+    
+    @FXML
+    private void initalize() {
+    	
+    }
+    
+    @PostInitialize
+    public void postInitialize() {
+    	mainController = Loader.getController(View.MAIN_VIEW);
+    }
+    
+    //// Update ////
+    
+    
+    
+    
+    
+    @FXML void handleCalendarClick(ActionEvent event) {
+//    	mainController.loadContent(View.CALENDAR_VIEW);
+    }
 
-	@FXML private JFXButton btnOversikt;
-	@FXML private JFXButton btnOvinger;
-	@FXML private JFXButton btnTimebestilling;
-	@FXML private JFXButton btnKalender;
-	@FXML private JFXButton btnMedlemmer;
-	
-	// Event handlers
-	
-	@FXML
-    void handleOversiktClick(ActionEvent event) {
-		// .. go to Oversikt
+    @FXML
+    void handleExercisesClick(ActionEvent event) {
+
     }
-	
-	@FXML
-    void handleOvingerClick(ActionEvent event) {
-		// .. go to Ovinger
-    }
-	
-	@FXML
-    void handleTimebestillingClick(ActionEvent event) {
-		// .. go to Timebestilling
-    }
-	
-	@FXML
-    void handleKalenderClick(ActionEvent event) {
-		// .. go to Kalender
-    }
-	
-	@FXML
-    void handleMedlemmerClick(ActionEvent event) {
-		// .. go to Medlemmer
-    }
-	
-	@FXML
+
+    @FXML
     void handleLogoutClick(ActionEvent event) {
-		// .. log out and go to login screen
+
     }
 
+    @FXML
+    void handleMembersClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleOverviewClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleSchedulingClick(ActionEvent event) {
+
+    }
 }
