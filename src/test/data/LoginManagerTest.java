@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import main.data.LoginManager;
+import main.db.LoginManager;
 
 public class LoginManagerTest {
 
