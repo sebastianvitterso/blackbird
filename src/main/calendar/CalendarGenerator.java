@@ -21,7 +21,7 @@ import java.util.Map;
 public class CalendarGenerator {
 	private LocalDate startOfWeek;
 	private VBox view;
-	private Map<LocalDateTime, Room> rooms = new HashMap<LocalDateTime, Room>();
+	private Map<LocalDateTime, TimeSlot> rooms = new HashMap<LocalDateTime, TimeSlot>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
 
 	public CalendarGenerator() {
@@ -36,18 +36,18 @@ public class CalendarGenerator {
 		view = new VBox(weekLabel, dayLabels, calendar);
 	}
 	private void demoOppsett() {
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8)), new Room(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8.5)), new Room(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9)), new Room(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9.5)), new Room(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10)), new Room(3,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10.5)), new Room(3,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10)), new Room(4,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10.5)), new Room(4,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11)), new Room(2,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11.5)), new Room(2,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12)), new Room(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12.5)), new Room(0,4));
+		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8)), new TimeSlot(0,4));
+		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8.5)), new TimeSlot(0,4));
+		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9)), new TimeSlot(0,4));
+		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9.5)), new TimeSlot(0,4));
+		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10)), new TimeSlot(3,4));
+		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10.5)), new TimeSlot(3,4));
+		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10)), new TimeSlot(4,4));
+		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10.5)), new TimeSlot(4,4));
+		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11)), new TimeSlot(2,4));
+		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11.5)), new TimeSlot(2,4));
+		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12)), new TimeSlot(0,4));
+		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12.5)), new TimeSlot(0,4));
 	}
 
 	private StackPaneNode createWeekLabel() {
@@ -141,14 +141,14 @@ public class CalendarGenerator {
 	}
 	public void updateCell(int x, int y) {
 		LocalDateTime cellDateTime = calculateDateTime(x,y);
-		Room room = rooms.get(cellDateTime);
+		TimeSlot room = rooms.get(cellDateTime);
 		updateStackPaneNode(stackPaneNodes[x-1][y], room, y);
 	}
 	public LocalTime localTimeOf(double hours) {
 		int minutes = (int) ((hours % 1) * 60);
 		return LocalTime.of((int) hours, minutes);
 	}
-	public void updateStackPaneNode(StackPaneNode sp, Room room, int y) {
+	public void updateStackPaneNode(StackPaneNode sp, TimeSlot room, int y) {
 		sp.getStyleClass().clear();
 		sp.getChildren().clear();
 		String text = "";
@@ -168,7 +168,7 @@ public class CalendarGenerator {
 		sp.addText(text + "(" + room.getAmountBooked() + "/" + room.getAmountAvailable() + ")", true);
 	}
 	public void AddRemoveTime(LocalDateTime dateTime, int x, int y) {
-		Room room = rooms.get(dateTime);
+		TimeSlot room = rooms.get(dateTime);
 		if (room == null)
 			return;
 		if (room.getInRoom()) {
