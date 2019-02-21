@@ -16,7 +16,7 @@ import main.db.UserManager;
 public class UserManagerTest {
 	
 	@Before
-	public void beforeTest() {
+	public void setUp() {
 		String addA = "INSERT INTO user VALUES ('dfsggrdagdsg', 'adgihOAISBfSsg8df08fgalJ', 'øISDGoinøSIDOØNG', 'KNGkgnkdøszgnk', 'sdvz@sdv.com')";
 		String addB = "INSERT INTO user VALUES ('a', 'K', 'vd', 'Df', 'a@m.no')";
 		String addC = "INSERT INTO user VALUES ('hvhjbnj', 'fzk1983HKBH81bLJB8fLjl', 'adfgfc', 'sgaerAS', 'email@d.lo')";
@@ -33,7 +33,6 @@ public class UserManagerTest {
 				DatabaseManager.sendQuery(users.get(i));
 		}
 	}
-	
 	
 	@Test
 	public void getUserTest() {
@@ -102,7 +101,7 @@ public class UserManagerTest {
 	}
 	
 	@After
-	public void afterTest() {
+	public void tearDown() {
 		String usernameA = "dfsggrdagdsg";
 		String usernameB = "a";
 		String usernameC = "hvhjbnj";
