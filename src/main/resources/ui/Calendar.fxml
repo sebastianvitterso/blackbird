@@ -13,9 +13,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1010.0" stylesheets="@calendarstyle.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController>
+<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1010.0" stylesheets="@calendarstyle.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController">
    <children>
-      <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="600.0" styleClass="calendar-header" AnchorPane.bottomAnchor="700.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="600.0" styleClass="calendar-header" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <JFXButton fx:id="todaybtn" buttonType="RAISED" ripplerFill="#9494d6c2" styleClass="btn" text="I dag" textAlignment="CENTER" textFill="WHITE">
                <HBox.margin>
