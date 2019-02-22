@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import main.models.Course;
+import main.models.Course.Role;
+import main.models.User;
 
 public class CourseManager {
 	
@@ -63,4 +65,16 @@ public class CourseManager {
 		addCourse(course.getCourseCode(), course.getName(), course.getDescription());
 	}
 	
+	
+	
+	
+	public static boolean isUserRoleInCourse(User user, Course course, Role role) {
+		String query = String.format("SELECT * FROM user_course WHERE username = '%s', course_code = '%s' and role = '%s';", 
+				user.getUsername(), course.getCourseCode(), role );
+		
+		List<Map<String,String>> result = DatabaseManager.sendQuery(query);
+		return result.size() == 1;
+		//isUserRoleInCourse(LoginManager.getActiveUser(), getCourse("TDT4140"), Role.ASSISTANT);
+		
+	}
 }
