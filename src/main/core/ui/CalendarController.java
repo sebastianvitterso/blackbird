@@ -65,13 +65,13 @@ public class CalendarController {
 		updateWeek(displayWeek);
 	}
 	
+	@FXML
+	void handlePlusBtn() {
+		
+	}
+	@FXML
+	void handleMinusBtn() {
+	}
 	
-
-	/*
-	 * @FXML void changeCBox() { weekbtn.setOnAction(new EventHandler<ActionEvent>()
-	 * {
-	 * 
-	 * @Override public void handle(ActionEvent e) { comboBox.setText("Accepted"); }
-	 * });
-	 */
+	
 }
