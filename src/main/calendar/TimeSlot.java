@@ -3,6 +3,7 @@ package main.calendar;
 import java.util.List;
 
 import main.db.LoginManager;
+import main.db.PeriodManager;
 import main.models.Period;
 import main.models.Period.PeriodType;
 
@@ -34,17 +35,31 @@ public class TimeSlot {
 	
 	// TODO: Same stuff here, Seb - fix your shit.
 	public boolean amAssistantInTimeSlot() {
-		boolean myBool = false;
 		for(Period period : periods) {
-			if ( period.getStudentUsername().equals(LoginManager.getActiveUser().getUsername()) ) {
-				myBool = true;
+			if ( period.getAssistantUsername().equals(LoginManager.getActiveUser().getUsername()) ) {
+				return true;
 			}
 		}
-		return myBool;
+		return false;
 	}
 	
-	/*
-	 * TODO: IMPLEMENT METHODS REFERENCED FROM CALENDARGENERATOR
-	 */
+	public boolean bookTimeSlot() {
+		for (Period period : periods) {
+			if(period.isOfPeriodType(PeriodType.BOOKABLE)) {
+				PeriodManager.bookPeriod(period, LoginManager.getActiveUser());
+				return true;
+			}
+		}
+		return false;
+	}
 	
+	public boolean unbookTimeSlot() {
+		for (Period period : periods) {
+			if(period.getStudentUsername() == LoginManager.getActiveUser().getUsername()) {
+				PeriodManager.bookPeriod(period, LoginManager.getActiveUser());
+				return true;
+			}
+		}
+		return false;
+	}
 }

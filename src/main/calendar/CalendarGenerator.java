@@ -22,7 +22,7 @@ import java.util.Map;
 public class CalendarGenerator {
 	private LocalDate startOfWeek;
 	private VBox view;
-	private Map<LocalDateTime, TimeSlot> rooms = new HashMap<LocalDateTime, TimeSlot>();
+	private Map<LocalDateTime, TimeSlot> timeSlots = new HashMap<LocalDateTime, TimeSlot>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
 
 	public CalendarGenerator() {
@@ -142,7 +142,7 @@ public class CalendarGenerator {
 	}
 	public void updateCell(int x, int y) {
 		LocalDateTime cellDateTime = calculateDateTime(x,y);
-		TimeSlot room = rooms.get(cellDateTime);
+		TimeSlot room = timeSlots.get(cellDateTime);
 		updateStackPaneNode(stackPaneNodes[x-1][y], room, y);
 	}
 	public LocalTime localTimeOf(double hours) {
@@ -150,39 +150,45 @@ public class CalendarGenerator {
 		return LocalTime.of((int) hours, minutes);
 	}
 	/*
-	 * TODO: IMPLEMENT REFERENCED METHODS IN TIMESLOT
+	 * Metoden under fungerer kun for student-viewet, da studenter skal se et timeSlot som 3/4
+	 * dersom det er 3 booked av 4 bookable.
+	 * 
+	 * TODO: Må sannsynligvis rettes opp når kalender-GUI kommer opp og gå. 
 	 */
-	public void updateStackPaneNode(StackPaneNode sp, TimeSlot room, int y) {
+	public void updateStackPaneNode(StackPaneNode sp, TimeSlot timeSlot, int y) {
 		sp.getStyleClass().clear();
 		sp.getChildren().clear();
 		String text = "";
-		if (room == null || room.getPeriodCountByType(PeriodType.BOOKABLE) == 0) {
+		if (timeSlot == null || timeSlot.getPeriodCountByType(PeriodType.BOOKABLE) == 0) {
 			sp.getStyleClass().add("unavailable" + (y % 2));
 			return;
-		} else if (room.getInRoom()){
+		} else if (timeSlot.amStudentInTimeSlot()){
 			sp.getStyleClass().add("selected" + (y % 2));
 			text = "Bestilt";
-		} else if (room.getAmountBooked() == room.getAmountAvailable()) {
+		} else if (timeSlot.getPeriodCountByType(PeriodType.BOOKED) == timeSlot.getPeriodCount()) { //TODO: Her vil getPeriodCount gi feil output, da den vil telle med "CREATED" periods.
 			sp.getStyleClass().add("taken" + (y % 2));
 			text = "Opptatt";
 		} else {
 			sp.getStyleClass().add("available" + (y % 2));
 			text = "Ledig";
 		}
-		sp.addText(text + "(" + room.getAmountBooked() + "/" + room.getAmountAvailable() + ")", true);
+		sp.addText(text + "(" + timeSlot.getPeriodCountByType(PeriodType.BOOKED) + "/" + timeSlot.getPeriodCount() + ")", true);
 	}
+	
+	/* 
+	 * TODO: Må testes grundig oppmot grensesnitt. 
+	 * timeSlot.getPeriodCount vil også her (som i linje ~168) gi feil svar om det finnes periods av type CREATED. 
+	 */
 	public void AddRemoveTime(LocalDateTime dateTime, int x, int y) {
-		TimeSlot room = rooms.get(dateTime);
-		if (room == null)
+		TimeSlot timeSlot = timeSlots.get(dateTime);
+		if (timeSlot == null)
 			return;
-		if (room.getInRoom()) {
-			room.setInRoom(false);
-			room.decreaseBooked();
+		if (timeSlot.amStudentInTimeSlot()) {
+			timeSlot.unbookTimeSlot();
+		} else if (timeSlot.getPeriodCountByType(PeriodType.BOOKED) == timeSlot.getPeriodCount()){
+			return;
 		} else {
-			if (room.getAmountBooked() == room.getAmountAvailable())
-				return;
-			room.setInRoom(true);
-			room.increaseBooked();
+			timeSlot.bookTimeSlot();
 		}
 		updateCell(x,y);
 	}

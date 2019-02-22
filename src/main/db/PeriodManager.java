@@ -77,26 +77,13 @@ public class PeriodManager {
 	}
 
 	/*
-	 * Books a period to a student by adding their username to the studentUsername-attribute in the database, from given strings.
-	 * Returns amount of changed lines: 1 (success) or 0 (failure).
-	 */
-	public static int bookPeriod(String assistantUsername, String courseCode, String timeStamp, String studentUsername) {
-//		int linesChanged = DatabaseManager.sendUpdate(String.format("UPDATE Customers SET student_username = '%s'"
-//				+ "WHERE assistant_username = '%s' and course_code = '%s' and timestamp = '%s';", 
-//				studentUsername, assistantUsername, courseCode, timeStamp));
-//		return linesChanged;
-		return -1; // TODO: IMPLEMENT
-	}
-
-	/*
 	 * Books a period to a student by adding their username to the studentUsername-attribute in the database, from given Period- and User-objects.
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
 	public static int bookPeriod(Period period, User student) {
-//		int linesChanged = DatabaseManager.sendUpdate(String.format("UPDATE Customers SET student_username = '%s'"
-//				+ "WHERE assistant_username = '%s' and course_code = '%s' and timestamp = '%s';", 
-//				student.getUsername(), period.getAssistantUsername(), period.getCourseCode(), period.getTimeStamp()));
-		return -1; // TODO: IMPLEMENT
+		String query = String.format("UPDATE period SET student_username = '%s' WHERE period.periodID = %s", 
+				student.getUsername(), period.getPeriodID());
+		return DatabaseManager.sendUpdate(query);
 	}
 	
 }

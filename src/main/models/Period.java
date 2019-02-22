@@ -8,6 +8,10 @@ public class Period {
 	private String assistantUsername;
 	private String studentUsername;
 	
+	/*
+	 * TODO: Skal hver period inneholde "String username" eller "User user"? 
+	 */
+	
 	public Period(int periodID, String courseCode, String timeStamp, String professorUsername, String assistantUsername, String studentUsername) {
 		this.periodID = periodID;
 		this.courseCode = courseCode;
@@ -17,8 +21,8 @@ public class Period {
 		this.studentUsername = studentUsername;
 	}
 	
-	public String getAssistantUsername() {
-		return assistantUsername;
+	public int getPeriodID() {
+		return periodID;
 	}
 	
 	public String getCourseCode() {
@@ -29,18 +33,23 @@ public class Period {
 		return timeStamp;
 	}
 	
-	public String getStudentUsername() {
-		return studentUsername;
-	}
-	
 	public String getProfessorUsername() {
 		return professorUsername;
 	}
 	
-	public int getPeriodID() {
-		return periodID;
+	public String getAssistantUsername() {
+		return assistantUsername;
 	}
 	
+	public String getStudentUsername() {
+		return studentUsername;
+	}
+	
+	/*
+	 * TODO: Hvis man i databasen sletter en user som har vært assistant i en period, så bør ikke
+	 * perioden bli borte, men både student- og assistant-koblingen bør bli satt til null. 
+	 * [Bruke triggers?]
+	 */
 	public PeriodType getPeriodType() {
 		if (( assistantUsername == null ) || ( assistantUsername == "" )) {
 			return PeriodType.CREATED;
