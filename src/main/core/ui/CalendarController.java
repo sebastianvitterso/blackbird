@@ -65,4 +65,13 @@ public class CalendarController {
 		updateWeek(displayWeek);
 	}
 	
+	@FXML
+	void handlePlusBtn() {
+		
+	}
+	@FXML
+	void handleMinusBtn() {
+	}
+	
+	
 }

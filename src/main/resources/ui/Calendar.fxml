@@ -111,6 +111,56 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
+                  <JFXButton fx:id="addStudass" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handlePlusBtn" ripplerFill="#9494d6c2" text="Denne uken" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
+                     <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                     </font>
+                     <effect>
+                        <Lighting specularConstant="1.86">
+                           <bumpInput>
+                              <Shadow height="255.0" radius="127.0" width="255.0" />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/icons8-plus-64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <StackPane.margin>
+                        <Insets right="20.0" />
+                     </StackPane.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="RemoveStudass" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleMinusBtn" ripplerFill="#9494d6c2" text="Denne uken" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
+                     <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                     </font>
+                     <effect>
+                        <Lighting specularConstant="1.86">
+                           <bumpInput>
+                              <Shadow height="255.0" radius="127.0" width="255.0" />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/icons8-minus-64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <StackPane.margin>
+                        <Insets right="70.0" />
+                     </StackPane.margin>
+                  </JFXButton>
                </children>
             </StackPane>
             <StackPane fx:id="calendarPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
