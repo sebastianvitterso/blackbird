@@ -43,9 +43,9 @@ public class CalendarController {
 		displayWeek = generator.getRelevantWeek(); 
 		updateWeek(displayWeek);
 		
-		/*HVORFOR FUNKER F*** IKKE DETTE: ( :-) )
-		 * 
-		 * if (generator.getRole() == Role.PROFESSOR) {
+		//TODO: lage en spørring for å sjekke rollen til innloggeren: 
+		//Typ: 
+		/* if (generator.getRole() == Role.PROFESSOR) {
 			removeStudass.setVisible(true);
 			addStudass.setVisible(true);
 		}*/
