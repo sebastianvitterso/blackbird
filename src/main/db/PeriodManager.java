@@ -81,10 +81,11 @@ public class PeriodManager {
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
 	public static int bookPeriod(String assistantUsername, String courseCode, String timeStamp, String studentUsername) {
-		int linesChanged = DatabaseManager.sendUpdate(String.format("UPDATE Customers SET student_username = '%s'"
-				+ "WHERE assistant_username = '%s' and course_code = '%s' and timestamp = '%s';", 
-				studentUsername, assistantUsername, courseCode, timeStamp));
-		return linesChanged;
+//		int linesChanged = DatabaseManager.sendUpdate(String.format("UPDATE Customers SET student_username = '%s'"
+//				+ "WHERE assistant_username = '%s' and course_code = '%s' and timestamp = '%s';", 
+//				studentUsername, assistantUsername, courseCode, timeStamp));
+//		return linesChanged;
+		return -1; // TODO: IMPLEMENT
 	}
 
 	/*
@@ -92,10 +93,10 @@ public class PeriodManager {
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
 	public static int bookPeriod(Period period, User student) {
-		int linesChanged = DatabaseManager.sendUpdate(String.format("UPDATE Customers SET student_username = '%s'"
-				+ "WHERE assistant_username = '%s' and course_code = '%s' and timestamp = '%s';", 
-				student.getUsername(), period.getAssistantUsername(), period.getCourseCode(), period.getTimeStamp()));
-		return linesChanged;
+//		int linesChanged = DatabaseManager.sendUpdate(String.format("UPDATE Customers SET student_username = '%s'"
+//				+ "WHERE assistant_username = '%s' and course_code = '%s' and timestamp = '%s';", 
+//				student.getUsername(), period.getAssistantUsername(), period.getCourseCode(), period.getTimeStamp()));
+		return -1; // TODO: IMPLEMENT
 	}
 	
 }

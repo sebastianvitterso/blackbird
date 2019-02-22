@@ -8,6 +8,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import main.models.Period.PeriodType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,27 +29,27 @@ public class CalendarGenerator {
 		int dayNumInWeek = LocalDate.now().getDayOfWeek().getValue();
 		startOfWeek = LocalDate.now().minusDays(dayNumInWeek - 1);
 		
-		demoOppsett(); //Byttes med f.eks lastInnInfo() når databasen er koblet til
+//		demoOppsett(); //Byttes med f.eks lastInnInfo() når databasen er koblet til
 		
 		StackPaneNode weekLabel = createWeekLabel();
 		GridPane dayLabels = createDayLabels();
 		GridPane calendar = createCalendar();
 		view = new VBox(weekLabel, dayLabels, calendar);
 	}
-	private void demoOppsett() {
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8)), new TimeSlot(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8.5)), new TimeSlot(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9)), new TimeSlot(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9.5)), new TimeSlot(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10)), new TimeSlot(3,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10.5)), new TimeSlot(3,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10)), new TimeSlot(4,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10.5)), new TimeSlot(4,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11)), new TimeSlot(2,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11.5)), new TimeSlot(2,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12)), new TimeSlot(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12.5)), new TimeSlot(0,4));
-	}
+//	private void demoOppsett() {
+//		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8)), new TimeSlot(0,4));
+//		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8.5)), new TimeSlot(0,4));
+//		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9)), new TimeSlot(0,4));
+//		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9.5)), new TimeSlot(0,4));
+//		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10)), new TimeSlot(3,4));
+//		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10.5)), new TimeSlot(3,4));
+//		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10)), new TimeSlot(4,4));
+//		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10.5)), new TimeSlot(4,4));
+//		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11)), new TimeSlot(2,4));
+//		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11.5)), new TimeSlot(2,4));
+//		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12)), new TimeSlot(0,4));
+//		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12.5)), new TimeSlot(0,4));
+//	}
 
 	private StackPaneNode createWeekLabel() {
 		// @@@@@ Legg til at den går til neste uke hvis lørdag eller søndag og på date
@@ -148,11 +149,14 @@ public class CalendarGenerator {
 		int minutes = (int) ((hours % 1) * 60);
 		return LocalTime.of((int) hours, minutes);
 	}
+	/*
+	 * TODO: IMPLEMENT REFERENCED METHODS IN TIMESLOT
+	 */
 	public void updateStackPaneNode(StackPaneNode sp, TimeSlot room, int y) {
 		sp.getStyleClass().clear();
 		sp.getChildren().clear();
 		String text = "";
-		if (room == null || room.getAmountAvailable() == 0) {
+		if (room == null || room.getPeriodCountByType(PeriodType.BOOKABLE) == 0) {
 			sp.getStyleClass().add("unavailable" + (y % 2));
 			return;
 		} else if (room.getInRoom()){

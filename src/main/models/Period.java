@@ -41,4 +41,22 @@ public class Period {
 		return periodID;
 	}
 	
+	public PeriodType getPeriodType() {
+		if (( assistantUsername == null ) || ( assistantUsername == "" )) {
+			return PeriodType.CREATED;
+		} else if (( studentUsername == null ) || ( studentUsername == "" )) {
+			return PeriodType.BOOKABLE;
+		} else {
+			return PeriodType.BOOKED;
+		}
+	}
+	
+	public boolean isOfPeriodType(PeriodType periodType) {
+		return periodType == getPeriodType();
+	}
+	
+	public enum PeriodType{
+		CREATED, BOOKABLE, BOOKED;
+	}
+	
 }
