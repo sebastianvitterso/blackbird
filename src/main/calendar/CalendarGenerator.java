@@ -104,7 +104,7 @@ public class CalendarGenerator {
 		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9.5)), new Room(0, 4));
 		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10)), new Room(3, 4));
 		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10.5)), new Room(3, 4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10)), new Room(4, 4));
+		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10)), new Room(5, 4));
 		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10.5)), new Room(4, 4));
 		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11)), new Room(2, 4));
 		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11.5)), new Room(2, 4));
@@ -252,7 +252,7 @@ public class CalendarGenerator {
 			room.setInRoom(false);
 			room.decreaseBooked();
 		} else {
-			if (room.getAmountBooked() == room.getAmountAvailable())
+			if (room.getAmountBooked() >= room.getAmountAvailable())
 				return;
 			room.setInRoom(true);
 			room.increaseBooked();
