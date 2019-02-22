@@ -69,7 +69,7 @@ public class CourseManager {
 	
 	
 	public static boolean isUserRoleInCourse(User user, Course course, Role role) {
-		String query = String.format("SELECT * FROM user_course WHERE username = '%s', course_code = '%s' and role = '%s';", 
+		String query = String.format("SELECT * FROM user_course WHERE username = '%s' AND course_code = '%s' AND role = '%s';", 
 				user.getUsername(), course.getCourseCode(), role );
 		
 		List<Map<String,String>> result = DatabaseManager.sendQuery(query);
