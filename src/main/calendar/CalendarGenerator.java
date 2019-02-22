@@ -8,6 +8,9 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import main.db.LoginManager;
+import main.models.Course;
+import main.models.Course.Role;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,6 +38,10 @@ public class CalendarGenerator {
 		GridPane calendar = createCalendar();
 		view = new VBox(dayLabels, calendar);
 	}
+	public Role getRole() {
+		//@@@@@ Skal hentes av seg selv ved senere implementasjon
+		return LoginManager.getActiveUser().getUsername().equals("bea") ? Role.STUDENT : Role.PROFESSOR; 
+	}
 	//Current week if monday-friday, else next week
 	public int getRelevantWeek() {
 		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
@@ -46,9 +53,37 @@ public class CalendarGenerator {
 		this.weeknum = weeknum;
 		startOfWeek = calculateStartOfWeek();
 		updateDayPaneNodes();
+		resetSelections();
 		updateAllCells();
 	}
-	//TODO: bug ved årendring, må fikses
+	public void resetSelections() {
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 16; y++) {
+				StackPaneNode node = stackPaneNodes[x][y];
+				node.removeFocus();
+			}
+		}
+	}
+	//Amount must be -1 or 1
+	public void changeSelectedAvailableSlots(int amount) {
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 16; y++) {
+				StackPaneNode node = stackPaneNodes[x][y];
+				if (node.isFocused()) {
+					if (rooms.get(node.getDateTime()) == null)
+						rooms.put(node.getDateTime(), new Room(0,0));
+					if (amount == 1) {
+						rooms.get(node.getDateTime()).increaseAvailable();
+					} else {
+						if(rooms.get(node.getDateTime()).getAmountAvailable() != 0)
+							rooms.get(node.getDateTime()).decreaseAvailable();	
+					}
+				}
+			}
+		}
+		updateAllCells();
+	}
+	
 	public LocalDate calculateStartOfWeek() {
 		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
 		int dayNumInWeek = LocalDate.now().getDayOfWeek().getValue();
@@ -59,6 +94,8 @@ public class CalendarGenerator {
 			return LocalDate.now().minusDays(dayNumInWeek - 1).plusDays((weeknum - thisWeekNumber) * 7);
 		}
 	}
+	
+	
 	
 	private void demoOppsett() {
 		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8)), new Room(0, 4));
@@ -197,7 +234,7 @@ public class CalendarGenerator {
 		} else if (room.getInRoom()) {
 			sp.getStyleClass().add("selected" + (y % 2));
 			text = "Bestilt";
-		} else if (room.getAmountBooked() == room.getAmountAvailable()) {
+		} else if (room.getAmountBooked() >= room.getAmountAvailable()) {
 			sp.getStyleClass().add("taken" + (y % 2));
 			text = "Opptatt";
 		} else {

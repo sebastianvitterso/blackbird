@@ -31,4 +31,10 @@ public class Room {
 	public void decreaseBooked() {
 		amountBooked--;
 	}
+	public void increaseAvailable() {
+		amountAvailable++;
+	}
+	public void decreaseAvailable() {
+		amountAvailable--;
+	}
 }

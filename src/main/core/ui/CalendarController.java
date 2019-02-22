@@ -67,10 +67,11 @@ public class CalendarController {
 	
 	@FXML
 	void handlePlusBtn() {
-		
+		generator.changeSelectedAvailableSlots(1);
 	}
 	@FXML
 	void handleMinusBtn() {
+		generator.changeSelectedAvailableSlots(-1);
 	}
 	
 	

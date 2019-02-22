@@ -38,6 +38,9 @@ public class LoginManager {
 		} else if (username.equals("bea")){
 			StageManager.loadView(View.CALENDAR_VIEW);
 //			((CalendarController) Loader.getController(View.CALENDAR_VIEW)).update();
+		} else if (username.equals("eiv")){
+			StageManager.loadView(View.CALENDAR_VIEW);
+//			((CalendarController) Loader.getController(View.CALENDAR_VIEW)).update();
 		} else {
 			StageManager.loadView(View.MAIN_VIEW);
 			((MainController) Loader.getController(View.MAIN_VIEW)).update();

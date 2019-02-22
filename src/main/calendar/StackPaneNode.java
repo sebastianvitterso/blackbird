@@ -2,8 +2,13 @@ package main.calendar;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import main.db.LoginManager;
+import main.models.Course.Role;
 
 import java.time.LocalDateTime;
 
@@ -20,10 +25,18 @@ public class StackPaneNode extends StackPane {
     public StackPaneNode(Node... children) {
         super(children);
         // Add action handler for mouse clicked
-        this.setOnMouseClicked(e -> {if (this.parent != null)this.parent.AddRemoveTime(date, x, y);});
+        this.setOnMouseClicked(e -> {onClicked();});
     }
     public void onClicked() {
-
+    	if(parent.getRole() == Role.PROFESSOR) {
+    		setFocused(!isFocused());
+    	} else {
+    		if (this.parent != null)
+        		this.parent.AddRemoveTime(date, x, y);
+    	}
+    }
+    public void removeFocus() {
+    	setFocused(false);
     }
     public void addText(String text) {
     	addText(text, false);
@@ -50,5 +63,8 @@ public class StackPaneNode extends StackPane {
     }
     public void setY(int y) {
     	this.y = y;
+    }
+    public LocalDateTime getDateTime() {
+    	return date;
     }
 }
