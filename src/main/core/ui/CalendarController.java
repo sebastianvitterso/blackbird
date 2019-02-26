@@ -28,8 +28,10 @@ public class CalendarController implements Refreshable {
 	private JFXButton removeStudass;
 	@FXML
 	private JFXButton addStudass;
-
-	CalendarGenerator generator; 
+	@FXML
+	private JFXButton refreshBtn;
+	
+	private CalendarGenerator generator; 
 	private int displayWeek; 
 	
 	@FXML
@@ -38,8 +40,12 @@ public class CalendarController implements Refreshable {
 	}
 	
 	public void showButtons() {
-		removeStudass.setVisible(true);
-		addStudass.setVisible(true);
+		if (generator.getRole() == Role.PROFESSOR) {
+			removeStudass.setVisible(true);
+			addStudass.setVisible(true);	
+		} else {
+			refreshBtn.setVisible(true);
+		}
 	}
 		
 	
@@ -49,7 +55,7 @@ public class CalendarController implements Refreshable {
 		calendarPane.getChildren().setAll(generator.getView());
 		displayWeek = generator.getRelevantWeek(); 
 		updateWeek(displayWeek);
-		if (generator.getRole() == Role.PROFESSOR)
+
 			showButtons();
 		generator.updateAllCells();
 	}
@@ -91,7 +97,10 @@ public class CalendarController implements Refreshable {
 		generator.changeWeekUpdate(displayWeek);
 		updateWeek(displayWeek);
 	}
-	
+	@FXML
+	void handleRefreshBtn() {
+		generator.updateAllCells();
+	}
 	@FXML
 	void handlePlusBtn() {
 		generator.changeSelectedAvailableSlots(1);

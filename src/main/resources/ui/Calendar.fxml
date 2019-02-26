@@ -25,7 +25,7 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
                      <children>
                         <Region HBox.hgrow="ALWAYS" />
-                        <JFXButton fx:id="left" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleLeftBtn" ripplerFill="#9494d6c2" text=" " textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                        <JFXButton fx:id="left" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleLeftBtn" ripplerFill="#9494d6c2" styleClass="menu-button" text=" " textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="System Bold Italic" size="16.0" />
                            </font>
@@ -61,7 +61,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <JFXButton fx:id="right" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleRightBtn" ripplerFill="#9494d6c2" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                        <JFXButton fx:id="right" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleRightBtn" ripplerFill="#9494d6c2" styleClass="menu-button" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="System Bold Italic" size="16.0" />
                            </font>
@@ -139,7 +139,32 @@
                         <Insets right="20.0" />
                      </StackPane.margin>
                   </JFXButton>
-                  <JFXButton fx:id="todaybtn" buttonType="RAISED" onAction="#handleTodayBtn" ripplerFill="#9494d6c2" styleClass="btn" text="Denne uken" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER_LEFT">
+                  <JFXButton fx:id="refreshBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleRefreshBtn" ripplerFill="#000000c2" styleClass="menu-button" text="refresh" textAlignment="CENTER" textFill="WHITE" visible="false" StackPane.alignment="CENTER_RIGHT">
+                     <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                     </font>
+                     <effect>
+                        <Lighting specularConstant="1.86">
+                           <bumpInput>
+                              <Shadow height="255.0" radius="127.0" width="255.0" />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/icons8-refresh-64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <StackPane.margin>
+                        <Insets right="20.0" />
+                     </StackPane.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="todaybtn" buttonType="RAISED" onAction="#handleTodayBtn" ripplerFill="#9494d6c2" styleClass="menu-button" text="Denne uken" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER_LEFT">
                      <font>
                         <Font name="System Bold Italic" size="16.0" />
                      </font>
