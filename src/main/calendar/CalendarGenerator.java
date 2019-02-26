@@ -139,22 +139,8 @@ public class CalendarGenerator {
 		}
 	}
 
-	private GridPane createLabels(String[] labelnames) {
-		GridPane dayLabels = new GridPane();
-		// dayLabels.setPrefWidth(1200);
-		Integer col = 0;
-		for (String txt : labelnames) {
-			StackPaneNode sp = new StackPaneNode();
-			sp.setPrefSize(400, 10);
-			sp.addText(txt);
-			dayLabels.add(sp, col++, 0);
-		}
-		return dayLabels;
-	}
-
 	private GridPane createCalendar() {
 		GridPane calendar = new GridPane();
-		// calendar.setPrefSize(600, 400);
 		calendar.setGridLinesVisible(true);
 
 		// Create rows and columns with anchor panes for the calendar
@@ -195,8 +181,6 @@ public class CalendarGenerator {
 		}
 
 		sp.setParent(this);
-		LocalDateTime cellDateTime = calculateDateTime(x, y);
-		sp.setDateTime(cellDateTime);
 		sp.setX(x);
 		sp.setY(y);
 
