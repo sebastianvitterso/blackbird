@@ -92,7 +92,7 @@ public class TimeSlot {
 	
 	public boolean untutorTimeSlot() {
 		for (Period period : periods) {
-			if(LoginManager.getActiveUser().getUsername().equals(period.getStudentUsername())) {
+			if(LoginManager.getActiveUser().getUsername().equals(period.getAssistantUsername())) {
 				PeriodManager.untutorPeriod(period);
 				return true;
 			}
