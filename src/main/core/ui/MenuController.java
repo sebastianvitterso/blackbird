@@ -37,6 +37,7 @@ public class MenuController implements Refreshable {
     @FXML private JFXComboBox<Course> courseComboBox;
 	
     
+    //// Initialization ////
     /**
      * Initializes every component in the user interface.
      * This method is automatically invoked when loading the corresponding FXML file.
@@ -85,9 +86,9 @@ public class MenuController implements Refreshable {
 			// Set styling
 			button.getStyleClass().add("menu-button");
 			
-//			// Disable buttons for unimplemented views
-//			if (button.getView().getPathToFXML() == null)
-//				button.setDisable(true);
+			// Disable buttons for unimplemented views
+			if (button.getView().getPathToFXML() == null)
+				button.setDisable(true);
 			
 			// Add ClickEvent handler
 			button.setOnAction(event -> handleMenuButtonClick(event));
@@ -103,11 +104,15 @@ public class MenuController implements Refreshable {
      * This method should only be invoked by the FXML Loader class.
      */
     @PostInitialize
-    public void postInitialize() {
+    private void postInitialize() {
     	mainController = Loader.getController(View.MAIN_VIEW);
     }
 	
-	
+    
+    //// Updates ////
+    /**
+	 * Updates every component in the user interface.
+	 */
 	@Override
 	public void update() {
 		User activeUser = LoginManager.getActiveUser();
@@ -120,6 +125,9 @@ public class MenuController implements Refreshable {
 			loadTab(((MenuButton) menuButtonsVBox.getChildren().get(0)).getView());
 	}
 	
+	/**
+	 * Updates user related components (Name, image and role).
+	 */
 	public void updatePersonalia(User user) {
 		// TODO: Need information about users role for given course in returned query (UserCourse-relation)
 		nameLabel.setText(user.getName());
@@ -128,6 +136,9 @@ public class MenuController implements Refreshable {
 		imageCircle.setFill(new ImagePattern(Loader.getImage("icons/silhouette.jpg")));
 	}
 	
+	/**
+	 * Updates the underlying container holding the users selectable courses.
+	 */
 	public void updateCourseComboBox(User user) {
 		// Fetch selectable courses from database for given user
 		List<Course> courses = CourseManager.getCoursesFromUser(user);
@@ -140,6 +151,9 @@ public class MenuController implements Refreshable {
 			courseComboBox.getSelectionModel().selectFirst();
 	}
 	
+	/**
+	 * Updates the buttons visible to the user based on user role.
+	 */
 	public void updateMenuButtons(User user) {
 		// In the case of admin login
 		if (user.getUsername().equals("admin")) {
@@ -156,21 +170,24 @@ public class MenuController implements Refreshable {
 	}
 	
 	
+	//// Clearing ////
+	/**
+	 * Clears every component in the user interface.
+	 */
 	@Override
 	public void clear() {
-		clearButtonSelection();
 		clearCourseComboBox();
+		clearButtonSelection();
 	}
 	
-	
-	
+	/**
+	 * Clears the list of selectable courses.
+	 */
 	private void clearCourseComboBox() {
 		courseComboBox.setPromptText("");
 		courseComboBox.getItems().clear();
 		courseComboBox.getSelectionModel().clearSelection();
 	}
-	
-
 
 	/**
 	 * Unselects buttons and reverts node styling.
@@ -204,9 +221,7 @@ public class MenuController implements Refreshable {
 	}
 	
 	
-	
 	//// Event handlers ////
-
 	void handleMenuButtonClick(ActionEvent event) {
 		// Find view
 		View view = ((MenuButton) event.getSource()).getView();

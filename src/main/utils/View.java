@@ -11,7 +11,7 @@ public enum View {
 	//// TABS ////
 	OVERVIEW_VIEW(				null, 						"ui/tabs/Overview.fxml"),
 	EXERCISES_VIEW(				null, 						null),
-	SCHEDULING_VIEW(			null, 						null),
+	SCHEDULING_VIEW(			null, 						"ui/tabs/Scheduling.fxml"),
 	MEMBERS_VIEW(				null, 						null),
 	ADMIN_VIEW(					null, 						"ui/Admin.fxml"), 
 	CALENDAR_VIEW(				null,						null),	

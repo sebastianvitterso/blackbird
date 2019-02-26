@@ -16,12 +16,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import main.app.StageManager;
 import main.db.LoginManager;
 import main.utils.Refreshable;
+import main.utils.View;
 
 public class LoginController implements Refreshable {
-	private LoginManager loginManager;
-	
 	private double xOffset;
 	private double yOffset;
 	
@@ -35,16 +35,19 @@ public class LoginController implements Refreshable {
     private FieldValidator passwordValidator;
 
     
-    public LoginController() {
-    	loginManager = new LoginManager(this);
-	}
-    
+    /**
+     * Initializes every component in the user interface.
+     * This method is automatically invoked when loading the corresponding FXML file.
+     */
     @FXML
-    void initialize() {
+    private void initialize() {
     	initializeMouseListeners();
     	initializeTextInputValidation();
     }
     
+    /**
+     * Initializes field validators for nodes accepting input from the user.
+     */
     private void initializeTextInputValidation() {
     	usernameValidator = new FieldValidator();
     	passwordValidator = new FieldValidator();
@@ -85,7 +88,10 @@ public class LoginController implements Refreshable {
             	}
             }});
 	}
-    
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void clear() {
 		usernameTextField.setText(null);
@@ -93,7 +99,10 @@ public class LoginController implements Refreshable {
 		usernameTextField.requestFocus();
 	}
 	
-	public void invalidCredentials() {
+	/**
+	 * Method to be invoked when invalid login credentials are given. Updates the state of input validators.
+	 */
+	private void invalidCredentials() {
 		usernameValidator.setError(true);
 		passwordValidator.setError(true);
 		
@@ -123,14 +132,20 @@ public class LoginController implements Refreshable {
     	String username = usernameTextField.getText();
     	String password = passwordField.getText();
     	
-    	loginManager.login(username, password);
+    	if (LoginManager.login(username, password))
+    		StageManager.loadView(View.MAIN_VIEW);
+    	else
+    		invalidCredentials();
     }
     
     @FXML
     void handleExitClick(ActionEvent event) {
     	((Stage) rootPane.getScene().getWindow()).close();
     }
-
+    
+    /**
+     * Custom implementation of {@link ValidatorBase} where errors can be triggered manually.
+     */
     private class FieldValidator extends ValidatorBase {
 
 	    public FieldValidator() {
@@ -145,6 +160,4 @@ public class LoginController implements Refreshable {
 	    	hasErrors.set(error);
 	    }
 	}
-
-	
 }

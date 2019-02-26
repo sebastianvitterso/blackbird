@@ -43,6 +43,7 @@ import main.utils.Role;
 import main.utils.View;
 
 public class AdminController implements Refreshable {
+	// FXML fields
 	@FXML private StackPane rootPane;
     @FXML private Label courseNameLabel;
     @FXML private JFXTabPane tabPane;
@@ -70,13 +71,10 @@ public class AdminController implements Refreshable {
     @FXML private JFXButton userEditButton;
     @FXML private JFXButton userDeleteButton;
     
-    // Popup controllers
+    // Controller references
     private CoursePopupController courseController;
     private UserSelectionPopupController userSelectionController;
     private UserPopupController userController;
-    
-    // Selection properties
-//    ReadOnlyObjectProperty<Course> selectedCourseProperty;
     
     // Underlying containers
     private ObservableList<Course> courses;
@@ -99,8 +97,8 @@ public class AdminController implements Refreshable {
     private IntegerBinding studentSelectionSize;
     private IntegerBinding userSelectionSize;
 	
-    //// Initialization ////
     
+    //// Initialization ////
     /**
      * Initializes every component in the user interface.
      * This method is automatically invoked when loading the corresponding FXML file.
@@ -261,7 +259,7 @@ public class AdminController implements Refreshable {
      * This method should only be invoked by the FXML Loader class.
      */
 	@PostInitialize
-    public void postInitialize() {
+    private void postInitialize() {
     	courseController = Loader.getController(View.POPUP_COURSE_VIEW);
     	userSelectionController = Loader.getController(View.POPUP_USER_SELECTION_VIEW);
     	userController = Loader.getController(View.POPUP_USER_VIEW);
@@ -269,7 +267,6 @@ public class AdminController implements Refreshable {
 	
 	
 	//// GUI Updates ////
-	
 	/**
 	 * Updates every component in the user interface.
 	 */
@@ -298,6 +295,12 @@ public class AdminController implements Refreshable {
 	 * Changes are reflected in the user interface.
 	 */
 	public void updateDescendantViews() {
+		// Update course name
+		if (selectedCourses.size() == 1)
+			courseNameLabel.setText(String.format("%s (%s)", selectedCourses.get(0).getName(), selectedCourses.get(0).getCourseCode()));
+		else
+			courseNameLabel.setText(null);
+		
     	updateViewByRole(Role.PROFESSOR);
     	updateViewByRole(Role.ASSISTANT);
     	updateViewByRole(Role.STUDENT);
@@ -356,7 +359,6 @@ public class AdminController implements Refreshable {
 	
 	
 	//// GUI Clearing ////
-	
 	/**
 	 * Clears every component in the user interface.
 	 */
@@ -415,11 +417,9 @@ public class AdminController implements Refreshable {
 	
 	
 	//// Event handlers ////
-	
 	/*
 	 * Course view
 	 */
-	
     @FXML
     void handleAddCourseClick(ActionEvent event) {
     	// Create dialog box
@@ -450,7 +450,6 @@ public class AdminController implements Refreshable {
 		CourseManager.deleteCourses(selectedCourses);
 		updateCourseView();
     }
-
     
     /*
      * Professor view
@@ -472,7 +471,6 @@ public class AdminController implements Refreshable {
 		updateViewByRole(Role.PROFESSOR);
     }
     
-    
     /*
      * Assistant view
      */
@@ -493,7 +491,6 @@ public class AdminController implements Refreshable {
 		updateViewByRole(Role.ASSISTANT);
     }
     
-    
     /*
      * Student view
      */
@@ -513,7 +510,6 @@ public class AdminController implements Refreshable {
 		UserManager.deleteUsersFromCourseGivenRole(selectedStudents, selectedCourses.get(0), Role.STUDENT);
 		updateViewByRole(Role.STUDENT);
     }
-    
     
     /*
      * User view
@@ -563,21 +559,6 @@ public class AdminController implements Refreshable {
 		// Update user list reflecting GUI in FX Application thread
 		updateUserView();
     }
-
-    
-    /*
-     * Main view
-     */
-    
-    @FXML
-    void handleExitClick(ActionEvent event) {
-    	((Stage) rootPane.getScene().getWindow()).close();
-    }
-
-    @FXML
-    void handleLogOutClick(ActionEvent event) {
-    	StageManager.loadView(View.LOGIN_VIEW);
-    }
     
     
     /**
@@ -615,6 +596,4 @@ public class AdminController implements Refreshable {
 		}
     }
 
-
-	
 }

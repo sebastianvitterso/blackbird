@@ -1,7 +1,10 @@
 package main.app;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.Iterator;
+import java.util.List;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +17,6 @@ import main.utils.View;
 
 /**
  * Class for managing transitions between different scenes in the application. 
- * @author Patrik
  */
 public class StageManager {
 	private static Stage stage;
@@ -22,9 +24,11 @@ public class StageManager {
 	private static EnumMap<View, Scene> viewToScene;
 	private static Thread loaderThread;
 	
+	
 	/**
 	 * This method must be called from FXML Application thread on startup.
 	 * @param stage - stage given by the FXML Application thread's {@code run} method.
+	 * @see Runnable
 	 */
 	protected static void initialize(Stage stage) throws IOException {
 		StageManager.stage = stage;
@@ -90,18 +94,20 @@ public class StageManager {
 	}
 	
 	/**
-	 * Returns the thread used when running the {@code Loader} class.
+	 * Returns the thread used when running the {@link Loader} class.
 	 */
 	protected static Thread getLoaderThread() {
 		return loaderThread;
 	}
 	
 	/**
-	 * Returns the {@code Scene} object associated with given {@code View}.
+	 * Returns the {@link Scene} object associated with given {@link View}.
 	 * If no scene is present, a new one is created.
 	 */
 	private static Scene prepareScene(View view) {
 		return viewToScene.computeIfAbsent(view, v -> new Scene(Loader.getParent(v)));
 	}
+	
+	
 	
 }

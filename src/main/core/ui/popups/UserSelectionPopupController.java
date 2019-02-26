@@ -61,7 +61,7 @@ public class UserSelectionPopupController implements Refreshable {
 	 * should only be invoked by the FXML Loader class.
 	 */
 	@PostInitialize
-	public void postInitialize() {
+	private void postInitialize() {
 		adminController = Loader.getController(View.ADMIN_VIEW);
 	}
 

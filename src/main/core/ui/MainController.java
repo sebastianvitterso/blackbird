@@ -23,7 +23,6 @@ import main.utils.View;
 public class MainController implements Refreshable {
 	private MenuController menuController;
 	
-	// Current tab
 	private View currentView;
 	private Region currentParent;
 	private Refreshable currentController;
@@ -40,7 +39,7 @@ public class MainController implements Refreshable {
      */
     @FXML
     private void initialize() {
-    	smoothScrolling(scrollPane);
+//    	smoothScrolling(scrollPane);
     }
     
     /**
@@ -48,7 +47,7 @@ public class MainController implements Refreshable {
      * This method should only be invoked by the FXML Loader class.
      */
     @PostInitialize
-    public void postInitialize() {
+    private void postInitialize() {
     	menuController = Loader.getController(View.MENU_VIEW);
     	menuPane.getChildren().setAll(Loader.getParent(View.MENU_VIEW));
 //    	loadTab(View.OVERVIEW_VIEW);
@@ -101,8 +100,9 @@ public class MainController implements Refreshable {
 			currentController.clear();
 	}
 	
-	
-	
+	/**
+	 * Implements custom scrolling behavior for ScrollPanes.
+	 */
 	private static void customScrolling(ScrollPane scrollPane, DoubleProperty scrollDirection, Function<Bounds, Double> sizeFunc) {
         final double[] frictions = {0.99, 0.1, 0.05, 0.04, 0.03, 0.02, 0.01, 0.04, 0.01, 0.008, 0.008, 0.008, 0.008, 0.0006, 0.0005, 0.00003, 0.00001};
         final double[] pushes = {1};
@@ -153,6 +153,9 @@ public class MainController implements Refreshable {
         timeline.setCycleCount(Animation.INDEFINITE);
     }
 
+	/**
+	 * Implements smooth scrolling behavoir for ScrollPanes.
+	 */
     public static void smoothScrolling(ScrollPane scrollPane) {
         customScrolling(scrollPane, scrollPane.vvalueProperty(), bounds -> bounds.getHeight());
     }
