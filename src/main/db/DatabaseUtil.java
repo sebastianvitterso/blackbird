@@ -1,9 +1,11 @@
 package main.db;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import main.calendar.TimeSlot;
 import main.models.Course;
 import main.models.Period;
 import main.models.User;
@@ -45,5 +47,19 @@ public class DatabaseUtil {
 			periods.add(new Period(periodID, course_code, timestamp, professor_username, assistant_username, student_username));
 		}
 		return periods;
+	}
+
+	public static Map<String, TimeSlot> PeriodsToTimeSlotMap(List<Period> periods){
+		Map<String, List<Period>> timePeriodMap = new HashMap<>();
+		for(Period period : periods) {
+			if(!timePeriodMap.containsKey(period.getTimeStamp()))
+				timePeriodMap.put(period.getTimeStamp(), new ArrayList<Period>());
+			timePeriodMap.get(period.getTimeStamp()).add(period);
+		}
+		Map<String, TimeSlot> timeSlotMap = new HashMap<>();
+		for(String timeStamp : timePeriodMap.keySet()) {
+			timeSlotMap.put(timeStamp, new TimeSlot(timePeriodMap.get(timeStamp)));
+		}
+		return timeSlotMap;
 	}
 }

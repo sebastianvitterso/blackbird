@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -83,7 +84,7 @@ public class CalendarGenerator {
 						PeriodManager.addPeriod(courseCode, time, username);
 					} else {
 						//TODO: Legg til at den sletter created først
-						List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, time);
+						List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, node.getDateTime());
 						if(periods.size() > 0)
 							PeriodManager.deletePeriod(periods.get(0));	
 					}
@@ -148,9 +149,12 @@ public class CalendarGenerator {
 	}
 
 	public void updateAllCells() {
+		LocalDateTime startOfWeekMidnight = LocalDateTime.of(startOfWeek, localTimeOf(0));
+		Map<String, TimeSlot> timeSlotMap = PeriodManager.getPeriodsFromCourseAndWeekStartTime(course, startOfWeekMidnight);
 		for (int x = 1; x <= 5; x++) {
 			for (int y = 0; y < 16; y++) {
-				updateCell(x, y);
+				String timeStamp = TimeSlot.localDateTimeToSQLDateTime(calculateDateTime(x,y));
+				updateCell(x, y, timeSlotMap.get(timeStamp));
 			}
 		}
 	}
@@ -190,8 +194,16 @@ public class CalendarGenerator {
 
 	public void updateCell(int x, int y) {
 		LocalDateTime cellDateTime = calculateDateTime(x, y);
-		timeSlots.put(cellDateTime, new TimeSlot(course, cellDateTime));
-		TimeSlot timeSlot = timeSlots.get(cellDateTime);
+		TimeSlot timeSlot = new TimeSlot(course, cellDateTime);
+		timeSlots.put(cellDateTime, timeSlot);
+		updateStackPaneNode(stackPaneNodes[x - 1][y], timeSlot, cellDateTime, y);
+	}
+	
+	public void updateCell(int x, int y, TimeSlot timeSlot) {
+		if (timeSlot == null) 
+			timeSlot = new TimeSlot(); // fix for nullPointerExceptions. 
+		LocalDateTime cellDateTime = calculateDateTime(x, y);
+		timeSlots.put(cellDateTime, timeSlot);
 		updateStackPaneNode(stackPaneNodes[x - 1][y], timeSlot, cellDateTime, y);
 	}
 

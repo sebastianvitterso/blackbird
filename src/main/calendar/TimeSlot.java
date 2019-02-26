@@ -1,6 +1,7 @@
 package main.calendar;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import main.db.LoginManager;
@@ -12,6 +13,11 @@ import main.models.Period.PeriodType;
 public class TimeSlot {
 	private List<Period> periods;
 	
+	public TimeSlot() {
+		periods = new ArrayList<Period>();
+	}
+	
+	
 	public TimeSlot(List<Period> periods) {
 		this.periods = periods;
 	}
@@ -22,8 +28,7 @@ public class TimeSlot {
 	}
 	
 	public TimeSlot(Course course, LocalDateTime localDateTime) {
-		String timestamp = localDateTimeToSQLDateTime(localDateTime);
-		List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, timestamp);
+		List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, localDateTime);
 		this.periods = periods;
 	}
 	

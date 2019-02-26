@@ -1,10 +1,12 @@
 package main.db;
 
+import java.time.LocalDateTime;
 // import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import main.calendar.TimeSlot;
 import main.models.Course;
 import main.models.Period;
 import main.models.User;
@@ -38,6 +40,24 @@ public class PeriodManager {
 		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s' and timestamp = '%s';", 
 				course.getCourseCode(), timestamp));
 		return DatabaseUtil.MapsToPeriods(periodMaps);
+	}
+	
+	public static List<Period> getPeriodsFromCourseAndTime(Course course, LocalDateTime localDateTime){
+		String timestamp = TimeSlot.localDateTimeToSQLDateTime(localDateTime);
+		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s' and timestamp = '%s';", 
+				course.getCourseCode(), timestamp));
+		return DatabaseUtil.MapsToPeriods(periodMaps);
+	}
+	
+	@SuppressWarnings("exports")
+	public static Map<String, TimeSlot> getPeriodsFromCourseAndWeekStartTime(Course course, LocalDateTime localDateTime){
+		String weekStartTimestamp = TimeSlot.localDateTimeToSQLDateTime(localDateTime);
+		String weekEndTimestamp = TimeSlot.localDateTimeToSQLDateTime(localDateTime.plusDays(7));
+		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s' and timestamp > '%s' and timestamp < '%s';", 
+				course.getCourseCode(), weekStartTimestamp, weekEndTimestamp));
+		List<Period> periodList = DatabaseUtil.MapsToPeriods(periodMaps);
+		Map<String, TimeSlot> timeSlotMap = DatabaseUtil.PeriodsToTimeSlotMap(periodList);
+		return timeSlotMap;
 	}
 	
 	
@@ -136,6 +156,5 @@ public class PeriodManager {
 		return DatabaseManager.sendUpdate(query);
 	}
 	
-
 	
 }
