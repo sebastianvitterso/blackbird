@@ -100,7 +100,7 @@ public class PeriodManager {
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
 	public static int bookPeriod(Period period, User student) {
-		String query = String.format("UPDATE period SET student_username = '%s' WHERE period.periodID = %s", 
+		String query = String.format("UPDATE period SET student_username = '%s' WHERE periodID = %s", 
 				student.getUsername(), period.getPeriodID());
 		return DatabaseManager.sendUpdate(query);
 	}
@@ -110,7 +110,7 @@ public class PeriodManager {
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
 	public static int unbookPeriod(Period period) {
-		String query = String.format("UPDATE period SET student_username = NULL WHERE period.periodID = %s",
+		String query = String.format("UPDATE period SET student_username = NULL WHERE periodID = %s",
 				period.getPeriodID());
 		return DatabaseManager.sendUpdate(query);
 	}
@@ -120,7 +120,7 @@ public class PeriodManager {
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
 	public static int tutorPeriod(Period period, User assistant) {
-		String query = String.format("UPDATE period SET student_username = '%s' WHERE period.periodID = %s", 
+		String query = String.format("UPDATE period SET assistant_username = '%s' WHERE periodID = %s", 
 				assistant.getUsername(), period.getPeriodID());
 		return DatabaseManager.sendUpdate(query);
 	}
@@ -131,7 +131,7 @@ public class PeriodManager {
 	 * TODO: What happens if you try to untutor a booked session? As of right now, 
 	 */
 	public static int untutorPeriod(Period period) {
-		String query = String.format("UPDATE period SET assistant_username = NULL, student_username = NULL WHERE period.periodID = %s",
+		String query = String.format("UPDATE period SET assistant_username = NULL, student_username = NULL WHERE periodID = %s",
 				period.getPeriodID());
 		return DatabaseManager.sendUpdate(query);
 	}
