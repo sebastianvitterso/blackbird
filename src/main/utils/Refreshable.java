@@ -22,6 +22,7 @@ public interface Refreshable {
 	 * Clears and updates the user interface.
 	 */
 	default void refresh() {
+		System.out.printf("Refreshing %s.%n", getClass().getSimpleName());
 		clear();
 		update();
 	}

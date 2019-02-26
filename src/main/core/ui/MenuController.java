@@ -65,8 +65,14 @@ public class MenuController implements Refreshable {
 		});
 		
 		// ChangeListener for courses
-//		courseComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//    	});
+		courseComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			// Update current tab
+			Refreshable controller = mainController.getCurrentController();
+			if (controller != null)
+				controller.update();
+			
+			System.out.printf("CourseChangeListener [%s -> %s]%n",  oldValue, newValue);
+    	});
 	}
 	
 	/**
