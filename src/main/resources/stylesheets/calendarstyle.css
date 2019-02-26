@@ -108,3 +108,21 @@
 	-fx-border-color: #fff; 
 	-border-radius: 6.0px;
 }
+
+
+.menu-button .jfx-rippler {
+	-jfx-rippler-fill: #979797;
+}
+
+.button:hover {
+	-fx-background-color: derive(-fx-primary, 20%);
+}
+
+.menu-button-active {
+	-fx-background-color: derive(-fx-primary, 15%);	
+}
+
+.menu-button-active:hover {
+	-fx-background-color: derive(-fx-primary, 25%);	
+}
+
