@@ -46,7 +46,7 @@ public class CalendarGenerator {
 	}
 	public Role getRole() {
 		//@@@@@ Skal hentes av seg selv ved senere implementasjon
-		return LoginManager.getActiveUser().getUsername().equals("eiv") ? Role.STUDENT : Role.ASSISTANT; 
+		return LoginManager.getActiveUser().getUsername().equals("bea") ? Role.STUDENT : Role.ASSISTANT; 
 	}
 	//Current week if monday-friday, else next week
 	public int getRelevantWeek() {
@@ -252,8 +252,9 @@ public class CalendarGenerator {
 		
 
 	}
-
+	//Updater før slik at vi har riktig data, updater etterpå for å vise riktig data etter booking/unbooking
 	public void BookUnbookTimeSlot(LocalDateTime dateTime, int x, int y) {
+		updateCell(x, y);
 		TimeSlot timeSlot = timeSlots.get(dateTime);
 		if (timeSlot.amStudentInTimeSlot()) {
 			timeSlot.unbookTimeSlot();
@@ -262,8 +263,9 @@ public class CalendarGenerator {
 		}
 		updateCell(x, y);
 	}
-	
+	//Updater før slik at vi har riktig data, updater etterpå for å vise riktig data etter tutor/untutor
 	public void TutorUntutorTimeSlot(LocalDateTime dateTime, int x, int y) {
+		updateCell(x, y);
 		TimeSlot timeSlot = timeSlots.get(dateTime);
 		if (timeSlot.amAssistantInTimeSlot()) {
 			timeSlot.untutorTimeSlot();
