@@ -29,3 +29,11 @@
 	-fx-alignment: center-left;
 	-fx-spacing: 7;
 }
+
+.jfx-button:hover {
+	-fx-background-color: #7a7a7a;
+}
+
+.logout-button:hover {
+	-fx-background-color: #4f4f4f;
+}

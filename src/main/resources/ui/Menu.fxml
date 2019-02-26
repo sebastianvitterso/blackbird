@@ -51,7 +51,7 @@
                         <Insets bottom="30.0" />
                      </VBox.margin>
                   </JFXComboBox>
-                  <JFXButton fx:id="btnOversikt" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#handleOversiktClick" text="Oversikt" textFill="WHITE">
+                  <JFXButton fx:id="btnOversikt" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#handleOversiktClick" styleClass="jfxbutton" text="Oversikt" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -139,7 +139,7 @@
                   <Insets />
                </VBox.margin>
                <children>
-                  <JFXButton alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#handleLogoutClick" text="Logg ut" textFill="#a2a2a2">
+                  <JFXButton alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#handleLogoutClick" styleClass="logout-button" text="Logg ut" textFill="#a2a2a2">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -161,8 +161,8 @@
             <Insets bottom="35.0" left="25.0" right="25.0" top="35.0" />
          </padding>
          <stylesheets>
-            <URL value="@menu_style.css" />
-            <URL value="@stylesheet.css" />
+            <URL value="@../stylesheets/menu_style.css" />
+            <URL value="@../stylesheets/stylesheet.css" />
          </stylesheets>
       </VBox>
    </children>
