@@ -69,6 +69,7 @@ public class CalendarController implements Refreshable {
 		displayWeek = calendar.getRelevantWeek(); 
 		updateWeek(displayWeek);
 		calendar.setCourse(menuController.getSelectedCourse()); // TODO: FIx this, bruv. 
+//		calendar.setCourse(CourseManager.getCourse("TDT4100")); // TODO: FIx this, bruv. 
 		calendar.setRole(calendar.getRole());
 		showButtons();
 		calendar.updateAllCells();
