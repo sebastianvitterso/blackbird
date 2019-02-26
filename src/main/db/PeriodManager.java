@@ -65,7 +65,7 @@ public class PeriodManager {
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
 	public static int addPeriod(String courseCode, String timeStamp, String professorUsername) {
-		String query = String.format("INSERT INTO period VALUES('%s', '%s', '%s', null, null);",
+		String query = String.format("INSERT INTO period VALUES(NULL, '%s', '%s', '%s', NULL, NULL);",
 				courseCode, timeStamp, professorUsername);
 		return DatabaseManager.sendUpdate(query);
 	} 
@@ -90,7 +90,7 @@ public class PeriodManager {
 		String professorUsername = period.getProfessorUsername();
 		String courseCode = period.getCourseCode();
 		String timeStamp = period.getTimeStamp();
-		String query = String.format("INSERT INTO period VALUES('%s', '%s', '%s', null, null);",
+		String query = String.format("INSERT INTO period VALUES(NULL, '%s', '%s', '%s', NULL, NULL);",
 				courseCode, timeStamp, professorUsername);
 		return DatabaseManager.sendUpdate(query);
 	}
