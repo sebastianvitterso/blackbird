@@ -121,6 +121,7 @@ public class MenuController implements Refreshable {
 	 */
 	@Override
 	public void update() {
+		System.out.println("Menu update");
 		User activeUser = LoginManager.getActiveUser();
 		updatePersonalia(activeUser);
 		updateCourseComboBox(activeUser);
@@ -155,6 +156,9 @@ public class MenuController implements Refreshable {
 		// Select first course, if present
 		if (!courseComboBox.getItems().isEmpty())
 			courseComboBox.getSelectionModel().selectFirst();
+		
+		// Fix size bug upon re-rendering
+		courseComboBox.autosize();
 	}
 	
 	/**
