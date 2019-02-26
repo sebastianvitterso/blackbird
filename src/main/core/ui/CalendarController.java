@@ -8,6 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import main.calendar.CalendarGenerator;
+import main.db.CourseManager;
+import main.db.LoginManager;
+import main.models.Course.Role;
 
 
 public class CalendarController {
@@ -23,15 +26,32 @@ public class CalendarController {
 	private JFXButton right;
 	@FXML
 	private Label weekLabel;
+	@FXML
+	private JFXButton removeStudass;
+	@FXML
+	private JFXButton addStudass;
 
-	CalendarGenerator generator = new CalendarGenerator();
-	private int displayWeek = generator.getRelevantWeek(); 
+	CalendarGenerator generator; 
+	private int displayWeek; 
+	
 	
 	@FXML
 	void initialize() {
+		generator = new CalendarGenerator();
+		
 		calendarPane.getChildren().setAll(generator.getView());
+		displayWeek = generator.getRelevantWeek(); 
 		updateWeek(displayWeek);
+		
+		//TODO: lage en spørring for å sjekke rollen til innloggeren: 
+		//Typ: 
+		/* if (generator.getRole() == Role.PROFESSOR) {
+			removeStudass.setVisible(true);
+			addStudass.setVisible(true);
+		}*/
+		
 	}
+		
 	
 	void updateWeek(int week) {
 		weekLabel.setText("Uke " + Integer.toString(week));
@@ -74,5 +94,9 @@ public class CalendarController {
 		generator.changeSelectedAvailableSlots(-1);
 	}
 	
-	
+	/*
+	 * if (CourseManager.isUserRoleInCourse(LoginManager.getActiveUser(), CourseManager.getCourse("TDT4140"), Role.ASSISTANT)) {
+			removeStudass.setVisible(true);
+			addStudass.setVisible(true);
+	 */
 }

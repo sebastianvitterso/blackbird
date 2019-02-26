@@ -252,7 +252,7 @@ public class CalendarGenerator {
 			room.setInRoom(false);
 			room.decreaseBooked();
 		} else {
-			if (room.getAmountBooked() == room.getAmountAvailable())
+			if (room.getAmountBooked() >= room.getAmountAvailable())
 				return;
 			room.setInRoom(true);
 			room.increaseBooked();

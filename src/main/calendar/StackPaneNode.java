@@ -1,5 +1,6 @@
 package main.calendar;
 
+import javafx.beans.Observable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -28,11 +29,12 @@ public class StackPaneNode extends StackPane {
         this.setOnMouseClicked(e -> {onClicked();});
     }
     public void onClicked() {
+    	if (parent == null)
+    		return;
     	if(parent.getRole() == Role.PROFESSOR) {
     		setFocused(!isFocused());
     	} else {
-    		if (this.parent != null)
-        		this.parent.AddRemoveTime(date, x, y);
+    		this.parent.AddRemoveTime(date, x, y);
     	}
     }
     public void removeFocus() {

@@ -71,24 +71,24 @@ public class UserManager {
 	}
 	
 	public static int addUsersToCourse(List<User> users, Course course, Role role) {
-		List<String> usernames = users.stream().map(User::getUsername).collect(Collectors.toList());
-		
-		String parsedUserCourseList = usernames.stream()
-				.map(username -> String.format("('%s', '%s', '%s')", 
-						username, 
+			String parsedUserCourseList = users.stream()
+				.map(user -> String.format("('%s', '%s', '%s')", 
+						user.getUsername(), 
 						course.getCourseCode(), 
 						role))
 				.collect(Collectors.joining(", ", "", ";"));
-		
 		String myQuery = String.format("INSERT INTO user_course values %s;", parsedUserCourseList);
-		System.out.printf("My query: %s%n", myQuery);
 		return DatabaseManager.sendUpdate(myQuery);
 	}
 	
-	// TODO: Implement method below
-	public static int deleteUsersFromCourse(List<User> users, Course course, Role role) {
-		System.err.println("deleteUsersFromCourse(List<User> users, Course course, Role role) not implemented! :)");
-		return -1;
+	public static int deleteUsersFromCourseGivenRole(List<User> users, Course course, Role role) {
+		List<String> usernames = users.stream().map(User::getUsername).collect(Collectors.toList());
+		String parsedUsernames = usernames.stream().collect(Collectors.joining("', '", "('", "')"));
+		String queryEnd = String.format("and course_code = '%s' and role = '%s';", course.getCourseCode(), role);
+		String query = String.format("DELETE FROM user_course WHERE username in %s %s",parsedUsernames,queryEnd);
+		System.out.printf("Query: %s%n", query);
+		return DatabaseManager.sendUpdate(query);
+		
 	}
 	
 	public static int updateUser(User user) {
