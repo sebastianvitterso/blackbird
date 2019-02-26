@@ -1,0 +1,110 @@
+* {
+	-fx-primary: #000000; 
+	-fx-available0: #FFFFFF;
+	-fx-available1: #F8F8F8;
+	-fx-selected0: #9DC183;
+	-fx-selected1: #96B97B;
+	-fx-taken0: #F63141;
+	-fx-taken1: #ED2939;
+	-fx-unavailable0: #BFBFBF;
+	-fx-unavailable1: #B8B8B8;
+	-fx-available0f: #6F6FFF;
+	-fx-available1f: #6868FF;
+	-fx-selected0f: #5DC1CF;
+	-fx-selected1f: #56B9CF;
+	-fx-taken0f: #86316F;
+	-fx-taken1f: #7D296F;
+	-fx-unavailable0f: #9F9FFF;
+	-fx-unavailable1f: #9898FF;
+	
+	-fx-fontcolor: #9E9E9E;
+}
+.header{
+    -fx-font-size: 16.0px;
+    -fx-text-alignment: center;
+    -fx-background-size: cover;
+}
+.text {
+	-fx-text-alignment: center;
+	-fx-background-color: -fx-fontcolor;
+   	-fx-font-size: 14.0px;
+}
+.text2 {
+    -fx-text-alignment: center;
+    -fx-font-size: 12.0px;
+    -fx-font-weight: bold;
+}
+.available0 {
+	-fx-background-color: -fx-available0;
+}
+.available0:focused {
+	-fx-background-color: -fx-available0f;
+}
+.available1 {
+	-fx-background-color: -fx-available1;
+}
+.available1:focused {
+	-fx-background-color: -fx-available1f;
+}
+.selected0 {
+	-fx-background-color: -fx-selected0;
+}
+.selected0:focused {
+	-fx-background-color: -fx-selected0f;
+}
+.selected1 {
+	-fx-background-color: -fx-selected1;
+}
+.selected1:focused {
+	-fx-background-color: -fx-selected1f;
+}
+.taken0 {
+	-fx-background-color: -fx-taken0;
+}
+.taken0:focused {
+	-fx-background-color: -fx-taken0f;
+}
+.taken1 {
+	-fx-background-color: -fx-taken1;
+}
+.taken1:focused {
+	-fx-background-color: -fx-taken1f;
+}
+.unavailable0 {
+	-fx-background-color: -fx-unavailable0;
+}
+.unavailable0:focused {
+	-fx-background-color: -fx-unavailable0f;
+}
+.unavailable1 {
+	-fx-background-color: -fx-unavailable1;
+}
+.unavailable1:focused {
+	-fx-background-color: -fx-unavailable1f;
+}
+
+
+
+
+.calendar-header {
+	-fx-background-color: #000000;
+}
+
+.menu-combobox {
+    -fx-prompt-text-fill: #fff;
+}
+
+.menu-combobox .text {
+    -fx-fill: #fff;    
+    -fx-font-size: 16.0px;
+}
+
+.menu-combobox .arrow-button .arrow {
+    -fx-background-color: #fff;
+}
+
+.btn {
+	-fx-border-with: 15.0px; 
+	-fx-border-color: #fff; 
+	-border-radius: 6.0px;
+}

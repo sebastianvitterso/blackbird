@@ -78,7 +78,6 @@ public class UserManager {
 						role))
 				.collect(Collectors.joining(", ", "", ";"));
 		String myQuery = String.format("INSERT INTO user_course VALUES %s;", parsedUserCourseList);
-		System.out.printf("My query: %s%n", myQuery);
 		return DatabaseManager.sendUpdate(myQuery);
 	}
 	
@@ -87,8 +86,6 @@ public class UserManager {
 		String parsedUsernames = usernames.stream().collect(Collectors.joining("', '", "('", "')"));
 		String queryEnd = String.format("AND course_code = '%s' AND role = '%s';", course.getCourseCode(), role);
 		String query = String.format("DELETE FROM user_course WHERE username IN %s %s", parsedUsernames,queryEnd);
-		System.out.println("Deleting users" + users);
-		System.out.printf("Query : %s%n", query);
 		return DatabaseManager.sendUpdate(query);
 		
 	}
