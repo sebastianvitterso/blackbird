@@ -1,4 +1,4 @@
-package main.calendar;
+ package main.calendar;
 
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -8,6 +8,14 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import main.core.ui.CalendarController;
+import main.db.CourseManager;
+import main.db.LoginManager;
+import main.db.PeriodManager;
+import main.models.Course;
+import main.models.Course.Role;
+import main.models.Period;
+import main.models.Period.PeriodType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,78 +23,124 @@ import java.time.LocalTime;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 public class CalendarGenerator {
+	private int weeknum;
 	private LocalDate startOfWeek;
 	private VBox view;
-	private Map<LocalDateTime, Room> rooms = new HashMap<LocalDateTime, Room>();
+	private Map<LocalDateTime, TimeSlot> timeSlots = new HashMap<LocalDateTime, TimeSlot>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
+	private StackPaneNode[] dayPaneNodes = new StackPaneNode[5];
+	Course course;
+	public CalendarGenerator(CalendarController controller) {
+		weeknum = getRelevantWeek();
+		startOfWeek = calculateStartOfWeek();
 
-	public CalendarGenerator() {
-		int dayNumInWeek = LocalDate.now().getDayOfWeek().getValue();
-		startOfWeek = LocalDate.now().minusDays(dayNumInWeek - 1);
+		course = CourseManager.getCourse("TDT4100");
 		
-		demoOppsett(); //Byttes med f.eks lastInnInfo() når databasen er koblet til
 		
-		StackPaneNode weekLabel = createWeekLabel();
+		if (getRole() == Role.PROFESSOR)
+			controller.showButtons();
+		
 		GridPane dayLabels = createDayLabels();
 		GridPane calendar = createCalendar();
-		view = new VBox(weekLabel, dayLabels, calendar);
+		view = new VBox(dayLabels, calendar);
 	}
-	private void demoOppsett() {
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8)), new Room(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8.5)), new Room(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9)), new Room(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9.5)), new Room(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10)), new Room(3,4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10.5)), new Room(3,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10)), new Room(4,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10.5)), new Room(4,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11)), new Room(2,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11.5)), new Room(2,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12)), new Room(0,4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12.5)), new Room(0,4));
+	public Role getRole() {
+		//@@@@@ Skal hentes av seg selv ved senere implementasjon
+		return LoginManager.getActiveUser().getUsername().equals("eiv") ? Role.STUDENT : Role.ASSISTANT; 
 	}
-
-	private StackPaneNode createWeekLabel() {
-		// @@@@@ Legg til at den går til neste uke hvis lørdag eller søndag og på date
+	//Current week if monday-friday, else next week
+	public int getRelevantWeek() {
 		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-		int weekNumber = startOfWeek.get(woy);
-
-		StackPaneNode weekLabel = new StackPaneNode();
-		weekLabel.setPrefSize(200, 10);
-		weekLabel.addText("Week " + weekNumber);
-		return weekLabel;
+		int weekNumber = LocalDate.now().plusDays(2).get(woy);
+		return weekNumber;
+	}
+	
+	public void changeWeekUpdate(int weeknum) {
+		this.weeknum = weeknum;
+		startOfWeek = calculateStartOfWeek();
+		updateDayPaneNodes();
+		resetSelections();
+		updateAllCells();
+	}
+	public void resetSelections() {
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 16; y++) {
+				stackPaneNodes[x][y].removeFocus();
+			}
+		}
+	}
+	//Amount must be -1 or 1
+	public void changeSelectedAvailableSlots(int amount) {
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 16; y++) {
+				StackPaneNode node = stackPaneNodes[x][y];
+				if (node.isFocused()) {
+					String time = TimeSlot.localDateTimeToSQLDateTime(node.getDateTime());
+					System.out.println(time);
+					if (amount == 1) {
+						String courseCode = course.getCourseCode();
+						String username = LoginManager.getActiveUser().getUsername();
+						PeriodManager.addPeriod(courseCode, time, username);
+					} else {
+						//TODO: Legg til at den sletter created først
+						List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, time);
+						if(periods.size() > 0)
+							PeriodManager.deletePeriod(periods.get(0));	
+					}
+					updateCell(x+1,y);
+				}
+			}
+		}
+	}
+	
+	public LocalDate calculateStartOfWeek() {
+		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+		int dayNumInWeek = LocalDate.now().getDayOfWeek().getValue();
+		int thisWeekNumber = LocalDate.now().get(woy);
+		if (thisWeekNumber > weeknum) {
+			return LocalDate.now().minusDays(dayNumInWeek - 1).minusDays((thisWeekNumber - weeknum) * 7);
+		} else {
+			return LocalDate.now().minusDays(dayNumInWeek - 1).plusDays((weeknum - thisWeekNumber) * 7);
+		}
 	}
 
 	private GridPane createDayLabels() {
-		//Empty string below is there to make the StackPaneNode take up as much space as the time columns
-		String[] days = new String[] {"               ", "Mon", "Tue", "Wed", "Thu", "Fri" };
-		for (int n = 1; n <= 5; n++) {
-			LocalDate dateOfWeek = startOfWeek.plusDays(n - 1);
-			days[n] += " " + dateOfWeek.getDayOfMonth() + "." + dateOfWeek.getMonthValue();
+		GridPane dayLabels = new GridPane();
+		// dayLabels.setPrefWidth(1200);
+		Integer col = 0;
+		for (int n = 0; n < 6; n++) {
+			StackPaneNode sp = new StackPaneNode();
+			sp.setPrefSize(400, 10);
+			dayLabels.add(sp, col++, 0);
+			if (n == 0) {
+				sp.addText("               ");
+				//Empty string is there to make the StackPaneNode 
+				//take up as much space as the time columns
+			} else {
+				dayPaneNodes[n-1] = sp;	
+			}
 		}
-		return createLabels(days);
+		updateDayPaneNodes();
+		return dayLabels;
 	}
 
-	private GridPane createLabels(String[] labelnames) {
-		GridPane dayLabels = new GridPane();
-		dayLabels.setPrefWidth(600);
-		Integer col = 0;
-		for (String txt : labelnames) {
-			StackPaneNode sp = new StackPaneNode();
-			sp.setPrefSize(200, 10);
-			sp.addText(txt);
-			dayLabels.add(sp, col++, 0);
+	private void updateDayPaneNodes() {
+		String[] days = new String[] {"Mon", "Tue", "Wed", "Thu", "Fri" };
+		for (int n = 0; n < 5; n++) {
+			LocalDate dateOfWeek = startOfWeek.plusDays(n);
+			days[n] += " " + dateOfWeek.getDayOfMonth() + "." + dateOfWeek.getMonthValue();
+			dayPaneNodes[n].getChildren().clear();
+			dayPaneNodes[n].addText(days[n]);
 		}
-		return dayLabels;
 	}
 
 	private GridPane createCalendar() {
 		GridPane calendar = new GridPane();
-		calendar.setPrefSize(600, 400);
 		calendar.setGridLinesVisible(true);
 
 		// Create rows and columns with anchor panes for the calendar
@@ -98,22 +152,23 @@ public class CalendarGenerator {
 		updateAllCells();
 		return calendar;
 	}
+
 	public void updateAllCells() {
 		for (int x = 1; x <= 5; x++) {
 			for (int y = 0; y < 16; y++) {
-				updateCell(x,y);
+				updateCell(x, y);
 			}
 		}
 	}
 
 	public void createCell(GridPane calendar, int x, int y) {
 		StackPaneNode sp = new StackPaneNode();
-		sp.setPrefSize(200, 200);
+		sp.setPrefSize(400, 200);
 		Border border = new Border(
 				new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0.1)));
 		sp.setBorder(border);
 		calendar.add(sp, x, y);
-		
+
 		boolean isTimeColumn = (x == 0);
 		if (isTimeColumn) {
 			// Adder tid (f.eks "8:00 - 8:30") til column
@@ -123,65 +178,107 @@ public class CalendarGenerator {
 			sp.addText(startTimeString + " - " + endTimeString);
 			sp.getStyleClass().add("available" + (y % 2));
 			return;
-		} 
+		}
 
 		sp.setParent(this);
-		LocalDateTime cellDateTime = calculateDateTime(x,y);
-		sp.setDateTime(cellDateTime);
 		sp.setX(x);
 		sp.setY(y);
-		
-		stackPaneNodes[x-1][y] = sp;
+
+		stackPaneNodes[x - 1][y] = sp;
 	}
+
 	public LocalDateTime calculateDateTime(int x, int y) {
 		double hours = 8 + y / 2.0;
 		LocalDate date = startOfWeek.plusDays(x - 1);
 		LocalTime time = localTimeOf(hours);
 		return LocalDateTime.of(date, time);
 	}
+
 	public void updateCell(int x, int y) {
-		LocalDateTime cellDateTime = calculateDateTime(x,y);
-		Room room = rooms.get(cellDateTime);
-		updateStackPaneNode(stackPaneNodes[x-1][y], room, y);
+		LocalDateTime cellDateTime = calculateDateTime(x, y);
+		timeSlots.put(cellDateTime, new TimeSlot(course, cellDateTime));
+		TimeSlot timeSlot = timeSlots.get(cellDateTime);
+		updateStackPaneNode(stackPaneNodes[x - 1][y], timeSlot, cellDateTime, y);
 	}
+
 	public LocalTime localTimeOf(double hours) {
 		int minutes = (int) ((hours % 1) * 60);
 		return LocalTime.of((int) hours, minutes);
 	}
-	public void updateStackPaneNode(StackPaneNode sp, Room room, int y) {
+
+	public void updateStackPaneNode(StackPaneNode sp, TimeSlot timeSlot, LocalDateTime dateTime, int y) {
+		sp.setDateTime(dateTime);
 		sp.getStyleClass().clear();
 		sp.getChildren().clear();
 		String text = "";
-		if (room == null || room.getAmountAvailable() == 0) {
-			sp.getStyleClass().add("unavailable" + (y % 2));
-			return;
-		} else if (room.getInRoom()){
-			sp.getStyleClass().add("selected" + (y % 2));
-			text = "Bestilt";
-		} else if (room.getAmountBooked() == room.getAmountAvailable()) {
-			sp.getStyleClass().add("taken" + (y % 2));
-			text = "Opptatt";
-		} else {
-			sp.getStyleClass().add("available" + (y % 2));
-			text = "Ledig";
-		}
-		sp.addText(text + "(" + room.getAmountBooked() + "/" + room.getAmountAvailable() + ")", true);
-	}
-	public void AddRemoveTime(LocalDateTime dateTime, int x, int y) {
-		Room room = rooms.get(dateTime);
-		if (room == null)
-			return;
-		if (room.getInRoom()) {
-			room.setInRoom(false);
-			room.decreaseBooked();
-		} else {
-			if (room.getAmountBooked() == room.getAmountAvailable())
+		Role myRole = getRole();
+		int created = timeSlot.getPeriodCountByType(PeriodType.CREATED);
+		int bookable = timeSlot.getPeriodCountByType(PeriodType.BOOKABLE);
+		int booked = timeSlot.getPeriodCountByType(PeriodType.BOOKED);
+		if (myRole == Role.STUDENT) {
+			if ((bookable + booked) == 0) {
+				sp.getStyleClass().add("unavailable" + (y % 2));
 				return;
-			room.setInRoom(true);
-			room.increaseBooked();
+			} else if (timeSlot.amStudentInTimeSlot()) {
+				sp.getStyleClass().add("selected" + (y % 2));
+				text = "Bestilt";
+			} else if (bookable == 0) {
+				sp.getStyleClass().add("taken" + (y % 2));
+				text = "Opptatt";
+			} else {
+				sp.getStyleClass().add("available" + (y % 2));
+				text = "Ledig";
+			}
+			sp.addText(text + "(" + booked + "/" + (bookable + booked) + ")", true);
+		} else if (myRole == Role.ASSISTANT) {
+			if (timeSlot.getPeriodCount() == 0) {
+				sp.getStyleClass().add("unavailable" + (y % 2));
+				return;
+			} else if (timeSlot.amAssistantInTimeSlot()) {
+				sp.getStyleClass().add("selected" + (y % 2));
+				text = "Valgt";
+			} else if (created == 0) {
+				sp.getStyleClass().add("taken" + (y % 2));
+				text = "Fullt";
+			} else {
+				sp.getStyleClass().add("available" + (y % 2));
+				text = "Ikke fullt";
+			}
+			sp.addText(text + "(" + (bookable + booked) + "/" + (bookable + booked+ created) + ")", true);
+		} else {
+			if (timeSlot.getPeriodCount() == 0) {
+				sp.getStyleClass().add("unavailable" + (y % 2));
+				return;
+			} else {
+				sp.getStyleClass().add("available" + (y % 2));
+				text = "Plasser: ";
+			}
+			sp.addText(text + timeSlot.getPeriodCount(), true);
 		}
-		updateCell(x,y);
+		
+
 	}
+
+	public void BookUnbookTimeSlot(LocalDateTime dateTime, int x, int y) {
+		TimeSlot timeSlot = timeSlots.get(dateTime);
+		if (timeSlot.amStudentInTimeSlot()) {
+			timeSlot.unbookTimeSlot();
+		} else if (timeSlot.getPeriodCountByType(PeriodType.BOOKABLE) > 0){
+			timeSlot.bookTimeSlot();
+		}
+		updateCell(x, y);
+	}
+	
+	public void TutorUntutorTimeSlot(LocalDateTime dateTime, int x, int y) {
+		TimeSlot timeSlot = timeSlots.get(dateTime);
+		if (timeSlot.amAssistantInTimeSlot()) {
+			timeSlot.untutorTimeSlot();
+		} else if(timeSlot.getPeriodCountByType(PeriodType.CREATED) > 0){
+			timeSlot.tutorTimeSlot();
+		}
+		updateCell(x, y);
+	}
+
 	public VBox getView() {
 		return view;
 	}

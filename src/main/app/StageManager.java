@@ -1,10 +1,7 @@
 package main.app;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.Iterator;
-import java.util.List;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.core.ui.CalendarController;
 import main.utils.Refreshable;
 import main.utils.View;
 
@@ -77,6 +75,9 @@ public class StageManager {
 		
 		case MAIN_VIEW:
 			stage.setResizable(true);
+			break;
+		case CALENDAR_VIEW:
+			CalendarController.reference.secondaryInit();
 			break;
 			
 		default:

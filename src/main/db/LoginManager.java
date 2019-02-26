@@ -3,10 +3,7 @@ package main.db;
 import java.util.List;
 import java.util.Map;
 
-import main.app.StageManager;
-import main.core.ui.LoginController;
 import main.models.User;
-import main.utils.View;
 
 public class LoginManager {
 	private static User activeUser;

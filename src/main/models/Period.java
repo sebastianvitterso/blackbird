@@ -8,6 +8,10 @@ public class Period {
 	private String assistantUsername;
 	private String studentUsername;
 	
+	/*
+	 * TODO: Skal hver period inneholde "String username" eller "User user"? 
+	 */
+	
 	public Period(int periodID, String courseCode, String timeStamp, String professorUsername, String assistantUsername, String studentUsername) {
 		this.periodID = periodID;
 		this.courseCode = courseCode;
@@ -17,8 +21,8 @@ public class Period {
 		this.studentUsername = studentUsername;
 	}
 	
-	public String getAssistantUsername() {
-		return assistantUsername;
+	public int getPeriodID() {
+		return periodID;
 	}
 	
 	public String getCourseCode() {
@@ -29,16 +33,34 @@ public class Period {
 		return timeStamp;
 	}
 	
-	public String getStudentUsername() {
-		return studentUsername;
-	}
-	
 	public String getProfessorUsername() {
 		return professorUsername;
 	}
 	
-	public int getPeriodID() {
-		return periodID;
+	public String getAssistantUsername() {
+		return assistantUsername;
+	}
+	
+	public String getStudentUsername() {
+		return studentUsername;
+	}
+	
+	public PeriodType getPeriodType() {
+		if (( assistantUsername == null ) || ( assistantUsername == "" )) {
+			return PeriodType.CREATED;
+		} else if (( studentUsername == null ) || ( studentUsername == "" )) {
+			return PeriodType.BOOKABLE;
+		} else {
+			return PeriodType.BOOKED;
+		}
+	}
+	
+	public boolean isOfPeriodType(PeriodType periodType) {
+		return periodType == getPeriodType();
+	}
+	
+	public enum PeriodType{
+		CREATED, BOOKABLE, BOOKED;
 	}
 	
 }
