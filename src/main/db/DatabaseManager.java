@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class DatabaseManager {
@@ -29,7 +28,7 @@ public class DatabaseManager {
 		try {
 			Class.forName(DB_DRIVER_PATH);
 			connection = DriverManager.getConnection(CONNECTION_STRING, DB_USERNAME, DB_PASSWORD);
-			IOExecutor = Executors.newCachedThreadPool();
+//			IOExecutor = Executors.newSingleThreadExecutor();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -74,6 +73,16 @@ public class DatabaseManager {
 			System.err.println("Connection failed.");
 			e.printStackTrace();
 			return 0;
+		}
+	}
+	
+	public static void closeConnection() {
+		try {
+			connection.close();
+//			System.out.println(IOExecutor.shutdownNow());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 	

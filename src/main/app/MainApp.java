@@ -11,7 +11,7 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage stage) throws IOException {
 		StageManager.initialize(stage);
-		StageManager.loadView(View.LOGIN_SCREEN);
+		StageManager.loadView(View.LOGIN_VIEW);
 	}
 
 	public static void main(String[] args) {

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import main.models.Course;
-import main.models.Course.Role;
+import main.utils.Role;
 import main.models.User;
 
 public class CourseManager {
@@ -45,10 +45,14 @@ public class CourseManager {
 		DatabaseManager.sendUpdate(String.format("INSERT INTO course VALUES('%s', '%s', '%s');", courseCode, name, description));
 	}
 	
-	public static List<Course> coursesFromUser(String username){
+	public static List<Course> getCoursesFromUser(String username){
 		String query = "SELECT * FROM course WHERE course_code IN (SELECT course_code FROM user_course WHERE username = '" + username + "')";
 		List<Map<String, String>> courseMaps = DatabaseManager.sendQuery(query);
 		return DatabaseUtil.MapsToCourses(courseMaps);
+	}
+	
+	public static List<Course> getCoursesFromUser(User user){
+		return getCoursesFromUser(user.getUsername());
 	}
 	
 	/**

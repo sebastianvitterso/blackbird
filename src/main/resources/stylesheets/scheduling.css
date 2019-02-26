@@ -1,0 +1,42 @@
+* {
+	-grey-1: #202020;
+	-grey-2: #BBBBBB;
+	-grey-3: #707070;
+	
+	-beige-1: #D6D6D6;
+	
+	-green-1: #ACCEB9;
+	-green-2: #006110;
+	
+	-red-1: #CEACAC;
+	-red-2: #7E0000;
+}
+
+@font-face {
+	src: url("/resources/fonts/segoe-ui-semibold.ttf");
+	src: url("/resources/fonts/segoeui.ttf");
+}
+
+
+.background {
+	-fx-background-color: -beige-1;
+}
+
+.header-label {
+	-fx-font: normal 24px "Segoe UI Semibold";
+	-fx-text-fill: -grey-1;
+}
+
+.breadtext {	
+	-fx-font: normal 14px "Segoe UI";
+	-fx-text-fill: -grey-1;
+}
+
+.infotext {	
+	-fx-font: normal 14px "Segoe UI";
+	-fx-text-fill: -grey-3;
+}
+
+.header-separator {
+	-fx-background-color: -grey-1;
+}

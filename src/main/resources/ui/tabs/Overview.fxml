@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefWidth="1010.0" styleClass="background" stylesheets="@../../stylesheets/overview.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.OverviewController">
+   <children>
+      <HBox spacing="50.0">
+         <children>
+            <VBox spacing="70.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox>
+                     <children>
+                        <Label styleClass="header-label" text="Faglig beskrivelse">
+                           <effect>
+                              <DropShadow color="#bbbbbb" height="5.0" radius="2.0" spread="0.7" width="5.0" />
+                           </effect>
+                        </Label>
+                        <Separator styleClass="header-separator" />
+                        <Label styleClass="breadtext" text="Lorem ipsum dolor sit amet, qui ut docendi vivendum splendide, oblique phaedrum referrentur duo ne, eum adolescens intellegebat no. Qui ne ipsum assum aperiri, unum justo detraxit eos ex. Et salutatus scribentur sea. Per ei quem interesset, sed tantas nusquam quaerendum et. Meis habemus mandamus nam ea.&#10;&#10;Habeo legere blandit his in. Ex sea lorem ridens. Eu eos mandamus periculis definitiones, postea ornatus usu ne. In natum error pri, an mutat reprimique eam. Ei nibh mazim placerat ius. Mei omittam facilisi postulant no, ut sit vidit omnes. Falli dolorem oportere an per." wrapText="true">
+                           <VBox.margin>
+                              <Insets left="10.0" top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0">
+                     <children>
+                        <Label styleClass="header-label" text="Kunngjøringer">
+                           <effect>
+                              <DropShadow color="#bbbbbb" height="5.0" radius="2.0" spread="0.7" width="5.0" />
+                           </effect>
+                        </Label>
+                        <Separator styleClass="header-separator" />
+                        <Label maxHeight="-Infinity" minHeight="-Infinity" styleClass="breadtext" text="Lorem ipsum dolor sit amet, qui ut docendi vivendum splendide, oblique phaedrum referrentur duo ne, eum adolescens intellegebat no. Qui ne ipsum assum aperiri, unum justo detraxit eos ex. Et salutatus scribentur sea. Per ei quem interesset, sed tantas nusquam quaerendum et. Meis habemus mandamus nam ea.&#10;&#10;Habeo legere blandit his in. Ex sea lorem ridens. Eu eos mandamus periculis definitiones, postea ornatus usu ne. In natum error pri, an mutat reprimique eam. Ei nibh mazim placerat ius. Mei omittam facilisi postulant no, ut sit vidit omnes. Falli dolorem oportere an per.Lorem ipsum dolor sit amet, qui ut docendi vivendum splendide, oblique phaedrum referrentur duo ne, eum adolescens intellegebat no. Qui ne ipsum assum aperiri, unum justo detraxit eos ex. Et salutatus scribentur sea. Per ei quem interesset, sed tantas nusquam quaerendum et. Meis habemus mandamus nam ea.&#10;" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="10.0" top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" minWidth="-Infinity" prefWidth="270.0" spacing="70.0">
+               <children>
+                  <VBox>
+                     <children>
+                        <Label styleClass="header-label" text="Innleveringer">
+                           <effect>
+                              <DropShadow color="#bbbbbb" height="5.0" radius="2.0" spread="0.7" width="5.0" />
+                           </effect>
+                        </Label>
+                        <Separator styleClass="header-separator" />
+                        <Label styleClass="breadtext" text="Lorem ipsum dolor sit amet, qui ut docendi vivendum splendide, oblique phaedrum referrentur duo ne, eum adolescens intellegebat no. Qui ne ipsum assum aperiri, unum justo detraxit eos ex. &#10;&#10;Et salutatus scribentur sea. Per ei quem interesset, sed tantas nusquam quaerendum et. Meis habemus mandamus nam ea.&#10;" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="10.0" top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+         <StackPane.margin>
+            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+         </StackPane.margin>
+      </HBox>
+   </children>
+</StackPane>

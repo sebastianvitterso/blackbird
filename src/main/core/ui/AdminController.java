@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
@@ -35,15 +36,17 @@ import main.core.ui.popups.UserSelectionPopupController;
 import main.db.CourseManager;
 import main.db.UserManager;
 import main.models.Course;
-import main.models.Course.Role;
 import main.models.User;
-import main.utils.Clearable;
 import main.utils.PostInitialize;
+import main.utils.Refreshable;
+import main.utils.Role;
 import main.utils.View;
 
-public class AdminController implements Clearable {
+public class AdminController implements Refreshable {
+	// FXML fields
 	@FXML private StackPane rootPane;
     @FXML private Label courseNameLabel;
+    @FXML private JFXTabPane tabPane;
 
     @FXML private JFXListView<Course> courseListView;
     @FXML private JFXListView<User> professorListView;
@@ -68,13 +71,10 @@ public class AdminController implements Clearable {
     @FXML private JFXButton userEditButton;
     @FXML private JFXButton userDeleteButton;
     
-    // Popup controllers
+    // Controller references
     private CoursePopupController courseController;
     private UserSelectionPopupController userSelectionController;
     private UserPopupController userController;
-    
-    // Selection properties
-//    ReadOnlyObjectProperty<Course> selectedCourseProperty;
     
     // Underlying containers
     private ObservableList<Course> courses;
@@ -97,8 +97,8 @@ public class AdminController implements Clearable {
     private IntegerBinding studentSelectionSize;
     private IntegerBinding userSelectionSize;
 	
-    //// Initialization ////
     
+    //// Initialization ////
     /**
      * Initializes every component in the user interface.
      * This method is automatically invoked when loading the corresponding FXML file.
@@ -248,6 +248,10 @@ public class AdminController implements Clearable {
     	
     	// Bind user 'delete' button to being disabled when no user is selected.
     	userDeleteButton.disableProperty().bind(userSelectionSize.isEqualTo(0));
+    	
+    	// Dynamic tab resizing
+    	tabPane.tabMinWidthProperty().bind(rootPane.widthProperty().subtract(10).divide(2));
+    	tabPane.tabMaxWidthProperty().bind(rootPane.widthProperty().subtract(10).divide(2));    	
 	}
 	
 	/**
@@ -255,7 +259,7 @@ public class AdminController implements Clearable {
      * This method should only be invoked by the FXML Loader class.
      */
 	@PostInitialize
-    public void postInitialize() {
+    private void postInitialize() {
     	courseController = Loader.getController(View.POPUP_COURSE_VIEW);
     	userSelectionController = Loader.getController(View.POPUP_USER_SELECTION_VIEW);
     	userController = Loader.getController(View.POPUP_USER_VIEW);
@@ -263,10 +267,10 @@ public class AdminController implements Clearable {
 	
 	
 	//// GUI Updates ////
-	
 	/**
 	 * Updates every component in the user interface.
 	 */
+	@Override
 	public void update() {
 		updateCourseView();
 		updateDescendantViews();
@@ -282,7 +286,7 @@ public class AdminController implements Clearable {
 		List<Course> courseList = CourseManager.getCourses();
 		
 		// Update course list via FX Application thread
-		courseListView.getItems().setAll(courseList);
+		courses.setAll(courseList);
 		courseListView.getSelectionModel().clearSelection();
     }
 	
@@ -291,6 +295,12 @@ public class AdminController implements Clearable {
 	 * Changes are reflected in the user interface.
 	 */
 	public void updateDescendantViews() {
+		// Update course name
+		if (selectedCourses.size() == 1)
+			courseNameLabel.setText(String.format("%s (%s)", selectedCourses.get(0).getName(), selectedCourses.get(0).getCourseCode()));
+		else
+			courseNameLabel.setText(null);
+		
     	updateViewByRole(Role.PROFESSOR);
     	updateViewByRole(Role.ASSISTANT);
     	updateViewByRole(Role.STUDENT);
@@ -349,7 +359,6 @@ public class AdminController implements Clearable {
 	
 	
 	//// GUI Clearing ////
-	
 	/**
 	 * Clears every component in the user interface.
 	 */
@@ -365,7 +374,7 @@ public class AdminController implements Clearable {
 	 * Changes are reflected in the user interface.
 	 */
 	public void clearCourseView() {
-		courseListView.getItems().clear();
+		courses.clear();
     }
 
 	/**
@@ -385,15 +394,15 @@ public class AdminController implements Clearable {
 	public void clearViewByRole(Role role) {
 		switch (role) {
 		case PROFESSOR:
-			professorListView.getItems().clear();
+			professors.clear();
 			break;
 		
 		case ASSISTANT:
-			assistantListView.getItems().clear();
+			assistants.clear();
 			break;
 		
 		case STUDENT:
-			studentListView.getItems().clear();
+			students.clear();
 			break;
 		}
 	}
@@ -408,11 +417,9 @@ public class AdminController implements Clearable {
 	
 	
 	//// Event handlers ////
-	
 	/*
 	 * Course view
 	 */
-	
     @FXML
     void handleAddCourseClick(ActionEvent event) {
     	// Create dialog box
@@ -442,9 +449,7 @@ public class AdminController implements Clearable {
     void handleDeleteCourseClick(ActionEvent event) {
 		CourseManager.deleteCourses(selectedCourses);
 		updateCourseView();
-
     }
-
     
     /*
      * Professor view
@@ -466,7 +471,6 @@ public class AdminController implements Clearable {
 		updateViewByRole(Role.PROFESSOR);
     }
     
-    
     /*
      * Assistant view
      */
@@ -487,7 +491,6 @@ public class AdminController implements Clearable {
 		updateViewByRole(Role.ASSISTANT);
     }
     
-    
     /*
      * Student view
      */
@@ -507,7 +510,6 @@ public class AdminController implements Clearable {
 		UserManager.deleteUsersFromCourseGivenRole(selectedStudents, selectedCourses.get(0), Role.STUDENT);
 		updateViewByRole(Role.STUDENT);
     }
-    
     
     /*
      * User view
@@ -557,26 +559,10 @@ public class AdminController implements Clearable {
 		// Update user list reflecting GUI in FX Application thread
 		updateUserView();
     }
-
-    
-    /*
-     * Main view
-     */
-    
-    @FXML
-    void handleExitClick(ActionEvent event) {
-    	((Stage) rootPane.getScene().getWindow()).close();
-    }
-
-    @FXML
-    void handleLogOutClick(ActionEvent event) {
-    	StageManager.loadView(View.LOGIN_SCREEN);
-    }
     
     
     /**
      * Class used internally by TreeTableView for representing users.
-     * @author Patrik
      */
     public class RecursiveTreeUser extends RecursiveTreeObject<RecursiveTreeUser> {
     	private final StringProperty firstName, lastName, email, username, password;
@@ -610,6 +596,4 @@ public class AdminController implements Clearable {
 		}
     }
 
-
-	
 }

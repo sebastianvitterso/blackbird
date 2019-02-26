@@ -2,168 +2,144 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="270.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="270.0" styleClass="menu-background" stylesheets="@../stylesheets/menu.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.MenuController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="75.0" layoutY="277.0" prefHeight="200.0" prefWidth="100.0" styleClass="menu" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox>
          <children>
-            <VBox alignment="CENTER" spacing="4.0">
+            <StackPane>
                <children>
-                  <ImageView fitHeight="110.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@hedgehog.png" />
-                     </image>
-                     <effect>
-                        <GaussianBlur radius="7.6" />
-                     </effect>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </ImageView>
-                  <Label styleClass="menu-text" text="Ola Nordmann" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font size="21.0" />
-                     </font>
-                  </Label>
-                  <Label text="Student" textFill="#a1a1a1" wrapText="true">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
+                  <Circle fx:id="imageCircle" fill="DODGERBLUE" radius="60.0" stroke="#707070" strokeType="INSIDE" strokeWidth="2.0">
+                     <StackPane.margin>
+                        <Insets top="40.0" />
+                     </StackPane.margin>
+                  </Circle>
                </children>
+            </StackPane>
+            <Label fx:id="nameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="name-label" text="Ola Normann">
                <VBox.margin>
-                  <Insets bottom="30.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
-            </VBox>
-            <VBox spacing="4.0">
+            </Label>
+            <Label fx:id="roleLabel" alignment="CENTER" layoutX="10.0" layoutY="130.0" maxWidth="1.7976931348623157E308" styleClass="role-label" text="Student" textFill="#797979">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Label>
+            <JFXComboBox fx:id="courseComboBox" maxWidth="1.7976931348623157E308" promptText="Programvareutvikling" styleClass="course-combobox">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="40.0" right="40.0" top="15.0" />
+               </VBox.margin>
+            </JFXComboBox>
+            <VBox fx:id="menuButtonsVBox">
                <children>
-                  <JFXComboBox fx:id="cboEmne" focusColor="WHITE" maxWidth="1.7976931348623157E308" promptText="Velg emne" styleClass="menu-combobox" unFocusColor="WHITE">
-                     <VBox.margin>
-                        <Insets bottom="30.0" />
-                     </VBox.margin>
-                  </JFXComboBox>
-                  <JFXButton fx:id="btnOversikt" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#handleOversiktClick" styleClass="jfxbutton" text="Oversikt" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
+                  <JFXButton graphicTextGap="10.0" maxWidth="1.7976931348623157E308" prefHeight="35.0" styleClass="menu-button" text="Oversikt" textFill="#b5b5b5">
                      <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0">
                            <image>
-                              <Image url="@../icons/home.png" />
+                              <Image url="@../icons/overview.png" />
                            </image>
                         </ImageView>
                      </graphic>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
                   </JFXButton>
-                  <JFXButton fx:id="btnOvinger" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#handleOvingerClick" text="Øvinger" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
+                  <JFXButton graphicTextGap="10.0" maxWidth="1.7976931348623157E308" prefHeight="35.0" styleClass="menu-button" text="Øvinger" textFill="#b5b5b5">
                      <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0">
                            <image>
-                              <Image url="@../icons/oving.png" />
+                              <Image url="@../icons/exercises.png" />
+                           </image>
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </JFXButton>
+                  <JFXButton graphicTextGap="10.0" maxWidth="1.7976931348623157E308" prefHeight="35.0" styleClass="menu-button" text="Timebestilling" textFill="#b5b5b5">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0">
+                           <image>
+                              <Image url="@../icons/scheduling.png" />
                            </image>
                         </ImageView>
                      </graphic>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
                   </JFXButton>
-                  <JFXButton fx:id="btnTimebestilling" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#handleTimebestillingClick" text="Timebestilling" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
+                  <JFXButton graphicTextGap="10.0" maxWidth="1.7976931348623157E308" prefHeight="35.0" styleClass="menu-button" text="Medlemmer" textFill="#b5b5b5">
                      <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/clock.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </JFXButton>
-                  <JFXButton fx:id="btnKalender" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#handleKalenderClick" text="Kalender" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icons/calendar.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </JFXButton>
-                  <JFXButton fx:id="btnMedlemmer" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="178.0" maxWidth="1.7976931348623157E308" onAction="#handleMedlemmerClick" text="Medlemmer" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0">
                            <image>
                               <Image url="@../icons/members.png" />
                            </image>
                         </ImageView>
                      </graphic>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
                   </JFXButton>
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </VBox>
-            <VBox alignment="BOTTOM_CENTER" prefHeight="214.0" prefWidth="254.0" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <children>
-                  <JFXButton alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" onAction="#handleLogoutClick" styleClass="logout-button" text="Logg ut" textFill="#a2a2a2">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
+                  <JFXButton disable="true" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" prefHeight="35.0" styleClass="menu-button" text="Administrer" textFill="#b5b5b5">
                      <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0">
                            <image>
-                              <Image url="@../icons/logout.png" />
+                              <Image url="@../icons/admin.png" />
                            </image>
                         </ImageView>
                      </graphic>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </JFXButton>
+                  <JFXButton disable="true" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" prefHeight="35.0" styleClass="menu-button" text="Kalender" textFill="#b5b5b5">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0">
+                           <image>
+                              <Image url="@../icons/calendar.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
                   </JFXButton>
                </children>
             </VBox>
+            <Region VBox.vgrow="ALWAYS" />
+            <JFXButton alignment="BASELINE_LEFT" layoutX="10.0" layoutY="337.0" maxWidth="1.7976931348623157E308" onAction="#handleLogOutClick" opacity="0.5" prefHeight="35.0" text="Logg ut" textFill="#b5b5b5">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0">
+                     <image>
+                        <Image url="@../icons/logout.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </JFXButton>
          </children>
-         <padding>
-            <Insets bottom="35.0" left="25.0" right="25.0" top="35.0" />
-         </padding>
-         <stylesheets>
-            <URL value="@../stylesheets/menu_style.css" />
-            <URL value="@../stylesheets/stylesheet.css" />
-         </stylesheets>
       </VBox>
    </children>
-</AnchorPane>
+</StackPane>

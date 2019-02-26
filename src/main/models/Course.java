@@ -35,7 +35,5 @@ public class Course {
 		return getCourseCode();
 	}
 
-	public enum Role {
-		PROFESSOR, ASSISTANT, STUDENT;
-	}
+	
 }

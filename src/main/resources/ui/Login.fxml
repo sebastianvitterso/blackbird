@@ -8,14 +8,15 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="270.0" styleClass="login-screen" stylesheets="@../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.LoginController">
+
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="270.0" styleClass="login-screen" stylesheets="@../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.LoginController">
    <children>
-      <VBox alignment="CENTER" layoutX="101.0" layoutY="67.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" spacing="10.0">
          <children>
             <HBox alignment="CENTER" layoutX="10.0" layoutY="88.0" spacing="5.0">
                <children>
@@ -49,7 +50,8 @@
                   <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #FFFFFF;">
                      <image>
                         <Image url="@../icons/user.png" />
-                     </image></ImageView>
+                     </image>
+                  </ImageView>
                   <JFXTextField fx:id="usernameTextField" labelFloat="true" prefHeight="29.0" prefWidth="150.0" promptText="Brukernavn" styleClass="login-input-fields" />
                </children>
                <VBox.margin>
@@ -87,4 +89,4 @@
          </children>
       </VBox>
    </children>
-</AnchorPane>
+</StackPane>
