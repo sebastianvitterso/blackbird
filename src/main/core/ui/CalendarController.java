@@ -8,7 +8,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import main.app.Loader;
 import main.calendar.Calendar;
-import main.db.CourseManager;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Role;

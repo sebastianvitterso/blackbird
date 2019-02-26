@@ -1,4 +1,4 @@
- package main.calendar;
+package main.calendar;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,36 +28,33 @@ import main.models.User;
 import main.utils.Role;
 
 public class Calendar {
-	private int weeknum;
-	private LocalDate startOfWeek;
+	private static int weeknum;
+	private static LocalDate startOfWeek;
 	private VBox view;
 	private Map<LocalDateTime, TimeSlot> timeSlots = new HashMap<LocalDateTime, TimeSlot>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
 	private StackPaneNode[] dayPaneNodes = new StackPaneNode[5];
-	private Course course;
+	private static Course course;
 	private Role role;
 	
 	public Calendar() {
 		weeknum = getRelevantWeek();
 		startOfWeek = calculateStartOfWeek();
-
-//		course = CourseManager.getCourse("TDT4100");
 		course = null;
 		role = null;
-		
+
 		GridPane dayLabels = createDayLabels();
-		GridPane calendar = createCalendar();
+		GridPane calendar = createCalendarGridPane();
 		view = new VBox(dayLabels, calendar);
 	}
 	
 	public void setCourse(Course course) {
-		this.course = course;
+		Calendar.course = course;
 	}
 	
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
 	
 	public void updateCell(int x, int y) {
 		LocalDateTime cellDateTime = calculateDateTime(x, y);
@@ -86,7 +83,7 @@ public class Calendar {
 		}
 	}
 	
-	public Role getRole() {
+	public static Role getRole() {
 		User activeUser = LoginManager.getActiveUser();
 		if(CourseManager.isUserRoleInCourse(activeUser, course, Role.PROFESSOR))
 			return Role.PROFESSOR;
@@ -98,17 +95,8 @@ public class Calendar {
 			return null;
 	}
 	
-	/*
-	 * Current week if monday-friday, else next week
-	 */
-	public int getRelevantWeek() {
-		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-		int weekNumber = LocalDate.now().plusDays(2).get(woy);
-		return weekNumber;
-	}
-	
 	public void changeWeekUpdate(int weeknum) {
-		this.weeknum = weeknum;
+		Calendar.weeknum = weeknum;
 		startOfWeek = calculateStartOfWeek();
 		updateDayPaneNodes();
 		resetSelections();
@@ -148,17 +136,6 @@ public class Calendar {
 		}
 	}
 	
-	public LocalDate calculateStartOfWeek() {
-		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-		int dayNumInWeek = LocalDate.now().getDayOfWeek().getValue();
-		int thisWeekNumber = LocalDate.now().get(woy);
-		if (thisWeekNumber > weeknum) {
-			return LocalDate.now().minusDays(dayNumInWeek - 1).minusDays((thisWeekNumber - weeknum) * 7);
-		} else {
-			return LocalDate.now().minusDays(dayNumInWeek - 1).plusDays((weeknum - thisWeekNumber) * 7);
-		}
-	}
-
 	private GridPane createDayLabels() {
 		GridPane dayLabels = new GridPane();
 		Integer col = 0;
@@ -190,17 +167,17 @@ public class Calendar {
 		}
 	}
 
-	private GridPane createCalendar() {
-		GridPane calendar = new GridPane();
-		calendar.setGridLinesVisible(true);
+	private GridPane createCalendarGridPane() {
+		GridPane calendarGridPane = new GridPane();
+		calendarGridPane.setGridLinesVisible(true);
 
 		// Create rows and columns with anchor panes for the calendar
 		for (int x = 0; x <= 5; x++) {
 			for (int y = 0; y < 16; y++) {
-				createCell(calendar, x, y);
+				createCell(calendarGridPane, x, y);
 			}
 		}
-		return calendar;
+		return calendarGridPane;
 	}
 
 	public void createCell(GridPane calendar, int x, int y) {
@@ -221,24 +198,10 @@ public class Calendar {
 			sp.getStyleClass().add("available" + (y % 2));
 			return;
 		}
-
 		sp.setParent(this);
 		sp.setX(x);
 		sp.setY(y);
-
 		stackPaneNodes[x - 1][y] = sp;
-	}
-
-	public LocalDateTime calculateDateTime(int x, int y) {
-		double hours = 8 + y / 2.0;
-		LocalDate date = startOfWeek.plusDays(x - 1);
-		LocalTime time = localTimeOf(hours);
-		return LocalDateTime.of(date, time);
-	}
-
-	public LocalTime localTimeOf(double hours) {
-		int minutes = (int) ((hours % 1) * 60);
-		return LocalTime.of((int) hours, minutes);
 	}
 
 	public void updateStackPaneNode(StackPaneNode sp, TimeSlot timeSlot, LocalDateTime dateTime, int y) {
@@ -289,10 +252,11 @@ public class Calendar {
 			}
 			sp.addText(text + timeSlot.getPeriodCount(), true);
 		}
-		
-
 	}
-	//Updater før slik at vi har riktig data, updater etterpå for å vise riktig data etter booking/unbooking
+	
+	/*
+	 * Updater før slik at vi har riktig data, updater etterpå for å vise riktig data etter booking/unbooking
+	 */
 	public void BookUnbookTimeSlot(LocalDateTime dateTime, int x, int y) {
 		updateCell(x, y);
 		TimeSlot timeSlot = timeSlots.get(dateTime);
@@ -303,7 +267,10 @@ public class Calendar {
 		}
 		updateCell(x, y);
 	}
-	//Updater før slik at vi har riktig data, updater etterpå for å vise riktig data etter tutor/untutor
+	
+	/*
+	 * Updater før slik at vi har riktig data, updater etterpå for å vise riktig data etter tutor/untutor
+	 */
 	public void TutorUntutorTimeSlot(LocalDateTime dateTime, int x, int y) {
 		updateCell(x, y);
 		TimeSlot timeSlot = timeSlots.get(dateTime);
@@ -318,4 +285,37 @@ public class Calendar {
 	public VBox getView() {
 		return view;
 	}
+
+	public static LocalDate calculateStartOfWeek() {
+		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+		int dayNumInWeek = LocalDate.now().getDayOfWeek().getValue();
+		int thisWeekNumber = LocalDate.now().get(woy);
+		if (thisWeekNumber > weeknum) {
+			return LocalDate.now().minusDays(dayNumInWeek - 1).minusDays((thisWeekNumber - weeknum) * 7);
+		} else {
+			return LocalDate.now().minusDays(dayNumInWeek - 1).plusDays((weeknum - thisWeekNumber) * 7);
+		}
+	}
+
+	public static LocalDateTime calculateDateTime(int x, int y) {
+		double hours = 8 + y / 2.0;
+		LocalDate date = startOfWeek.plusDays(x - 1);
+		LocalTime time = localTimeOf(hours);
+		return LocalDateTime.of(date, time);
+	}
+	
+	public static LocalTime localTimeOf(double hours) {
+		int minutes = (int) ((hours % 1) * 60);
+		return LocalTime.of((int) hours, minutes);
+	}
+	
+	/*
+	 * Current week if monday-friday, else next week
+	 */
+	public static int getRelevantWeek() {
+		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+		int weekNumber = LocalDate.now().plusDays(2).get(woy);
+		return weekNumber;
+	}
+	
 }
