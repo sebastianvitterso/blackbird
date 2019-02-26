@@ -1,5 +1,6 @@
 package main.db;
 
+// import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,12 +29,12 @@ public class PeriodManager {
 	/*
 	 * Returns a list of all periods in a course given a Course-object.
 	 */
-	public static List<Period> getPeriodsFromCourseCode(Course course){
+	public static List<Period> getPeriodsFromCourse(Course course){
 		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s';", course.getCourseCode()));
 		return DatabaseUtil.MapsToPeriods(periodMaps);
 	}
 	
-	public static List<Period> getPeriodsFromCourseCodeAndTime(Course course, String timestamp){
+	public static List<Period> getPeriodsFromCourseAndTime(Course course, String timestamp){
 		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s' and timestamp = '%s';", 
 				course.getCourseCode(), timestamp));
 		return DatabaseUtil.MapsToPeriods(periodMaps);
@@ -69,6 +70,18 @@ public class PeriodManager {
 		return DatabaseManager.sendUpdate(query);
 	} 
 	
+//	Søppelfunksjon, trengs ikke. 
+//	/*
+//	 * Adds periods to database, given argument strings and localDateTimes.
+//	 * Returns amount of changed lines: 1 (success) or 0 (failure).
+//	 */
+//	public static int addPeriods(String courseCode, String professorUsername, List<LocalDateTime> localDateTimes) {
+//		List<String> timeStamps = localDateTimes.stream().map(LocalDateTime::toString).collect(Collectors.toList());
+//		String query = String.format("INSERT INTO period VALUES('%s', '%s', '%s', null, null);",
+//				courseCode, timeStamp, professorUsername);
+//		return DatabaseManager.sendUpdate(query);
+//	} 
+	
 	/*
 	 * Adds period to database, given Period-object.
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
@@ -91,5 +104,38 @@ public class PeriodManager {
 				student.getUsername(), period.getPeriodID());
 		return DatabaseManager.sendUpdate(query);
 	}
+
+	/*
+	 * Unbooks a period from a student by removing their username from the studentUsername-attribute in the database, from given Period- and User-objects.
+	 * Returns amount of changed lines: 1 (success) or 0 (failure).
+	 */
+	public static int unbookPeriod(Period period) {
+		String query = String.format("UPDATE period SET student_username = NULL WHERE period.periodID = %s",
+				period.getPeriodID());
+		return DatabaseManager.sendUpdate(query);
+	}
+
+	/*
+	 * Books a period to a student by adding their username to the studentUsername-attribute in the database, from given Period- and User-objects.
+	 * Returns amount of changed lines: 1 (success) or 0 (failure).
+	 */
+	public static int tutorPeriod(Period period, User assistant) {
+		String query = String.format("UPDATE period SET student_username = '%s' WHERE period.periodID = %s", 
+				assistant.getUsername(), period.getPeriodID());
+		return DatabaseManager.sendUpdate(query);
+	}
+
+	/*
+	 * Unbooks a period from a student by removing their username from the studentUsername-attribute in the database, from given Period- and User-objects.
+	 * Returns amount of changed lines: 1 (success) or 0 (failure).
+	 * TODO: What happens if you try to untutor a booked session? As of right now, 
+	 */
+	public static int untutorPeriod(Period period) {
+		String query = String.format("UPDATE period SET assistant_username = NULL, student_username = NULL WHERE period.periodID = %s",
+				period.getPeriodID());
+		return DatabaseManager.sendUpdate(query);
+	}
+	
+
 	
 }

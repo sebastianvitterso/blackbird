@@ -17,13 +17,13 @@ public class TimeSlot {
 	}
 	
 	public TimeSlot(Course course, String timestamp) {
-		List<Period> periods = PeriodManager.getPeriodsFromCourseCodeAndTime(course, timestamp);
+		List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, timestamp);
 		this.periods = periods;
 	}
 	
 	public TimeSlot(Course course, LocalDateTime localDateTime) {
 		String timestamp = localDateTimeToSQLDateTime(localDateTime);
-		List<Period> periods = PeriodManager.getPeriodsFromCourseCodeAndTime(course, timestamp);
+		List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, timestamp);
 		this.periods = periods;
 	}
 	
@@ -72,6 +72,26 @@ public class TimeSlot {
 	
 	public boolean unbookTimeSlot() {
 		for (Period period : periods) {
+			if(LoginManager.getActiveUser().getUsername().equals(period.getStudentUsername())) {
+				PeriodManager.bookPeriod(period, LoginManager.getActiveUser());
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean tutorTimeSlot() {
+		for (Period period : periods) {
+			if(period.isOfPeriodType(PeriodType.BOOKABLE)) {
+				PeriodManager.bookPeriod(period, LoginManager.getActiveUser());
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean untutorTimeSlot() {
+		for (Period period : periods) {
 			if(period.getStudentUsername() == LoginManager.getActiveUser().getUsername()) {
 				PeriodManager.bookPeriod(period, LoginManager.getActiveUser());
 				return true;
@@ -79,4 +99,5 @@ public class TimeSlot {
 		}
 		return false;
 	}
+	
 }
