@@ -33,7 +33,7 @@ public class CalendarGenerator {
 	private Map<LocalDateTime, TimeSlot> timeSlots = new HashMap<LocalDateTime, TimeSlot>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
 	private StackPaneNode[] dayPaneNodes = new StackPaneNode[5];
-	Course course;
+	private Course course;
 	public CalendarGenerator() {
 		weeknum = getRelevantWeek();
 		startOfWeek = calculateStartOfWeek();
@@ -106,7 +106,6 @@ public class CalendarGenerator {
 
 	private GridPane createDayLabels() {
 		GridPane dayLabels = new GridPane();
-		// dayLabels.setPrefWidth(1200);
 		Integer col = 0;
 		for (int n = 0; n < 6; n++) {
 			StackPaneNode sp = new StackPaneNode();

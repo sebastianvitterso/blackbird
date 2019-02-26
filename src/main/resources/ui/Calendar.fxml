@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" minHeight="-Infinity" prefHeight="800.0" prefWidth="1010.0" stylesheets="@../stylesheets/calendarstyle.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController">
+<AnchorPane fx:id="root" minHeight="-Infinity" prefHeight="800.0" prefWidth="1010.0" stylesheets="@../stylesheets/calendarstyle.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -132,6 +132,31 @@
                         <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../icons/icons8-add-64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <StackPane.margin>
+                        <Insets right="20.0" />
+                     </StackPane.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="refreshBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleRefreshBtn" ripplerFill="#000000c2" text="refresh" textAlignment="CENTER" textFill="WHITE" visible="false" StackPane.alignment="CENTER_RIGHT">
+                     <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                     </font>
+                     <effect>
+                        <Lighting specularConstant="1.86">
+                           <bumpInput>
+                              <Shadow height="255.0" radius="127.0" width="255.0" />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/icons8-refresh-64.png" />
                            </image>
                         </ImageView>
                      </graphic>
