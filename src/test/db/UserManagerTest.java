@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,23 +16,23 @@ import main.db.UserManager;
 
 public class UserManagerTest {
 	
-	String addA = "('dfsggrdagdsg', 'adgihOAISBfSsg8df08fgalJ', 'øISDGoinøSIDOØNG', 'KNGkgnkdøszgnk', 'sdvz@sdv.com')";
-	String addB = "('b', 'b', 'b', 'b', 'b@b.no')";
-	String addC = "('hvhjbnj', 'fzk1983HKBH81bLJB8fLjl', 'adfgfc', 'sgaerAS', 'email@d.lo')";
-	String addD = "('szxfgh', 'sgdshtsd35dfh456df6DG', 'dzfgdf', 'hfxjzgDG', 'sb@gru.o')";
+	String userA = "'dfsggrdagdsg', 'adgihOAISBfSsg8df08fgalJ', 'øISDGoinøSIDOØNG', 'KNGkgnkdøszgnk', 'sdvz@sdv.com'";
+	String userB = "'b', 'b', 'b', 'b', 'b@b.no'";
+	String userC = "'hvhjbnj', 'fzk1983HKBH81bLJB8fLjl', 'adfgfc', 'sgaerAS', 'email@d.lo'";
+	String userD = "'szxfgh', 'sgdshtsd35dfh456df6DG', 'dzfgdf', 'hfxjzgDG', 'sb@gru.o'";
 	String usernameA = "dfsggrdagdsg";
-	String usernameB = "a";
+	String usernameB = "b";
 	String usernameC = "hvhjbnj";
 	String usernameD = "szxfgh";
-	List<String> users = Arrays.asList(addA, addB, addC, addD);
+	List<String> users = Arrays.asList(userA, userB, userC, userD);
 	List<String> usernames = Arrays.asList(usernameA, usernameB, usernameC, usernameD);
 	
 	@Before
 	public void setUp() {
 		for(int i=0; i<usernames.size(); i++) {
-			String checkIfExist = String.format("SELECT * FROM user WHERE username = '%s'", usernames.get(i));
-			if(DatabaseManager.sendQuery(checkIfExist)==null) {
-				String addu = String.format("INSERT INTO user VALUES %s", users.get(i));
+			String checkIfExist = String.format("SELECT username FROM user WHERE username = '%s'", usernames.get(i));
+			if(DatabaseManager.sendQuery(checkIfExist).size() == 0) {
+				String addu = String.format("INSERT INTO user VALUES (%s)", users.get(i));
 				String addToCourse = String.format("INSERT INTO user_course VALUES ('%s', 'TDT4140', 'student')", usernames.get(i));
 				DatabaseManager.sendUpdate(addu);
 				DatabaseManager.sendUpdate(addToCourse);
@@ -57,44 +58,44 @@ public class UserManagerTest {
 	
 	@Test 
 	public void addUserTest() {
-		DatabaseManager.sendQuery("DELETE FROM user WHERE username = '" + usernameB + "'");
-		UserManager.addUser("b", "b", "b",  "b", "b@b.no");
+		DatabaseManager.sendUpdate("DELETE FROM user WHERE username = '" + usernameB + "'");
+		UserManager.addUser("b", "b", "b", "b", "b@b.no");
 		assertNotNull(DatabaseManager.sendQuery("SELECT * FROM user WHERE username = '" + usernameB + "'"));
 	}
 
 	@Test
 	public void getUsersTest() {
-		List<User> users = UserManager.getUsers();
-		for(User user : users) {
-			if (!usernames.contains(user.getUsername()))
-				fail("getUsers() did not get some users.");
+		List<String> result = UserManager.getUsers().stream().map(user -> user.getUsername()).collect(Collectors.toList());
+		for(String username : usernames) {
+			if (!result.contains(username))
+				fail("getUsers() did not get all users.");
 		}
 	}
 	
 	@Test
 	public void deleteUserTest() {
 		UserManager.deleteUser(usernameD);
-		assertNull(DatabaseManager.sendQuery("SELECT * FROM user WHERE username = '" + usernameD + "'"));
+		String query = String.format("SELECT username FROM user WHERE username = '%s'", usernameD);
+		if (DatabaseManager.sendQuery(query).size() != 0)
+			fail("user not deleted");
 	}
 	
 	@Test
 	public void deleteUsersTest() {
 		UserManager.deleteUsers(usernames);
 		for(String username : usernames) {
-			String u = String.format("Select * FROM user WHERE username = '%s'", username);
-			if(DatabaseManager.sendQuery(u)!= null) 
+			String query = String.format("Select username FROM user WHERE username = '%s'", username);
+			if(DatabaseManager.sendQuery(query).size() != 0) 
 				fail("deleteUsers did not delete all users from the list given.");
 		}
 	}
 	
 	@Test 
 	public void usersFromCourseTest() {
-		List<User> result = UserManager.usersFromCourse("TDT4140");
-		for(String username : usernames) {
-			String u = "FROM user WHERE username = '" + username + "'";
-			if(DatabaseManager.sendQuery("Select * " + u)!= null) 
-				fail("deleteUsers did not delete all users from the list given.");
-		}
+		List<String> result = UserManager.usersFromCourse("TDT4140").stream().map(user -> user.getUsername()).collect(Collectors.toList());
+		for(String username : usernames)
+			if(!result.contains(username))
+				fail("Did not get all students from the course");
 	}
 	
 	@After
