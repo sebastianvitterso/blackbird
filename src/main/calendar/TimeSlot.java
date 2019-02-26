@@ -73,7 +73,7 @@ public class TimeSlot {
 	public boolean unbookTimeSlot() {
 		for (Period period : periods) {
 			if(LoginManager.getActiveUser().getUsername().equals(period.getStudentUsername())) {
-				PeriodManager.bookPeriod(period, LoginManager.getActiveUser());
+				PeriodManager.unbookPeriod(period);
 				return true;
 			}
 		}
@@ -83,7 +83,7 @@ public class TimeSlot {
 	public boolean tutorTimeSlot() {
 		for (Period period : periods) {
 			if(period.isOfPeriodType(PeriodType.BOOKABLE)) {
-				PeriodManager.bookPeriod(period, LoginManager.getActiveUser());
+				PeriodManager.tutorPeriod(period, LoginManager.getActiveUser());
 				return true;
 			}
 		}
@@ -92,8 +92,8 @@ public class TimeSlot {
 	
 	public boolean untutorTimeSlot() {
 		for (Period period : periods) {
-			if(period.getStudentUsername() == LoginManager.getActiveUser().getUsername()) {
-				PeriodManager.bookPeriod(period, LoginManager.getActiveUser());
+			if(LoginManager.getActiveUser().getUsername().equals(period.getStudentUsername())) {
+				PeriodManager.untutorPeriod(period);
 				return true;
 			}
 		}
