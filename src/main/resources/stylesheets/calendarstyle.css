@@ -114,7 +114,7 @@
 	-jfx-rippler-fill: #979797;
 }
 
-.button:hover {
+.menu-button:hover {
 	-fx-background-color: derive(-fx-primary, 20%);
 }
 
