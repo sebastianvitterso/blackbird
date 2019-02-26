@@ -220,6 +220,13 @@ public class MenuController implements Refreshable {
 		mainController.loadTab(view);
 	}
 	
+	/**
+	 * Returns the selected course.
+	 */
+	public Course getSelectedCourse() {
+		return courseComboBox.getSelectionModel().getSelectedItem();
+	}
+	
 	
 	//// Event handlers ////
 	void handleMenuButtonClick(ActionEvent event) {

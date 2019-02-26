@@ -6,10 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import main.app.Loader;
 import main.calendar.Calendar;
 import main.db.CourseManager;
+import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Role;
+import main.utils.View;
 
 
 public class CalendarController implements Refreshable {
@@ -34,11 +37,21 @@ public class CalendarController implements Refreshable {
 	
 	private Calendar calendar; 
 	private int displayWeek; 
+	private MenuController menuController;
 	
 	@FXML
 	void initialize() {
 		calendar = new Calendar();
 	}
+	
+	/**
+     * Runs any methods that require every controller to be initialized.
+     * This method should only be invoked by the FXML Loader class.
+     */
+    @PostInitialize
+    private void postInitialize() {
+    	menuController = Loader.getController(View.MENU_VIEW);
+    }
 	
 	public void showButtons() {
 		if (calendar.getRole() == Role.PROFESSOR) {
