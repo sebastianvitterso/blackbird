@@ -82,7 +82,7 @@ public class TimeSlot {
 	
 	public boolean tutorTimeSlot() {
 		for (Period period : periods) {
-			if(period.isOfPeriodType(PeriodType.BOOKABLE)) {
+			if(period.isOfPeriodType(PeriodType.CREATED)) {
 				PeriodManager.tutorPeriod(period, LoginManager.getActiveUser());
 				return true;
 			}
