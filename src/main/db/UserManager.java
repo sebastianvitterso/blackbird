@@ -95,6 +95,8 @@ public class UserManager {
 				user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getUsername());
 		return DatabaseManager.sendUpdate(query);
 	}
+	
+	
 		
 }
 
