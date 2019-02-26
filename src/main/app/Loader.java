@@ -35,6 +35,19 @@ public class Loader implements Runnable {
 	 */
 	@Override
 	public void run() {
+		// Load FXML views
+		loadViews();
+		
+		// Invoke methods with @PostInitialize annotation
+		invokeMethodsAnnotatedWith(PostInitialize.class);
+		
+		System.out.println("FXML Loader finished.");
+	}
+
+	/**
+	 * Loads FXML files, storing references to FXMLLoaders and Parents in an enumeration mapping.
+	 */
+	private void loadViews() {
 		for (View view : View.values()) {
 			// Break if view is not implemented
 			if (view.getPathToFXML() == null)
@@ -58,7 +71,12 @@ public class Loader implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		
+	}
+	
+	/**
+	 * Invoke all methods with the specified annotation, regardless of access modifier.
+	 */
+	private void invokeMethodsAnnotatedWith(Class<? extends Annotation> annotation) {
 		// Handle @PostInitialize annotations
 		for (View view : View.values()) {
 			// Break if view is not implemented
@@ -66,7 +84,7 @@ public class Loader implements Runnable {
 				continue;
 			
 			Object controller = getController(view);
-			List<Method> annotatedMethods = getMethodsAnnotatedWith(controller.getClass(), PostInitialize.class);
+			List<Method> annotatedMethods = getMethodsAnnotatedWith(controller.getClass(), annotation);
 			
 			// Invoke every method with specified annotation.
 			for (Method method : annotatedMethods) {
@@ -79,8 +97,6 @@ public class Loader implements Runnable {
 				}
 			}
 		}
-		
-		System.out.println("FXML Loader finished.");
 	}
 	
 	/**
