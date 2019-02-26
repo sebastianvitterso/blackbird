@@ -7,6 +7,7 @@ module blackbird {
 	exports main.models;
 	exports main.core.ui;
 	exports main.utils;
+	exports main.calendar;
 
 	requires java.sql;
 	requires javafx.base;
