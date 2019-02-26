@@ -1,9 +1,11 @@
 package main.calendar;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import main.db.LoginManager;
 import main.db.PeriodManager;
+import main.models.Course;
 import main.models.Period;
 import main.models.Period.PeriodType;
 
@@ -12,6 +14,22 @@ public class TimeSlot {
 	
 	public TimeSlot(List<Period> periods) {
 		this.periods = periods;
+	}
+	
+	public TimeSlot(Course course, String timestamp) {
+		List<Period> periods = PeriodManager.getPeriodsFromCourseCodeAndTime(course, timestamp);
+		this.periods = periods;
+	}
+	
+	public TimeSlot(Course course, LocalDateTime localDateTime) {
+		String timestamp = localDateTimeToSQLDateTime(localDateTime);
+		List<Period> periods = PeriodManager.getPeriodsFromCourseCodeAndTime(course, timestamp);
+		this.periods = periods;
+	}
+	
+	public static String localDateTimeToSQLDateTime(LocalDateTime time){
+		// 2019-02-25T08:00 -> 2019-02-25 08:00:00
+		return time.toString().replace("T", " ").concat(":00");
 	}
 	
 	public int getPeriodCount() {
@@ -24,13 +42,12 @@ public class TimeSlot {
 	
 	// TODO: Fix title of this method... I mean come on Seb, this is bad. 
 	public boolean amStudentInTimeSlot() {
-		boolean myBool = false;
 		for(Period period : periods) {
 			if ( period.getStudentUsername().equals(LoginManager.getActiveUser().getUsername()) ) {
-				myBool = true;
+				return true;
 			}
 		}
-		return myBool;
+		return false;
 	}
 	
 	// TODO: Same stuff here, Seb - fix your shit.

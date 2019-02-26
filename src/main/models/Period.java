@@ -45,11 +45,6 @@ public class Period {
 		return studentUsername;
 	}
 	
-	/*
-	 * TODO: Hvis man i databasen sletter en user som har vært assistant i en period, så bør ikke
-	 * perioden bli borte, men både student- og assistant-koblingen bør bli satt til null. 
-	 * [Bruke triggers?]
-	 */
 	public PeriodType getPeriodType() {
 		if (( assistantUsername == null ) || ( assistantUsername == "" )) {
 			return PeriodType.CREATED;

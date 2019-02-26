@@ -33,6 +33,12 @@ public class PeriodManager {
 		return DatabaseUtil.MapsToPeriods(periodMaps);
 	}
 	
+	public static List<Period> getPeriodsFromCourseCodeAndTime(Course course, String timestamp){
+		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s' and timestamp = '%s';", 
+				course.getCourseCode(), timestamp));
+		return DatabaseUtil.MapsToPeriods(periodMaps);
+	}
+	
 	
 	/*
 	 * Deletes period from database, given period object.
