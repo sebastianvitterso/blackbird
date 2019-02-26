@@ -6,7 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import main.calendar.CalendarGenerator;
+import main.calendar.Calendar;
+import main.db.CourseManager;
 import main.utils.Refreshable;
 import main.utils.Role;
 
@@ -31,16 +32,16 @@ public class CalendarController implements Refreshable {
 	@FXML
 	private JFXButton refreshBtn;
 	
-	private CalendarGenerator generator; 
+	private Calendar calendar; 
 	private int displayWeek; 
 	
 	@FXML
 	void initialize() {
-		generator = new CalendarGenerator();
+		calendar = new Calendar();
 	}
 	
 	public void showButtons() {
-		if (generator.getRole() == Role.PROFESSOR) {
+		if (calendar.getRole() == Role.PROFESSOR) {
 			removeStudass.setVisible(true);
 			addStudass.setVisible(true);	
 		} else {
@@ -51,13 +52,13 @@ public class CalendarController implements Refreshable {
 	
 	@Override
 	public void update() {
-		System.out.println("Updating");
-		calendarPane.getChildren().setAll(generator.getView());
-		displayWeek = generator.getRelevantWeek(); 
+		calendarPane.getChildren().setAll(calendar.getView());
+		displayWeek = calendar.getRelevantWeek(); 
 		updateWeek(displayWeek);
-
-			showButtons();
-		generator.updateAllCells();
+		calendar.setCourse(CourseManager.getCourse("TDT4100")); // TODO: FIx this, bruv. 
+		calendar.setRole(calendar.getRole());
+		showButtons();
+		calendar.updateAllCells();
 	}
 	
 	@Override
@@ -72,8 +73,8 @@ public class CalendarController implements Refreshable {
 
 	@FXML
 	void handleTodayBtn() {
-		displayWeek = generator.getRelevantWeek(); 
-		generator.changeWeekUpdate(displayWeek);
+		displayWeek = calendar.getRelevantWeek(); 
+		calendar.changeWeekUpdate(displayWeek);
 		updateWeek(displayWeek);
 
 	}
@@ -84,7 +85,7 @@ public class CalendarController implements Refreshable {
 		if (displayWeek <= 1) {
 			displayWeek = 1; 
 		}
-		generator.changeWeekUpdate(displayWeek);
+		calendar.changeWeekUpdate(displayWeek);
 		updateWeek(displayWeek);
 	}
 	
@@ -94,20 +95,20 @@ public class CalendarController implements Refreshable {
 		if (displayWeek >= 52) {
 			displayWeek = 52; 
 		}
-		generator.changeWeekUpdate(displayWeek);
+		calendar.changeWeekUpdate(displayWeek);
 		updateWeek(displayWeek);
 	}
 	@FXML
 	void handleRefreshBtn() {
-		generator.updateAllCells();
+		calendar.updateAllCells();
 	}
 	@FXML
 	void handlePlusBtn() {
-		generator.changeSelectedAvailableSlots(1);
+		calendar.changeSelectedAvailableSlots(1);
 	}
 	@FXML
 	void handleMinusBtn() {
-		generator.changeSelectedAvailableSlots(-1);
+		calendar.changeSelectedAvailableSlots(-1);
 	}
 	
 }
