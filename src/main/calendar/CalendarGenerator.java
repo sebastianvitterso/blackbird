@@ -8,9 +8,14 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import main.core.ui.CalendarController;
+import main.db.CourseManager;
 import main.db.LoginManager;
+import main.db.PeriodManager;
 import main.models.Course;
 import main.models.Course.Role;
+import main.models.Period;
+import main.models.Period.PeriodType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,6 +23,7 @@ import java.time.LocalTime;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -25,14 +31,19 @@ public class CalendarGenerator {
 	private int weeknum;
 	private LocalDate startOfWeek;
 	private VBox view;
-	private Map<LocalDateTime, Room> rooms = new HashMap<LocalDateTime, Room>();
+	private Map<LocalDateTime, TimeSlot> timeSlots = new HashMap<LocalDateTime, TimeSlot>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
 	private StackPaneNode[] dayPaneNodes = new StackPaneNode[5];
-	public CalendarGenerator() {
+	Course course;
+	public CalendarGenerator(CalendarController controller) {
 		weeknum = getRelevantWeek();
 		startOfWeek = calculateStartOfWeek();
+
+		course = CourseManager.getCourse("TDT4100");
 		
-		demoOppsett(); //Byttes med f.eks lastInnInfo() når databasen er koblet til
+		
+		if (getRole() == Role.PROFESSOR)
+			controller.showButtons();
 		
 		GridPane dayLabels = createDayLabels();
 		GridPane calendar = createCalendar();
@@ -40,7 +51,7 @@ public class CalendarGenerator {
 	}
 	public Role getRole() {
 		//@@@@@ Skal hentes av seg selv ved senere implementasjon
-		return LoginManager.getActiveUser().getUsername().equals("bea") ? Role.STUDENT : Role.PROFESSOR; 
+		return LoginManager.getActiveUser().getUsername().equals("eiv") ? Role.STUDENT : Role.PROFESSOR; 
 	}
 	//Current week if monday-friday, else next week
 	public int getRelevantWeek() {
@@ -59,8 +70,7 @@ public class CalendarGenerator {
 	public void resetSelections() {
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 16; y++) {
-				StackPaneNode node = stackPaneNodes[x][y];
-				node.removeFocus();
+				stackPaneNodes[x][y].removeFocus();
 			}
 		}
 	}
@@ -70,18 +80,21 @@ public class CalendarGenerator {
 			for (int y = 0; y < 16; y++) {
 				StackPaneNode node = stackPaneNodes[x][y];
 				if (node.isFocused()) {
-					if (rooms.get(node.getDateTime()) == null)
-						rooms.put(node.getDateTime(), new Room(0,0));
+					String time = TimeSlot.localDateTimeToSQLDateTime(node.getDateTime());
 					if (amount == 1) {
-						rooms.get(node.getDateTime()).increaseAvailable();
+						String courseCode = course.getCourseCode();
+						String username = LoginManager.getActiveUser().getUsername();
+						PeriodManager.addPeriod(courseCode, time, username);
 					} else {
-						if(rooms.get(node.getDateTime()).getAmountAvailable() != 0)
-							rooms.get(node.getDateTime()).decreaseAvailable();	
+						//TODO: Legg til at den sletter created først
+						List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, time);
+						if(periods.size() > 0)
+							PeriodManager.deletePeriod(periods.get(0));	
 					}
+					updateCell(x+1,y);
 				}
 			}
 		}
-		updateAllCells();
 	}
 	
 	public LocalDate calculateStartOfWeek() {
@@ -93,23 +106,6 @@ public class CalendarGenerator {
 		} else {
 			return LocalDate.now().minusDays(dayNumInWeek - 1).plusDays((weeknum - thisWeekNumber) * 7);
 		}
-	}
-	
-	
-	
-	private void demoOppsett() {
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8)), new Room(0, 4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(8.5)), new Room(0, 4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9)), new Room(0, 4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(9.5)), new Room(0, 4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10)), new Room(3, 4));
-		rooms.put(LocalDateTime.of(startOfWeek, localTimeOf(10.5)), new Room(3, 4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10)), new Room(4, 4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(10.5)), new Room(4, 4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11)), new Room(2, 4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(11.5)), new Room(2, 4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12)), new Room(0, 4));
-		rooms.put(LocalDateTime.of(startOfWeek.plusDays(2), localTimeOf(12.5)), new Room(0, 4));
 	}
 
 	private GridPane createDayLabels() {
@@ -215,8 +211,9 @@ public class CalendarGenerator {
 
 	public void updateCell(int x, int y) {
 		LocalDateTime cellDateTime = calculateDateTime(x, y);
-		Room room = rooms.get(cellDateTime);
-		updateStackPaneNode(stackPaneNodes[x - 1][y], room, y);
+		timeSlots.put(cellDateTime, new TimeSlot(course, cellDateTime));
+		TimeSlot timeSlot = timeSlots.get(cellDateTime);
+		updateStackPaneNode(stackPaneNodes[x - 1][y], timeSlot, y);
 	}
 
 	public LocalTime localTimeOf(double hours) {
@@ -224,38 +221,75 @@ public class CalendarGenerator {
 		return LocalTime.of((int) hours, minutes);
 	}
 
-	public void updateStackPaneNode(StackPaneNode sp, Room room, int y) {
+	public void updateStackPaneNode(StackPaneNode sp, TimeSlot timeSlot, int y) {
+		
 		sp.getStyleClass().clear();
 		sp.getChildren().clear();
 		String text = "";
-		if (room == null || room.getAmountAvailable() == 0) {
-			sp.getStyleClass().add("unavailable" + (y % 2));
-			return;
-		} else if (room.getInRoom()) {
-			sp.getStyleClass().add("selected" + (y % 2));
-			text = "Bestilt";
-		} else if (room.getAmountBooked() >= room.getAmountAvailable()) {
-			sp.getStyleClass().add("taken" + (y % 2));
-			text = "Opptatt";
+		Role myRole = getRole();
+		int created = timeSlot.getPeriodCountByType(PeriodType.CREATED);
+		int bookable = timeSlot.getPeriodCountByType(PeriodType.BOOKABLE);
+		int booked = timeSlot.getPeriodCountByType(PeriodType.BOOKED);
+		if (myRole == Role.STUDENT) {
+			if ((bookable + booked) == 0) {
+				sp.getStyleClass().add("unavailable" + (y % 2));
+				return;
+			} else if (timeSlot.amStudentInTimeSlot()) {
+				sp.getStyleClass().add("selected" + (y % 2));
+				text = "Bestilt";
+			} else if (bookable == 0) {
+				sp.getStyleClass().add("taken" + (y % 2));
+				text = "Opptatt";
+			} else {
+				sp.getStyleClass().add("available" + (y % 2));
+				text = "Ledig";
+			}
+			sp.addText(text + "(" + booked + "/" + (bookable + booked) + ")", true);
+		} else if (myRole == Role.ASSISTANT) {
+			if (timeSlot.getPeriodCount() == 0) {
+				sp.getStyleClass().add("unavailable" + (y % 2));
+				return;
+			} else if (timeSlot.amAssistantInTimeSlot()) {
+				sp.getStyleClass().add("selected" + (y % 2));
+				text = "Valgt";
+			} else if (created == 0) {
+				sp.getStyleClass().add("taken" + (y % 2));
+				text = "Fullt";
+			} else {
+				sp.getStyleClass().add("available" + (y % 2));
+				text = "Ikke fullt";
+			}
+			sp.addText(text + "(" + (bookable + booked) + "/" + (bookable + booked+ created) + ")", true);
 		} else {
-			sp.getStyleClass().add("available" + (y % 2));
-			text = "Ledig";
+			if (timeSlot.getPeriodCount() == 0) {
+				sp.getStyleClass().add("unavailable" + (y % 2));
+				return;
+			} else {
+				sp.getStyleClass().add("available" + (y % 2));
+				text = "Plasser: ";
+			}
+			sp.addText(text + timeSlot.getPeriodCount(), true);
 		}
-		sp.addText(text + "(" + room.getAmountBooked() + "/" + room.getAmountAvailable() + ")", true);
+		
+
 	}
 
-	public void AddRemoveTime(LocalDateTime dateTime, int x, int y) {
-		Room room = rooms.get(dateTime);
-		if (room == null)
-			return;
-		if (room.getInRoom()) {
-			room.setInRoom(false);
-			room.decreaseBooked();
-		} else {
-			if (room.getAmountBooked() >= room.getAmountAvailable())
-				return;
-			room.setInRoom(true);
-			room.increaseBooked();
+	public void BookUnbookTimeSlot(LocalDateTime dateTime, int x, int y) {
+		TimeSlot timeSlot = timeSlots.get(dateTime);
+		if (timeSlot.amStudentInTimeSlot()) {
+			timeSlot.unbookTimeSlot();
+		} else if (timeSlot.getPeriodCountByType(PeriodType.BOOKABLE) > 0){
+			timeSlot.bookTimeSlot();
+		}
+		updateCell(x, y);
+	}
+	
+	public void TutorUntutorTimeSlot(LocalDateTime dateTime, int x, int y) {
+		TimeSlot timeSlot = timeSlots.get(dateTime);
+		if (timeSlot.amAssistantInTimeSlot()) {
+			timeSlot.untutorTimeSlot();
+		} else if(timeSlot.getPeriodCountByType(PeriodType.CREATED) > 0){
+			timeSlot.tutorTimeSlot();
 		}
 		updateCell(x, y);
 	}

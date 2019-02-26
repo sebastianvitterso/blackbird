@@ -34,22 +34,23 @@ public class CalendarController {
 	CalendarGenerator generator; 
 	private int displayWeek; 
 	
-	
+	public static CalendarController reference;
 	@FXML
 	void initialize() {
-		generator = new CalendarGenerator();
+		reference = this;
+	}
+	
+	public void secondaryInit() {
+		generator = new CalendarGenerator(this);
 		
 		calendarPane.getChildren().setAll(generator.getView());
 		displayWeek = generator.getRelevantWeek(); 
 		updateWeek(displayWeek);
-		
-		//TODO: lage en spørring for å sjekke rollen til innloggeren: 
-		//Typ: 
-		/* if (generator.getRole() == Role.PROFESSOR) {
-			removeStudass.setVisible(true);
-			addStudass.setVisible(true);
-		}*/
-		
+	}
+	
+	public void showButtons() {
+		removeStudass.setVisible(true);
+		addStudass.setVisible(true);
 	}
 		
 	

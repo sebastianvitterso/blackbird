@@ -26,15 +26,19 @@ public class StackPaneNode extends StackPane {
     public StackPaneNode(Node... children) {
         super(children);
         // Add action handler for mouse clicked
-        this.setOnMouseClicked(e -> {onClicked();});
+        this.setOnMouseClicked(e -> {onClicked(e);});
     }
-    public void onClicked() {
+    public void onClicked(MouseEvent e) {
     	if (parent == null)
     		return;
     	if(parent.getRole() == Role.PROFESSOR) {
+    		if (!e.isControlDown() && !isFocused())
+    			parent.resetSelections();
     		setFocused(!isFocused());
+    	} else if (parent.getRole() == Role.STUDENT) {
+    		this.parent.BookUnbookTimeSlot(date, x, y);
     	} else {
-    		this.parent.AddRemoveTime(date, x, y);
+    		this.parent.TutorUntutorTimeSlot(date, x,y);
     	}
     }
     public void removeFocus() {

@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.core.ui.CalendarController;
 import main.utils.Clearable;
 import main.utils.View;
 
@@ -74,6 +75,9 @@ public class StageManager {
 		
 		case MAIN_VIEW:
 			stage.setResizable(false);
+			break;
+		case CALENDAR_VIEW:
+			CalendarController.reference.secondaryInit();
 			break;
 			
 		default:
