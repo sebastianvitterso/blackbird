@@ -51,7 +51,7 @@ public class CalendarGenerator {
 	}
 	public Role getRole() {
 		//@@@@@ Skal hentes av seg selv ved senere implementasjon
-		return LoginManager.getActiveUser().getUsername().equals("eiv") ? Role.STUDENT : Role.PROFESSOR; 
+		return LoginManager.getActiveUser().getUsername().equals("eiv") ? Role.STUDENT : Role.ASSISTANT; 
 	}
 	//Current week if monday-friday, else next week
 	public int getRelevantWeek() {
@@ -81,6 +81,7 @@ public class CalendarGenerator {
 				StackPaneNode node = stackPaneNodes[x][y];
 				if (node.isFocused()) {
 					String time = TimeSlot.localDateTimeToSQLDateTime(node.getDateTime());
+					System.out.println(time);
 					if (amount == 1) {
 						String courseCode = course.getCourseCode();
 						String username = LoginManager.getActiveUser().getUsername();
@@ -213,7 +214,7 @@ public class CalendarGenerator {
 		LocalDateTime cellDateTime = calculateDateTime(x, y);
 		timeSlots.put(cellDateTime, new TimeSlot(course, cellDateTime));
 		TimeSlot timeSlot = timeSlots.get(cellDateTime);
-		updateStackPaneNode(stackPaneNodes[x - 1][y], timeSlot, y);
+		updateStackPaneNode(stackPaneNodes[x - 1][y], timeSlot, cellDateTime, y);
 	}
 
 	public LocalTime localTimeOf(double hours) {
@@ -221,8 +222,8 @@ public class CalendarGenerator {
 		return LocalTime.of((int) hours, minutes);
 	}
 
-	public void updateStackPaneNode(StackPaneNode sp, TimeSlot timeSlot, int y) {
-		
+	public void updateStackPaneNode(StackPaneNode sp, TimeSlot timeSlot, LocalDateTime dateTime, int y) {
+		sp.setDateTime(dateTime);
 		sp.getStyleClass().clear();
 		sp.getChildren().clear();
 		String text = "";
