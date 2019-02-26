@@ -43,7 +43,7 @@ public class TimeSlot {
 	// TODO: Fix title of this method... I mean come on Seb, this is bad. 
 	public boolean amStudentInTimeSlot() {
 		for(Period period : periods) {
-			if ( period.getStudentUsername().equals(LoginManager.getActiveUser().getUsername()) ) {
+			if ( LoginManager.getActiveUser().getUsername().equals(period.getStudentUsername()) ) {
 				return true;
 			}
 		}
@@ -53,7 +53,7 @@ public class TimeSlot {
 	// TODO: Same stuff here, Seb - fix your shit.
 	public boolean amAssistantInTimeSlot() {
 		for(Period period : periods) {
-			if ( period.getAssistantUsername().equals(LoginManager.getActiveUser().getUsername()) ) {
+			if ( LoginManager.getActiveUser().getUsername().equals(period.getAssistantUsername()) ) {
 				return true;
 			}
 		}
