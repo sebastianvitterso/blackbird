@@ -1,0 +1,132 @@
+* {
+	/* Dark theme */
+	-fx-primary: #202020; 
+	-fx-primary-text: #8e8e8e;
+	-fx-primary-lines: #707070;
+	-fx-primary-rippler: #979797;
+	
+	/* Light theme */
+	-fx-secondary: #D6D6D9;
+	-fx-secondary-text: -fx-primary;
+	-fx-secondary-lines: -fx-primary-lines;
+	-fx-secondary-header: #2F2F40;
+
+	/* Grey tones */	
+	-fx-dark-grey-1: #454545;
+	-fx-dark-grey-1-text: #DDDDDD;
+	-fx-dark-grey-1-rippler: #979797;
+	
+/* -fx-light-grey-1: #E7E7E7;*/
+	-fx-light-grey-1: #F5F5F5;
+	
+	-fx-text-unfocused: #606060;
+	-fx-text-focused: #202020;
+	
+	
+}
+
+@font-face {
+	src: url("/resources/fonts/segoe-ui-semibold.ttf");
+	src: url("/resources/fonts/segoeui.ttf");
+}
+
+
+/* Combo boxes */
+.course-combobox {
+	-fx-prompt-text-fill: #BBBBBB;
+	-jfx-focus-color: derive(#707070, -10%);
+	-jfx-unfocus-color: #707070;
+}
+.course-combobox .list-cell .text {
+	-fx-font: normal 14px "Segoe UI";
+	-fx-fill: #BBBBBB;
+}
+.course-combobox .list-view .list-cell .text {
+	-fx-font: normal 12px "Segoe UI";
+	-fx-fill: derive(#707070, 20%);
+}
+.course-combobox .list-view .list-cell:selected .text {
+	-fx-font: normal 12px "Segoe UI";
+	-fx-fill: derive(#707070, 40%);
+}
+.course-combobox .input-line {
+	-fx-scale-x: 0.9;
+	-fx-translate-y: 5;
+}
+.course-combobox .input-focused-line {
+	-fx-translate-y: 5;
+	-fx-scale-x: 0.9;
+}
+.course-combobox .list-cell {
+	-fx-background-color: -fx-primary;
+}
+.course-combobox .list-cell:selected .jfx-rippler{
+	-jfx-rippler-fill: derive(-fx-primary, 20%);
+}
+.course-combobox .list-view {
+	-fx-background-color: derive(-fx-primary, 5%);
+	/*-fx-border-color: derive(-fx-primary, 30%);
+	-fx-border-width: 1px;*/
+	-fx-translate-y: 5;
+}
+.course-combobox .list-view .list-cell:hover {
+	-fx-background-color: derive(-fx-primary, 20%);
+}
+.course-combobox .list-view .list-cell:selected {
+	-fx-background-color: derive(-fx-primary, 15%);
+}
+.course-combobox .list-view .list-cell:selected:hover {
+	-fx-background-color: derive(-fx-primary, 25%);
+}
+.course-combobox .list-view .list-cell .jfx-rippler{
+	-jfx-rippler-fill: derive(-fx-primary, 45%);
+}
+
+
+
+
+
+
+
+
+
+.menu-background {
+	-fx-background-color: -fx-primary;
+}
+
+.name-label {
+	-fx-font: normal 20px "Segoe UI";
+	-fx-text-fill: #BBBBBB;
+}
+
+.role-label {
+	-fx-font: normal 14px "Segoe UI";
+	-fx-text-fill: #707070;
+}
+
+.menu-button {
+	-fx-background-color: -fx-primary;
+	-fx-font: normal 14px "Segoe UI";
+	-fx-text-fill: #BBBBBB;
+	-fx-pref-height: 35px;
+	-fx-max-width: infinity;
+	-fx-padding: 0 0 0 30;
+	-fx-alignment: center-left;
+}
+
+.menu-button .jfx-rippler {
+	-jfx-rippler-fill: #979797;
+}
+
+.menu-button:hover {
+	-fx-background-color: derive(-fx-primary, 20%);
+}
+
+.menu-button-active {
+	-fx-background-color: derive(-fx-primary, 15%);	
+}
+
+.menu-button-active:hover {
+	-fx-background-color: derive(-fx-primary, 25%);	
+}
+

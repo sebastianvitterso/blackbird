@@ -14,18 +14,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import main.db.LoginManager;
-import main.utils.Clearable;
+import main.utils.Refreshable;
 
-public class LoginController implements Clearable {
+public class LoginController implements Refreshable {
 	private LoginManager loginManager;
 	
 	private double xOffset;
 	private double yOffset;
 	
-	@FXML private AnchorPane root;
+	@FXML private StackPane rootPane;
     @FXML private JFXTextField usernameTextField;
     @FXML private JFXPasswordField passwordField;
     @FXML private JFXButton loginButton;
@@ -68,18 +68,18 @@ public class LoginController implements Clearable {
      * Moving the interface can be done by clicking and dragging.
      */
 	private void initializeMouseListeners() {
-        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+        rootPane.setOnMousePressed(new EventHandler<MouseEvent>() {
            @Override
            public void handle(MouseEvent event) {
                xOffset = event.getSceneX();
                yOffset = event.getSceneY();
            }});
         
-        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+        rootPane.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
             	if (yOffset < 70) {
-            		Stage stage = (Stage) root.getScene().getWindow();
+            		Stage stage = (Stage) rootPane.getScene().getWindow();
 	                stage.setX(event.getScreenX() - xOffset);
 	                stage.setY(event.getScreenY() - yOffset);
             	}
@@ -128,7 +128,7 @@ public class LoginController implements Clearable {
     
     @FXML
     void handleExitClick(ActionEvent event) {
-    	((Stage) root.getScene().getWindow()).close();
+    	((Stage) rootPane.getScene().getWindow()).close();
     }
 
     private class FieldValidator extends ValidatorBase {

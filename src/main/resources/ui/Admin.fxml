@@ -20,7 +20,7 @@
    <children>
       <VBox>
          <children>
-            <JFXTabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../stylesheets/tabpane.css" tabMinWidth="395.0" VBox.vgrow="ALWAYS">
+            <JFXTabPane fx:id="tabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../stylesheets/tabpane.css" tabMinWidth="395.0" VBox.vgrow="ALWAYS">
                <tabs>
                   <Tab text="Emneoversikt">
                     <content>
@@ -60,7 +60,7 @@
                                                       </HBox>
                                                    </children>
                                                 </StackPane>
-                                                <JFXListView fx:id="courseListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                                                <JFXListView fx:id="courseListView" fixedCellSize="30.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 5;" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -97,7 +97,7 @@
                                                                   </HBox>
                                                                </children>
                                                             </StackPane>
-                                                            <JFXListView fx:id="professorListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                                                            <JFXListView fx:id="professorListView" fixedCellSize="30.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 5;" VBox.vgrow="ALWAYS">
                                                                <VBox.margin>
                                                                   <Insets />
                                                                </VBox.margin>
@@ -124,7 +124,7 @@
                                                                   </HBox>
                                                                </children>
                                                             </StackPane>
-                                                            <JFXListView fx:id="assistantListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                                                            <JFXListView fx:id="assistantListView" fixedCellSize="30.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 5;" VBox.vgrow="ALWAYS">
                                                                <VBox.margin>
                                                                   <Insets />
                                                                </VBox.margin>
@@ -151,7 +151,7 @@
                                                                   </HBox>
                                                                </children>
                                                             </StackPane>
-                                                            <JFXListView fx:id="studentListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                                                            <JFXListView fx:id="studentListView" fixedCellSize="30.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 5;" VBox.vgrow="ALWAYS">
                                                                <VBox.margin>
                                                                   <Insets />
                                                                </VBox.margin>
@@ -204,7 +204,7 @@
                                           </JFXButton>
                                        </children>
                                     </HBox>
-                                    <JFXTreeTableView fx:id="userTreeTableView" VBox.vgrow="ALWAYS">
+                                    <JFXTreeTableView fx:id="userTreeTableView" fixedCellSize="30.0" VBox.vgrow="ALWAYS">
                                        <columns>
                                           <TreeTableColumn fx:id="firstNameColumn" prefWidth="75.0" text="Fornavn" />
                                           <TreeTableColumn fx:id="lastNameColumn" prefWidth="75.0" text="Etternavn" />

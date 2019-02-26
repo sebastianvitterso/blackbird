@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.utils.Clearable;
+import main.utils.Refreshable;
 import main.utils.View;
 
 /**
@@ -32,14 +32,13 @@ public class StageManager {
 		StageManager.viewToScene = new EnumMap<>(View.class);
 		
 		// Load login elements prior to initializing loader.
-		FXMLLoader loginLoader = new FXMLLoader(StageManager.class.getClassLoader().getResource(View.LOGIN_SCREEN.getPathToFXML()));
+		FXMLLoader loginLoader = new FXMLLoader(StageManager.class.getClassLoader().getResource(View.LOGIN_VIEW.getPathToFXML()));
 		Parent loginParent = loginLoader.load();
 
 		// Preloading all FXML files while in login screen.
 		Loader loader = new Loader(loginLoader, loginParent);
 		loaderThread = new Thread(loader);
 		loaderThread.start();
-		
 	}
 	
 	/**
@@ -58,14 +57,12 @@ public class StageManager {
 		stage.setScene(scene);
 		stage.setTitle(view.getTitle());
 		stage.getIcons().add(icon);
-		stage.setMinWidth(800);
-		stage.setMinHeight(600);
 		stage.sizeToScene();
 		stage.centerOnScreen();
 		
 		// Set view-specific properties.
 		switch (view) {
-		case LOGIN_SCREEN:
+		case LOGIN_VIEW:
 			scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
 			stage.initStyle(StageStyle.TRANSPARENT);
 			break;
@@ -84,10 +81,10 @@ public class StageManager {
 		
 		// Clear and display
 		Object controller = Loader.getController(view);
-		if (controller instanceof Clearable)
-			((Clearable) controller).clear();
+		if (controller instanceof Refreshable)
+			((Refreshable) controller).refresh();
 		else
-			System.err.printf("StageManager can only handle controllers of type 'Clearable', missing in '%s'.", controller.getClass().getSimpleName());
+			System.err.printf("StageManager can only handle controllers of type 'Refreshable', missing in '%s'.", controller.getClass().getSimpleName());
 		
 		stage.show();
 	}

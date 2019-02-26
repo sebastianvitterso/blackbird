@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import main.models.Course;
-import main.models.Course.Role;
 import main.models.User;
+import main.utils.Role;
 
 public class UserManager {
 	

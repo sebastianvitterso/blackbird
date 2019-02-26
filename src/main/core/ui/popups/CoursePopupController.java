@@ -12,11 +12,11 @@ import main.app.Loader;
 import main.core.ui.AdminController;
 import main.db.CourseManager;
 import main.models.Course;
-import main.utils.Clearable;
+import main.utils.Refreshable;
 import main.utils.PostInitialize;
 import main.utils.View;
 
-public class CoursePopupController implements Clearable {
+public class CoursePopupController implements Refreshable {
 	@FXML private Label headerLabel;
     @FXML private JFXTextField courseCodeTextField;
     @FXML private JFXTextField courseNameTextField;

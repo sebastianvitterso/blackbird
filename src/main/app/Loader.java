@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import main.utils.PostInitialize;
 import main.utils.View;
 
@@ -25,17 +26,20 @@ public class Loader implements Runnable {
 	private static EnumMap<View, Parent> viewToParent = new EnumMap<>(View.class);
 
 	public Loader(FXMLLoader loginLoader, Parent loginParent) {
-		viewToLoader.put(View.LOGIN_SCREEN, loginLoader);
-		viewToParent.put(View.LOGIN_SCREEN, loginParent);
+		viewToLoader.put(View.LOGIN_VIEW, loginLoader);
+		viewToParent.put(View.LOGIN_VIEW, loginParent);
 	}
 
 	@Override
 	public void run() {
 		for (View view : View.values()) {
-			// Login has already been loaded
-			if (view == View.LOGIN_SCREEN) {
+			// Break if view is not implemented
+			if (view.getPathToFXML() == null)
 				continue;
-			}
+			
+			// Login has already been loaded
+			if (view == View.LOGIN_VIEW)
+				continue;
 
 			// Create FXML Reference
 			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(view.getPathToFXML()));
@@ -54,6 +58,10 @@ public class Loader implements Runnable {
 		
 		// Handle @PostInitialize annotations
 		for (View view : View.values()) {
+			// Break if view is not implemented
+			if (view.getPathToFXML() == null)
+				continue;
+			
 			Object controller = getController(view);
 			List<Method> annotatedMethods = getMethodsAnnotatedWith(controller.getClass(), PostInitialize.class);
 			
@@ -87,6 +95,10 @@ public class Loader implements Runnable {
 
 	public static <T> T getController(View view) {
 		return viewToLoader.get(view).getController();
+	}
+	
+	public static Image getImage(String path) {
+		return new Image(Loader.class.getClassLoader().getResourceAsStream(path));
 	}
 
 }

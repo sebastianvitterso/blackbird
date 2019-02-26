@@ -12,11 +12,11 @@ import main.core.ui.AdminController;
 import main.core.ui.AdminController.RecursiveTreeUser;
 import main.db.UserManager;
 import main.models.User;
-import main.utils.Clearable;
+import main.utils.Refreshable;
 import main.utils.PostInitialize;
 import main.utils.View;
 
-public class UserPopupController implements Clearable {
+public class UserPopupController implements Refreshable {
 	@FXML private Label headerLabel;
 	@FXML private JFXTextField firstNameTextField;
 	@FXML private JFXTextField lastNameTextField;

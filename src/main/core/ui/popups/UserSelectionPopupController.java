@@ -12,19 +12,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.layout.StackPane;
 import main.app.Loader;
 import main.core.ui.AdminController;
 import main.db.UserManager;
 import main.models.Course;
-import main.models.Course.Role;
 import main.models.User;
-import main.utils.Clearable;
 import main.utils.PostInitialize;
+import main.utils.Refreshable;
+import main.utils.Role;
 import main.utils.View;
 
-public class UserSelectionPopupController implements Clearable {
-	@FXML private StackPane rootPane;
+public class UserSelectionPopupController implements Refreshable {
 	@FXML private Label titleLabel;
 	@FXML private JFXListView<User> userSelectionListView;
 	@FXML private JFXSpinner listViewSpinner;
