@@ -1,22 +1,5 @@
  package main.calendar;
 
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import main.core.ui.CalendarController;
-import main.db.CourseManager;
-import main.db.LoginManager;
-import main.db.PeriodManager;
-import main.models.Course;
-import main.models.Course.Role;
-import main.models.Period;
-import main.models.Period.PeriodType;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,6 +10,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import main.db.CourseManager;
+import main.db.LoginManager;
+import main.db.PeriodManager;
+import main.models.Course;
+import main.models.Period;
+import main.models.Period.PeriodType;
+import main.utils.Role;
+
 public class CalendarGenerator {
 	private int weeknum;
 	private LocalDate startOfWeek;
@@ -35,15 +34,11 @@ public class CalendarGenerator {
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
 	private StackPaneNode[] dayPaneNodes = new StackPaneNode[5];
 	Course course;
-	public CalendarGenerator(CalendarController controller) {
+	public CalendarGenerator() {
 		weeknum = getRelevantWeek();
 		startOfWeek = calculateStartOfWeek();
 
 		course = CourseManager.getCourse("TDT4100");
-		
-		
-		if (getRole() == Role.PROFESSOR)
-			controller.showButtons();
 		
 		GridPane dayLabels = createDayLabels();
 		GridPane calendar = createCalendar();
@@ -149,7 +144,6 @@ public class CalendarGenerator {
 				createCell(calendar, x, y);
 			}
 		}
-		updateAllCells();
 		return calendar;
 	}
 

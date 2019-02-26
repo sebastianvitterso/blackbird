@@ -79,7 +79,7 @@ public class MenuController implements Refreshable {
 		buttons.put(View.SCHEDULING_VIEW, 	new MenuButton(View.SCHEDULING_VIEW, 	"Timebestilling", 	new ImageView(Loader.getImage("icons/scheduling.png"))));
 		buttons.put(View.MEMBERS_VIEW, 		new MenuButton(View.MEMBERS_VIEW, 		"Medlemmer", 		new ImageView(Loader.getImage("icons/members.png"))));
 		buttons.put(View.ADMIN_VIEW, 		new MenuButton(View.ADMIN_VIEW, 		"Administrer", 		new ImageView(Loader.getImage("icons/admin.png"))));
-		buttons.put(View.CALENDAR_VIEW, 	new MenuButton(View.CALENDAR_VIEW, 		"Kalender",			new ImageView(Loader.getImage("icons/calendar.png"))));
+//		buttons.put(View.CALENDAR_VIEW, 	new MenuButton(View.CALENDAR_VIEW, 		"Kalender",			new ImageView(Loader.getImage("icons/calendar.png"))));
 		
 		// Configure custom buttons
 		for (MenuButton button : buttons.values()) {
@@ -165,8 +165,8 @@ public class MenuController implements Refreshable {
 				buttons.get(View.OVERVIEW_VIEW),
 				buttons.get(View.EXERCISES_VIEW),
 				buttons.get(View.SCHEDULING_VIEW),
-				buttons.get(View.MEMBERS_VIEW),
-				buttons.get(View.CALENDAR_VIEW));
+				buttons.get(View.MEMBERS_VIEW));
+//				buttons.get(View.CALENDAR_VIEW));
 	}
 	
 	

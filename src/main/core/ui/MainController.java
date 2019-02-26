@@ -65,6 +65,10 @@ public class MainController implements Refreshable {
 		// Cover scrollpane by binding tab height
 		currentParent.minHeightProperty().bind(scrollPane.heightProperty());
 		
+		// Refresh tab
+		currentController.refresh();
+		System.out.println("Refreshing " + currentController.getClass().getSimpleName());
+		
 		// Inject new tab
 		contentPane.getChildren().setAll(currentParent);
 	}

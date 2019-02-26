@@ -2,18 +2,16 @@ package main.core.ui;
 
 import com.jfoenix.controls.JFXButton;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import main.calendar.CalendarGenerator;
-import main.db.CourseManager;
-import main.db.LoginManager;
-import main.models.Course.Role;
+import main.utils.Refreshable;
+import main.utils.Role;
 
 
-public class CalendarController {
+public class CalendarController implements Refreshable {
 	@FXML
 	private AnchorPane root;
 	@FXML
@@ -34,18 +32,9 @@ public class CalendarController {
 	CalendarGenerator generator; 
 	private int displayWeek; 
 	
-	public static CalendarController reference;
 	@FXML
 	void initialize() {
-		reference = this;
-	}
-	
-	public void secondaryInit() {
-		generator = new CalendarGenerator(this);
-		
-		calendarPane.getChildren().setAll(generator.getView());
-		displayWeek = generator.getRelevantWeek(); 
-		updateWeek(displayWeek);
+		generator = new CalendarGenerator();
 	}
 	
 	public void showButtons() {
@@ -53,6 +42,23 @@ public class CalendarController {
 		addStudass.setVisible(true);
 	}
 		
+	
+	@Override
+	public void update() {
+		System.out.println("Updating");
+		calendarPane.getChildren().setAll(generator.getView());
+		displayWeek = generator.getRelevantWeek(); 
+		updateWeek(displayWeek);
+		if (generator.getRole() == Role.PROFESSOR)
+			showButtons();
+		generator.updateAllCells();
+	}
+	
+	@Override
+	public void clear() {
+		
+	}
+	
 	
 	void updateWeek(int week) {
 		weekLabel.setText("Uke " + Integer.toString(week));
@@ -95,9 +101,4 @@ public class CalendarController {
 		generator.changeSelectedAvailableSlots(-1);
 	}
 	
-	/*
-	 * if (CourseManager.isUserRoleInCourse(LoginManager.getActiveUser(), CourseManager.getCourse("TDT4140"), Role.ASSISTANT)) {
-			removeStudass.setVisible(true);
-			addStudass.setVisible(true);
-	 */
 }

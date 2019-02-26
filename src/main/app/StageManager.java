@@ -76,9 +76,6 @@ public class StageManager {
 		case MAIN_VIEW:
 			stage.setResizable(true);
 			break;
-		case CALENDAR_VIEW:
-			CalendarController.reference.secondaryInit();
-			break;
 			
 		default:
 			break;

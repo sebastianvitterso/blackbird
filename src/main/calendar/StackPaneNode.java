@@ -1,17 +1,13 @@
 package main.calendar;
 
-import javafx.beans.Observable;
+import java.time.LocalDateTime;
+
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import main.db.LoginManager;
-import main.models.Course.Role;
-
-import java.time.LocalDateTime;
+import main.utils.Role;
 
 /**
  * Create an anchor pane that can store additional data.
