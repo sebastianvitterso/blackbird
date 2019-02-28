@@ -25,6 +25,15 @@ public class DatabaseManager {
 	
 	// Setting up a connection to the database
 	static {
+		openConnection();
+	}
+	
+	
+	/*
+	 * Opens SQL connection for the app.
+	 * Runs at launch, and if the connection times out etc. 
+	 */
+	public static void openConnection() {
 		try {
 			Class.forName(DB_DRIVER_PATH);
 			connection = DriverManager.getConnection(CONNECTION_STRING, DB_USERNAME, DB_PASSWORD);
@@ -34,35 +43,44 @@ public class DatabaseManager {
 		}
 	}
 	
+	/*
+	 * Returns ArrayList of HashMaps, where each HashMap refers to a row in the resultset you get.
+	 * The HashMap's keys are the column headers, while the values are the row's values. 
+	 */
 	public static List<Map<String, String>> sendQuery(String query) {
 		try {
+			if(!connection.isValid(5)) { // asks the connection (with a ping) if it's still open, waits up to 5 seconds for a response
+				System.err.println("SQL Connection closed, attempting to re-open.");
+				openConnection();
+			}
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
 			ResultSetMetaData rsmd = resultSet.getMetaData();
 			
-			// return-liste som inneholder hvert objekt som en hashmap mellom kolonne-overskrift og kolonne-verdi.
 			List<Map<String, String>> resultArray = new ArrayList<>(); 
-			
 			while (resultSet.next()) {
 				Map<String, String> currentRow = new HashMap<String, String>();
 			       for (int i = 1; i <= rsmd.getColumnCount(); i++) {
 			           currentRow.put(rsmd.getColumnName(i), resultSet.getString(i));
-			       } // lagrer et objekt i hashmappet "currentRow"
-			       resultArray.add(currentRow); // lagrer currentRow i return-lista
+			       } 
+			       resultArray.add(currentRow); 
 		    }
 			statement.close();
-			
 			return resultArray;
-			
 		} catch (SQLException e) {
-			System.out.println("Query failed.");
+			System.err.println("SQL Query failed, connection lost.");
+			System.err.println("Check your connection to the internet and to the NTNU-VPN.");
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	public static int sendUpdate(String update) {
 		try {
+			if(!connection.isValid(5)) {
+				System.err.println("SQL Connection closed, attempting to re-open.");
+				openConnection();
+			}
 			Statement statement = connection.createStatement();
 			int rowsAffected = statement.executeUpdate(update);
 			statement.close();
@@ -70,7 +88,8 @@ public class DatabaseManager {
 			return rowsAffected;
 			
 		} catch (SQLException e) {
-			System.err.println("Connection failed.");
+			System.err.println("SQL Query failed, connection lost.");
+			System.err.println("Check your connection to the internet and to the NTNU-VPN.");
 			e.printStackTrace();
 			return 0;
 		}
@@ -79,13 +98,15 @@ public class DatabaseManager {
 	public static void closeConnection() {
 		try {
 			connection.close();
-//			System.out.println(IOExecutor.shutdownNow());
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	
+	/*
+	 * submitCallable and submitRunnable are to be used later in the project. 
+	 */
 	public static <T> Future<T> submitCallable(Callable<T> callable) {
 		return IOExecutor.submit(callable);
 	}
