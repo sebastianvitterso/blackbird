@@ -130,6 +130,43 @@
 	-fx-opacity: 0.5;
 }
 
+.jfx-list-view {
+  	-fx-background-insets: 0, 0, 1, 2;
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+}
+.jfx-list-view .list-cell .text {
+	
+}
+.jfx-list-view .list-cell:selected .jfx-rippler{
+	-jfx-rippler-fill: #EEEEEE;
+}
+.jfx-list-view .list-cell:hover {
+	-fx-background-color: #BBBBBB;
+}
+.jfx-list-view .list-cell:selected {
+	-fx-background-color: derive(#707070, 0%);
+	-fx-text-fill: derive(#BBBBBB, 30%);
+}
+.jfx-list-view .list-cell .jfx-rippler{
+	-jfx-rippler-fill: #000000;
+}
+
+
+
+.jfx-tree-table-view .tree-table-row-cell:filled:even {
+	-fx-background-color: #F9F9F9;/* default alternating color */
+}
+.jfx-tree-table-view .tree-table-row-cell:filled:hover {
+	-fx-background-color: derive(#BBBBBB, 60%);
+}
+.jfx-tree-table-view .tree-table-row-cell:filled:selected {
+	-fx-background-color: derive(#BBBBBB, 20%);
+}
+.jfx-tree-table-view .tree-table-row-cell:filled:selected:hover {
+	-fx-background-color: derive(#BBBBBB, 0%);
+}
+
 
 /*
  * POPUP VIEWS

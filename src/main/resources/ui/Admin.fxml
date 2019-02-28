@@ -18,7 +18,7 @@
 
 <StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" styleClass="admin-background" stylesheets="@../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.AdminController">
    <children>
-      <JFXTabPane fx:id="tabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../stylesheets/tabpane.css" tabMinWidth="395.0">
+      <JFXTabPane fx:id="tabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../stylesheets/tabpane.css">
          <tabs>
             <Tab text="Emneoversikt">
               <content>
@@ -58,7 +58,7 @@
                                                 </HBox>
                                              </children>
                                           </StackPane>
-                                          <JFXListView fx:id="courseListView" fixedCellSize="35.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 10px;" VBox.vgrow="ALWAYS">
+                                          <JFXListView fx:id="courseListView" fixedCellSize="35.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
@@ -95,7 +95,7 @@
                                                             </HBox>
                                                          </children>
                                                       </StackPane>
-                                                      <JFXListView fx:id="professorListView" fixedCellSize="35.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 10px;" VBox.vgrow="ALWAYS">
+                                                      <JFXListView fx:id="professorListView" fixedCellSize="35.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                                                          <VBox.margin>
                                                             <Insets />
                                                          </VBox.margin>
@@ -122,7 +122,7 @@
                                                             </HBox>
                                                          </children>
                                                       </StackPane>
-                                                      <JFXListView fx:id="assistantListView" fixedCellSize="35.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 10px;" VBox.vgrow="ALWAYS">
+                                                      <JFXListView fx:id="assistantListView" fixedCellSize="35.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                                                          <VBox.margin>
                                                             <Insets />
                                                          </VBox.margin>
@@ -149,7 +149,7 @@
                                                             </HBox>
                                                          </children>
                                                       </StackPane>
-                                                      <JFXListView fx:id="studentListView" fixedCellSize="35.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-radius: 10px;" VBox.vgrow="ALWAYS">
+                                                      <JFXListView fx:id="studentListView" fixedCellSize="35.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                                                          <VBox.margin>
                                                             <Insets />
                                                          </VBox.margin>

@@ -248,8 +248,8 @@ public class AdminController implements Refreshable {
     	userDeleteButton.disableProperty().bind(userSelectionSize.isEqualTo(0));
     	
     	// Dynamic tab resizing
-    	tabPane.tabMinWidthProperty().bind(rootPane.widthProperty().subtract(10).divide(2));
-    	tabPane.tabMaxWidthProperty().bind(rootPane.widthProperty().subtract(10).divide(2));    	
+    	tabPane.tabMinWidthProperty().bind(rootPane.widthProperty().divide(2));
+    	tabPane.tabMaxWidthProperty().bind(rootPane.widthProperty().divide(2));    	
 	}
 	
 	/**
@@ -365,6 +365,7 @@ public class AdminController implements Refreshable {
 		clearCourseView();
 		clearDescendantViews();
 		clearUserView();
+		clearSelections();
 	}
 	
 	/**
@@ -411,6 +412,25 @@ public class AdminController implements Refreshable {
 	 */
 	public void clearUserView() {
 		users.clear();
+	}
+	
+	/**
+	 * Clears selection for every selectable component in the user interface.
+	 */
+	public void clearSelections() {
+		// Unselect everything
+		courseListView.getSelectionModel().clearSelection();
+		professorListView.getSelectionModel().clearSelection();
+		assistantListView.getSelectionModel().clearSelection();
+		studentListView.getSelectionModel().clearSelection();
+		userTreeTableView.getSelectionModel().clearSelection();
+		
+		// Force recalculation of bound properties
+    	courseSelectionSize.invalidate();
+    	professorSelectionSize.invalidate();
+    	assistantSelectionSize.invalidate();
+    	studentSelectionSize.invalidate();
+    	userSelectionSize.invalidate();
 	}
 	
 	
