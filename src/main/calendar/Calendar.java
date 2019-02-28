@@ -111,10 +111,30 @@ public class Calendar {
 						String username = LoginManager.getActiveUser().getUsername();
 						PeriodManager.addPeriod(courseCode, time, username);
 					} else {
-						//TODO: Legg til at den sletter created først
+						//Først prøver å finne created, så bookable, så booked
 						List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, node.getDateTime());
-						if(periods.size() > 0)
-							PeriodManager.deletePeriod(periods.get(0));	
+						if(periods.size() > 0) {
+							boolean foundAvailablePeriod = false;
+							for (Period period : periods) {
+								if (period.getPeriodType() == PeriodType.CREATED) {
+									PeriodManager.deletePeriod(period);
+									foundAvailablePeriod = true;
+									break;
+								}
+							}
+							if (!foundAvailablePeriod) {
+								for (Period period : periods) {
+									if (period.getPeriodType() == PeriodType.BOOKABLE) {
+										PeriodManager.deletePeriod(period);
+										foundAvailablePeriod = true;
+										break;
+									}
+								}
+							}
+							if (!foundAvailablePeriod) {
+								PeriodManager.deletePeriod(periods.get(0));	
+							}
+						}
 					}
 					updateCell(x+1,y);
 				}
