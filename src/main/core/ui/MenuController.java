@@ -72,6 +72,9 @@ public class MenuController implements Refreshable {
 			if (controller != null)
 				controller.refresh();
 			
+			// Update role label
+			updateRoleLabel(LoginManager.getActiveUser(), getSelectedCourse());
+			
 			System.out.printf("CourseChangeListener [%s -> %s]%n",  oldValue, newValue);
     	});
 	}
@@ -150,8 +153,10 @@ public class MenuController implements Refreshable {
 	 */
 	private void updateRoleLabel(User user, Course course) {
 		// TODO: Hardcoded admin check
-		if (user.getUsername().equals("admin"))
+		if (user.getUsername().equals("admin")) {
 			roleLabel.setText("Admin");
+			return;
+		}
 		
 		// Update role
 		if (course != null)

@@ -1,7 +1,7 @@
 package main.utils;
 
 public enum Role {
-	PROFESSOR("Professor"), 
+	PROFESSOR("Emneansvarlig"), 
 	ASSISTANT("Assistent"), 
 	STUDENT("Student");
 	
