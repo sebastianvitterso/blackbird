@@ -19,7 +19,6 @@ import main.app.Loader;
 import main.app.StageManager;
 import main.db.CourseManager;
 import main.db.LoginManager;
-import main.db.UserManager;
 import main.models.Course;
 import main.models.User;
 import main.utils.PostInitialize;

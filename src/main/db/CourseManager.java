@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import main.calendar.Calendar;
 import main.models.Course;
 import main.models.User;
 import main.utils.Role;
