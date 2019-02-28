@@ -158,8 +158,10 @@ public class Calendar {
 				 * Empty string is there to make the StackPaneNode 
 				 * take up as much space as the time columns
 				 */
+				sp.getStyleClass().add("available1");
 			} else {
-				dayPaneNodes[n-1] = sp;	
+				dayPaneNodes[n-1] = sp;
+				sp.getStyleClass().add("unavailable1");
 			}
 		}
 		updateDayPaneNodes();
