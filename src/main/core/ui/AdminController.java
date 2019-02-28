@@ -22,11 +22,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.util.Callback;
 import main.app.Loader;
 import main.core.ui.popups.CoursePopupController;
 import main.core.ui.popups.UserPopupController;
@@ -123,6 +126,22 @@ public class AdminController implements Refreshable {
     	// Create references to selections
     	selectedCourses = courseListView.getSelectionModel().getSelectedItems();
     	
+    	// Assign string converter for displaying courses
+    	courseListView.setCellFactory(new Callback<ListView<Course>, ListCell<Course>>() {
+			@Override
+			public ListCell<Course> call(ListView<Course> listView) {
+				return new ListCell<Course>() {
+					@Override
+					protected void updateItem(Course course, boolean empty) {
+						super.updateItem(course, empty);
+						if (course != null && !empty)
+							setText(String.format("%s - %s", course.getCourseCode(), course.getName()));
+						else
+							setText(null);
+					}
+				};
+			}
+		});
     }
 
 	/**

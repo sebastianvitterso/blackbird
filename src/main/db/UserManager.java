@@ -62,10 +62,12 @@ public class UserManager {
 		return DatabaseUtil.MapsToUsers(userMaps);
 	}
 	
-	public static List<User> getUsersExcludingRole(Course course, Role role) {
-		String query = "SELECT * FROM user WHERE username not IN "
-				+ "(SELECT username FROM user_course WHERE course_code = '" 
-				+ course.getCourseCode() + "' and role = '" + role.name() + "');";
+	public static List<User> getUsersExcludingCourse(Course course) {
+		String query = String.format("SELECT * FROM user WHERE username NOT IN "
+				+ "(SELECT username FROM user_course WHERE course_code = '%s') "
+				+ "AND NOT username = 'admin'",
+				course.getCourseCode());
+		
 		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
 		return DatabaseUtil.MapsToUsers(userMaps);
 	}
