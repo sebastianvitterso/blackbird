@@ -24,7 +24,10 @@
                         <Insets left="10.0" top="20.0" />
                      </VBox.margin>
                   </Label>
-                  <StackPane fx:id="calendarPane" prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane fx:id="calendarPane" prefHeight="150.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin></StackPane>
                </children>
             </VBox>
          </children>

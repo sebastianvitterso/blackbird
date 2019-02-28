@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import main.models.Course;
-import main.utils.Role;
 import main.models.User;
+import main.utils.Role;
 
 public class CourseManager {
 	
@@ -59,9 +59,9 @@ public class CourseManager {
 	 * Updates the database entry associated with input courses' primary key. 
 	 */
 	public static int updateCourse(Course course) {
-		String query = String.format("UPDATE course SET name = %s, description = %s where course_code = %s;", 
+		String query = String.format("UPDATE course SET name = '%s', description = '%s' where course_code = '%s';", 
 				course.getName(), course.getDescription(), course.getCourseCode() );
-		
+		System.out.println(query);
 		return DatabaseManager.sendUpdate(query);
 	}
 

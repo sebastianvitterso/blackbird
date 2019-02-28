@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -8,10 +9,13 @@
    <children>
       <HBox>
          <children>
-            <StackPane fx:id="menuPane" prefHeight="150.0" prefWidth="200.0" />
-            <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" pannable="true" prefHeight="800.0" prefWidth="1010.0" HBox.hgrow="ALWAYS">
+            <StackPane fx:id="menuPane" prefWidth="270.0" />
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" pannable="true" prefHeight="800.0" prefWidth="1010.0" styleClass="edge-to-edge" HBox.hgrow="ALWAYS">
                <content>
-                  <StackPane fx:id="contentPane" />
+                  <StackPane fx:id="contentPane">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets></StackPane>
                </content>
             </ScrollPane>
          </children>

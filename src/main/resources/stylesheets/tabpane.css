@@ -1,44 +1,44 @@
 * {
 	-fx-primary: #202020;
 	-fx-secondary: #D6D6D9;
+	
+	-grey-1: #202020;
+	-grey-2: #BBBBBB;
+	-grey-3: #707070;
+	
+	-beige-1: #D6D6D6;
+	
+	-green-1: #ACCEB9;
+	-green-2: #006110;
+	
+	-red-1: #CEACAC;
+	-red-2: #7E0000;
 }
 
 .jfx-tab-pane .depth-container .tab-header-area .control-buttons-tab {
 	visibility: hidden;
+	-fx-min-width: 0;
 	-fx-pref-width: 0;
+	-fx-max-width: 0;
 }
 .jfx-tab-pane .depth-container .tab-header-area .control-buttons-tab .jfx-rippler{
 	visibility: hidden;
 }
-
 .jfx-tab-pane .depth-container .tab-header-area .tab-header-background {
 	-fx-pref-width: 0;
-	visibility: hidden;
-}
-
-.jfx-tab-pane .depth-container .tab-header-area .headers-region {
-	-fx-translate-x: 5;
+	-fx-background-color: derive(-beige-1, 20%);
 }
 .jfx-tab-pane .depth-container .tab-header-area .headers-region .tab-selected-line{
-	-fx-background-color: -fx-primary;
-	/*
-	-fx-min-width: 150;
-	-fx-pref-width: 150;
-	-fx-max-width: 150;
-	-fx-scale-shape: false;*/
+	-fx-background-color: derive(-grey-1, 20%);
 }
-
 .jfx-tab-pane:top .depth-container .tab-header-area .headers-region .tab .jfx-rippler {
-	-jfx-rippler-fill: -fx-primary;
+	-jfx-rippler-fill: #707070;
 }
-
 .jfx-tab-pane:top .depth-container .tab-header-area .headers-region .tab:selected {
-	-fx-background-color: #e7e7e7;
-	-fx-effect: innershadow( gaussian, rgba( 180, 180, 180, 0.5 ), 30, 0, 0, 10 );
+	/*-fx-background-color: #e7e7e7;*/
+	/*-fx-effect: innershadow( gaussian, rgba( 180, 180, 180, 0.5 ), 30, 0, 0, 10 );*/
 }
-
-
 .jfx-tab-pane .depth-container .tab-header-area .headers-region .tab .jfx-rippler .tab-container .tab-label{
-	-fx-text-fill: -fx-primary;
+	-fx-text-fill: derive(-grey-1, 20%);
 	-fx-font: bold 9pt "System";
 }
