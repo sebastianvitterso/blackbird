@@ -22,14 +22,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.util.Callback;
 import main.app.Loader;
 import main.core.ui.popups.CoursePopupController;
 import main.core.ui.popups.UserPopupController;
@@ -111,6 +108,9 @@ public class AdminController implements Refreshable {
     	initializeUserView();
     	initializeChangeListeners();
     	initializeBindings();
+    	
+    	// Update when switching between tabs
+    	tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> update());
     }
     
     /**
@@ -127,21 +127,22 @@ public class AdminController implements Refreshable {
     	selectedCourses = courseListView.getSelectionModel().getSelectedItems();
     	
     	// Assign string converter for displaying courses
-    	courseListView.setCellFactory(new Callback<ListView<Course>, ListCell<Course>>() {
-			@Override
-			public ListCell<Course> call(ListView<Course> listView) {
-				return new ListCell<Course>() {
-					@Override
-					protected void updateItem(Course course, boolean empty) {
-						super.updateItem(course, empty);
-						if (course != null && !empty)
-							setText(String.format("%s - %s", course.getCourseCode(), course.getName()));
-						else
-							setText(null);
-					}
-				};
-			}
-		});
+//    	courseListView.setCellFactory(new Callback<ListView<Course>, ListCell<Course>>() {
+//			@Override
+//			public ListCell<Course> call(ListView<Course> listView) {
+//				return new ListCell<Course>() {
+//					@Override
+//					protected void updateItem(Course course, boolean empty) {
+//						super.updateItem(course, empty);
+//						
+//						if (course != null && !empty)
+//							setText(String.format("%s - %s", course.getCourseCode(), course.getName()));
+//						else
+//							setText(null);
+//					}
+//				};
+//			}
+//		});
     }
 
 	/**
@@ -328,6 +329,9 @@ public class AdminController implements Refreshable {
 	 * Changes are reflected in the user interface.
 	 */
 	public void updateViewByRole(Role role) {
+		// Clear previous data
+		clearViewByRole(role);
+		
 		// Break if no single course is selected
 		if (courseSelectionSize.isNotEqualTo(1).get())
 			return;
