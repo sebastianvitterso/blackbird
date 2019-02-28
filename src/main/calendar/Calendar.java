@@ -148,6 +148,9 @@ public class Calendar {
 		for (int n = 0; n < 6; n++) {
 			StackPaneNode sp = new StackPaneNode();
 			sp.setPrefSize(400, 10);
+			Border border = new Border(
+					new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0.1)));
+			sp.setBorder(border);
 			dayLabels.add(sp, col++, 0);
 			if (n == 0) {
 				sp.addText("               ");
@@ -175,8 +178,6 @@ public class Calendar {
 
 	private GridPane createCalendarGridPane() {
 		GridPane calendarGridPane = new GridPane();
-		calendarGridPane.setGridLinesVisible(true);
-
 		// Create rows and columns with anchor panes for the calendar
 		for (int x = 0; x <= 5; x++) {
 			for (int y = 0; y < 16; y++) {
