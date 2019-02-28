@@ -14,7 +14,7 @@ import main.utils.Role;
  */
 public class StackPaneNode extends StackPane {
 
-	private CalendarGenerator parent;
+	private Calendar parent;
     private LocalDateTime date;
     private int x;
     private int y;
@@ -53,7 +53,7 @@ public class StackPaneNode extends StackPane {
 			txt.getStyleClass().add("text");
 		}
     }
-    public void setParent(CalendarGenerator parent) {
+    public void setParent(Calendar parent) {
     	this.parent = parent;
     }
 

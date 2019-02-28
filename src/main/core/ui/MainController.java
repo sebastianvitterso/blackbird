@@ -67,7 +67,6 @@ public class MainController implements Refreshable {
 		
 		// Refresh tab
 		currentController.refresh();
-		System.out.println("Refreshing " + currentController.getClass().getSimpleName());
 		
 		// Inject new tab
 		contentPane.getChildren().setAll(currentParent);
@@ -103,6 +102,19 @@ public class MainController implements Refreshable {
 		if (currentController != null)
 			currentController.clear();
 	}
+	
+	public View getCurrentView() {
+		return currentView;
+	}
+	
+	public Region getCurrentParent() {
+		return currentParent;
+	}
+	
+	public Refreshable getCurrentController() {
+		return currentController;
+	}
+	
 	
 	/**
 	 * Implements custom scrolling behavior for ScrollPanes.

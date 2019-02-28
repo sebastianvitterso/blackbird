@@ -65,8 +65,14 @@ public class MenuController implements Refreshable {
 		});
 		
 		// ChangeListener for courses
-//		courseComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//    	});
+		courseComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			// Update current tab
+			Refreshable controller = mainController.getCurrentController();
+			if (controller != null)
+				controller.update();
+			
+			System.out.printf("CourseChangeListener [%s -> %s]%n",  oldValue, newValue);
+    	});
 	}
 	
 	/**
@@ -115,6 +121,7 @@ public class MenuController implements Refreshable {
 	 */
 	@Override
 	public void update() {
+		System.out.println("Menu update");
 		User activeUser = LoginManager.getActiveUser();
 		updatePersonalia(activeUser);
 		updateCourseComboBox(activeUser);
@@ -149,6 +156,9 @@ public class MenuController implements Refreshable {
 		// Select first course, if present
 		if (!courseComboBox.getItems().isEmpty())
 			courseComboBox.getSelectionModel().selectFirst();
+		
+		// Fix size bug upon re-rendering
+		courseComboBox.autosize();
 	}
 	
 	/**
@@ -218,6 +228,13 @@ public class MenuController implements Refreshable {
 		
 		// Load corresponding tab
 		mainController.loadTab(view);
+	}
+	
+	/**
+	 * Returns the selected course.
+	 */
+	public Course getSelectedCourse() {
+		return courseComboBox.getSelectionModel().getSelectedItem();
 	}
 	
 	

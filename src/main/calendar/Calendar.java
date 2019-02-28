@@ -1,4 +1,4 @@
- package main.calendar;
+package main.calendar;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,44 +24,85 @@ import main.db.PeriodManager;
 import main.models.Course;
 import main.models.Period;
 import main.models.Period.PeriodType;
+import main.models.User;
 import main.utils.Role;
 
-public class CalendarGenerator {
-	private int weeknum;
-	private LocalDate startOfWeek;
+public class Calendar {
+	private static int weeknum;
+	private static LocalDate startOfWeek;
 	private VBox view;
 	private Map<LocalDateTime, TimeSlot> timeSlots = new HashMap<LocalDateTime, TimeSlot>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
 	private StackPaneNode[] dayPaneNodes = new StackPaneNode[5];
-	Course course;
-	public CalendarGenerator() {
+	private static Course course;
+	private Role role;
+	
+	public Calendar() {
 		weeknum = getRelevantWeek();
 		startOfWeek = calculateStartOfWeek();
+		course = null;
+		role = null;
 
-		course = CourseManager.getCourse("TDT4100");
-		
 		GridPane dayLabels = createDayLabels();
-		GridPane calendar = createCalendar();
+		GridPane calendar = createCalendarGridPane();
 		view = new VBox(dayLabels, calendar);
 	}
-	public Role getRole() {
-		//@@@@@ Skal hentes av seg selv ved senere implementasjon
-		return LoginManager.getActiveUser().getUsername().equals("eiv") ? Role.STUDENT : Role.ASSISTANT; 
+	
+	public void setCourse(Course course) {
+		Calendar.course = course;
 	}
-	//Current week if monday-friday, else next week
-	public int getRelevantWeek() {
-		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-		int weekNumber = LocalDate.now().plusDays(2).get(woy);
-		return weekNumber;
+	
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
+	public void updateCell(int x, int y) {
+		LocalDateTime cellDateTime = calculateDateTime(x, y);
+		TimeSlot timeSlot = new TimeSlot(course, cellDateTime);
+		timeSlots.put(cellDateTime, timeSlot);
+		updateStackPaneNode(stackPaneNodes[x - 1][y], timeSlot, cellDateTime, y);
+	}
+	
+	public void updateCell(int x, int y, TimeSlot timeSlot) {
+		if (timeSlot == null) {
+			timeSlot = new TimeSlot(); // fix for nullPointerExceptions. 
+		}
+		LocalDateTime cellDateTime = calculateDateTime(x, y);
+		timeSlots.put(cellDateTime, timeSlot);
+		updateStackPaneNode(stackPaneNodes[x - 1][y], timeSlot, cellDateTime, y);
+	}
+	
+	public void updateAllCells() {
+		LocalDateTime startOfWeekMidnight = LocalDateTime.of(startOfWeek, localTimeOf(0));
+		Map<String, TimeSlot> timeSlotMap = PeriodManager.getPeriodsFromCourseAndWeekStartTime(course, startOfWeekMidnight);
+		for (int x = 1; x <= 5; x++) {
+			for (int y = 0; y < 16; y++) {
+				String timeStamp = TimeSlot.localDateTimeToSQLDateTime(calculateDateTime(x,y));
+				updateCell(x, y, timeSlotMap.get(timeStamp));
+			}
+		}
+	}
+	
+	public static Role getRole() {
+		User activeUser = LoginManager.getActiveUser();
+		if(CourseManager.isUserRoleInCourse(activeUser, course, Role.PROFESSOR))
+			return Role.PROFESSOR;
+		else if(CourseManager.isUserRoleInCourse(activeUser, course, Role.ASSISTANT))
+			return Role.ASSISTANT;
+		else if(CourseManager.isUserRoleInCourse(activeUser, course, Role.STUDENT))
+			return Role.STUDENT;
+		else
+			return null;
 	}
 	
 	public void changeWeekUpdate(int weeknum) {
-		this.weeknum = weeknum;
+		Calendar.weeknum = weeknum;
 		startOfWeek = calculateStartOfWeek();
 		updateDayPaneNodes();
 		resetSelections();
 		updateAllCells();
 	}
+	
 	public void resetSelections() {
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 16; y++) {
@@ -69,21 +110,23 @@ public class CalendarGenerator {
 			}
 		}
 	}
-	//Amount must be -1 or 1
+	
+	/*
+	 * Amount must be -1 or 1
+	 */
 	public void changeSelectedAvailableSlots(int amount) {
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 16; y++) {
 				StackPaneNode node = stackPaneNodes[x][y];
 				if (node.isFocused()) {
-					String time = TimeSlot.localDateTimeToSQLDateTime(node.getDateTime());
-					System.out.println(time);
 					if (amount == 1) {
 						String courseCode = course.getCourseCode();
+						String time = TimeSlot.localDateTimeToSQLDateTime(node.getDateTime());
 						String username = LoginManager.getActiveUser().getUsername();
 						PeriodManager.addPeriod(courseCode, time, username);
 					} else {
 						//TODO: Legg til at den sletter created først
-						List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, time);
+						List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, node.getDateTime());
 						if(periods.size() > 0)
 							PeriodManager.deletePeriod(periods.get(0));	
 					}
@@ -93,20 +136,8 @@ public class CalendarGenerator {
 		}
 	}
 	
-	public LocalDate calculateStartOfWeek() {
-		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-		int dayNumInWeek = LocalDate.now().getDayOfWeek().getValue();
-		int thisWeekNumber = LocalDate.now().get(woy);
-		if (thisWeekNumber > weeknum) {
-			return LocalDate.now().minusDays(dayNumInWeek - 1).minusDays((thisWeekNumber - weeknum) * 7);
-		} else {
-			return LocalDate.now().minusDays(dayNumInWeek - 1).plusDays((weeknum - thisWeekNumber) * 7);
-		}
-	}
-
 	private GridPane createDayLabels() {
 		GridPane dayLabels = new GridPane();
-		// dayLabels.setPrefWidth(1200);
 		Integer col = 0;
 		for (int n = 0; n < 6; n++) {
 			StackPaneNode sp = new StackPaneNode();
@@ -114,8 +145,10 @@ public class CalendarGenerator {
 			dayLabels.add(sp, col++, 0);
 			if (n == 0) {
 				sp.addText("               ");
-				//Empty string is there to make the StackPaneNode 
-				//take up as much space as the time columns
+				/*
+				 * Empty string is there to make the StackPaneNode 
+				 * take up as much space as the time columns
+				 */
 			} else {
 				dayPaneNodes[n-1] = sp;	
 			}
@@ -134,25 +167,17 @@ public class CalendarGenerator {
 		}
 	}
 
-	private GridPane createCalendar() {
-		GridPane calendar = new GridPane();
-		calendar.setGridLinesVisible(true);
+	private GridPane createCalendarGridPane() {
+		GridPane calendarGridPane = new GridPane();
+		calendarGridPane.setGridLinesVisible(true);
 
 		// Create rows and columns with anchor panes for the calendar
 		for (int x = 0; x <= 5; x++) {
 			for (int y = 0; y < 16; y++) {
-				createCell(calendar, x, y);
+				createCell(calendarGridPane, x, y);
 			}
 		}
-		return calendar;
-	}
-
-	public void updateAllCells() {
-		for (int x = 1; x <= 5; x++) {
-			for (int y = 0; y < 16; y++) {
-				updateCell(x, y);
-			}
-		}
+		return calendarGridPane;
 	}
 
 	public void createCell(GridPane calendar, int x, int y) {
@@ -173,31 +198,10 @@ public class CalendarGenerator {
 			sp.getStyleClass().add("available" + (y % 2));
 			return;
 		}
-
 		sp.setParent(this);
 		sp.setX(x);
 		sp.setY(y);
-
 		stackPaneNodes[x - 1][y] = sp;
-	}
-
-	public LocalDateTime calculateDateTime(int x, int y) {
-		double hours = 8 + y / 2.0;
-		LocalDate date = startOfWeek.plusDays(x - 1);
-		LocalTime time = localTimeOf(hours);
-		return LocalDateTime.of(date, time);
-	}
-
-	public void updateCell(int x, int y) {
-		LocalDateTime cellDateTime = calculateDateTime(x, y);
-		timeSlots.put(cellDateTime, new TimeSlot(course, cellDateTime));
-		TimeSlot timeSlot = timeSlots.get(cellDateTime);
-		updateStackPaneNode(stackPaneNodes[x - 1][y], timeSlot, cellDateTime, y);
-	}
-
-	public LocalTime localTimeOf(double hours) {
-		int minutes = (int) ((hours % 1) * 60);
-		return LocalTime.of((int) hours, minutes);
 	}
 
 	public void updateStackPaneNode(StackPaneNode sp, TimeSlot timeSlot, LocalDateTime dateTime, int y) {
@@ -205,11 +209,10 @@ public class CalendarGenerator {
 		sp.getStyleClass().clear();
 		sp.getChildren().clear();
 		String text = "";
-		Role myRole = getRole();
 		int created = timeSlot.getPeriodCountByType(PeriodType.CREATED);
 		int bookable = timeSlot.getPeriodCountByType(PeriodType.BOOKABLE);
 		int booked = timeSlot.getPeriodCountByType(PeriodType.BOOKED);
-		if (myRole == Role.STUDENT) {
+		if (role == Role.STUDENT) {
 			if ((bookable + booked) == 0) {
 				sp.getStyleClass().add("unavailable" + (y % 2));
 				return;
@@ -224,7 +227,7 @@ public class CalendarGenerator {
 				text = "Ledig";
 			}
 			sp.addText(text + "(" + booked + "/" + (bookable + booked) + ")", true);
-		} else if (myRole == Role.ASSISTANT) {
+		} else if (role == Role.ASSISTANT) {
 			if (timeSlot.getPeriodCount() == 0) {
 				sp.getStyleClass().add("unavailable" + (y % 2));
 				return;
@@ -249,11 +252,13 @@ public class CalendarGenerator {
 			}
 			sp.addText(text + timeSlot.getPeriodCount(), true);
 		}
-		
-
 	}
-
+	
+	/*
+	 * Updater før slik at vi har riktig data, updater etterpå for å vise riktig data etter booking/unbooking
+	 */
 	public void BookUnbookTimeSlot(LocalDateTime dateTime, int x, int y) {
+		updateCell(x, y);
 		TimeSlot timeSlot = timeSlots.get(dateTime);
 		if (timeSlot.amStudentInTimeSlot()) {
 			timeSlot.unbookTimeSlot();
@@ -263,7 +268,11 @@ public class CalendarGenerator {
 		updateCell(x, y);
 	}
 	
+	/*
+	 * Updater før slik at vi har riktig data, updater etterpå for å vise riktig data etter tutor/untutor
+	 */
 	public void TutorUntutorTimeSlot(LocalDateTime dateTime, int x, int y) {
+		updateCell(x, y);
 		TimeSlot timeSlot = timeSlots.get(dateTime);
 		if (timeSlot.amAssistantInTimeSlot()) {
 			timeSlot.untutorTimeSlot();
@@ -276,4 +285,37 @@ public class CalendarGenerator {
 	public VBox getView() {
 		return view;
 	}
+
+	public static LocalDate calculateStartOfWeek() {
+		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+		int dayNumInWeek = LocalDate.now().getDayOfWeek().getValue();
+		int thisWeekNumber = LocalDate.now().get(woy);
+		if (thisWeekNumber > weeknum) {
+			return LocalDate.now().minusDays(dayNumInWeek - 1).minusDays((thisWeekNumber - weeknum) * 7);
+		} else {
+			return LocalDate.now().minusDays(dayNumInWeek - 1).plusDays((weeknum - thisWeekNumber) * 7);
+		}
+	}
+
+	public static LocalDateTime calculateDateTime(int x, int y) {
+		double hours = 8 + y / 2.0;
+		LocalDate date = startOfWeek.plusDays(x - 1);
+		LocalTime time = localTimeOf(hours);
+		return LocalDateTime.of(date, time);
+	}
+	
+	public static LocalTime localTimeOf(double hours) {
+		int minutes = (int) ((hours % 1) * 60);
+		return LocalTime.of((int) hours, minutes);
+	}
+	
+	/*
+	 * Current week if monday-friday, else next week
+	 */
+	public static int getRelevantWeek() {
+		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+		int weekNumber = LocalDate.now().plusDays(2).get(woy);
+		return weekNumber;
+	}
+	
 }

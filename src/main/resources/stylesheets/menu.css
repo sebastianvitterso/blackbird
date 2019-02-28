@@ -37,17 +37,17 @@
 	-jfx-focus-color: derive(#707070, -10%);
 	-jfx-unfocus-color: #707070;
 }
-.course-combobox .list-cell .text {
+.course-combobox .list-cell {
 	-fx-font: normal 14px "Segoe UI";
-	-fx-fill: #BBBBBB;
+	-fx-text-fill: #BBBBBB;
 }
-.course-combobox .list-view .list-cell .text {
+.course-combobox .list-view .list-cell {
 	-fx-font: normal 12px "Segoe UI";
-	-fx-fill: derive(#707070, 20%);
+	-fx-text-fill: derive(#707070, 20%);
 }
-.course-combobox .list-view .list-cell:selected .text {
+.course-combobox .list-view .list-cell:selected {
 	-fx-font: normal 12px "Segoe UI";
-	-fx-fill: derive(#707070, 40%);
+	-fx-text-fill: derive(#707070, 40%);
 }
 .course-combobox .input-line {
 	-fx-scale-x: 0.9;
