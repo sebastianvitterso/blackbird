@@ -19,6 +19,7 @@ import main.app.Loader;
 import main.app.StageManager;
 import main.db.CourseManager;
 import main.db.LoginManager;
+import main.db.UserManager;
 import main.models.Course;
 import main.models.User;
 import main.utils.PostInitialize;
@@ -69,7 +70,7 @@ public class MenuController implements Refreshable {
 			// Update current tab
 			Refreshable controller = mainController.getCurrentController();
 			if (controller != null)
-				controller.update();
+				controller.refresh();
 			
 			System.out.printf("CourseChangeListener [%s -> %s]%n",  oldValue, newValue);
     	});
@@ -138,9 +139,23 @@ public class MenuController implements Refreshable {
 	public void updatePersonalia(User user) {
 		// TODO: Need information about users role for given course in returned query (UserCourse-relation)
 		nameLabel.setText(user.getName());
-		roleLabel.setText("Student");
+		
+		updateRoleLabel(user, getSelectedCourse());
 		
 		imageCircle.setFill(new ImagePattern(Loader.getImage("icons/silhouette.jpg")));
+	}
+	
+	/**
+	 * Updates role to be displayed in personalia.
+	 */
+	private void updateRoleLabel(User user, Course course) {
+		// TODO: Hardcoded admin check
+		if (user.getUsername().equals("admin"))
+			roleLabel.setText("Admin");
+		
+		// Update role
+		if (course != null)
+			roleLabel.setText(CourseManager.getRoleInCourse(LoginManager.getActiveUser(), course).getNorwegianName());
 	}
 	
 	/**

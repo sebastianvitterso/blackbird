@@ -31,7 +31,7 @@ public class SchedulingController implements Refreshable {
 	
 	@Override
 	public void clear() {
-		
+		calendarController.clear();
 	}
 	
 	

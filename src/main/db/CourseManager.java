@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import main.calendar.Calendar;
 import main.models.Course;
 import main.models.User;
 import main.utils.Role;
@@ -83,5 +84,16 @@ public class CourseManager {
 		return result.size() == 1;
 		//isUserRoleInCourse(LoginManager.getActiveUser(), getCourse("TDT4140"), Role.ASSISTANT);
 		
+	}
+
+	public static Role getRoleInCourse(User user, Course course) {
+		if(isUserRoleInCourse(user, course, Role.PROFESSOR))
+			return Role.PROFESSOR;
+		else if(isUserRoleInCourse(user, course, Role.ASSISTANT))
+			return Role.ASSISTANT;
+		else if(isUserRoleInCourse(user, course, Role.STUDENT))
+			return Role.STUDENT;
+		else
+			return null;
 	}
 }

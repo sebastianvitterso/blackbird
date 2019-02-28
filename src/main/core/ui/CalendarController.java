@@ -8,6 +8,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import main.app.Loader;
 import main.calendar.Calendar;
+import main.db.CourseManager;
+import main.db.LoginManager;
+import main.models.Course;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Role;
@@ -53,7 +56,7 @@ public class CalendarController implements Refreshable {
     }
 	
 	public void showButtons() {
-		if (calendar.getRole() == Role.PROFESSOR) {
+		if (CourseManager.getRoleInCourse(LoginManager.getActiveUser(), Calendar.course) == Role.PROFESSOR) {
 			removeStudass.setVisible(true);
 			addStudass.setVisible(true);	
 		} else {
@@ -65,18 +68,23 @@ public class CalendarController implements Refreshable {
 	@Override
 	public void update() {
 		calendarPane.getChildren().setAll(calendar.getView());
-		displayWeek = calendar.getRelevantWeek(); 
+		displayWeek = Calendar.getRelevantWeek(); 
 		updateWeek(displayWeek);
-		calendar.setCourse(menuController.getSelectedCourse()); // TODO: FIx this, bruv. 
-//		calendar.setCourse(CourseManager.getCourse("TDT4100")); // TODO: FIx this, bruv. 
-		calendar.setRole(calendar.getRole());
+		Course selectedCourse = menuController.getSelectedCourse();
+		if (selectedCourse == null)
+			return;
+		calendar.setCourse(selectedCourse);
+		calendar.setRole(CourseManager.getRoleInCourse(LoginManager.getActiveUser(), selectedCourse));
 		showButtons();
 		calendar.updateAllCells();
 	}
 	
 	@Override
 	public void clear() {
-		
+		removeStudass.setVisible(false);
+		addStudass.setVisible(false);
+		refreshBtn.setVisible(false);
+		calendar.resetSelections();
 	}
 	
 	
@@ -86,7 +94,7 @@ public class CalendarController implements Refreshable {
 
 	@FXML
 	void handleTodayBtn() {
-		displayWeek = calendar.getRelevantWeek(); 
+		displayWeek = Calendar.getRelevantWeek(); 
 		calendar.changeWeekUpdate(displayWeek);
 		updateWeek(displayWeek);
 

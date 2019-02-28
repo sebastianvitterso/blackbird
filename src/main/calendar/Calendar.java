@@ -18,13 +18,11 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import main.db.CourseManager;
 import main.db.LoginManager;
 import main.db.PeriodManager;
 import main.models.Course;
 import main.models.Period;
 import main.models.Period.PeriodType;
-import main.models.User;
 import main.utils.Role;
 
 public class Calendar {
@@ -34,7 +32,7 @@ public class Calendar {
 	private Map<LocalDateTime, TimeSlot> timeSlots = new HashMap<LocalDateTime, TimeSlot>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
 	private StackPaneNode[] dayPaneNodes = new StackPaneNode[5];
-	private static Course course;
+	public static Course course;
 	private Role role;
 	
 	public Calendar() {
@@ -81,18 +79,6 @@ public class Calendar {
 				updateCell(x, y, timeSlotMap.get(timeStamp));
 			}
 		}
-	}
-	
-	public static Role getRole() {
-		User activeUser = LoginManager.getActiveUser();
-		if(CourseManager.isUserRoleInCourse(activeUser, course, Role.PROFESSOR))
-			return Role.PROFESSOR;
-		else if(CourseManager.isUserRoleInCourse(activeUser, course, Role.ASSISTANT))
-			return Role.ASSISTANT;
-		else if(CourseManager.isUserRoleInCourse(activeUser, course, Role.STUDENT))
-			return Role.STUDENT;
-		else
-			return null;
 	}
 	
 	public void changeWeekUpdate(int weeknum) {

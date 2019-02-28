@@ -49,7 +49,6 @@ public class PeriodManager {
 		return DatabaseUtil.MapsToPeriods(periodMaps);
 	}
 	
-	@SuppressWarnings("exports")
 	public static Map<String, TimeSlot> getPeriodsFromCourseAndWeekStartTime(Course course, LocalDateTime localDateTime){
 		String weekStartTimestamp = TimeSlot.localDateTimeToSQLDateTime(localDateTime);
 		String weekEndTimestamp = TimeSlot.localDateTimeToSQLDateTime(localDateTime.plusDays(7));
