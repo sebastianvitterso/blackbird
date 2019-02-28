@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" minHeight="-Infinity" prefHeight="800.0" prefWidth="1010.0" stylesheets="@../stylesheets/calendarstyle.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController">
+<AnchorPane fx:id="root" minHeight="-Infinity" prefHeight="800.0" prefWidth="1010.0" stylesheets="@../stylesheets/calendarstyle.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -111,7 +111,7 @@
                         </ImageView>
                      </graphic>
                      <StackPane.margin>
-                        <Insets right="70.0" />
+                        <Insets right="150.0" />
                      </StackPane.margin>
                   </JFXButton>
                   <JFXButton fx:id="addStudass" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handlePlusBtn" ripplerFill="#94d499c2" text="pluss" textAlignment="CENTER" textFill="WHITE" visible="false" StackPane.alignment="CENTER_RIGHT">
@@ -136,7 +136,7 @@
                         </ImageView>
                      </graphic>
                      <StackPane.margin>
-                        <Insets right="20.0" />
+                        <Insets right="80.0" />
                      </StackPane.margin>
                   </JFXButton>
                   <JFXButton fx:id="refreshBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleRefreshBtn" ripplerFill="#000000c2" styleClass="menu-button" text="refresh" textAlignment="CENTER" textFill="WHITE" visible="false" StackPane.alignment="CENTER_RIGHT">
