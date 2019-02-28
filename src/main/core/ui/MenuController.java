@@ -167,6 +167,14 @@ public class MenuController implements Refreshable {
 	 * Updates the underlying container holding the users selectable courses.
 	 */
 	public void updateCourseComboBox(User user) {
+		// TODO: Hardcode admin behavior
+		if (LoginManager.getActiveUser().getUsername().equals("admin")) {
+			courseComboBox.setVisible(false);
+			return;
+		} else {
+			courseComboBox.setVisible(true);
+		}
+		
 		// Fetch selectable courses from database for given user
 		List<Course> courses = CourseManager.getCoursesFromUser(user);
 		
