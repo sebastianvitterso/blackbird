@@ -1,11 +1,19 @@
 package main.core.ui;
 
+import java.sql.Time;
 import java.util.EnumMap;
 import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import javafx.animation.Animation.Status;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
+import javafx.beans.value.WritableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -14,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 import main.app.Loader;
 import main.app.StageManager;
@@ -28,6 +37,7 @@ import main.utils.View;
 public class MenuController implements Refreshable {
 	private MainController mainController;
 	private EnumMap<View, MenuButton> buttons = new EnumMap<>(View.class);
+	private RotateTransition rotateTransition;
 	
 	@FXML private StackPane rootPane;
 	@FXML private VBox menuButtonsVBox;
@@ -35,7 +45,7 @@ public class MenuController implements Refreshable {
     @FXML private Label nameLabel;
     @FXML private Label roleLabel;
     @FXML private JFXComboBox<Course> courseComboBox;
-	
+	@FXML private JFXButton refreshButton;
     
     //// Initialization ////
     /**
@@ -45,6 +55,7 @@ public class MenuController implements Refreshable {
 	@FXML
 	private void initialize() {
 		initializeMenuButtons();
+		initializeRefreshButton();
 		initializeCourseComboBox();
 	}
 	
@@ -106,6 +117,18 @@ public class MenuController implements Refreshable {
 			button.getImageView().setFitWidth(25);
 			button.getImageView().setFitHeight(25);
 		}
+	}
+	
+	/**
+	 * Initializes menu buttons by creating a mapping from {@code View} to corresponding buttom.
+	 * @see MenuButton
+	 */
+	private void initializeRefreshButton() {
+		rotateTransition = new RotateTransition();
+		rotateTransition.setByAngle(360);
+		rotateTransition.setDuration(Duration.millis(500));
+		rotateTransition.setInterpolator(Interpolator.EASE_BOTH);
+		rotateTransition.setNode(refreshButton);
 	}
 	
     /**
@@ -279,6 +302,12 @@ public class MenuController implements Refreshable {
     	StageManager.loadView(View.LOGIN_VIEW);
     }
 	
+	@FXML
+	void handleRefreshButtonClick(ActionEvent event) {
+		rotateTransition.play();
+		mainController.update();
+		
+	}
 	
 	/**
 	 * Custom implementation of JFXButton which can be linked to a {@code View} enumeration.

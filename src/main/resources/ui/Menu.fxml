@@ -141,5 +141,17 @@
             </JFXButton>
          </children>
       </VBox>
+      <JFXButton fx:id="refreshButton" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleRefreshButtonClick" prefHeight="20.0" prefWidth="20.0" ripplerFill="#8d8d8d" style="-fx-background-radius: 30;" StackPane.alignment="TOP_RIGHT">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/refresh.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <StackPane.margin>
+            <Insets right="10.0" top="10.0" />
+         </StackPane.margin>
+      </JFXButton>
    </children>
 </StackPane>
