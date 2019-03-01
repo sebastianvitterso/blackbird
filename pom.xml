@@ -24,6 +24,7 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.1.0</version>
 				<configuration>
+					<outputDirectory>${project.basedir}/release</outputDirectory>
 					<archive>
 						<manifest>
 							<mainClass>main.app.MainAppLauncher</mainClass>
