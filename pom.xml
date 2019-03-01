@@ -62,6 +62,7 @@
 				</executions>
 				<configuration>
 					<mainClass>main.app.MainAppLauncher</mainClass>
+					<cleanupDaemonThreads>false</cleanupDaemonThreads>
 				</configuration>
 			</plugin>
 		</plugins>
