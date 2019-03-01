@@ -31,11 +31,7 @@ public class DatabaseManager {
 		System.out.println("Injecting shutdown hook!");
 		MainApp.addShutdownHook(() -> {
 			System.out.println("Running shutdown hook!");
-			try {
-				DatabaseManager.connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			DatabaseManager.closeConnection();
 		});
 	}
 	
