@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import main.app.Loader;
 import main.core.ui.MenuController;
+import main.models.Course;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.View;
@@ -27,7 +28,9 @@ public class OverviewController implements Refreshable {
 	
 	@Override
 	public void update() {
-		courseDescriptionLabel.setText(menuController.getSelectedCourse().getDescription());
+		Course selectedCourse = menuController.getSelectedCourse();
+		if (selectedCourse != null)
+			courseDescriptionLabel.setText(selectedCourse.getDescription());
 	}
 	
 	@Override

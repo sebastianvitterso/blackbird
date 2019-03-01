@@ -84,4 +84,15 @@ public class CourseManager {
 		//isUserRoleInCourse(LoginManager.getActiveUser(), getCourse("TDT4140"), Role.ASSISTANT);
 		
 	}
+
+	public static Role getRoleInCourse(User user, Course course) {
+		if(isUserRoleInCourse(user, course, Role.PROFESSOR))
+			return Role.PROFESSOR;
+		else if(isUserRoleInCourse(user, course, Role.ASSISTANT))
+			return Role.ASSISTANT;
+		else if(isUserRoleInCourse(user, course, Role.STUDENT))
+			return Role.STUDENT;
+		else
+			return null;
+	}
 }

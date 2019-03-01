@@ -35,7 +35,7 @@
             <HBox nodeOrientation="RIGHT_TO_LEFT">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <JFXButton fx:id="registerButton" buttonType="RAISED" maxWidth="1.7976931348623157E308" onAction="#handleRegisterClick" prefHeight="30.0" prefWidth="120.0" styleClass="primary-button-grey" text="Registrer">
+                  <JFXButton fx:id="registerButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" onAction="#handleRegisterClick" prefHeight="30.0" prefWidth="120.0" styleClass="primary-button-grey" text="Registrer">
                      <effect>
                         <Blend mode="EXCLUSION" />
                      </effect>

@@ -32,7 +32,7 @@ public class Course {
 	
 	@Override
 	public String toString() {
-		return getCourseCode();
+		return String.format("%s - %s", courseCode, name);
 	}
 
 	

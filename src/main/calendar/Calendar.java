@@ -18,13 +18,11 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import main.db.CourseManager;
 import main.db.LoginManager;
 import main.db.PeriodManager;
 import main.models.Course;
 import main.models.Period;
 import main.models.Period.PeriodType;
-import main.models.User;
 import main.utils.Role;
 
 public class Calendar {
@@ -34,7 +32,7 @@ public class Calendar {
 	private Map<LocalDateTime, TimeSlot> timeSlots = new HashMap<LocalDateTime, TimeSlot>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
 	private StackPaneNode[] dayPaneNodes = new StackPaneNode[5];
-	private static Course course;
+	public static Course course;
 	private Role role;
 	
 	public Calendar() {
@@ -83,18 +81,6 @@ public class Calendar {
 		}
 	}
 	
-	public static Role getRole() {
-		User activeUser = LoginManager.getActiveUser();
-		if(CourseManager.isUserRoleInCourse(activeUser, course, Role.PROFESSOR))
-			return Role.PROFESSOR;
-		else if(CourseManager.isUserRoleInCourse(activeUser, course, Role.ASSISTANT))
-			return Role.ASSISTANT;
-		else if(CourseManager.isUserRoleInCourse(activeUser, course, Role.STUDENT))
-			return Role.STUDENT;
-		else
-			return null;
-	}
-	
 	public void changeWeekUpdate(int weeknum) {
 		Calendar.weeknum = weeknum;
 		startOfWeek = calculateStartOfWeek();
@@ -125,10 +111,30 @@ public class Calendar {
 						String username = LoginManager.getActiveUser().getUsername();
 						PeriodManager.addPeriod(courseCode, time, username);
 					} else {
-						//TODO: Legg til at den sletter created først
+						//Først prøver å finne created, så bookable, så booked
 						List<Period> periods = PeriodManager.getPeriodsFromCourseAndTime(course, node.getDateTime());
-						if(periods.size() > 0)
-							PeriodManager.deletePeriod(periods.get(0));	
+						if(periods.size() > 0) {
+							boolean foundAvailablePeriod = false;
+							for (Period period : periods) {
+								if (period.getPeriodType() == PeriodType.CREATED) {
+									PeriodManager.deletePeriod(period);
+									foundAvailablePeriod = true;
+									break;
+								}
+							}
+							if (!foundAvailablePeriod) {
+								for (Period period : periods) {
+									if (period.getPeriodType() == PeriodType.BOOKABLE) {
+										PeriodManager.deletePeriod(period);
+										foundAvailablePeriod = true;
+										break;
+									}
+								}
+							}
+							if (!foundAvailablePeriod) {
+								PeriodManager.deletePeriod(periods.get(0));	
+							}
+						}
 					}
 					updateCell(x+1,y);
 				}
@@ -142,6 +148,9 @@ public class Calendar {
 		for (int n = 0; n < 6; n++) {
 			StackPaneNode sp = new StackPaneNode();
 			sp.setPrefSize(400, 10);
+			Border border = new Border(
+					new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0.1)));
+			sp.setBorder(border);
 			dayLabels.add(sp, col++, 0);
 			if (n == 0) {
 				sp.addText("               ");
@@ -149,8 +158,10 @@ public class Calendar {
 				 * Empty string is there to make the StackPaneNode 
 				 * take up as much space as the time columns
 				 */
+				sp.getStyleClass().add("available1");
 			} else {
-				dayPaneNodes[n-1] = sp;	
+				dayPaneNodes[n-1] = sp;
+				sp.getStyleClass().add("unavailable1");
 			}
 		}
 		updateDayPaneNodes();
@@ -169,8 +180,6 @@ public class Calendar {
 
 	private GridPane createCalendarGridPane() {
 		GridPane calendarGridPane = new GridPane();
-		calendarGridPane.setGridLinesVisible(true);
-
 		// Create rows and columns with anchor panes for the calendar
 		for (int x = 0; x <= 5; x++) {
 			for (int y = 0; y < 16; y++) {

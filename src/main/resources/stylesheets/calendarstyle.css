@@ -1,23 +1,35 @@
 * {
 	-fx-primary: #000000; 
-	-fx-available0: #FFFFFF;
-	-fx-available1: #F8F8F8;
-	-fx-selected0: #9DC183;
-	-fx-selected1: #96B97B;
-	-fx-taken0: #F63141;
-	-fx-taken1: #ED2939;
-	-fx-unavailable0: #BFBFBF;
-	-fx-unavailable1: #B8B8B8;
-	-fx-available0f: #6F6FFF;
-	-fx-available1f: #6868FF;
-	-fx-selected0f: #5DC1CF;
-	-fx-selected1f: #56B9CF;
-	-fx-taken0f: #86316F;
-	-fx-taken1f: #7D296F;
-	-fx-unavailable0f: #9F9FFF;
-	-fx-unavailable1f: #9898FF;
+	-fx-available0: #F8F8F8;
+	-fx-available1: #FFFFFF;
+	-fx-selected0: #96B97B;
+	-fx-selected1: #9DC183;
+	-fx-taken0: #ED2939;
+	-fx-taken1: #F63141;
+	-fx-unavailable0: #B8B8B8;
+	-fx-unavailable1: #BFBFBF;
+	-fx-available0f: #6868FF;
+	-fx-available1f: #6F6FFF;
+	-fx-selected0f: #56B9CF;
+	-fx-selected1f: #5DC1CF;
+	-fx-taken0f: #7D296F;
+	-fx-taken1f: #86316F;
+	-fx-unavailable0f: #9898FF;
+	-fx-unavailable1f: #9F9FFF;
 	
 	-fx-fontcolor: #9E9E9E;
+	
+	-grey-1: #202020;
+	-grey-2: #BBBBBB;
+	-grey-3: #707070;
+	
+	-beige-1: #D6D6D6;
+	
+	-green-1: #ACCEB9;
+	-green-2: #006110;
+	
+	-red-1: #CEACAC;
+	-red-2: #7E0000;
 }
 .header{
     -fx-font-size: 16.0px;
@@ -110,19 +122,29 @@
 }
 
 
+
+.add-button:hover {
+	-fx-background-color: derive(-beige-1, -10%);
+}
+
+.add-button .jfx-rippler {
+	-jfx-rippler-fill: derive(#456045, 30%);
+}
+
+
+.remove-button:hover {
+	-fx-background-color: derive(-beige-1, -10%);
+}
+
+.remove-button .jfx-rippler {
+	-jfx-rippler-fill: derive(#903030, 30%);
+}
+
+
+.menu-button:hover {
+	-fx-background-color: derive(-beige-1, -10%);
+}
+
 .menu-button .jfx-rippler {
 	-jfx-rippler-fill: #979797;
 }
-
-.menu-button:hover {
-	-fx-background-color: derive(-fx-primary, 20%);
-}
-
-.menu-button-active {
-	-fx-background-color: derive(-fx-primary, 15%);	
-}
-
-.menu-button-active:hover {
-	-fx-background-color: derive(-fx-primary, 25%);	
-}
-
