@@ -1,34 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 
-<StackPane prefWidth="1010.0" styleClass="background" stylesheets="@../../stylesheets/scheduling.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.SchedulingController">
+<StackPane prefWidth="1010.0" styleClass="background" stylesheets="@../../stylesheets/scheduling.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.SchedulingController">
    <children>
-      <VBox spacing="70.0">
-         <children>
-            <VBox>
-               <children>
-                  <Label styleClass="header-label" text="Timebestilling">
-                     <effect>
-                        <DropShadow color="#bbbbbb" height="5.0" radius="2.0" spread="0.7" width="5.0" />
-                     </effect>
-                  </Label>
-                  <Separator styleClass="header-separator" />
-                  <StackPane fx:id="calendarPane" prefHeight="150.0" prefWidth="200.0">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin></StackPane>
-               </children>
-            </VBox>
-         </children>
-      </VBox>
+      <StackPane fx:id="calendarPane" prefHeight="150.0" prefWidth="200.0" />
    </children>
    <padding>
-      <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+      <Insets bottom="40.0" left="40.0" right="40.0" top="20.0" />
    </padding>
 </StackPane>

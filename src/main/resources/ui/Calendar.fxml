@@ -16,16 +16,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" minHeight="-Infinity" prefHeight="800.0" prefWidth="1010.0" stylesheets="@../stylesheets/calendarstyle.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController">
+<AnchorPane fx:id="root" minHeight="-Infinity" prefHeight="720.0" prefWidth="1010.0" stylesheets="@../stylesheets/calendarstyle.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <StackPane prefHeight="80.0" styleClass="calendar-header">
+            <StackPane>
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
+                  <HBox alignment="CENTER" StackPane.alignment="BOTTOM_CENTER">
                      <children>
                         <Region HBox.hgrow="ALWAYS" />
-                        <JFXButton fx:id="left" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleLeftBtn" ripplerFill="#9494d6c2" styleClass="menu-button" text=" " textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                        <JFXButton fx:id="left" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleLeftBtn" ripplerFill="#9494d6c2" style="-fx-background-radius: 30;" styleClass="menu-button" text=" " textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="System Bold Italic" size="16.0" />
                            </font>
@@ -40,9 +40,9 @@
                               </Lighting>
                            </effect>
                            <graphic>
-                              <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../icons/left.png" />
+                                    <Image url="@../icons/left_grey.png" />
                                  </image>
                                  <viewport>
                                     <Rectangle2D />
@@ -53,7 +53,7 @@
                               <Insets />
                            </HBox.margin>
                         </JFXButton>
-                        <Label fx:id="weekLabel" alignment="BOTTOM_CENTER" text="Uke 00" textFill="#fcf7f7" HBox.hgrow="ALWAYS">
+                        <Label fx:id="weekLabel" alignment="BOTTOM_CENTER" text="Uke 00" textFill="#202020" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -61,7 +61,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <JFXButton fx:id="right" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleRightBtn" ripplerFill="#9494d6c2" styleClass="menu-button" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                        <JFXButton fx:id="right" alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleRightBtn" ripplerFill="#9494d6c2" style="-fx-background-radius: 30;" styleClass="menu-button" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="System Bold Italic" size="16.0" />
                            </font>
@@ -76,9 +76,9 @@
                               </Lighting>
                            </effect>
                            <graphic>
-                              <ImageView fitHeight="40.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../icons/right.png" />
+                                    <Image url="@../icons/right_grey.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -86,10 +86,13 @@
                               <Insets />
                            </HBox.margin>
                         </JFXButton>
-                        <Region layoutX="10.0" layoutY="10.0" HBox.hgrow="ALWAYS" />
+                        <Region HBox.hgrow="ALWAYS" />
                      </children>
+                     <StackPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </StackPane.margin>
                   </HBox>
-                  <JFXButton fx:id="removeStudass" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleMinusBtn" ripplerFill="#9494d6c2" text="minus" textAlignment="CENTER" textFill="WHITE" visible="false" StackPane.alignment="CENTER_RIGHT">
+                  <JFXButton fx:id="removeStudass" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleMinusBtn" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 30;" styleClass="remove-button" text="minus" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
                      <font>
                         <Font name="System Bold Italic" size="16.0" />
                      </font>
@@ -104,9 +107,9 @@
                         </Lighting>
                      </effect>
                      <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/icons8-minus-64%20(1).png" />
+                              <Image url="@../icons/minus.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -114,7 +117,7 @@
                         <Insets right="70.0" />
                      </StackPane.margin>
                   </JFXButton>
-                  <JFXButton fx:id="addStudass" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handlePlusBtn" ripplerFill="#94d499c2" text="pluss" textAlignment="CENTER" textFill="WHITE" visible="false" StackPane.alignment="CENTER_RIGHT">
+                  <JFXButton fx:id="addStudass" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handlePlusBtn" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 30;" styleClass="add-button" text="pluss" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
                      <font>
                         <Font name="System Bold Italic" size="16.0" />
                      </font>
@@ -129,9 +132,9 @@
                         </Lighting>
                      </effect>
                      <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/icons8-add-64.png" />
+                              <Image url="@../icons/plus.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -139,7 +142,7 @@
                         <Insets right="20.0" />
                      </StackPane.margin>
                   </JFXButton>
-                  <JFXButton fx:id="refreshBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleRefreshBtn" ripplerFill="#000000c2" styleClass="menu-button" text="refresh" textAlignment="CENTER" textFill="WHITE" visible="false" StackPane.alignment="CENTER_RIGHT">
+                  <JFXButton fx:id="refreshBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleRefreshBtn" style="-fx-background-radius: 30;" styleClass="menu-button" text="refresh" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
                      <font>
                         <Font name="System Bold Italic" size="16.0" />
                      </font>
@@ -154,9 +157,9 @@
                         </Lighting>
                      </effect>
                      <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/icons8-refresh-64.png" />
+                              <Image url="@../icons/refresh_grey.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -164,7 +167,7 @@
                         <Insets right="20.0" />
                      </StackPane.margin>
                   </JFXButton>
-                  <JFXButton fx:id="todaybtn" buttonType="RAISED" onAction="#handleTodayBtn" ripplerFill="#9494d6c2" styleClass="menu-button" text="Denne uken" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER_LEFT">
+                  <JFXButton fx:id="todaybtn" buttonType="RAISED" onAction="#handleTodayBtn" ripplerFill="#9494d6c2" styleClass="menu-button" text="Denne uken" textAlignment="CENTER" textFill="#202020" StackPane.alignment="CENTER_LEFT">
                      <font>
                         <Font name="System Bold Italic" size="16.0" />
                      </font>
@@ -181,7 +184,7 @@
                      <graphic>
                         <ImageView fitHeight="40.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/today.png" />
+                              <Image url="@../icons/today_grey.png" />
                            </image>
                         </ImageView>
                      </graphic>

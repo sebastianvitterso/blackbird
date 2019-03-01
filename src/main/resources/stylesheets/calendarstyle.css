@@ -18,6 +18,18 @@
 	-fx-unavailable1f: #9F9FFF;
 	
 	-fx-fontcolor: #9E9E9E;
+	
+	-grey-1: #202020;
+	-grey-2: #BBBBBB;
+	-grey-3: #707070;
+	
+	-beige-1: #D6D6D6;
+	
+	-green-1: #ACCEB9;
+	-green-2: #006110;
+	
+	-red-1: #CEACAC;
+	-red-2: #7E0000;
 }
 .header{
     -fx-font-size: 16.0px;
@@ -110,19 +122,29 @@
 }
 
 
+
+.add-button:hover {
+	-fx-background-color: derive(-beige-1, -10%);
+}
+
+.add-button .jfx-rippler {
+	-jfx-rippler-fill: derive(#456045, 30%);
+}
+
+
+.remove-button:hover {
+	-fx-background-color: derive(-beige-1, -10%);
+}
+
+.remove-button .jfx-rippler {
+	-jfx-rippler-fill: derive(#903030, 30%);
+}
+
+
+.menu-button:hover {
+	-fx-background-color: derive(-beige-1, -10%);
+}
+
 .menu-button .jfx-rippler {
 	-jfx-rippler-fill: #979797;
 }
-
-.menu-button:hover {
-	-fx-background-color: derive(-fx-primary, 20%);
-}
-
-.menu-button-active {
-	-fx-background-color: derive(-fx-primary, 15%);	
-}
-
-.menu-button-active:hover {
-	-fx-background-color: derive(-fx-primary, 25%);	
-}
-
