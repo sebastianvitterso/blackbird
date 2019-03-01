@@ -114,7 +114,7 @@
                         </ImageView>
                      </graphic>
                      <StackPane.margin>
-                        <Insets right="70.0" />
+                        <Insets right="150.0" />
                      </StackPane.margin>
                   </JFXButton>
                   <JFXButton fx:id="addStudass" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handlePlusBtn" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 30;" styleClass="add-button" text="pluss" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
@@ -139,7 +139,7 @@
                         </ImageView>
                      </graphic>
                      <StackPane.margin>
-                        <Insets right="20.0" />
+                        <Insets right="80.0" />
                      </StackPane.margin>
                   </JFXButton>
                   <JFXButton fx:id="refreshBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleRefreshBtn" style="-fx-background-radius: 30;" styleClass="menu-button" text="refresh" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
