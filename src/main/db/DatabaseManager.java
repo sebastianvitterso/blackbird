@@ -14,6 +14,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
+import main.app.MainApp;
+
 public class DatabaseManager {
 	private static final String DB_DRIVER_PATH = "com.mysql.cj.jdbc.Driver";
 	private static final String CONNECTION_STRING = "jdbc:mysql://mysql.stud.ntnu.no/sebastvi_blackbird_db?serverTimezone=UTC";
@@ -26,6 +28,15 @@ public class DatabaseManager {
 	// Setting up a connection to the database
 	static {
 		openConnection();
+		System.out.println("Injecting shutdown hook!");
+		MainApp.addShutdownHook(() -> {
+			System.out.println("Running shutdown hook!");
+			try {
+				DatabaseManager.connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 	
 	
@@ -37,7 +48,6 @@ public class DatabaseManager {
 		try {
 			Class.forName(DB_DRIVER_PATH);
 			connection = DriverManager.getConnection(CONNECTION_STRING, DB_USERNAME, DB_PASSWORD);
-//			IOExecutor = Executors.newSingleThreadExecutor();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
