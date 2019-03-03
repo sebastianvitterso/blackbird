@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import main.models.Course;
 import main.models.User;
+import main.models.UserInCourse;
 import main.utils.Role;
 
 public class CourseManager {
@@ -83,6 +84,16 @@ public class CourseManager {
 		return result.size() == 1;
 		//isUserRoleInCourse(LoginManager.getActiveUser(), getCourse("TDT4140"), Role.ASSISTANT);
 		
+	}
+	
+	/**
+	 * Returns a list of all user-course relations for given user.
+	 */
+	public static List<UserInCourse> getUserInCourseRelations(User user) {
+		List<Map<String,String>> resultFromDB = DatabaseManager.sendQuery("Do yeer majickk :) "); 
+		return resultFromDB.stream()
+				.map(row -> new UserInCourse(user, null, null))
+				.collect(Collectors.toList());
 	}
 
 	public static Role getRoleInCourse(User user, Course course) {
