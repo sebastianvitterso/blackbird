@@ -1,9 +1,9 @@
 package main.utils;
 
 public enum Role {
-	PROFESSOR("Emneansvarlig"), 
-	ASSISTANT("Assistent"), 
-	STUDENT("Student");
+	STUDENT("Student"),
+	ASSISTANT("Læringsassistent"), 
+	PROFESSOR("Emneansvarlig"); 
 	
 	private final String norwegianName;
 	
