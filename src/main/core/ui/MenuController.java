@@ -2,7 +2,9 @@ package main.core.ui;
 
 import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -31,6 +33,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 import main.app.Loader;
 import main.app.StageManager;
 import main.db.CourseManager;
@@ -49,16 +52,20 @@ public class MenuController implements Refreshable {
 	private RotateTransition rotateTransition;
 
 	// Fields for sectioning courses
-	private EnumMap<Role, Boolean> hasHeader;
-	private ObservableList<UserInCourse> courses;
-	private SortedList<UserInCourse> sortedCourses;
+	private Set<UserInCourse> headers;
+	private ObservableList<UserInCourse> courseRelations;
+	private SortedList<UserInCourse> sortedCourseRelations;
+	private Comparator<UserInCourse> userInCourseComparator;
+	private Predicate<UserInCourse> selectionPredicate;
+	private Function<UserInCourse, String> sectionNamingFunction;
+	private Function<UserInCourse, String> itemNamingFunction;
 	
 	@FXML private StackPane rootPane;
 	@FXML private VBox menuButtonsVBox;
 	@FXML private Circle imageCircle;
     @FXML private Label nameLabel;
     @FXML private Label roleLabel;
-    @FXML private JFXComboBox<UserInCourse> courseComboBox;
+    @FXML private JFXComboBox<UserInCourse> courseRelationsComboBox;
 	@FXML private JFXButton refreshButton;
     
     //// Initialization ////
@@ -78,20 +85,20 @@ public class MenuController implements Refreshable {
 	 */
 	private void initializeCourseComboBox() {
 		// Converter determines how combobox displays courses
-//		courseComboBox.setConverter(new StringConverter<Course>() {
-//			@Override
-//			public String toString(Course course) {
-//				return String.format("%s - [%s]", course.getName(), course.getCourseCode());
-//			}
-//			
-//			@Override
-//			public Course fromString(String arg0) {
-//				return null;
-//			}
-//		});
+		courseRelationsComboBox.setConverter(new StringConverter<UserInCourse>() {
+			@Override
+			public String toString(UserInCourse userInCourse) {
+				return String.format("%s - [%s]", userInCourse.getCourse().getName(), userInCourse.getCourse().getCourseCode());
+			}
+			
+			@Override
+			public UserInCourse fromString(String arg0) {
+				return null;
+			}
+		});
 		
 		// Actions specified bv the changelistener are invoked whenever courses are (re)selected
-		courseComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+		courseRelationsComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			// Update current tab
 			Refreshable controller = mainController.getCurrentController();
 			if (controller != null)
@@ -101,49 +108,49 @@ public class MenuController implements Refreshable {
 			updateRoleLabel(LoginManager.getActiveUser(), getSelectedCourse());
 			System.out.printf("CourseChangeListener [%s -> %s]%n",  oldValue, newValue);
 			// TODO: Redundant?
-			courseComboBox.autosize();
+			courseRelationsComboBox.autosize();
     	});
 		
-		
-		
-		
 		// Change underlying ComboBox container to support sorting
-		Comparator<UserInCourse> userInCourseComparator = (uic1, uic2) -> {
+		userInCourseComparator = (uic1, uic2) -> {
+			// First sort based on role
+			int roleComparison = uic1.getRole().compareTo(uic2.getRole());
+			if (roleComparison != 0)
+				return roleComparison;
+			
+			// In case roles are equal, sort alphabetically
 			return uic1.getCourse().getName().compareTo(uic2.getCourse().getName());
 		};
-		courses = FXCollections.observableArrayList();
-		sortedCourses = new SortedList<UserInCourse>(courses, userInCourseComparator);
-		courseComboBox.setItems(sortedCourses);
+		courseRelations = FXCollections.observableArrayList();
+		sortedCourseRelations = new SortedList<UserInCourse>(courseRelations, userInCourseComparator);
+		courseRelationsComboBox.setItems(sortedCourseRelations);
 		
 		// Split listView into sections based on role in course
-		hasHeader = new EnumMap<>(Role.class);
+		headers = new HashSet<>();
 		
-		Predicate<UserInCourse> selectionPredicate = uic -> uic.getCourse().getName().contains("rog");
-		Function<UserInCourse, String> sectionNamingFunction = uic -> "Student";
-		Function<UserInCourse, String> itemNamingFunction = uic -> String.format("%s - [%s]", uic.getCourse().getName(), uic.getCourse().getCourseCode());
+//		Predicate<UserInCourse> selectionPredicate = uic -> uic.getRole() == Role.STUDENT;
+		selectionPredicate = uic -> headers.contains(uic);
+		sectionNamingFunction = uic -> uic.getRole().getNorwegianName();
+		itemNamingFunction = uic -> String.format("%s - [%s]", uic.getCourse().getName(), uic.getCourse().getCourseCode());
 		
-		courseComboBox.setCellFactory(listView -> {
+		courseRelationsComboBox.setCellFactory(listView -> {
 //			courseComboBoxListView = listView;
 			listView.minWidthProperty().set(350);
 			listView.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-//				System.out.println("Pickresult, intersected node: " + event.getPickResult().getIntersectedNode());
-//				System.out.println("Target: " + event.getTarget());
-//				System.out.println("Event: " + event);
 				if (!(event.getPickResult().getIntersectedNode() instanceof JFXButton))
 					event.consume();
+				//TODO Redundant?
 				listView.autosize();
 			});
-//			Bindings.size(courses).addListener(change -> {
-//				System.out.println("Changed size");
-//				listView.prefHeightProperty().set(0);
-//				listView.getParent().autosize();
-//				listView.setStyle("-fx-background-color: #202090;");
-//				listView.resize(200, 200);
-//				listView.autosize();
-//				listView.layout();
-//				listView.refresh();
+//			Bindings.size(sortedCourseRelations).addListener(change -> {
+//				headers.clear();
+//				for (Role role : Role.values())
+//					sortedCourseRelations.stream()
+//						.filter(uic -> uic.getRole() == role)
+//						.findFirst()
+//						.ifPresent(uic -> headers.add(uic));
 //			});
-//			listview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+			
 			return new SectionedListCell<UserInCourse>(selectionPredicate, sectionNamingFunction, itemNamingFunction, listView);
 		});
 		
@@ -299,21 +306,30 @@ public class MenuController implements Refreshable {
 	public void updateCourseComboBox(User user) {
 		// TODO: Hardcode admin behavior
 		if (LoginManager.getActiveUser().getUsername().equals("admin")) {
-			courseComboBox.setVisible(false);
+			courseRelationsComboBox.setVisible(false);
 			return;
 		} else {
-			courseComboBox.setVisible(true);
+			courseRelationsComboBox.setVisible(true);
 		}
 		
 		// Fetch selectable courses from database for given user
-		List<Course> coursesFromDB = CourseManager.getCoursesFromUser(user);
+		List<UserInCourse> courseRelationsFromDB = CourseManager.getUserInCourseRelations(user);
+		
+		// Assign headers to leading entries
+		headers.clear();
+		for (Role role : Role.values())
+			courseRelationsFromDB.stream()
+				.sorted(userInCourseComparator)
+				.filter(uic -> uic.getRole() == role)
+				.findFirst()
+				.ifPresent(uic -> headers.add(uic));
 		
 		// Update displayed courses
-		courses.setAll(coursesFromDB);
+		courseRelations.setAll(courseRelationsFromDB);
 		
 		// Select first course, if present
-		if (!courseComboBox.getItems().isEmpty())
-			courseComboBox.getSelectionModel().selectFirst();
+		if (!courseRelationsComboBox.getItems().isEmpty())
+			courseRelationsComboBox.getSelectionModel().selectFirst();
 		
 		// Fix size bug upon re-rendering
 //		courseComboBox.autosize();
@@ -354,9 +370,9 @@ public class MenuController implements Refreshable {
 	 * Clears the list of selectable courses.
 	 */
 	private void clearCourseComboBox() {
-		courseComboBox.setPromptText("");
-		courses.clear();
-		courseComboBox.getSelectionModel().clearSelection();
+		courseRelationsComboBox.setPromptText("");
+		courseRelations.clear();
+		courseRelationsComboBox.getSelectionModel().clearSelection();
 	}
 
 	/**
@@ -394,7 +410,8 @@ public class MenuController implements Refreshable {
 	 * Returns the selected course.
 	 */
 	public Course getSelectedCourse() {
-		return courseComboBox.getSelectionModel().getSelectedItem();
+		UserInCourse userInCourse =  courseRelationsComboBox.getSelectionModel().getSelectedItem();
+		return (userInCourse != null) ? userInCourse.getCourse() : null;
 	}
 	
 	

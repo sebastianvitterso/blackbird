@@ -1,6 +1,7 @@
 package main.db;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -91,13 +92,13 @@ public class CourseManager {
 	 */
 	public static List<UserInCourse> getUserInCourseRelations(User user) {
 		String query = String.format("SELECT * FROM user_course NATURAL JOIN course"
-				+ " WHERE user_course.username = %s", user.getUsername());
+				+ " WHERE user_course.username = '%s';", user.getUsername());
 		List<Map<String,String>> resultFromDB = DatabaseManager.sendQuery(query); 
 		return resultFromDB.stream()
 				.map(row -> new UserInCourse(
 						user, 
 						new Course(row.get("course_code"), row.get("name"), row.get("description")), 
-						Role.valueOf(row.get("role"))))
+						Role.valueOf(row.get("role").toUpperCase(Locale.ENGLISH))))
 				.collect(Collectors.toList());
 	}
 
