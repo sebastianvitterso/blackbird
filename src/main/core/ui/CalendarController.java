@@ -67,14 +67,13 @@ public class CalendarController implements Refreshable {
 	public void update() {
 		calendarPane.getChildren().setAll(calendar.getView());
 		displayWeek = Calendar.getRelevantWeek(); 
-		updateWeek(displayWeek);
 		Course selectedCourse = menuController.getSelectedCourse();
 		if (selectedCourse == null)
 			return;
 		calendar.setCourse(selectedCourse);
 		calendar.setRole(menuController.getSelectedRole());
 		showButtons();
-		calendar.updateAllCells();
+		updateWeek(displayWeek);
 	}
 	
 	@Override
@@ -88,14 +87,13 @@ public class CalendarController implements Refreshable {
 	
 	void updateWeek(int week) {
 		weekLabel.setText("Uke " + Integer.toString(week));
+		calendar.changeWeekUpdate(week);
 	}
 
 	@FXML
 	void handleTodayBtn() {
 		displayWeek = Calendar.getRelevantWeek(); 
-		calendar.changeWeekUpdate(displayWeek);
 		updateWeek(displayWeek);
-
 	}
 	
 	@FXML
@@ -104,7 +102,6 @@ public class CalendarController implements Refreshable {
 		if (displayWeek <= 1) {
 			displayWeek = 1; 
 		}
-		calendar.changeWeekUpdate(displayWeek);
 		updateWeek(displayWeek);
 	}
 	
@@ -114,7 +111,6 @@ public class CalendarController implements Refreshable {
 		if (displayWeek >= 52) {
 			displayWeek = 52; 
 		}
-		calendar.changeWeekUpdate(displayWeek);
 		updateWeek(displayWeek);
 	}
 	@FXML
