@@ -57,6 +57,8 @@
 	-fx-translate-y: 5;
 	-fx-scale-x: 0.9;
 }
+/*
+ */
 .course-combobox .list-cell {
 	-fx-background-color: -fx-primary;
 }
@@ -65,8 +67,6 @@
 }
 .course-combobox .list-view {
 	-fx-background-color: derive(-fx-primary, 5%);
-	/*-fx-border-color: derive(-fx-primary, 30%);
-	-fx-border-width: 1px;*/
 	-fx-translate-y: 5;
 }
 .course-combobox .list-view .list-cell:hover {
@@ -82,12 +82,71 @@
 	-jfx-rippler-fill: derive(-fx-primary, 45%);
 }
 
+.sectioned-label, .sectioned-label:hover, .sectioned-label:selected, .sectioned-label:selected:hover {
+	-fx-background-color: derive(-fx-primary, -20%);
+	-fx-font: normal 12px "Segoe UI Semibold";
+	-fx-text-fill: derive(#707070, 30%);
+}
+
+.sectioned-separator, .sectioned-separator:hover, .sectioned-separator:selected, .sectioned-separator:selected:hover {
+	-fx-background-color: derive(-fx-primary, 20%);
+}
 
 
+/*                       */
+/*                       */
 
+.course-combobox .sectioned-list-cell {
+	-fx-font: normal 14px "Segoe UI";
+	-fx-text-fill: #BBBBBB;
+}
+.course-combobox .list-view .sectioned-list-cell {
+	-fx-font: normal 12px "Segoe UI";
+	-fx-text-fill: derive(#707070, 20%);
+}
+.course-combobox .list-view .sectioned-list-cell:selected {
+	-fx-font: normal 12px "Segoe UI";
+	-fx-text-fill: derive(#707070, 40%);
+}
+.course-combobox .sectioned-list-cell {
+	-fx-background-color: -fx-primary;
+}
+.course-combobox .sectioned-list-cell:selected .jfx-rippler{
+	-jfx-rippler-fill: derive(-fx-primary, 20%);
+}
+.course-combobox .list-view .sectioned-list-cell:hover {
+	-fx-background-color: derive(-fx-primary, 20%);
+}
+.course-combobox .list-view .sectioned-list-cell:selected {
+	-fx-background-color: derive(-fx-primary, 15%);
+}
+.course-combobox .list-view .sectioned-list-cell:selected:hover {
+	-fx-background-color: derive(-fx-primary, 25%);
+}
+.course-combobox .list-view .sectioned-list-cell .jfx-rippler{
+	-jfx-rippler-fill: derive(-fx-primary, 45%);
+}
 
+/*                       */
+/*                       */
 
+.course-combobox .list-view .list-cell:selected .sectioned-list-cell {
+	-fx-background-color: derive(-fx-primary, 15%);
+}
 
+/*
+.course-combobox .list-view .scroll-bar {
+	-visibility: false;
+	-fx-scale-x: 0;
+	-fx-scale-y: 0;
+	-fx-min-width: 0;
+	-fx-pref-width: 0;
+	-fx-max-width: 0;
+	-fx-min-height: 0;
+	-fx-pref-height: 0;
+	-fx-max-height: 0;
+}
+  */
 
 
 .menu-background {

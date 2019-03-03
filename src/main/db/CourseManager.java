@@ -1,11 +1,13 @@
 package main.db;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import main.models.Course;
 import main.models.User;
+import main.models.UserInCourse;
 import main.utils.Role;
 
 public class CourseManager {
@@ -81,18 +83,20 @@ public class CourseManager {
 		
 		List<Map<String,String>> result = DatabaseManager.sendQuery(query);
 		return result.size() == 1;
-		//isUserRoleInCourse(LoginManager.getActiveUser(), getCourse("TDT4140"), Role.ASSISTANT);
-		
 	}
-
-	public static Role getRoleInCourse(User user, Course course) {
-		if(isUserRoleInCourse(user, course, Role.PROFESSOR))
-			return Role.PROFESSOR;
-		else if(isUserRoleInCourse(user, course, Role.ASSISTANT))
-			return Role.ASSISTANT;
-		else if(isUserRoleInCourse(user, course, Role.STUDENT))
-			return Role.STUDENT;
-		else
-			return null;
+	
+	/**
+	 * Returns a list of all user-course relations for given user.
+	 */
+	public static List<UserInCourse> getUserInCourseRelations(User user) {
+		String query = String.format("SELECT * FROM user_course NATURAL JOIN course"
+				+ " WHERE user_course.username = '%s';", user.getUsername());
+		List<Map<String,String>> resultFromDB = DatabaseManager.sendQuery(query); 
+		return resultFromDB.stream()
+				.map(row -> new UserInCourse(
+						user, 
+						new Course(row.get("course_code"), row.get("name"), row.get("description")), 
+						Role.valueOf(row.get("role").toUpperCase(Locale.ENGLISH))))
+				.collect(Collectors.toList());
 	}
 }

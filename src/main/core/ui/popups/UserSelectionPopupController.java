@@ -77,7 +77,7 @@ public class UserSelectionPopupController implements Refreshable {
 		this.role = role;
 	
 		// Retrive list of addable users
-		List<User> users = UserManager.getUsersExcludingCourse(course);
+		List<User> users = UserManager.getUsersExcludingRole(course, role);
 
 		// Update visuals in FX Application thread
 		listViewSpinner.setVisible(false);

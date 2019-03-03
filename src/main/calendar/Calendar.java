@@ -54,6 +54,10 @@ public class Calendar {
 		this.role = role;
 	}
 	
+	public Role getRole() {
+		return role;
+	}
+	
 	public void updateCell(int x, int y) {
 		LocalDateTime cellDateTime = calculateDateTime(x, y);
 		TimeSlot timeSlot = new TimeSlot(course, cellDateTime);

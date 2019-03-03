@@ -39,7 +39,7 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Label>
-            <JFXComboBox fx:id="courseComboBox" maxWidth="1.7976931348623157E308" promptText="Programvareutvikling" styleClass="course-combobox">
+            <JFXComboBox fx:id="courseRelationsComboBox" maxWidth="1.7976931348623157E308" promptText="Programvareutvikling" styleClass="course-combobox">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" right="40.0" top="15.0" />
                </VBox.margin>

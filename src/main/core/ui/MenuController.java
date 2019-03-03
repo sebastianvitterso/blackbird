@@ -1,23 +1,33 @@
 package main.core.ui;
 
-import java.sql.Time;
+import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXListCell;
 
-import javafx.animation.Animation.Status;
 import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.RotateTransition;
-import javafx.animation.Timeline;
-import javafx.beans.value.WritableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
@@ -30,21 +40,32 @@ import main.db.CourseManager;
 import main.db.LoginManager;
 import main.models.Course;
 import main.models.User;
+import main.models.UserInCourse;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
+import main.utils.Role;
 import main.utils.View;
 
 public class MenuController implements Refreshable {
 	private MainController mainController;
-	private EnumMap<View, MenuButton> buttons = new EnumMap<>(View.class);
+	private EnumMap<View, MenuButton> buttons;
 	private RotateTransition rotateTransition;
+
+	// Fields for sectioning courses
+	private Set<UserInCourse> headers;
+	private ObservableList<UserInCourse> courseRelations;
+	private SortedList<UserInCourse> sortedCourseRelations;
+	private Comparator<UserInCourse> userInCourseComparator;
+	private Predicate<UserInCourse> selectionPredicate;
+	private Function<UserInCourse, String> sectionNamingFunction;
+	private Function<UserInCourse, String> itemNamingFunction;
 	
 	@FXML private StackPane rootPane;
 	@FXML private VBox menuButtonsVBox;
 	@FXML private Circle imageCircle;
     @FXML private Label nameLabel;
     @FXML private Label roleLabel;
-    @FXML private JFXComboBox<Course> courseComboBox;
+    @FXML private JFXComboBox<UserInCourse> courseRelationsComboBox;
 	@FXML private JFXButton refreshButton;
     
     //// Initialization ////
@@ -63,30 +84,64 @@ public class MenuController implements Refreshable {
 	 * Initializes ConboBox holding selectable courses.
 	 */
 	private void initializeCourseComboBox() {
-		courseComboBox.setConverter(new StringConverter<Course>() {
+		// Converter determines how combobox displays courses
+		courseRelationsComboBox.setConverter(new StringConverter<UserInCourse>() {
 			@Override
-			public String toString(Course course) {
-				return String.format("%s - [%s]", course.getName(), course.getCourseCode());
+			public String toString(UserInCourse userInCourse) {
+				return String.format("%s - [%s]", userInCourse.getCourse().getName(), userInCourse.getCourse().getCourseCode());
 			}
 			
 			@Override
-			public Course fromString(String arg0) {
+			public UserInCourse fromString(String arg0) {
 				return null;
 			}
 		});
 		
-		// ChangeListener for courses
-		courseComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+		// Actions specified bv the changelistener are invoked whenever courses are (re)selected
+		courseRelationsComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			// Update current tab
 			Refreshable controller = mainController.getCurrentController();
 			if (controller != null)
 				controller.refresh();
 			
 			// Update role label
-			updateRoleLabel(LoginManager.getActiveUser(), getSelectedCourse());
-			
+			updateRoleLabel(courseRelationsComboBox.getSelectionModel().getSelectedItem());
 			System.out.printf("CourseChangeListener [%s -> %s]%n",  oldValue, newValue);
+			
+			// Recalculate listview size within combobox
+			courseRelationsComboBox.autosize();
     	});
+		
+		// Change underlying ComboBox container to support sorting
+		userInCourseComparator = (uic1, uic2) -> {
+			// First sort based on role
+			int roleComparison = uic1.getRole().compareTo(uic2.getRole());
+			if (roleComparison != 0)
+				return roleComparison;
+			
+			// In case roles are equal, sort alphabetically
+			return uic1.getCourse().getName().compareTo(uic2.getCourse().getName());
+		};
+		courseRelations = FXCollections.observableArrayList();
+		sortedCourseRelations = new SortedList<UserInCourse>(courseRelations, userInCourseComparator);
+		courseRelationsComboBox.setItems(sortedCourseRelations);
+		
+		// Split listView into sections based on role in course
+		headers = new HashSet<>();
+		
+		selectionPredicate = uic -> headers.contains(uic);
+		sectionNamingFunction = uic -> uic.getRole().getNorwegianName();
+		itemNamingFunction = uic -> String.format("%s - [%s]", uic.getCourse().getName(), uic.getCourse().getCourseCode());
+		
+		courseRelationsComboBox.setCellFactory(listView -> {
+			listView.minWidthProperty().set(350);
+			listView.setFixedCellSize(0);
+			listView.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+				if (!(event.getPickResult().getIntersectedNode() instanceof JFXButton))
+					event.consume();
+			});
+			return new SectionedListCell<UserInCourse>(selectionPredicate, sectionNamingFunction, itemNamingFunction, listView);
+		});
 	}
 	
 	/**
@@ -94,12 +149,14 @@ public class MenuController implements Refreshable {
 	 * @see MenuButton
 	 */
 	private void initializeMenuButtons() {
+		// Initialize button mapping
+		buttons = new EnumMap<>(View.class);
+
 		buttons.put(View.OVERVIEW_VIEW, 	new MenuButton(View.OVERVIEW_VIEW, 		"Oversikt", 		new ImageView(Loader.getImage("icons/overview.png"))));
 		buttons.put(View.SCHEDULING_VIEW, 	new MenuButton(View.SCHEDULING_VIEW, 	"Timebestilling", 	new ImageView(Loader.getImage("icons/scheduling.png"))));
 		buttons.put(View.EXERCISES_VIEW, 	new MenuButton(View.EXERCISES_VIEW, 	"Øvinger", 			new ImageView(Loader.getImage("icons/exercises.png"))));
 		buttons.put(View.MEMBERS_VIEW, 		new MenuButton(View.MEMBERS_VIEW, 		"Medlemmer", 		new ImageView(Loader.getImage("icons/members.png"))));
 		buttons.put(View.ADMIN_VIEW, 		new MenuButton(View.ADMIN_VIEW, 		"Administrer", 		new ImageView(Loader.getImage("icons/admin.png"))));
-//		buttons.put(View.CALENDAR_VIEW, 	new MenuButton(View.CALENDAR_VIEW, 		"Kalender",			new ImageView(Loader.getImage("icons/calendar.png"))));
 		
 		// Configure custom buttons
 		for (MenuButton button : buttons.values()) {
@@ -165,7 +222,7 @@ public class MenuController implements Refreshable {
 		// TODO: Need information about users role for given course in returned query (UserCourse-relation)
 		nameLabel.setText(user.getName());
 		
-		updateRoleLabel(user, getSelectedCourse());
+		updateRoleLabel(courseRelationsComboBox.getSelectionModel().getSelectedItem());
 		
 		imageCircle.setFill(new ImagePattern(Loader.getImage("icons/silhouette.jpg")));
 	}
@@ -173,16 +230,18 @@ public class MenuController implements Refreshable {
 	/**
 	 * Updates role to be displayed in personalia.
 	 */
-	private void updateRoleLabel(User user, Course course) {
+	private void updateRoleLabel(UserInCourse userInCourse) {
 		// TODO: Hardcoded admin check
-		if (user.getUsername().equals("admin")) {
+		if (LoginManager.getActiveUser().getUsername().equals("admin")) {
 			roleLabel.setText("Admin");
 			return;
 		}
 		
 		// Update role
-		if (course != null)
-			roleLabel.setText(CourseManager.getRoleInCourse(LoginManager.getActiveUser(), course).getNorwegianName());
+		if (userInCourse != null)
+			roleLabel.setText(userInCourse.getRole().getNorwegianName());
+		else
+			roleLabel.setText("Ikke tilgjengelig");
 	}
 	
 	/**
@@ -191,24 +250,30 @@ public class MenuController implements Refreshable {
 	public void updateCourseComboBox(User user) {
 		// TODO: Hardcode admin behavior
 		if (LoginManager.getActiveUser().getUsername().equals("admin")) {
-			courseComboBox.setVisible(false);
+			courseRelationsComboBox.setVisible(false);
 			return;
 		} else {
-			courseComboBox.setVisible(true);
+			courseRelationsComboBox.setVisible(true);
 		}
 		
 		// Fetch selectable courses from database for given user
-		List<Course> courses = CourseManager.getCoursesFromUser(user);
+		List<UserInCourse> courseRelationsFromDB = CourseManager.getUserInCourseRelations(user);
+		
+		// Assign headers to leading entries
+		headers.clear();
+		for (Role role : Role.values())
+			courseRelationsFromDB.stream()
+				.sorted(userInCourseComparator)
+				.filter(uic -> uic.getRole() == role)
+				.findFirst()
+				.ifPresent(uic -> headers.add(uic));
 		
 		// Update displayed courses
-		courseComboBox.getItems().setAll(courses);
+		courseRelations.setAll(courseRelationsFromDB);
 		
 		// Select first course, if present
-		if (!courseComboBox.getItems().isEmpty())
-			courseComboBox.getSelectionModel().selectFirst();
-		
-		// Fix size bug upon re-rendering
-		courseComboBox.autosize();
+		if (!courseRelationsComboBox.getItems().isEmpty())
+			courseRelationsComboBox.getSelectionModel().selectFirst();
 	}
 	
 	/**
@@ -226,7 +291,6 @@ public class MenuController implements Refreshable {
 				buttons.get(View.SCHEDULING_VIEW),
 				buttons.get(View.EXERCISES_VIEW),
 				buttons.get(View.MEMBERS_VIEW));
-//				buttons.get(View.CALENDAR_VIEW));
 	}
 	
 	
@@ -244,9 +308,9 @@ public class MenuController implements Refreshable {
 	 * Clears the list of selectable courses.
 	 */
 	private void clearCourseComboBox() {
-		courseComboBox.setPromptText("");
-		courseComboBox.getItems().clear();
-		courseComboBox.getSelectionModel().clearSelection();
+		courseRelationsComboBox.setPromptText("");
+		courseRelations.clear();
+		courseRelationsComboBox.getSelectionModel().clearSelection();
 	}
 
 	/**
@@ -284,7 +348,16 @@ public class MenuController implements Refreshable {
 	 * Returns the selected course.
 	 */
 	public Course getSelectedCourse() {
-		return courseComboBox.getSelectionModel().getSelectedItem();
+		UserInCourse userInCourse =  courseRelationsComboBox.getSelectionModel().getSelectedItem();
+		return (userInCourse != null) ? userInCourse.getCourse() : null;
+	}
+	
+	/**
+	 * Returns the selected role.
+	 */
+	public Role getSelectedRole() {
+		UserInCourse userInCourse =  courseRelationsComboBox.getSelectionModel().getSelectedItem();
+		return (userInCourse != null) ? userInCourse.getRole() : null;
 	}
 	
 	
@@ -326,6 +399,112 @@ public class MenuController implements Refreshable {
 		
 		public ImageView getImageView() {
 			return (ImageView) super.getGraphic();
+		}
+	}
+
+	/**
+	 * Custom implementation of JFXListCell to be used in ListView cell factories in order to 
+	 * split ListView into sections.
+	 */
+	private class SectionedListCell<T> extends JFXListCell<T> {
+		private final Predicate<T> sectionPredicate;
+		private final Function<T, String> sectionNamingFunction;
+		private final Function<T, String> itemNamingFunction;
+		
+		private final ListView<T> listView;
+		private final VBox vbox;
+		
+		/**
+		 * Creates a sectioned list cell.
+		 * @param selectionPredicate - Predicate determining if this cell should contain a section header.
+		 * @param sectionNamingFunction - Function yielding a header name for the section contained by this cell, if any.
+		 * @param itemNamingFunction - Function yielding the text to be displayed in this cell.
+		 * @param listView - Underlying ListView, given by the cell factory callback method.
+		 */
+		public SectionedListCell(Predicate<T> selectionPredicate, 
+				Function<T, String> sectionNamingFunction, 
+				Function<T, String> itemNamingFunction,
+				ListView<T> listView) {
+			super();
+			this.sectionPredicate = selectionPredicate;
+			this.sectionNamingFunction = sectionNamingFunction;
+			this.itemNamingFunction = itemNamingFunction;
+			this.listView = listView;
+			
+			// Initialize vbox
+			vbox = createVBox();
+			
+			// ListCell properties
+			setPadding(Insets.EMPTY);
+			setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+		}
+		
+		private JFXButton createButton(String text){
+			JFXButton button = new JFXButton();
+			button.setText(text);
+			button.setMinWidth(Control.USE_PREF_SIZE);
+			button.setMaxWidth(Double.MAX_VALUE);
+			button.setPadding(new Insets(8, 12, 8, 20));
+			button.getStyleClass().add("sectioned-list-cell");
+			button.setAlignment(Pos.CENTER_LEFT);
+			button.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+				listView.getSelectionModel().select(getIndex());
+			});
+			return button;
+		}
+		
+		private VBox createVBox() {
+			VBox vbox = new VBox();
+			vbox.setMaxWidth(Double.MAX_VALUE);
+			return vbox;
+		}
+		
+		private Region createRegion() {
+			Region region = new Region();
+			region.setMaxWidth(Double.MAX_VALUE);
+			region.setPrefHeight(1);
+			region.getStyleClass().add("sectioned-separator");
+			return region;
+		}
+
+		private Label createLabel(String sectionName) {
+			Label label = new Label(sectionName);
+			label.getStyleClass().add("sectioned-label");
+			label.setPadding(new Insets(6, 12, 6, 8));
+			label.setMaxWidth(Double.MAX_VALUE);
+			label.setAlignment(Pos.CENTER_LEFT);
+			return label;
+		}
+		
+		@Override
+		protected void updateItem(T item, boolean empty) {
+			super.updateItem(item, empty);
+			
+			// Break if cell has no content
+			if (empty || item == null) {
+				setText(null);
+				setGraphic(null);
+				return;
+			}
+
+			// Create button, required for all cells
+			String text = itemNamingFunction.apply(item);
+			JFXButton button = createButton(text);
+			
+			// If section is requested
+			if (sectionPredicate.test(item)) {
+				String sectionName = sectionNamingFunction.apply(item);
+				Label label = createLabel(sectionName);
+				Region regionUpper = createRegion();
+				Region regionLower = createRegion();
+				
+				vbox.getChildren().setAll(regionUpper, label, regionLower, button);
+			} else {
+				vbox.getChildren().setAll(button);
+			}
+
+			// Update graphic
+			setGraphic(vbox);
 		}
 	}
 }
