@@ -495,9 +495,10 @@ public class MenuController implements Refreshable {
 			if (sectionPredicate.test(item)) {
 				String sectionName = sectionNamingFunction.apply(item);
 				Label label = createLabel(sectionName);
-				Region region = createRegion();
+				Region regionUpper = createRegion();
+				Region regionLower = createRegion();
 				
-				vbox.getChildren().setAll(label, region, button);
+				vbox.getChildren().setAll(regionUpper, label, regionLower, button);
 			} else {
 				vbox.getChildren().setAll(button);
 			}
