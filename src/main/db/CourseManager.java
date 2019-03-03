@@ -90,9 +90,14 @@ public class CourseManager {
 	 * Returns a list of all user-course relations for given user.
 	 */
 	public static List<UserInCourse> getUserInCourseRelations(User user) {
-		List<Map<String,String>> resultFromDB = DatabaseManager.sendQuery("Do yeer majickk :) "); 
+		String query = String.format("SELECT * FROM user_course NATURAL JOIN course"
+				+ " WHERE user_course.username = %s", user.getUsername());
+		List<Map<String,String>> resultFromDB = DatabaseManager.sendQuery(query); 
 		return resultFromDB.stream()
-				.map(row -> new UserInCourse(user, null, null))
+				.map(row -> new UserInCourse(
+						user, 
+						new Course(row.get("course_code"), row.get("name"), row.get("description")), 
+						Role.valueOf(row.get("role"))))
 				.collect(Collectors.toList());
 	}
 
