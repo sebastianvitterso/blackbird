@@ -108,9 +108,9 @@ public class MenuController implements Refreshable {
 		
 		
 		// Change underlying ComboBox container to support sorting
-		Comparator<UserInCourse> userInCourseComparator = (c1, c2) -> {
-			c1.getName().compareTo(c2.getName());
-		});
+		Comparator<UserInCourse> userInCourseComparator = (uic1, uic2) -> {
+			return uic1.getCourse().getName().compareTo(uic2.getCourse().getName());
+		};
 		courses = FXCollections.observableArrayList();
 		sortedCourses = new SortedList<UserInCourse>(courses, userInCourseComparator);
 		courseComboBox.setItems(sortedCourses);
@@ -118,9 +118,9 @@ public class MenuController implements Refreshable {
 		// Split listView into sections based on role in course
 		hasHeader = new EnumMap<>(Role.class);
 		
-		Predicate<Course> selectionPredicate = course -> course.getName().contains("rog");
-		Function<Course, String> sectionNamingFunction = course -> "Student";
-		Function<Course, String> itemNamingFunction = course -> String.format("%s - [%s]", course.getName(), course.getCourseCode());
+		Predicate<UserInCourse> selectionPredicate = uic -> uic.getCourse().getName().contains("rog");
+		Function<UserInCourse, String> sectionNamingFunction = uic -> "Student";
+		Function<UserInCourse, String> itemNamingFunction = uic -> String.format("%s - [%s]", uic.getCourse().getName(), uic.getCourse().getCourseCode());
 		
 		courseComboBox.setCellFactory(listView -> {
 //			courseComboBoxListView = listView;
@@ -144,7 +144,7 @@ public class MenuController implements Refreshable {
 //				listView.refresh();
 //			});
 //			listview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-			return new SectionedListCell<Course>(selectionPredicate, sectionNamingFunction, itemNamingFunction, listView);
+			return new SectionedListCell<UserInCourse>(selectionPredicate, sectionNamingFunction, itemNamingFunction, listView);
 		});
 		
 //		courseComboBox.setCellFactory(listView -> new JFXListCell<Course>() {
