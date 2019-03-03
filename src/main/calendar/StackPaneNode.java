@@ -7,8 +7,6 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import main.db.CourseManager;
-import main.db.LoginManager;
 import main.utils.Role;
 
 /**
@@ -29,11 +27,11 @@ public class StackPaneNode extends StackPane {
     public void onClicked(MouseEvent e) {
     	if (parent == null)
     		return;
-    	if(CourseManager.getRoleInCourse(LoginManager.getActiveUser(), Calendar.course) == Role.PROFESSOR) {
+    	if(parent.getRole() == Role.PROFESSOR) {
     		if (!e.isControlDown() && !isFocused())
     			parent.resetSelections();
     		setFocused(!isFocused());
-    	} else if (CourseManager.getRoleInCourse(LoginManager.getActiveUser(), Calendar.course) == Role.STUDENT) {
+    	} else if (parent.getRole() == Role.STUDENT) {
     		this.parent.BookUnbookTimeSlot(date, x, y);
     	} else {
     		this.parent.TutorUntutorTimeSlot(date, x,y);

@@ -134,7 +134,7 @@
 	-fx-background-color: derive(-fx-primary, 15%);
 }
 
-
+/*
 .course-combobox .list-view .scroll-bar {
 	-visibility: false;
 	-fx-scale-x: 0;
@@ -146,6 +146,7 @@
 	-fx-pref-height: 0;
 	-fx-max-height: 0;
 }
+  */
 
 
 .menu-background {

@@ -105,9 +105,10 @@ public class MenuController implements Refreshable {
 				controller.refresh();
 			
 			// Update role label
-			updateRoleLabel(LoginManager.getActiveUser(), getSelectedCourse());
+			updateRoleLabel(courseRelationsComboBox.getSelectionModel().getSelectedItem());
 			System.out.printf("CourseChangeListener [%s -> %s]%n",  oldValue, newValue);
-			// TODO: Redundant?
+			
+			// Recalculate listview size within combobox
 			courseRelationsComboBox.autosize();
     	});
 		
@@ -128,78 +129,19 @@ public class MenuController implements Refreshable {
 		// Split listView into sections based on role in course
 		headers = new HashSet<>();
 		
-//		Predicate<UserInCourse> selectionPredicate = uic -> uic.getRole() == Role.STUDENT;
 		selectionPredicate = uic -> headers.contains(uic);
 		sectionNamingFunction = uic -> uic.getRole().getNorwegianName();
 		itemNamingFunction = uic -> String.format("%s - [%s]", uic.getCourse().getName(), uic.getCourse().getCourseCode());
 		
 		courseRelationsComboBox.setCellFactory(listView -> {
-//			courseComboBoxListView = listView;
 			listView.minWidthProperty().set(350);
+			listView.setFixedCellSize(0);
 			listView.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
 				if (!(event.getPickResult().getIntersectedNode() instanceof JFXButton))
 					event.consume();
-				//TODO Redundant?
-				listView.autosize();
 			});
-//			Bindings.size(sortedCourseRelations).addListener(change -> {
-//				headers.clear();
-//				for (Role role : Role.values())
-//					sortedCourseRelations.stream()
-//						.filter(uic -> uic.getRole() == role)
-//						.findFirst()
-//						.ifPresent(uic -> headers.add(uic));
-//			});
-			
 			return new SectionedListCell<UserInCourse>(selectionPredicate, sectionNamingFunction, itemNamingFunction, listView);
 		});
-		
-//		courseComboBox.setCellFactory(listView -> new JFXListCell<Course>() {
-//			@Override
-//			protected void updateItem(Course course, boolean empty) {
-//				super.updateItem(course, empty);
-//				
-//				if (course != null && !empty)
-//					setText(String.format("%s - [%s]", course.getName(), course.getCourseCode()));
-//				else
-//					setText(null);
-//				
-//				// Assign label
-//				if (course != null && !empty && course.getName().startsWith("Data")) {
-//					final VBox vbox = new VBox();
-//	                
-//	                listView.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-//						if (!(event.getPickResult().getIntersectedNode() instanceof JFXListCell))
-//							event.consume();
-//	                });
-//	                System.out.println("Updating cell");
-//					Label label = new Label("  Student");
-//					label.getStyleClass().add("section-label");
-//					label.setPrefHeight(30);
-//					label.setMaxWidth(Double.MAX_VALUE);
-//					label.setAlignment(Pos.CENTER_LEFT);
-//					
-//					Region region = new Region();
-//					region.setMaxWidth(Double.MAX_VALUE);
-//					region.setPrefHeight(1);
-//					region.getStyleClass().add("section-separator");
-//					
-//					JFXListCell<?> cell = new JFXListCell<>();
-//					cell.setText(getText());
-//					cell.getStyleClass().add("section-cell");
-//					cell.setMaxWidth(Double.MAX_VALUE);
-//					
-//					vbox.getChildren().setAll(label, region, cell);
-//
-//					setPadding(Insets.EMPTY);
-//					setText(null);
-//					setGraphic(vbox);
-////					resize(label.getPrefWidth() + region.getPrefWidth() + cell.getPrefWidth(), label.getPrefHeight() + region.getPrefHeight() + cell.getPrefHeight());
-//					minHeightProperty().set(label.getPrefHeight() + region.getPrefHeight() + cell.getPrefHeight());
-//				}
-//			}
-//		});
-		
 	}
 	
 	/**
@@ -280,7 +222,7 @@ public class MenuController implements Refreshable {
 		// TODO: Need information about users role for given course in returned query (UserCourse-relation)
 		nameLabel.setText(user.getName());
 		
-		updateRoleLabel(user, getSelectedCourse());
+		updateRoleLabel(courseRelationsComboBox.getSelectionModel().getSelectedItem());
 		
 		imageCircle.setFill(new ImagePattern(Loader.getImage("icons/silhouette.jpg")));
 	}
@@ -288,16 +230,18 @@ public class MenuController implements Refreshable {
 	/**
 	 * Updates role to be displayed in personalia.
 	 */
-	private void updateRoleLabel(User user, Course course) {
+	private void updateRoleLabel(UserInCourse userInCourse) {
 		// TODO: Hardcoded admin check
-		if (user.getUsername().equals("admin")) {
+		if (LoginManager.getActiveUser().getUsername().equals("admin")) {
 			roleLabel.setText("Admin");
 			return;
 		}
 		
 		// Update role
-		if (course != null)
-			roleLabel.setText(CourseManager.getRoleInCourse(LoginManager.getActiveUser(), course).getNorwegianName());
+		if (userInCourse != null)
+			roleLabel.setText(userInCourse.getRole().getNorwegianName());
+		else
+			roleLabel.setText("Ikke tilgjengelig");
 	}
 	
 	/**
@@ -330,12 +274,6 @@ public class MenuController implements Refreshable {
 		// Select first course, if present
 		if (!courseRelationsComboBox.getItems().isEmpty())
 			courseRelationsComboBox.getSelectionModel().selectFirst();
-		
-		// Fix size bug upon re-rendering
-//		courseComboBox.autosize();
-//		if (courseComboBoxListView != null)
-//			courseComboBoxListView.autosize();
-		System.out.println("Autosize");
 	}
 	
 	/**
@@ -412,6 +350,14 @@ public class MenuController implements Refreshable {
 	public Course getSelectedCourse() {
 		UserInCourse userInCourse =  courseRelationsComboBox.getSelectionModel().getSelectedItem();
 		return (userInCourse != null) ? userInCourse.getCourse() : null;
+	}
+	
+	/**
+	 * Returns the selected role.
+	 */
+	public Role getSelectedRole() {
+		UserInCourse userInCourse =  courseRelationsComboBox.getSelectionModel().getSelectedItem();
+		return (userInCourse != null) ? userInCourse.getRole() : null;
 	}
 	
 	

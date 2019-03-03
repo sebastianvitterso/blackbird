@@ -83,8 +83,6 @@ public class CourseManager {
 		
 		List<Map<String,String>> result = DatabaseManager.sendQuery(query);
 		return result.size() == 1;
-		//isUserRoleInCourse(LoginManager.getActiveUser(), getCourse("TDT4140"), Role.ASSISTANT);
-		
 	}
 	
 	/**
@@ -100,16 +98,5 @@ public class CourseManager {
 						new Course(row.get("course_code"), row.get("name"), row.get("description")), 
 						Role.valueOf(row.get("role").toUpperCase(Locale.ENGLISH))))
 				.collect(Collectors.toList());
-	}
-
-	public static Role getRoleInCourse(User user, Course course) {
-		if(isUserRoleInCourse(user, course, Role.PROFESSOR))
-			return Role.PROFESSOR;
-		else if(isUserRoleInCourse(user, course, Role.ASSISTANT))
-			return Role.ASSISTANT;
-		else if(isUserRoleInCourse(user, course, Role.STUDENT))
-			return Role.STUDENT;
-		else
-			return null;
 	}
 }

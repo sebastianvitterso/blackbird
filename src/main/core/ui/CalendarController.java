@@ -8,8 +8,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import main.app.Loader;
 import main.calendar.Calendar;
-import main.db.CourseManager;
-import main.db.LoginManager;
 import main.models.Course;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
@@ -56,7 +54,7 @@ public class CalendarController implements Refreshable {
     }
 	
 	public void showButtons() {
-		if (CourseManager.getRoleInCourse(LoginManager.getActiveUser(), Calendar.course) == Role.PROFESSOR) {
+		if (menuController.getSelectedRole() == Role.PROFESSOR) {
 			removeStudass.setVisible(true);
 			addStudass.setVisible(true);	
 		} else {
@@ -74,7 +72,7 @@ public class CalendarController implements Refreshable {
 		if (selectedCourse == null)
 			return;
 		calendar.setCourse(selectedCourse);
-		calendar.setRole(CourseManager.getRoleInCourse(LoginManager.getActiveUser(), selectedCourse));
+		calendar.setRole(menuController.getSelectedRole());
 		showButtons();
 		calendar.updateAllCells();
 	}
