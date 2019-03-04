@@ -9,13 +9,18 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import main.models.Assignment;
 import main.models.Course;
 
 public class AssignmentManager {
 	
-	public static List<Course> getAssignment(){
+	public static List<Assignment> getAssignment(){
 		List<Map<String, String>> assignmentMaps = DatabaseManager.sendQuery("SELECT * FROM assignment");
 		return DatabaseUtil.MapsToAssignments(assignmentMaps);
+	}
+
+	public static int addAssignment(Assignment assignment) {
+		return addAssignment(assignment.getCourseCode(), assignment.getTitle(), assignment.getDeadLine().toString(), assignment.getAssignmentFile().getAbsolutePath());
 	}
 	
 	public static int addAssignment(String courseCode, String assignmentTitle, String deadLine, String filePath) {
@@ -41,6 +46,12 @@ public class AssignmentManager {
 			e.printStackTrace();
 			return -1;
 		}	
+	}
+	
+	
+	
+	public static int removeAssignment(Assignment assignment) {
+		return DatabaseManager.sendUpdate(String.format("DELETE FROM assignment WHERE assignment_id = '%s'", assignment.getAssignmentID()));
 	}
 	
 }

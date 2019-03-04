@@ -49,6 +49,15 @@ public class DatabaseUtil {
 		}
 		return periods;
 	}
+	
+	public static List<Assignment> MapsToAssignments(List<Map<String, String>> assignmentMaps) {
+		List<Assignment> assignmentList = new ArrayList<>();
+		/*
+		 * TODO: IMPLEMENT.
+		 */
+		System.out.println("Not implemented MapsToAssignments in DatabaseUtil.");
+		return null;
+	}
 
 	public static Map<String, TimeSlot> PeriodsToTimeSlotMap(List<Period> periods){
 		Map<String, List<Period>> timePeriodMap = new HashMap<>();
@@ -63,12 +72,4 @@ public class DatabaseUtil {
 		}
 		return timeSlotMap;
 	}	
-
-	public static List<Course> MapsToAssignments(List<Map<String, String>> assignmentMaps) {
-		/*
-		 * TODO: IMPLEMENT.
-		 */
-		System.out.println("Not implemented MapsToAssignments in DatabaseUtil.");
-		return null;
-	}
 }
