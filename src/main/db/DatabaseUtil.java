@@ -7,7 +7,7 @@ import java.util.Map;
 
 import main.calendar.TimeSlot;
 import main.models.Course;
-import main.models.Excercise;
+import main.models.Assignment;
 import main.models.Period;
 import main.models.User;
 
@@ -63,11 +63,12 @@ public class DatabaseUtil {
 		}
 		return timeSlotMap;
 	}	
-	public static List<Excercise> MapsToExcercises(List<Map<String, String>> excerciseMaps){
+
+	public static List<Course> MapsToAssignments(List<Map<String, String>> assignmentMaps) {
 		/*
 		 * TODO: IMPLEMENT.
 		 */
-		System.out.println("Not implemented MapsToExcercises in DatabaseUtil.");
+		System.out.println("Not implemented MapsToAssignments in DatabaseUtil.");
 		return null;
 	}
 }

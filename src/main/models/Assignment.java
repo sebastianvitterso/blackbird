@@ -1,6 +1,6 @@
 package main.models;
 
-public class Excercise {
+public class Assignment {
 	/*
 	 * NOT IMPLEMENTED.
 	 * TODO: Add data variables.
