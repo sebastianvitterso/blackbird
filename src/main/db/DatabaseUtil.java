@@ -7,6 +7,7 @@ import java.util.Map;
 
 import main.calendar.TimeSlot;
 import main.models.Course;
+import main.models.Excercise;
 import main.models.Period;
 import main.models.User;
 
@@ -61,5 +62,12 @@ public class DatabaseUtil {
 			timeSlotMap.put(timeStamp, new TimeSlot(timePeriodMap.get(timeStamp)));
 		}
 		return timeSlotMap;
+	}	
+	public static List<Excercise> MapsToExcercises(List<Map<String, String>> excerciseMaps){
+		/*
+		 * TODO: IMPLEMENT.
+		 */
+		System.out.println("Not implemented MapsToExcercises in DatabaseUtil.");
+		return null;
 	}
 }

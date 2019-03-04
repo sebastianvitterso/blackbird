@@ -2,6 +2,7 @@ package main.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -106,6 +107,20 @@ public class DatabaseManager {
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	
+	/*
+	 * TODO: Needs testing.
+	 */
+	public static PreparedStatement getPreparedStatement(String query) {
+		try {
+			return connection.prepareStatement(query);
+		} catch (SQLException e) {
+			System.err.printf("Couldn't return PreparedStatement from getPreparedStatement(%s)", query);
+			e.printStackTrace();
+			return null;
 		}
 	}
 	
