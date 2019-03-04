@@ -8,9 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
 import main.models.Assignment;
-import main.models.Course;
 
 public class AssignmentManager {
 	
@@ -20,7 +18,7 @@ public class AssignmentManager {
 	}
 
 	public static int addAssignment(Assignment assignment) {
-		return addAssignment(assignment.getCourseCode(), assignment.getTitle(), assignment.getDeadLine().toString(), assignment.getAssignmentFile().getAbsolutePath());
+		return addAssignment(assignment.getCourse().getCourseCode(), assignment.getTitle(), assignment.getDeadLine().toString(), assignment.getAssignmentFile().getAbsolutePath());
 	}
 	
 	public static int addAssignment(String courseCode, String assignmentTitle, String deadLine, String filePath) {
@@ -32,7 +30,7 @@ public class AssignmentManager {
 			ps.setString(1, courseCode);
 			ps.setString(2, assignmentTitle);
 			ps.setString(3, deadLine);
-			ps.setBlob(3, is);
+			ps.setBlob(4, is);
 			
 			return ps.executeUpdate();
 		} catch (FileNotFoundException e) {

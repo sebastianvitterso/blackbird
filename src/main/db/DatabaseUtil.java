@@ -9,6 +9,7 @@ import main.calendar.TimeSlot;
 import main.models.Course;
 import main.models.Assignment;
 import main.models.Period;
+import main.models.Submission;
 import main.models.User;
 
 public class DatabaseUtil {
@@ -52,12 +53,25 @@ public class DatabaseUtil {
 	
 	public static List<Assignment> MapsToAssignments(List<Map<String, String>> assignmentMaps) {
 		List<Assignment> assignmentList = new ArrayList<>();
-		/*
-		 * TODO: IMPLEMENT.
-		 */
+		for (Map<String, String> assignmentMap : assignmentMaps) {
+			int assignmentID = Integer.parseInt(assignmentMap.get("assignment_id"));
+			String username = assignmentMap.get("username");
+			String timestamp = assignmentMap.get("delivered_timestamp");
+			int score = Integer.parseInt(assignmentMap.get("score"));
+			/*
+			 * TODO: How do we get blobs/files from the database, and how do we force them through this mill? 
+			 */
+		}
 		System.out.println("Not implemented MapsToAssignments in DatabaseUtil.");
 		return null;
 	}
+	
+	public static List<Submission> MapsToSubmissions(List<Map<String, String>> submissionMaps) {
+		/*
+		 * TODO: How do we get blobs/files from the database, and how do we force them through this mill? 
+		 */
+		return null;
+	}	
 
 	public static Map<String, TimeSlot> PeriodsToTimeSlotMap(List<Period> periods){
 		Map<String, List<Period>> timePeriodMap = new HashMap<>();
@@ -71,5 +85,5 @@ public class DatabaseUtil {
 			timeSlotMap.put(timeStamp, new TimeSlot(timePeriodMap.get(timeStamp)));
 		}
 		return timeSlotMap;
-	}	
+	}
 }

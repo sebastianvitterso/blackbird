@@ -5,16 +5,20 @@ import java.sql.Timestamp;
 
 public class Assignment {
 	private final int assignmentID;
-	private String courseCode;
+	private Course course;
 	private String title;
 	private Timestamp deadLine;
 	private int maxScore;
 	private int passingScore;
 	private File assignmentFile;
 	
-	public Assignment(int assignmentID, String courseCode, String title, Timestamp deadLine, int maxScore, int passingScore, File assignmentFile){
+	/*
+	 * TODO: Do we want "courseCode" or actual course-objects?
+	 */
+	
+	public Assignment(int assignmentID, Course course, String title, Timestamp deadLine, int maxScore, int passingScore, File assignmentFile){
 		this.assignmentID = assignmentID;
-		this.courseCode = courseCode;
+		this.course = course;
 		this.title = title;
 		this.deadLine = deadLine;
 		this.maxScore = maxScore;
@@ -26,12 +30,12 @@ public class Assignment {
 		return assignmentID;
 	}
 	
-	public String getCourseCode() {
-		return courseCode;
+	public Course getCourse() {
+		return course;
 	}
 
-	public void setCourseCode(String course_code) {
-		this.courseCode = course_code;
+	public void setCourseCode(Course course) {
+		this.course = course;
 	}
 
 	public String getTitle() {
