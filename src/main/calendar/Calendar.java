@@ -152,9 +152,6 @@ public class Calendar {
 		for (int n = 0; n < 6; n++) {
 			StackPaneNode sp = new StackPaneNode();
 			sp.setPrefSize(400, 10);
-			Border border = new Border(
-					new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0.1)));
-			sp.setBorder(border);
 			dayLabels.add(sp, col++, 0);
 			if (n == 0) {
 				sp.addText("               ");
@@ -162,11 +159,10 @@ public class Calendar {
 				 * Empty string is there to make the StackPaneNode 
 				 * take up as much space as the time columns
 				 */
-				sp.getStyleClass().add("available1");
 			} else {
 				dayPaneNodes[n-1] = sp;
-				sp.getStyleClass().add("unavailable1");
 			}
+			//sp.getStyleClass().add("available1");
 		}
 		updateDayPaneNodes();
 		return dayLabels;
