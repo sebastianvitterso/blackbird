@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import main.models.Assignment;
+import main.models.Course;
 
 public class AssignmentManager {
 	
@@ -17,17 +18,20 @@ public class AssignmentManager {
 		return DatabaseUtil.MapsToAssignments(assignmentMaps);
 	}
 
-	public static int addAssignment(Assignment assignment) {
-		return addAssignment(assignment.getCourse().getCourseCode(), assignment.getTitle(), assignment.getDeadLine().toString(), assignment.getAssignmentFile().getAbsolutePath());
+	/*
+	 * TODO: Not sure if this Timestamp.toString() returns the same format as the db uses.
+	 */
+	public static int addAssignment(Assignment assignment) { 
+		return addAssignment(assignment.getCourse(), assignment.getTitle(), assignment.getDeadLine().toString(), assignment.getAssignmentFile().getAbsolutePath());
 	}
 	
-	public static int addAssignment(String courseCode, String assignmentTitle, String deadLine, String filePath) {
+	public static int addAssignment(Course course, String assignmentTitle, String deadLine, String filePath) {
 		try {
 			PreparedStatement ps = DatabaseManager.getPreparedStatement(
 					"INSERT INTO assignment(course_code, exercise_title, deadline, assignment_file) "
 					+ "VALUES(?, ?, ?, ?);");
 			InputStream is = new FileInputStream(new File(filePath));
-			ps.setString(1, courseCode);
+			ps.setString(1, course.getCourseCode());
 			ps.setString(2, assignmentTitle);
 			ps.setString(3, deadLine);
 			ps.setBlob(4, is);
@@ -40,7 +44,7 @@ public class AssignmentManager {
 			return -1;
 			
 		} catch (SQLException e) {
-			System.err.println("SQLException when setting valies to PreparedStatement.");
+			System.err.println("SQLException when setting values into PreparedStatement.");
 			e.printStackTrace();
 			return -1;
 		}	
