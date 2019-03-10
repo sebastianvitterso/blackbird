@@ -8,6 +8,7 @@ import java.util.Map;
 
 import main.calendar.TimeSlot;
 import main.models.Course;
+import main.models.Announcement;
 import main.models.Assignment;
 import main.models.Period;
 import main.models.Submission;
@@ -78,6 +79,19 @@ public class DatabaseUtil {
 		}
 		return submissionList;
 	}	
+	
+	public static List<Announcement> MapsToAnnouncements(List<Map<String, String>> announcementMaps) {
+		List<Announcement> announcements = new ArrayList<Announcement>();
+		for (Map<String, String> announcementMap : announcementMaps) {
+			int announcement_id = Integer.valueOf(announcementMap.get("announcement_id"));
+			Course course = CourseManager.getCourse(announcementMap.get("course_code"));
+			User user = UserManager.getUser(announcementMap.get("username"));
+			Timestamp timestamp = Timestamp.valueOf(announcementMap.get("timestamp"));
+			String text = announcementMap.get("text");
+			announcements.add(new Announcement(announcement_id, course, user, timestamp, text));
+		}
+		return announcements;
+	}
 
 	public static Map<String, TimeSlot> PeriodsToTimeSlotMap(List<Period> periods){
 		Map<String, List<Period>> timePeriodMap = new HashMap<>();
