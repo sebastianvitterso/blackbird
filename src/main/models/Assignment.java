@@ -1,6 +1,5 @@
 package main.models;
 
-import java.io.File;
 import java.sql.Timestamp;
 
 public class Assignment {
@@ -10,20 +9,15 @@ public class Assignment {
 	private Timestamp deadLine;
 	private int maxScore;
 	private int passingScore;
-	private File assignmentFile;
 	
-	/*
-	 * TODO: Do we want "courseCode" or actual course-objects?
-	 */
 	
-	public Assignment(int assignmentID, Course course, String title, Timestamp deadLine, int maxScore, int passingScore, File assignmentFile){
+	public Assignment(int assignmentID, Course course, String title, Timestamp deadLine, int maxScore, int passingScore){
 		this.assignmentID = assignmentID;
 		this.course = course;
 		this.title = title;
 		this.deadLine = deadLine;
 		this.maxScore = maxScore;
 		this.passingScore = passingScore;
-		this.assignmentFile = assignmentFile;
 	}
 	
 	public int getAssignmentID() {
@@ -70,13 +64,4 @@ public class Assignment {
 		this.passingScore = passingScore;
 	}
 
-	public File getAssignmentFile() {
-		return assignmentFile;
-	}
-
-	public void setAssignmentFile(File assignmentFile) {
-		this.assignmentFile = assignmentFile;
-	}
-
-	
 }

@@ -1,6 +1,5 @@
 package main.models;
 
-import java.io.File;
 import java.sql.Timestamp;
 
 public class Submission {
@@ -8,18 +7,12 @@ public class Submission {
 	private final User user;
 	private Timestamp deliveredTime;
 	private int score;
-	private File submissionFile;
 	
-	/*
-	 * TODO: Do we want "assignmentID" or actual assignment-objects? Same with username/user.
-	 */
-	
-	public Submission(Assignment assignment, User user, Timestamp deliveredTime, int score, File submissionFile){
+	public Submission(Assignment assignment, User user, Timestamp deliveredTime, int score){
 		this.assignment = assignment;
 		this.user = user;
 		this.deliveredTime = deliveredTime;
 		this.score = score;
-		this.submissionFile = submissionFile;
 	}
 	
 	public Assignment getAssignment() {
@@ -46,13 +39,4 @@ public class Submission {
 		this.score = score;
 	}
 
-	public File getSubmissionFile() {
-		return submissionFile;
-	}
-
-	public void setSubmissionFile(File submissionFile) {
-		this.submissionFile = submissionFile;
-	}
-	
-	
 }

@@ -1,5 +1,10 @@
 package main.db;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,8 +19,9 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-
 import main.app.MainApp;
+import main.models.Assignment;
+import main.models.Submission;
 
 public class DatabaseManager {
 	private static final String DB_DRIVER_PATH = "com.mysql.cj.jdbc.Driver";
@@ -124,6 +130,99 @@ public class DatabaseManager {
 		}
 	}
 	
+	/*
+	 * TODO: Remove hardcoding.
+	 * TODO: Move some code into other methods? Not sure about what parts, and if we need to generalize parts of it.
+	 * 		 Most of the code is only repeated up to twice, not a big problem. 
+	 * Downloads the AssignmentFile to *hardcoded* folder, and returns filepath as String.   
+	 */
+	public static String downloadAssignmentFile(Assignment assignment){
+		ResultSet rs = null;
+		int assignmentID = assignment.getAssignmentID();
+		String path = String.format("C:/Users/Sebastian/assignment_%s.pdf", String.valueOf(assignmentID));
+		try {
+			PreparedStatement prep = getPreparedStatement(String.format("SELECT assignment_file FROM assignment WHERE assignment_id = %s;", assignmentID));
+			rs = prep.executeQuery();
+			
+			while(rs.next()) {
+				InputStream input = rs.getBinaryStream("assignment_file");
+				File file = new File(path);
+				FileOutputStream output = new FileOutputStream(file);
+				
+				byte[] buffer = new byte[1024];
+				while (input.read(buffer) > 0) {
+					output.write(buffer);
+				}
+				output.close();
+			}
+		} catch (SQLException e) {
+			System.err.println("Error when executing query in downloadAssignmentFile().");
+			e.printStackTrace();
+			return null;
+		} catch (FileNotFoundException e) {
+			System.err.println("Error that shouldn't happen, concerning file-handling in downloadAssignmentFile().");
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			System.err.println("Error when putting all the shit into a file.");
+			e.printStackTrace();
+			return null;
+		} finally {
+			try{
+				if(rs != null)
+					rs.close();
+			}catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return path;
+	}
+	
+	public static String downloadSubmissionFile(Submission submission){
+		ResultSet rs = null;
+		int assignmentID = submission.getAssignment().getAssignmentID();
+		String username = submission.getUser().getUsername();
+		String path = String.format("C:/Users/Sebastian/submission_student_%s_assignment_%s.pdf", username, assignmentID);
+		try {
+			PreparedStatement prep = getPreparedStatement(String.format("SELECT submission_file FROM submission "
+					+ "WHERE assignment_id = '%s' and username = '%s';", assignmentID, username));
+			rs = prep.executeQuery();
+			
+			while(rs.next()) {
+				InputStream input = rs.getBinaryStream("submission_file");
+				File file = new File(path);
+				FileOutputStream output = new FileOutputStream(file);
+				
+				byte[] buffer = new byte[1024];
+				while (input.read(buffer) > 0) {
+					output.write(buffer);
+				}
+				output.close();
+			}
+		} catch (SQLException e) {
+			System.err.println("Error when executing query in downloadSubmissionFile().");
+			e.printStackTrace();
+			return null;
+		} catch (FileNotFoundException e) {
+			System.err.println("Error that shouldn't happen, concerning file-handling in downloadSubmissionFile().");
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			System.err.println("Error when putting all the shit into a file."); // TODO: Change this error message?
+			e.printStackTrace();
+			return null;
+		} finally {
+			try{
+				if(rs != null)
+					rs.close();
+			}catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return path;
+	}
 	
 	/*
 	 * submitCallable and submitRunnable are to be used later in the project. 

@@ -1,5 +1,6 @@
 package main.db;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,23 +55,28 @@ public class DatabaseUtil {
 	public static List<Assignment> MapsToAssignments(List<Map<String, String>> assignmentMaps) {
 		List<Assignment> assignmentList = new ArrayList<>();
 		for (Map<String, String> assignmentMap : assignmentMaps) {
-			int assignmentID = Integer.parseInt(assignmentMap.get("assignment_id"));
-			String username = assignmentMap.get("username");
-			String timestamp = assignmentMap.get("delivered_timestamp");
-			int score = Integer.parseInt(assignmentMap.get("score"));
-			/*
-			 * TODO: How do we get blobs/files from the database, and how do we force them through this mill? 
-			 */
+			int assignment_id = Integer.parseInt(assignmentMap.get("assignment_id"));
+			String course_code = assignmentMap.get("course_code");
+			Course course = CourseManager.getCourse(course_code);
+			String title = assignmentMap.get("title");
+			String deadline = assignmentMap.get("deadline");
+			int max_score = Integer.parseInt(assignmentMap.get("max_score"));
+			int passing_score = Integer.parseInt(assignmentMap.get("passing_score"));
+			assignmentList.add(new Assignment(assignment_id, course, title, Timestamp.valueOf(deadline),max_score, passing_score));
 		}
-		System.out.println("Not implemented MapsToAssignments in DatabaseUtil.");
-		return null;
+		return assignmentList;
 	}
 	
 	public static List<Submission> MapsToSubmissions(List<Map<String, String>> submissionMaps) {
-		/*
-		 * TODO: How do we get blobs/files from the database, and how do we force them through this mill? 
-		 */
-		return null;
+		List<Submission> submissionList = new ArrayList<>();
+		for (Map<String, String> submissionMap : submissionMaps) {
+			int assignment_id = Integer.parseInt(submissionMap.get("assignment_id"));
+			String username = submissionMap.get("username");
+			String delivered_timestamp = submissionMap.get("delivered_timestamp");
+			int score = Integer.parseInt(submissionMap.get("score"));
+			submissionList.add(new Submission(AssignmentManager.getAssignment(assignment_id), UserManager.getUser(username), Timestamp.valueOf(delivered_timestamp), score));
+		}
+		return submissionList;
 	}	
 
 	public static Map<String, TimeSlot> PeriodsToTimeSlotMap(List<Period> periods){
