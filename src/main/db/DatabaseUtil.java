@@ -1,5 +1,6 @@
 package main.db;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +8,10 @@ import java.util.Map;
 
 import main.calendar.TimeSlot;
 import main.models.Course;
+import main.models.Announcement;
+import main.models.Assignment;
 import main.models.Period;
+import main.models.Submission;
 import main.models.User;
 
 public class DatabaseUtil {
@@ -47,6 +51,46 @@ public class DatabaseUtil {
 			periods.add(new Period(periodID, course_code, timestamp, professor_username, assistant_username, student_username));
 		}
 		return periods;
+	}
+	
+	public static List<Assignment> MapsToAssignments(List<Map<String, String>> assignmentMaps) {
+		List<Assignment> assignmentList = new ArrayList<>();
+		for (Map<String, String> assignmentMap : assignmentMaps) {
+			int assignment_id = Integer.parseInt(assignmentMap.get("assignment_id"));
+			String course_code = assignmentMap.get("course_code");
+			Course course = CourseManager.getCourse(course_code);
+			String title = assignmentMap.get("title");
+			String deadline = assignmentMap.get("deadline");
+			int max_score = Integer.parseInt(assignmentMap.get("max_score"));
+			int passing_score = Integer.parseInt(assignmentMap.get("passing_score"));
+			assignmentList.add(new Assignment(assignment_id, course, title, Timestamp.valueOf(deadline),max_score, passing_score));
+		}
+		return assignmentList;
+	}
+	
+	public static List<Submission> MapsToSubmissions(List<Map<String, String>> submissionMaps) {
+		List<Submission> submissionList = new ArrayList<>();
+		for (Map<String, String> submissionMap : submissionMaps) {
+			int assignment_id = Integer.parseInt(submissionMap.get("assignment_id"));
+			String username = submissionMap.get("username");
+			String delivered_timestamp = submissionMap.get("delivered_timestamp");
+			int score = Integer.parseInt(submissionMap.get("score"));
+			submissionList.add(new Submission(AssignmentManager.getAssignment(assignment_id), UserManager.getUser(username), Timestamp.valueOf(delivered_timestamp), score));
+		}
+		return submissionList;
+	}	
+	
+	public static List<Announcement> MapsToAnnouncements(List<Map<String, String>> announcementMaps) {
+		List<Announcement> announcements = new ArrayList<Announcement>();
+		for (Map<String, String> announcementMap : announcementMaps) {
+			int announcement_id = Integer.valueOf(announcementMap.get("announcement_id"));
+			Course course = CourseManager.getCourse(announcementMap.get("course_code"));
+			User user = UserManager.getUser(announcementMap.get("username"));
+			Timestamp timestamp = Timestamp.valueOf(announcementMap.get("timestamp"));
+			String text = announcementMap.get("text");
+			announcements.add(new Announcement(announcement_id, course, user, timestamp, text));
+		}
+		return announcements;
 	}
 
 	public static Map<String, TimeSlot> PeriodsToTimeSlotMap(List<Period> periods){
