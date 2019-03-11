@@ -16,7 +16,7 @@ public class AssignmentsController implements Refreshable {
 	
 	@FXML
 	private void initialize() {
-		assignmentVBox.getChildren().clear();
+//		assignmentVBox.getChildren().clear();
 	}
 	
 	/**
