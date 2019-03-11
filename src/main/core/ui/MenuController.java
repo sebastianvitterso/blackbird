@@ -154,7 +154,7 @@ public class MenuController implements Refreshable {
 
 		buttons.put(View.OVERVIEW_VIEW, 	new MenuButton(View.OVERVIEW_VIEW, 		"Oversikt", 		new ImageView(Loader.getImage("icons/overview.png"))));
 		buttons.put(View.SCHEDULING_VIEW, 	new MenuButton(View.SCHEDULING_VIEW, 	"Timebestilling", 	new ImageView(Loader.getImage("icons/scheduling.png"))));
-		buttons.put(View.EXERCISES_VIEW, 	new MenuButton(View.EXERCISES_VIEW, 	"Øvinger", 			new ImageView(Loader.getImage("icons/exercises.png"))));
+		buttons.put(View.ASSIGNMENTS_VIEW, 	new MenuButton(View.ASSIGNMENTS_VIEW, 	"Øvinger", 			new ImageView(Loader.getImage("icons/exercises.png"))));
 		buttons.put(View.MEMBERS_VIEW, 		new MenuButton(View.MEMBERS_VIEW, 		"Medlemmer", 		new ImageView(Loader.getImage("icons/members.png"))));
 		buttons.put(View.ADMIN_VIEW, 		new MenuButton(View.ADMIN_VIEW, 		"Administrer", 		new ImageView(Loader.getImage("icons/admin.png"))));
 		
@@ -289,7 +289,7 @@ public class MenuController implements Refreshable {
 		menuButtonsVBox.getChildren().setAll(
 				buttons.get(View.OVERVIEW_VIEW),
 				buttons.get(View.SCHEDULING_VIEW),
-				buttons.get(View.EXERCISES_VIEW),
+				buttons.get(View.ASSIGNMENTS_VIEW),
 				buttons.get(View.MEMBERS_VIEW));
 	}
 	

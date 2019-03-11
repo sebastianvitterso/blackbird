@@ -8,10 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.AssignmentsController">
    <children>
-      <VBox prefHeight="488.0" prefWidth="602.0" styleClass="background" stylesheets="@../stylesheets/overview.css">
+      <VBox prefHeight="488.0" prefWidth="602.0" styleClass="background" stylesheets="@../../stylesheets/overview.css">
          <children>
             <Label styleClass="header-label" text="Øvinger">
                <effect>
