@@ -7,14 +7,16 @@ public class Announcement {
 	private Course course;
 	private User user;
 	private Timestamp timestamp;
+	private String title;
 	private String text;
 
-	public Announcement(int announcementID, Course course, User user, Timestamp timestamp, String text) {
+	public Announcement(int announcementID, Course course, User user, Timestamp timestamp, String title, String text) {
 		super();
 		AnnouncementID = announcementID;
 		this.course = course;
 		this.user = user;
 		this.timestamp = timestamp;
+		this.title = title;
 		this.text = text;
 	}
 	
@@ -38,6 +40,12 @@ public class Announcement {
 	}
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getText() {
 		return text;

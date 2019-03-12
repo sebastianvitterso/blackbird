@@ -75,7 +75,8 @@ public class DatabaseUtil {
 			String username = submissionMap.get("username");
 			String delivered_timestamp = submissionMap.get("delivered_timestamp");
 			int score = Integer.parseInt(submissionMap.get("score"));
-			submissionList.add(new Submission(AssignmentManager.getAssignment(assignment_id), UserManager.getUser(username), Timestamp.valueOf(delivered_timestamp), score));
+			String comment = submissionMap.get("comment");
+			submissionList.add(new Submission(AssignmentManager.getAssignment(assignment_id), UserManager.getUser(username), Timestamp.valueOf(delivered_timestamp), score, comment));
 		}
 		return submissionList;
 	}	
@@ -87,8 +88,9 @@ public class DatabaseUtil {
 			Course course = CourseManager.getCourse(announcementMap.get("course_code"));
 			User user = UserManager.getUser(announcementMap.get("username"));
 			Timestamp timestamp = Timestamp.valueOf(announcementMap.get("timestamp"));
+			String title = announcementMap.get("title");
 			String text = announcementMap.get("text");
-			announcements.add(new Announcement(announcement_id, course, user, timestamp, text));
+			announcements.add(new Announcement(announcement_id, course, user, timestamp, title, text));
 		}
 		return announcements;
 	}
