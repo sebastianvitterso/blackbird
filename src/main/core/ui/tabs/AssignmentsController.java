@@ -1,15 +1,20 @@
 package main.core.ui.tabs;
 
+import java.net.URL;
 import java.util.Map;
+import java.util.Set;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 import main.app.Loader;
 import main.core.ui.MenuController;
+import main.core.ui.components.AssignmentBoxController;
 import main.db.AssignmentManager;
+import main.db.SubmissionManager;
 import main.models.Assignment;
 import main.models.Course;
+import main.models.Submission;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.View;
@@ -17,6 +22,8 @@ import main.utils.View;
 public class AssignmentsController implements Refreshable {
 	private MenuController menuController;
 	private Map<Assignment, FXMLLoader> mapToLoaders;
+	private Set<Assignment> assignments;
+	private Set<Submission> submissions;
 	@FXML private VBox assignmentVBox;
 	
 	
@@ -39,10 +46,26 @@ public class AssignmentsController implements Refreshable {
 		updateAssignments();
 	}
 	
-//	private FXMLLoader createLoader(Assignment assignment) {
-//		mapToLoaders.put(assignment, new FXMLLoader(getClass().getClassLoader().getResource(View.ASSIGNMENT_BOX.getPathToFXML())));
-//	}
-//	
+	
+	
+	private void loadAssignments() {
+	}
+	
+	private void createAssignment(Assignment assignment) {
+		// Create mapping for FXML loader
+		FXMLLoader loader = createLoader(assignment);
+		
+		// Inject assignment into assignment container
+		AssignmentBoxController controller = loader.getController();
+		controller.loadAssignment(assignment);
+//		controller.loadStatus();
+	}
+	
+	private FXMLLoader createLoader(Assignment assignment) {
+		URL pathToFXML = getClass().getClassLoader().getResource(View.ASSIGNMENT_BOX.getPathToFXML());
+		return mapToLoaders.put(assignment, new FXMLLoader(pathToFXML));
+	}
+	
 	private void updateAssignments() {
 		Course course = menuController.getSelectedCourse();
 		AssignmentManager.getAssignmentsFromCourse(course);
