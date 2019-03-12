@@ -2,6 +2,9 @@ package main.core.ui.tabs;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import main.announcement.AnnouncementsView;
 import main.app.Loader;
 import main.core.ui.MenuController;
 import main.models.Course;
@@ -14,6 +17,7 @@ public class OverviewController implements Refreshable {
 	
 	
 	@FXML private Label courseDescriptionLabel;
+	@FXML private Pane announcementPane;
 	
 	/**
      * Runs any methods that require every controller to be initialized.
@@ -31,6 +35,9 @@ public class OverviewController implements Refreshable {
 		Course selectedCourse = menuController.getSelectedCourse();
 		if (selectedCourse != null)
 			courseDescriptionLabel.setText(selectedCourse.getDescription());
+		//OBS: Denne loades inn to ganger samtidig. En av dem bør fjernes for opptimalisering
+		announcementPane.getChildren().clear();
+		announcementPane.getChildren().add(new AnnouncementsView(selectedCourse).getView());
 	}
 	
 	@Override
