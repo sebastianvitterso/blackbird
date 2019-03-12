@@ -76,6 +76,6 @@ public class SubmissionManager {
 
 	public static void main(String[] args) {
 //		addSubmission(AssignmentManager.getAssignment(1), UserManager.getUser("seb"), Timestamp.valueOf("2019-03-10 20:53:14"), "C:/Users/sebas/Desktop/Forstudie-1.pdf");
-//		DatabaseManager.downloadSubmissionFile(getSubmission(AssignmentManager.getAssignment(1), UserManager.getUser("seb")));
+//		DatabaseManager.downloadSubmissionFile(getSubmission(AssignmentManager.getAssignment(1), UserManager.getUser("seb")), new File("C:/Users/sebas/"));
 	}
 }
