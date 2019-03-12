@@ -87,8 +87,9 @@ public class DatabaseUtil {
 			Course course = CourseManager.getCourse(announcementMap.get("course_code"));
 			User user = UserManager.getUser(announcementMap.get("username"));
 			Timestamp timestamp = Timestamp.valueOf(announcementMap.get("timestamp"));
+			String title = announcementMap.get("title");
 			String text = announcementMap.get("text");
-			announcements.add(new Announcement(announcement_id, course, user, timestamp, text));
+			announcements.add(new Announcement(announcement_id, course, user, timestamp, title, text));
 		}
 		return announcements;
 	}
