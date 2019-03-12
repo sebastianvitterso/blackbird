@@ -19,7 +19,8 @@ public enum View {
 	//// POPUPS ////
 	POPUP_COURSE_VIEW(			null, 						"ui/popups/CoursePopup.fxml"), 
 	POPUP_USER_SELECTION_VIEW(	null,						"ui/popups/UserSelectionPopup.fxml"), 
-	POPUP_USER_VIEW(			null, 						"ui/popups/UserPopup.fxml"); 
+	POPUP_USER_VIEW(			null, 						"ui/popups/UserPopup.fxml"),
+	POPUP_ANNOUNCEMENT_VIEW(	null, 						"ui/popups/AnnouncementPopup.fxml"); 
 	
 	
 	private final String title;

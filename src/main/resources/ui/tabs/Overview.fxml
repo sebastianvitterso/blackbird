@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="731.0" prefWidth="1010.0" styleClass="background" stylesheets="@../../stylesheets/overview.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.OverviewController">
+<StackPane fx:id="rootPane" prefHeight="731.0" prefWidth="1010.0" styleClass="background" stylesheets="@../../stylesheets/overview.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.OverviewController">
    <children>
       <HBox spacing="50.0">
          <children>
@@ -32,11 +34,17 @@
                   </VBox>
                   <VBox layoutX="10.0" layoutY="10.0" prefHeight="443.0" prefWidth="610.0">
                      <children>
-                        <Label styleClass="header-label" text="Kunngjøringer">
-                           <effect>
-                              <DropShadow color="#bbbbbb" height="5.0" radius="2.0" spread="0.7" width="5.0" />
-                           </effect>
-                        </Label>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label styleClass="header-label" text="Kunngjøringer">
+                                 <effect>
+                                    <DropShadow color="#bbbbbb" height="5.0" radius="2.0" spread="0.7" width="5.0" />
+                                 </effect>
+                              </Label>
+                              <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <JFXButton fx:id="newAnnouncementButton" buttonType="RAISED" onAction="#handleNewAnnouncementClick" text="+" />
+                           </children>
+                        </HBox>
                         <Separator styleClass="header-separator" />
                         <Pane fx:id="announcementPane" prefHeight="3000.0" prefWidth="200.0" />
                      </children>
