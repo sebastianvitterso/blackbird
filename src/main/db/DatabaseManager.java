@@ -183,7 +183,7 @@ public class DatabaseManager {
 		ResultSet rs = null;
 		int assignmentID = submission.getAssignment().getAssignmentID();
 		String username = submission.getUser().getUsername();
-		String path = String.format("C:/Users/Sebastian/submission_student_%s_assignment_%s.pdf", username, assignmentID);
+		String path = String.format("C:/submission_student_%s_assignment_%s.pdf", username, assignmentID);
 		try {
 			PreparedStatement prep = getPreparedStatement(String.format("SELECT submission_file FROM submission "
 					+ "WHERE assignment_id = '%s' and username = '%s';", assignmentID, username));

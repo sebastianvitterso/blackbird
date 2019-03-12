@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import main.models.Assignment;
+import main.models.Course;
 import main.models.Submission;
 import main.models.User;
 
@@ -26,20 +27,19 @@ public class SubmissionManager {
 	}
 	
 	public static int addSubmission(Submission submission, String filepath) {
-		return addSubmission(submission.getAssignment(), submission.getUser(), submission.getDeliveredTime(), submission.getScore(), filepath);
+		return addSubmission(submission.getAssignment(), submission.getUser(), submission.getDeliveredTime(), filepath);
 	}
 	
-	public static int addSubmission(Assignment assignment, User user, Timestamp deliveredTime, int score, String filepath) {
+	public static int addSubmission(Assignment assignment, User user, Timestamp deliveredTime, String filepath) {
 		try {
 			PreparedStatement ps = DatabaseManager.getPreparedStatement(
-					"INSERT INTO submission(assignment_id, username, delivered_timestamp, score, submission_file) "
-					+ "VALUES(?, ?, ?, ?, ?);");
+					"INSERT INTO submission(assignment_id, username, delivered_timestamp, submission_file) "
+					+ "VALUES(?, ?, ?, ?);");
 			InputStream is = new FileInputStream(new File(filepath));
 			ps.setString(1, Integer.toString(assignment.getAssignmentID()));
 			ps.setString(2, user.getUsername());
 			ps.setString(3, deliveredTime.toString()); 
-			ps.setInt(4, score);
-			ps.setBlob(5, is);
+			ps.setBlob(4, is);
 			
 			return ps.executeUpdate();
 		} catch (FileNotFoundException e) {
@@ -59,9 +59,23 @@ public class SubmissionManager {
 		return DatabaseManager.sendUpdate(String.format("DELETE FROM submission WHERE assignment_id = '%s' and username = '%s'", 
 				submission.getAssignment().getAssignmentID(), submission.getUser().getUsername()));
 	}
+	
+	public static List<Submission> getSubmissionsFromCourseAndUser(Course course, User user){
+		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery(String.format(
+				"SELECT * FROM submission INNER JOIN assignment WHERE username = '%s' AND course_code = '%s';",
+				user.getUsername(), course.getCourseCode()));
+		return DatabaseUtil.MapsToSubmissions(submissionMaps);
+	}
+	
+	public static List<Submission> getSubmissionsFromAssignment(Assignment assignment){
+		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery(String.format(
+				"SELECT * FROM submission WHERE assignment_id = '%s';",
+				assignment.getAssignmentID()));
+		return DatabaseUtil.MapsToSubmissions(submissionMaps);
+	}
 
 	public static void main(String[] args) {
-//		addSubmission(AssignmentManager.getAssignment(2), UserManager.getUser("seb"), Timestamp.valueOf("2019-03-10 20:53:14"), 4, "C:/Users/Sebastian/aa.pdf");
-		DatabaseManager.downloadSubmissionFile(getSubmission(AssignmentManager.getAssignment(2), UserManager.getUser("seb")));
+//		addSubmission(AssignmentManager.getAssignment(1), UserManager.getUser("seb"), Timestamp.valueOf("2019-03-10 20:53:14"), "C:/Users/sebas/Desktop/Forstudie-1.pdf");
+//		DatabaseManager.downloadSubmissionFile(getSubmission(AssignmentManager.getAssignment(1), UserManager.getUser("seb")));
 	}
 }
