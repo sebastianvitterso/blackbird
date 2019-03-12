@@ -6,10 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.List;
 import java.util.Map;
+
 import main.models.Assignment;
 import main.models.Course;
 
@@ -25,9 +25,6 @@ public class AssignmentManager {
 		return DatabaseUtil.MapsToAssignments(assignmentMaps).get(0);
 	}
 
-	/*
-	 * TODO: Not sure if this Timestamp.toString() returns the same format as the db uses.
-	 */
 	public static int addAssignment(Assignment assignment, String filepath) { 
 		return addAssignment(assignment.getCourse().getCourseCode(), 
 				assignment.getTitle(), 
@@ -85,11 +82,5 @@ public class AssignmentManager {
 	 */
 	public static boolean hasFile(int assignmentID) {
 		return 0 == DatabaseManager.sendQuery("SELECT * FROM assignment WHERE assignment_id = '%s' AND assignment_file IS NULL;").size();
-	}
-	
-	
-	public static void main(String[] args) {
-//		addAssignment(new Assignment(-1, CourseManager.getCourse("TDT4140"), "Øving nitten", "Dette er øving nitten, husk å levere", Timestamp.valueOf("2019-03-12 17:55:00"),
-//				100, 50), "C:/Users/sebas/Desktop/Forstudie-1.pdf");
 	}
 }
