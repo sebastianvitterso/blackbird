@@ -39,7 +39,7 @@ public class MainController implements Refreshable {
      */
     @FXML
     private void initialize() {
-//    	smoothScrolling(scrollPane);
+    	smoothScrolling(scrollPane);
     }
     
     /**

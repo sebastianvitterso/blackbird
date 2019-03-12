@@ -1,6 +1,9 @@
 package main.models;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+
+import main.utils.Status;
 
 public class Assignment {
 	private final int assignmentID;
@@ -72,6 +75,21 @@ public class Assignment {
 
 	public void setPassingScore(int passingScore) {
 		this.passingScore = passingScore;
+	}
+	
+	public static Status determineStatus(Assignment assignment, Submission submission) {
+		if (submission == null  &&  assignment.getDeadLine().before(Timestamp.from(Instant.now())))
+			return Status.DEADLINE_EXCEEDED;
+		if (submission == null)
+			return Status.NOT_DELIVERED;
+		if (submission.getScore() == -1)
+			return Status.WAITING;
+		if (submission.getScore() >= assignment.getPassingScore())
+			return Status.PASSED;
+		if (submission.getScore() < assignment.getPassingScore())
+			return Status.FAILED;
+		
+		return null;
 	}
 
 }

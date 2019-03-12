@@ -37,7 +37,40 @@ public class AssignmentBoxController implements Refreshable {
 	}
 	
 	public void loadStatus(Status status) {
+		switch (status) {
+		case PASSED:
+			headerRectangle.getStyleClass().setAll("header-background-green");
+			statusLabel.getStyleClass().setAll("status-label-green");
+		    statusLabel.setText("Godkjent");
+			break;
+		case WAITING:
+			headerRectangle.getStyleClass().setAll("header-background-orange");
+			statusLabel.getStyleClass().setAll("status-label-orange");
+			statusLabel.setText("Til vurdering");
+			break;
+		case FAILED:
+			headerRectangle.getStyleClass().setAll("header-background-red");
+			statusLabel.getStyleClass().setAll("status-label-red");
+			statusLabel.setText("Ikke godkjent");
+			break;
+		case NOT_DELIVERED:
+			headerRectangle.getStyleClass().setAll("header-background-default");
+			statusLabel.getStyleClass().setAll("status-label-default");
+			statusLabel.setText("Ikke levert");
+			break;
+		case DEADLINE_EXCEEDED:
+			headerRectangle.getStyleClass().setAll("header-background-red");
+			statusLabel.getStyleClass().setAll("status-label-red");
+			statusLabel.setText("Too late haha");
+			break;
+
+		default:
+			break;
+		}
 		
+//		@FXML private Rectangle headerRectangle;
+//	    @FXML private Label statusLabel;
+
 	}
 	
 	/**
