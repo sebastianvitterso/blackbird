@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefWidth="400.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.AnnouncementPopupController">
+   <children>
+      <VBox focusTraversable="true" spacing="30.0">
+         <children>
+            <Label fx:id="headerLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="header-text" text="Registrer ny kunngjøring" />
+            <JFXTextField fx:id="announcementTitleTextField" labelFloat="true" layoutX="10.0" layoutY="10.0" promptText="Tittel" styleClass="input-field-light-bg">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextArea fx:id="announcementDescriptionTextArea" labelFloat="true" prefHeight="143.0" prefWidth="320.0" promptText="Beskrivelse" styleClass="input-field-light-bg">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </JFXTextArea>
+            <HBox nodeOrientation="RIGHT_TO_LEFT">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <JFXButton fx:id="registerButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" onAction="#handleRegisterClick" prefHeight="30.0" prefWidth="120.0" styleClass="primary-button-grey" text="Registrer">
+                     <effect>
+                        <Blend mode="EXCLUSION" />
+                     </effect>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>
