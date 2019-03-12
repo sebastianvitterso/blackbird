@@ -20,9 +20,9 @@ public class AnnouncementManager {
 		return DatabaseUtil.MapsToAnnouncements(announcementMaps);
 	}
 	
-	public static void addAnnouncement(Course course, User user, Timestamp timestamp, String text){
-		DatabaseManager.sendUpdate(String.format("INSERT INTO announcement(course_code, username, timestamp, text) "
-				+ "VALUES('%s', '%s', '%s', '%s');", course.getCourseCode(), user.getUsername(), timestamp.toString(), text));
+	public static void addAnnouncement(Course course, User user, Timestamp timestamp, String title, String text){
+		DatabaseManager.sendUpdate(String.format("INSERT INTO announcement(course_code, username, timestamp, title, text) "
+				+ "VALUES('%s', '%s', '%s', '%s', '%s');", course.getCourseCode(), user.getUsername(), timestamp.toString(), title, text));
 	}
 	
 }

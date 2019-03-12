@@ -10,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 import main.models.Assignment;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
+import main.utils.Status;
 
 public class AssignmentBoxController implements Refreshable {
 	@FXML private Rectangle headerRectangle;
@@ -30,6 +31,12 @@ public class AssignmentBoxController implements Refreshable {
 	}
 	
 	public void loadAssignment(Assignment assignment) {
+		headerLabel.setText(assignment.getTitle());
+		descriptionLabel.setText(assignment.getDescription());
+		deadlineLabel.setText(assignment.getDeadLine().toString());
+	}
+	
+	public void loadStatus(Status status) {
 		
 	}
 	

@@ -60,10 +60,11 @@ public class DatabaseUtil {
 			String course_code = assignmentMap.get("course_code");
 			Course course = CourseManager.getCourse(course_code);
 			String title = assignmentMap.get("title");
+			String description = assignmentMap.get("description");
 			String deadline = assignmentMap.get("deadline");
 			int max_score = Integer.parseInt(assignmentMap.get("max_score"));
 			int passing_score = Integer.parseInt(assignmentMap.get("passing_score"));
-			assignmentList.add(new Assignment(assignment_id, course, title, Timestamp.valueOf(deadline),max_score, passing_score));
+			assignmentList.add(new Assignment(assignment_id, course, title, description, Timestamp.valueOf(deadline),max_score, passing_score));
 		}
 		return assignmentList;
 	}
@@ -75,7 +76,8 @@ public class DatabaseUtil {
 			String username = submissionMap.get("username");
 			String delivered_timestamp = submissionMap.get("delivered_timestamp");
 			int score = Integer.parseInt(submissionMap.get("score"));
-			submissionList.add(new Submission(AssignmentManager.getAssignment(assignment_id), UserManager.getUser(username), Timestamp.valueOf(delivered_timestamp), score));
+			String comment = submissionMap.get("comment");
+			submissionList.add(new Submission(AssignmentManager.getAssignment(assignment_id), UserManager.getUser(username), Timestamp.valueOf(delivered_timestamp), score, comment));
 		}
 		return submissionList;
 	}	
@@ -87,8 +89,9 @@ public class DatabaseUtil {
 			Course course = CourseManager.getCourse(announcementMap.get("course_code"));
 			User user = UserManager.getUser(announcementMap.get("username"));
 			Timestamp timestamp = Timestamp.valueOf(announcementMap.get("timestamp"));
+			String title = announcementMap.get("title");
 			String text = announcementMap.get("text");
-			announcements.add(new Announcement(announcement_id, course, user, timestamp, text));
+			announcements.add(new Announcement(announcement_id, course, user, timestamp, title, text));
 		}
 		return announcements;
 	}
