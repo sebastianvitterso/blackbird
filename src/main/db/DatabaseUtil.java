@@ -60,10 +60,11 @@ public class DatabaseUtil {
 			String course_code = assignmentMap.get("course_code");
 			Course course = CourseManager.getCourse(course_code);
 			String title = assignmentMap.get("title");
+			String description = assignmentMap.get("description");
 			String deadline = assignmentMap.get("deadline");
 			int max_score = Integer.parseInt(assignmentMap.get("max_score"));
 			int passing_score = Integer.parseInt(assignmentMap.get("passing_score"));
-			assignmentList.add(new Assignment(assignment_id, course, title, Timestamp.valueOf(deadline),max_score, passing_score));
+			assignmentList.add(new Assignment(assignment_id, course, title, description, Timestamp.valueOf(deadline),max_score, passing_score));
 		}
 		return assignmentList;
 	}

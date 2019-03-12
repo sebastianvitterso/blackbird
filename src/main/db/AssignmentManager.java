@@ -30,22 +30,24 @@ public class AssignmentManager {
 	public static int addAssignment(Assignment assignment, String filepath) { 
 		return addAssignment(assignment.getCourse().getCourseCode(), 
 				assignment.getTitle(), 
+				assignment.getDescription(),
 				assignment.getDeadLine().toString(), 
 				assignment.getMaxScore(), 
 				assignment.getPassingScore(), 
 				filepath);
 	}
 	
-	public static int addAssignment(String courseCode, String assignmentTitle, String deadLine, int maxScore, int passingScore, String filePath) {
+	public static int addAssignment(String courseCode, String assignmentTitle, String description, String deadLine, int maxScore, int passingScore, String filePath) {
 		try {
 			PreparedStatement ps = DatabaseManager.getPreparedStatement(
-					"INSERT INTO assignment(course_code, title, deadline, max_score, passing_score, assignment_file) "
-					+ "VALUES(?, ?, ?, ?, ?, ?);");
+					"INSERT INTO assignment(course_code, title, description, deadline, max_score, passing_score, assignment_file) "
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?);");
 			ps.setString(1, courseCode);
 			ps.setString(2, assignmentTitle);
-			ps.setString(3, deadLine);
-			ps.setInt(4, maxScore);
-			ps.setInt(5, passingScore);
+			ps.setString(3, description);
+			ps.setString(4, deadLine);
+			ps.setInt(5, maxScore);
+			ps.setInt(6, passingScore);
 			if(filePath != null) {
 				InputStream is = new FileInputStream(new File(filePath));
 				ps.setBlob(6, is);
