@@ -345,6 +345,13 @@ public class MenuController implements Refreshable {
 	}
 	
 	/**
+	 * Returns the selected user-course relation.
+	 */
+	public UserInCourse getSelectedUserInCourse() {
+		return courseRelationsComboBox.getSelectionModel().getSelectedItem();
+	}
+	
+	/**
 	 * Returns the selected course.
 	 */
 	public Course getSelectedCourse() {

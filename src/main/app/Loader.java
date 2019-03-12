@@ -53,6 +53,10 @@ public class Loader implements Runnable {
 			if (view.getPathToFXML() == null)
 				continue;
 			
+			// Break if view should not load on startup
+			if (!view.isLoadOnStartup())
+				continue;
+			
 			// Login has already been loaded
 			if (view == View.LOGIN_VIEW)
 				continue;
@@ -81,6 +85,10 @@ public class Loader implements Runnable {
 		for (View view : View.values()) {
 			// Break if view is not implemented
 			if (view.getPathToFXML() == null)
+				continue;
+
+			// Break if view should not load on startup
+			if (!view.isLoadOnStartup())
 				continue;
 			
 			Object controller = getController(view);

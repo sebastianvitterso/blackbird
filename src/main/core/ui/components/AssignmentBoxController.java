@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import main.models.Assignment;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 
@@ -28,6 +29,9 @@ public class AssignmentBoxController implements Refreshable {
 		headerRectangle.heightProperty().bind(headerPane.heightProperty());
 	}
 	
+	public void loadAssignment(Assignment assignment) {
+		
+	}
 	
 	/**
      * Runs any methods that require every controller to be initialized.
