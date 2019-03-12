@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefWidth="400.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.CoursePopupController">
+   <children>
+      <VBox focusTraversable="true" spacing="30.0">
+         <children>
+            <Label fx:id="headerLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="header-text" text="Registrer ny øving" />
+            <JFXTextField fx:id="courseNameTextField1" labelFloat="true" prefHeight="27.0" prefWidth="319.0" promptText="Navn" styleClass="input-field-light-bg" />
+            <JFXTextArea fx:id="courseDescriptionTextArea" labelFloat="true" prefHeight="100.0" promptText="Beskrivelse" styleClass="input-field-light-bg">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </JFXTextArea>
+            <HBox prefHeight="29.0" prefWidth="286.0">
+               <children>
+                  <DatePicker fx:id="datePicker" prefHeight="27.0" prefWidth="141.0" promptText="Dato" />
+                  <JFXTimePicker fx:id="timePicker" prefHeight="27.0" prefWidth="141.0" promptText="Tidsfrist ">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </JFXTimePicker>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label fx:id="pointLabel" text="Maks poeng: " />
+                  <Label fx:id="maxPointLabel">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <JFXTextField fx:id="fileNameTextField" labelFloat="true" prefHeight="27.0" prefWidth="292.0" promptText="Navn" styleClass="input-field-light-bg" />
+                  <Region prefWidth="40.0" />
+                  <JFXButton fx:id="uploadFileButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" styleClass="primary-button-orange" text=" ">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/icons8-favorite-folder.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox nodeOrientation="RIGHT_TO_LEFT">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <JFXButton fx:id="registerButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" onAction="#handleRegisterClick" prefHeight="30.0" prefWidth="120.0" styleClass="primary-button-grey" text="Registrer">
+                     <effect>
+                        <Blend mode="EXCLUSION" />
+                     </effect>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>

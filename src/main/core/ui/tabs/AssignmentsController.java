@@ -9,16 +9,28 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialog.DialogTransition;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+<<<<<<< HEAD
+=======
+import javafx.scene.layout.Region;
+>>>>>>> branch 'assignment-view' of https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import main.app.Loader;
 import main.core.ui.MenuController;
 import main.core.ui.components.AssignmentBoxController;
+import main.core.ui.popups.ExercisePopupController;
 import main.db.AssignmentManager;
+<<<<<<< HEAD
 import main.db.LoginManager;
 import main.db.SubmissionManager;
+=======
+>>>>>>> branch 'assignment-view' of https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git
 import main.models.Assignment;
 import main.models.Course;
 import main.models.Submission;
@@ -29,9 +41,14 @@ import main.utils.View;
 public class AssignmentsController implements Refreshable {
 	private MenuController menuController;
 	private Map<Assignment, FXMLLoader> mapToLoaders = new HashMap<>();
+
+	//Controller reference
+	private ExercisePopupController exerciseController; 
+	
+	@FXML private StackPane rootPane;
+	@FXML private VBox assignmentVBox;
 	private Set<Assignment> assignments;
 	private Set<Submission> submissions;
-	@FXML private VBox assignmentVBox;
 	
 	
 	@FXML
@@ -93,6 +110,18 @@ public class AssignmentsController implements Refreshable {
 	@Override
 	public void clear() {
 		assignmentVBox.getChildren().clear();
+	}
+	
+	@FXML
+	public void handleNewAssignmentClick(ActionEvent event)	{
+		// Create dialog box
+    	JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_COURSE_VIEW), DialogTransition.CENTER);
+    	
+    	// Initialize popup
+    	exerciseController.clear();
+    	exerciseController.connectDialog(dialog);
+    	exerciseController.loadNewExercise();
+    	dialog.show();
 	}
 	
 	
