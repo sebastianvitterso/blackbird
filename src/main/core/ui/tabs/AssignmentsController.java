@@ -1,5 +1,7 @@
 package main.core.ui.tabs;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -62,18 +64,55 @@ public class AssignmentsController implements Refreshable {
 	 */
 	@Override
 	public void update() {
+		System.out.println();
+		System.out.println("\n-------- update start -------- ");
+		System.out.println();
+
+		Instant time1 = Instant.now();
+
 		updateAssignments();
+		Instant time2 = Instant.now();
+		System.out.println("updateAssignments() = " + Duration.between(time1, time2).toString().replaceFirst("PT", ""));
+
 		updateContainerMapping();
+		Instant time3 = Instant.now();
+		System.out.println("updateContainerMapping() = " + Duration.between(time2, time3).toString().replaceFirst("PT", ""));
+
 		updateDisplayedContainers();
+		Instant time4 = Instant.now();
+		System.out.println("updateDisplayedContainers() = " + Duration.between(time3, time4).toString().replaceFirst("PT", ""));
+
+		System.out.println("IN TOTAL = " + Duration.between(time1, time4).toString().replaceFirst("PT", ""));
+		System.out.println();
+		System.out.println("-------- update end -------- \n");
+		
 	}
 
 	/**
 	 * Updates the assignment and submission containers, fetching updates from database.
 	 */
 	private void updateAssignments() {
+		System.out.println();
+		System.out.println("-- updateAssignments start -- ");
+		System.out.println();
+
+		Instant time1 = Instant.now();
+		
 		Course course = menuController.getSelectedCourse();
+		Instant time2 = Instant.now();
+		System.out.format("getSelectedCourse() = %s%n%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""));
+		
 		assignments = AssignmentManager.getAssignmentsFromCourse(course);
+		Instant time3 = Instant.now();
+		System.out.format("getAssignmentsFromCourse() = %s%n%n", Duration.between(time2, time3).toString().replaceFirst("PT", ""));
+
 		submissions = SubmissionManager.getSubmissionsFromCourseAndUser(course, LoginManager.getActiveUser());
+		Instant time4 = Instant.now();
+		System.out.format("getSubmissionsFromCourseAndUser() = %s%n%n", Duration.between(time3, time4).toString().replaceFirst("PT", ""));
+		
+		System.out.println("IN TOTAL = " + Duration.between(time1, time4).toString().replaceFirst("PT", ""));
+		System.out.println();
+		System.out.println("-- updateAssignments end -- \n");
 	}
 
 	/**
@@ -103,10 +142,12 @@ public class AssignmentsController implements Refreshable {
 			controller.loadAssignment(assignment);
 			
 			// Determine assignment status
+			System.out.printf("%nSubmission pre filtering: %s%n", submissions.stream().map(Submission::toString).collect(Collectors.joining("\n\t", "\n\t", "")));
 			Submission submission = submissions.stream()
 					.filter(sub -> sub.getAssignment().getAssignmentID() == assignment.getAssignmentID())
 					.findFirst()
 					.orElse(null);
+			System.out.printf("Found submission: %s for assignment %s%n",  submission, assignment);
 			controller.loadStatus(Assignment.determineStatus(assignment, submission));
 		}
 	}
