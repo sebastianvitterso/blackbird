@@ -136,10 +136,11 @@ public class DatabaseManager {
 	 * 		 Most of the code is only repeated up to twice, not a big problem. 
 	 * Downloads the AssignmentFile to *hardcoded* folder, and returns filepath as String.   
 	 */
-	public static String downloadAssignmentFile(Assignment assignment){
+	public static String downloadAssignmentFile(Assignment assignment, File folder){
 		ResultSet rs = null;
 		int assignmentID = assignment.getAssignmentID();
-		String path = String.format("C:/Users/Sebastian/assignment_%s.pdf", String.valueOf(assignmentID));
+		String filename = String.format("/assignment_%s.pdf", String.valueOf(assignmentID));
+		String path = folder.getAbsolutePath().concat(filename);
 		try {
 			PreparedStatement prep = getPreparedStatement(String.format("SELECT assignment_file FROM assignment WHERE assignment_id = %s;", assignmentID));
 			rs = prep.executeQuery();
@@ -179,11 +180,12 @@ public class DatabaseManager {
 		return path;
 	}
 	
-	public static String downloadSubmissionFile(Submission submission){
+	public static String downloadSubmissionFile(Submission submission, File folder){
 		ResultSet rs = null;
 		int assignmentID = submission.getAssignment().getAssignmentID();
 		String username = submission.getUser().getUsername();
-		String path = String.format("C:/submission_student_%s_assignment_%s.pdf", username, assignmentID);
+		String filename = String.format("/submission_student_%s_assignment_%s.pdf", username, assignmentID);
+		String path = folder.getAbsolutePath().concat(filename);
 		try {
 			PreparedStatement prep = getPreparedStatement(String.format("SELECT submission_file FROM submission "
 					+ "WHERE assignment_id = '%s' and username = '%s';", assignmentID, username));

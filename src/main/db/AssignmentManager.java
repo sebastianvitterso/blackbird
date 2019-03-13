@@ -26,9 +26,6 @@ public class AssignmentManager {
 		return DatabaseUtil.MapsToAssignments(assignmentMaps).get(0);
 	}
 
-	/*
-	 * TODO: Not sure if this Timestamp.toString() returns the same format as the db uses.
-	 */
 	public static int addAssignment(Assignment assignment, String filepath) { 
 		return addAssignment(assignment.getCourse().getCourseCode(), 
 				assignment.getTitle(), 
@@ -87,7 +84,6 @@ public class AssignmentManager {
 	public static boolean hasFile(int assignmentID) {
 		return 0 == DatabaseManager.sendQuery("SELECT * FROM assignment WHERE assignment_id = '%s' AND assignment_file IS NULL;").size();
 	}
-	
 	
 	public static void main(String[] args) {
 		addAssignment(new Assignment(

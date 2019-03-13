@@ -55,6 +55,11 @@ public class SubmissionManager {
 		}
 	}
 	
+	public static int gradeSubmission(Submission submission, int score, String comment) {
+		return DatabaseManager.sendUpdate(String.format("UPDATE submission SET score = '%s', comment = '%s' WHERE assignment_id = '%s' AND username = '%s';", 
+				score, comment, submission.getAssignment().getAssignmentID(), submission.getUser().getUsername()));
+	}
+	
 	public static int removeSubmission(Submission submission) {
 		return DatabaseManager.sendUpdate(String.format("DELETE FROM submission WHERE assignment_id = '%s' and username = '%s'", 
 				submission.getAssignment().getAssignmentID(), submission.getUser().getUsername()));
@@ -76,6 +81,6 @@ public class SubmissionManager {
 
 	public static void main(String[] args) {
 //		addSubmission(AssignmentManager.getAssignment(1), UserManager.getUser("seb"), Timestamp.valueOf("2019-03-10 20:53:14"), "C:/Users/sebas/Desktop/Forstudie-1.pdf");
-//		DatabaseManager.downloadSubmissionFile(getSubmission(AssignmentManager.getAssignment(1), UserManager.getUser("seb")));
+//		DatabaseManager.downloadSubmissionFile(getSubmission(AssignmentManager.getAssignment(1), UserManager.getUser("seb")), new File("C:/Users/sebas/"));
 	}
 }

@@ -75,7 +75,7 @@ public class DatabaseUtil {
 			int assignment_id = Integer.parseInt(submissionMap.get("assignment_id"));
 			String username = submissionMap.get("username");
 			String delivered_timestamp = submissionMap.get("delivered_timestamp");
-			int score = Integer.parseInt(submissionMap.get("score"));
+			int score = Integer.parseInt(submissionMap.get("score") == null ? "-1" : submissionMap.get("score"));
 			String comment = submissionMap.get("comment");
 			submissionList.add(new Submission(AssignmentManager.getAssignment(assignment_id), UserManager.getUser(username), Timestamp.valueOf(delivered_timestamp), score, comment));
 		}
