@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+
 import main.app.MainApp;
 import main.models.Assignment;
 import main.models.Submission;
@@ -67,7 +70,10 @@ public class DatabaseManager {
 				openConnection();
 			}
 			Statement statement = connection.createStatement();
+			Instant time1 = Instant.now();
 			ResultSet resultSet = statement.executeQuery(query);
+			Instant time2 = Instant.now();
+			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), query);
 			ResultSetMetaData rsmd = resultSet.getMetaData();
 			
 			List<Map<String, String>> resultArray = new ArrayList<>(); 
@@ -95,7 +101,14 @@ public class DatabaseManager {
 				openConnection();
 			}
 			Statement statement = connection.createStatement();
+			
+			// TODO TIMING
+			Instant time1 = Instant.now();
 			int rowsAffected = statement.executeUpdate(update);
+			Instant time2 = Instant.now();
+			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), update);
+			// TODO TIMING
+
 			statement.close();
 			
 			return rowsAffected;
@@ -143,8 +156,14 @@ public class DatabaseManager {
 		String path = folder.getAbsolutePath().concat(filename);
 		try {
 			PreparedStatement prep = getPreparedStatement(String.format("SELECT assignment_file FROM assignment WHERE assignment_id = %s;", assignmentID));
-			rs = prep.executeQuery();
 			
+			// TODO TIMING
+			Instant time1 = Instant.now();
+			rs = prep.executeQuery();
+			Instant time2 = Instant.now();
+			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), prep.toString());
+			// TODO TIMING
+						
 			while(rs.next()) {
 				InputStream input = rs.getBinaryStream("assignment_file");
 				File file = new File(path);
@@ -189,8 +208,14 @@ public class DatabaseManager {
 		try {
 			PreparedStatement prep = getPreparedStatement(String.format("SELECT submission_file FROM submission "
 					+ "WHERE assignment_id = '%s' and username = '%s';", assignmentID, username));
-			rs = prep.executeQuery();
 			
+			// TODO TIMING
+			Instant time1 = Instant.now();
+			rs = prep.executeQuery();
+			Instant time2 = Instant.now();
+			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), prep.toString());
+			// TODO TIMING
+						
 			while(rs.next()) {
 				InputStream input = rs.getBinaryStream("submission_file");
 				File file = new File(path);
