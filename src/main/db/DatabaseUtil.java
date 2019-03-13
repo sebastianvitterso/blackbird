@@ -15,6 +15,28 @@ import main.models.Submission;
 import main.models.User;
 
 public class DatabaseUtil {
+	public static Map<String, Course> CourseLookupMap;
+	
+	/*
+	 * Er dette nødvendig, eller er den null som standard?
+	 */
+	static {
+		CourseLookupMap = null;
+	}
+	
+	public static void FillCourseLookupMap() {
+		List<Course> courses = CourseManager.getCourses();
+		Map<String, Course> tempMap = new HashMap<String, Course>();
+		for(Course course : courses) {
+			tempMap.put(course.getCourseCode(), course);
+		}
+		CourseLookupMap = tempMap;
+	}
+	
+	public static void ClearCourseLookupMap() {
+		CourseLookupMap = null;
+	}
+	
 	public static List<Course> MapsToCourses(List<Map<String, String>> courseMaps){
 		List<Course> courses = new ArrayList<Course>();
 		for (Map<String, String> courseMap : courseMaps) {
@@ -97,10 +119,10 @@ public class DatabaseUtil {
 	}
 	
 	public static List<Submission> SAMapsAndUserToSubmissions(List<Map<String, String>> saMaps, User user) {
+		FillCourseLookupMap();
 		List<Submission> submissionList = new ArrayList<>();
 		for (Map<String, String> saMap : saMaps) {
 			int assignment_id = Integer.parseInt(saMap.get("assignment_id"));
-			String username = saMap.get("username");
 			String course_code = saMap.get("course_code");
 			String title = saMap.get("title");
 			String description = saMap.get("description");
@@ -111,9 +133,10 @@ public class DatabaseUtil {
 			int score = Integer.parseInt(saMap.get("score") == null ? "-1" : saMap.get("score"));
 			String comment = saMap.get("comment");
 			submissionList.add(new Submission(
-					new Assignment(assignment_id, CourseManager.getCourse(course_code), title, description, deadline, max_score, passing_score), 
+					new Assignment(assignment_id, CourseLookupMap.get(course_code), title, description, deadline, max_score, passing_score), 
 					user, Timestamp.valueOf(delivered_timestamp), score, comment));
 		}
+		ClearCourseLookupMap();
 		return submissionList;
 	}	
 	
