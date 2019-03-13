@@ -142,12 +142,10 @@ public class AssignmentsController implements Refreshable {
 			controller.loadAssignment(assignment);
 			
 			// Determine assignment status
-			System.out.printf("%nSubmission pre filtering: %s%n", submissions.stream().map(Submission::toString).collect(Collectors.joining("\n\t", "\n\t", "")));
 			Submission submission = submissions.stream()
 					.filter(sub -> sub.getAssignment().getAssignmentID() == assignment.getAssignmentID())
 					.findFirst()
 					.orElse(null);
-			System.out.printf("Found submission: %s for assignment %s%n",  submission, assignment);
 			controller.loadStatus(Assignment.determineStatus(assignment, submission));
 		}
 	}
