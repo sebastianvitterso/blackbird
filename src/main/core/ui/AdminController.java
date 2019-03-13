@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -27,6 +28,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import main.app.Loader;
 import main.core.ui.popups.CoursePopupController;
 import main.core.ui.popups.UserPopupController;
@@ -488,6 +490,14 @@ public class AdminController implements Refreshable {
     
     @FXML
     void handleDeleteCourseClick(ActionEvent event) {
+//    	JFXDialogLayout content = new JFXDialogLayout();
+//    	content.setHeading(new Text("Delete course"));
+//    	content.setBody(new Text("Are you sure you want to delete this course"));
+//    	JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
+//    	JFXButton deleteButton = new JFXButton("Delete");
+//    	JFXButton cancelButton = new JFXButton("Cancel");
+    	
+    	
 		CourseManager.deleteCourses(selectedCourses);
 		updateCourseView();
     }
