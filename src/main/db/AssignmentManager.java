@@ -84,7 +84,7 @@ public class AssignmentManager {
 	
 	public static List<Assignment> getAssignmentsFromCourse(Course course){
 		List<Map<String, String>> assignmentMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM assignment WHERE course_code = '%s'", course.getCourseCode()));
-		return DatabaseUtil.MapsToAssignments(assignmentMaps);
+		return DatabaseUtil.MapsAndCourseToAssignments(assignmentMaps, course);
 	}
 	
 	/*

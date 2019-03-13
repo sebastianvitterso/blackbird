@@ -68,6 +68,20 @@ public class DatabaseUtil {
 		}
 		return assignmentList;
 	}
+
+	public static List<Assignment> MapsAndCourseToAssignments(List<Map<String, String>> assignmentMaps, Course course) {
+		List<Assignment> assignmentList = new ArrayList<>();
+		for (Map<String, String> assignmentMap : assignmentMaps) {
+			int assignment_id = Integer.parseInt(assignmentMap.get("assignment_id"));
+			String title = assignmentMap.get("title");
+			String description = assignmentMap.get("description");
+			String deadline = assignmentMap.get("deadline");
+			int max_score = Integer.parseInt(assignmentMap.get("max_score"));
+			int passing_score = Integer.parseInt(assignmentMap.get("passing_score"));
+			assignmentList.add(new Assignment(assignment_id, course, title, description, Timestamp.valueOf(deadline),max_score, passing_score));
+		}
+		return assignmentList;
+	}
 	
 	public static List<Submission> MapsToSubmissions(List<Map<String, String>> submissionMaps) {
 		List<Submission> submissionList = new ArrayList<>();
@@ -78,6 +92,27 @@ public class DatabaseUtil {
 			int score = Integer.parseInt(submissionMap.get("score") == null ? "-1" : submissionMap.get("score"));
 			String comment = submissionMap.get("comment");
 			submissionList.add(new Submission(AssignmentManager.getAssignment(assignment_id), UserManager.getUser(username), Timestamp.valueOf(delivered_timestamp), score, comment));
+		}
+		return submissionList;
+	}
+	
+	public static List<Submission> SAMapsAndUserToSubmissions(List<Map<String, String>> saMaps, User user) {
+		List<Submission> submissionList = new ArrayList<>();
+		for (Map<String, String> saMap : saMaps) {
+			int assignment_id = Integer.parseInt(saMap.get("assignment_id"));
+			String username = saMap.get("username");
+			String course_code = saMap.get("course_code");
+			String title = saMap.get("title");
+			String description = saMap.get("description");
+			Timestamp deadline = Timestamp.valueOf(saMap.get("deadline"));
+			String delivered_timestamp = saMap.get("delivered_timestamp");
+			int max_score = Integer.parseInt(saMap.get("max_score"));
+			int passing_score = Integer.parseInt(saMap.get("passing_score"));
+			int score = Integer.parseInt(saMap.get("score") == null ? "-1" : saMap.get("score"));
+			String comment = saMap.get("comment");
+			submissionList.add(new Submission(
+					new Assignment(assignment_id, CourseManager.getCourse(course_code), title, description, deadline, max_score, passing_score), 
+					user, Timestamp.valueOf(delivered_timestamp), score, comment));
 		}
 		return submissionList;
 	}	

@@ -76,10 +76,10 @@ public class SubmissionManager {
 	}
 	
 	public static List<Submission> getSubmissionsFromCourseAndUser(Course course, User user){
-		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery(String.format(
-				"SELECT * FROM submission RIGHT JOIN assignment ON submission.assignment_id = assignment.assignment_id WHERE username = '%s' AND course_code = '%s';",
+		List<Map<String, String>> submissionAssignmentMaps = DatabaseManager.sendQuery(String.format(
+				"SELECT * FROM submission INNER JOIN assignment ON submission.assignment_id = assignment.assignment_id WHERE username = '%s' AND course_code = '%s';",
 				user.getUsername(), course.getCourseCode()));
-		return DatabaseUtil.MapsToSubmissions(submissionMaps);
+		return DatabaseUtil.SAMapsAndUserToSubmissions(submissionAssignmentMaps, user);
 	}
 	
 	public static List<Submission> getSubmissionsFromAssignment(Assignment assignment){
