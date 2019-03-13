@@ -1,12 +1,11 @@
 package main.core.ui.tabs;
 
-import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXDialog;
@@ -15,22 +14,16 @@ import com.jfoenix.controls.JFXDialog.DialogTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-<<<<<<< HEAD
-=======
 import javafx.scene.layout.Region;
->>>>>>> branch 'assignment-view' of https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import main.app.Loader;
 import main.core.ui.MenuController;
 import main.core.ui.components.AssignmentBoxController;
-import main.core.ui.popups.ExercisePopupController;
+import main.core.ui.popups.AssignmentPopupController;
 import main.db.AssignmentManager;
-<<<<<<< HEAD
 import main.db.LoginManager;
 import main.db.SubmissionManager;
-=======
->>>>>>> branch 'assignment-view' of https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git
 import main.models.Assignment;
 import main.models.Course;
 import main.models.Submission;
@@ -39,21 +32,20 @@ import main.utils.Refreshable;
 import main.utils.View;
 
 public class AssignmentsController implements Refreshable {
-	private MenuController menuController;
-	private Map<Assignment, FXMLLoader> mapToLoaders = new HashMap<>();
-
-	//Controller reference
-	private ExercisePopupController exerciseController; 
-	
 	@FXML private StackPane rootPane;
 	@FXML private VBox assignmentVBox;
-	private Set<Assignment> assignments;
-	private Set<Submission> submissions;
-	
+
+	private MenuController menuController;
+	private AssignmentPopupController assignmentController; 
+	private Map<FXMLLoader, Assignment> containers;
+	private List<Assignment> assignments;
+	private List<Submission> submissions;
 	
 	@FXML
 	private void initialize() {
-//		assignmentVBox.getChildren().clear();
+		containers = new HashMap<>();
+		assignments = new ArrayList<>();
+		submissions = new ArrayList<>();
 	}
 	
 	/**
@@ -65,30 +57,49 @@ public class AssignmentsController implements Refreshable {
 		menuController = Loader.getController(View.MENU_VIEW);
     }
 	
+    /**
+	 * Updates every component in the user interface.
+	 */
 	@Override
 	public void update() {
 		updateAssignments();
+		updateContainerMapping();
+		updateDisplayedContainers();
 	}
-	
+
+	/**
+	 * Updates the assignment and submission containers, fetching updates from database.
+	 */
 	private void updateAssignments() {
 		Course course = menuController.getSelectedCourse();
-		assignments = new HashSet<>(AssignmentManager.getAssignmentsFromCourse(course));
-		submissions = new HashSet<>(SubmissionManager.getSubmissionsFromCourseAndUser(course, LoginManager.getActiveUser()));
+		assignments = AssignmentManager.getAssignmentsFromCourse(course);
+		submissions = SubmissionManager.getSubmissionsFromCourseAndUser(course, LoginManager.getActiveUser());
+	}
+
+	/**
+	 * Updates the mapping between containers (AssignmentBox) and corresponding assignments.
+	 */
+	private void updateContainerMapping() {
+		// Remove container mappings
+		containers.entrySet().forEach(e -> e.setValue(null));
 		
-		// Create mapping for FXML loader
-		for (Assignment assignment : assignments) {
-			// Create loader
-			URL pathToFXML = getClass().getClassLoader().getResource(View.ASSIGNMENT_BOX.getPathToFXML());
-			FXMLLoader loader = new FXMLLoader(pathToFXML);
-			try {
-				loader.load();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			mapToLoaders.put(assignment, loader);
+		// Assert that there exists a container for every assignment
+		int diff = assignments.size() - containers.size();
+		if (diff > 0)
+			for (int i = 0; i < diff; i++) 
+				containers.put(Loader.createFXMLLoader(View.ASSIGNMENT_BOX), null);
+		
+		// Pair up every assignment to a container (AssignmentBox)
+		Iterator<Assignment> assignmentIterator = assignments.iterator();
+		Iterator<Entry<FXMLLoader, Assignment>> containerIterator = containers.entrySet().iterator();
+		while (assignmentIterator.hasNext()) {
+			// Pair assignment to container
+			Assignment assignment = assignmentIterator.next();
+			Entry<FXMLLoader, Assignment> entry = containerIterator.next();
+			entry.setValue(assignment);
 			
 			// Configure assignment container
-			AssignmentBoxController controller = loader.getController();
+			AssignmentBoxController controller = entry.getKey().getController();
 			controller.loadAssignment(assignment);
 			
 			// Determine assignment status
@@ -98,18 +109,25 @@ public class AssignmentsController implements Refreshable {
 					.orElse(null);
 			controller.loadStatus(Assignment.determineStatus(assignment, submission));
 		}
-		
-		// Inject assignment container into VBox
-		List<StackPane> parents = mapToLoaders.values().stream()
-				.map(loader -> (StackPane) loader.getRoot())
-				.collect(Collectors.toList());
-		assignmentVBox.getChildren().clear();
-		assignmentVBox.getChildren().setAll(parents);
 	}
 
+	/**
+	 * Updates which assignments are displayed in the user interface.
+	 */
+	private void updateDisplayedContainers() {
+		List<StackPane> parents = containers.entrySet().stream()
+				.filter(entry -> entry.getValue() != null)
+				.map(entry -> (StackPane) entry.getKey().getRoot())
+				.collect(Collectors.toList());
+		assignmentVBox.getChildren().setAll(parents);
+	}
+	
 	@Override
 	public void clear() {
+		containers.entrySet().forEach(e -> e.setValue(null));
 		assignmentVBox.getChildren().clear();
+		assignments.clear();
+		submissions.clear();
 	}
 	
 	@FXML
@@ -118,9 +136,9 @@ public class AssignmentsController implements Refreshable {
     	JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_COURSE_VIEW), DialogTransition.CENTER);
     	
     	// Initialize popup
-    	exerciseController.clear();
-    	exerciseController.connectDialog(dialog);
-    	exerciseController.loadNewExercise();
+    	assignmentController.clear();
+    	assignmentController.connectDialog(dialog);
+    	assignmentController.loadNewExercise();
     	dialog.show();
 	}
 	

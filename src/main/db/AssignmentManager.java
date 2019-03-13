@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.List;
 import java.util.Map;
+
 import main.models.Assignment;
 import main.models.Course;
 
@@ -89,7 +90,14 @@ public class AssignmentManager {
 	
 	
 	public static void main(String[] args) {
-//		addAssignment(new Assignment(-1, CourseManager.getCourse("TDT4140"), "Øving nitten", "Dette er øving nitten, husk å levere", Timestamp.valueOf("2019-03-12 17:55:00"),
-//				100, 50), "C:/Users/sebas/Desktop/Forstudie-1.pdf");
+		addAssignment(new Assignment(
+				-1, 
+				CourseManager.getCourse("TDT4140"), 
+				"Øving 5", 
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla lectus non ante euismod aliquet. Sed cursus bibendum lacus non porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 
+				Timestamp.valueOf("2019-04-17 23:59:00"),
+				100, 
+				50), 
+				"C:/Users/Patrik/Google Drive/Studier/TDT4140 (PU)/Risikoanalyse.pdf");
 	}
 }

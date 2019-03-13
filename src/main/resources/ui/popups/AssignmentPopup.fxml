@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefWidth="400.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.CoursePopupController">
+<StackPane prefWidth="400.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.AssignmentPopupController">
    <children>
       <VBox focusTraversable="true" spacing="30.0">
          <children>
@@ -29,7 +29,7 @@
             </JFXTextArea>
             <HBox prefHeight="29.0" prefWidth="286.0">
                <children>
-                  <DatePicker fx:id="datePicker" prefHeight="27.0" prefWidth="141.0" promptText="Dato" />
+                  <JFXDatePicker fx:id="datePicker" promptText="Dato" />
                   <JFXTimePicker fx:id="timePicker" prefHeight="27.0" prefWidth="141.0" promptText="Tidsfrist ">
                      <HBox.margin>
                         <Insets left="20.0" />

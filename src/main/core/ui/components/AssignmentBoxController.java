@@ -63,14 +63,9 @@ public class AssignmentBoxController implements Refreshable {
 			statusLabel.getStyleClass().setAll("status-label-red");
 			statusLabel.setText("Too late haha");
 			break;
-
 		default:
 			break;
 		}
-		
-//		@FXML private Rectangle headerRectangle;
-//	    @FXML private Label statusLabel;
-
 	}
 	
 	/**

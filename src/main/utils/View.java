@@ -19,7 +19,7 @@ public enum View {
 	POPUP_COURSE_VIEW(			null, 					true,				"ui/popups/CoursePopup.fxml"), 
 	POPUP_USER_SELECTION_VIEW(	null,					true,				"ui/popups/UserSelectionPopup.fxml"), 
 	POPUP_USER_VIEW(			null, 					true,				"ui/popups/UserPopup.fxml"),
-	POPUP_EXERCISE_VIEW(		null, 					true,				"ui/popups/ExercisePopup.fxml"),
+	POPUP_ASSIGNMENT_VIEW(		null, 					true,				"ui/popups/AssignmentPopup.fxml"),
 	
 	//// COMPONENTS ////
 	ASSIGNMENT_BOX(				null, 					false,				"ui/components/AssignmentBox.fxml"); 
