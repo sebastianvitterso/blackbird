@@ -77,7 +77,9 @@ public class SubmissionManager {
 	
 	public static List<Submission> getSubmissionsFromCourseAndUser(Course course, User user){
 		List<Map<String, String>> submissionAssignmentMaps = DatabaseManager.sendQuery(String.format(
-				"SELECT * FROM submission INNER JOIN assignment ON submission.assignment_id = assignment.assignment_id WHERE username = '%s' AND course_code = '%s';",
+				"SELECT assignment_id, username, delivered_timestamp, score, "
+				+ "comment, course_code, title, description, deadline, max_score, passing_score "
+				+ "FROM submission NATURAL JOIN assignment WHERE username = '%s' AND course_code = '%s';",
 				user.getUsername(), course.getCourseCode()));
 		return DatabaseUtil.SAMapsAndUserToSubmissions(submissionAssignmentMaps, user);
 	}

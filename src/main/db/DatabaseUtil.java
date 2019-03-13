@@ -15,14 +15,13 @@ import main.models.Submission;
 import main.models.User;
 
 public class DatabaseUtil {
-	public static Map<String, Course> CourseLookupMap;
 	
 	/*
-	 * Er dette nødvendig, eller er den null som standard?
+	 * The CourseLookupMap allows us to do only one query to check what courses correspond to a series of courseCodes,
+	 * e.g. in a function taking a list of assignments, simply do "CourseLookupMap.get(COURSE_CODE)" to get the 
+	 * corresponding Course-object. 
 	 */
-	static {
-		CourseLookupMap = null;
-	}
+	public static Map<String, Course> CourseLookupMap;
 	
 	public static void FillCourseLookupMap() {
 		List<Course> courses = CourseManager.getCourses();
