@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import main.calendar.TimeSlot;
-import main.models.Course;
 import main.models.Announcement;
 import main.models.Assignment;
+import main.models.Course;
 import main.models.Period;
 import main.models.Submission;
 import main.models.User;
@@ -58,7 +58,7 @@ public class DatabaseUtil {
 		for (Map<String, String> assignmentMap : assignmentMaps) {
 			int assignment_id = Integer.parseInt(assignmentMap.get("assignment_id"));
 			String course_code = assignmentMap.get("course_code");
-			Course course = CourseManager.getCourse(course_code);
+			Course course = CourseManager.getCourse(course_code);                     							// TODO Denne sender query for hver assignment
 			String title = assignmentMap.get("title");
 			String description = assignmentMap.get("description");
 			String deadline = assignmentMap.get("deadline");
@@ -86,8 +86,8 @@ public class DatabaseUtil {
 		List<Announcement> announcements = new ArrayList<Announcement>();
 		for (Map<String, String> announcementMap : announcementMaps) {
 			int announcement_id = Integer.valueOf(announcementMap.get("announcement_id"));
-			Course course = CourseManager.getCourse(announcementMap.get("course_code"));
-			User user = UserManager.getUser(announcementMap.get("username"));
+			Course course = CourseManager.getCourse(announcementMap.get("course_code"));  						// TODO Denne sender query for hver assignment
+			User user = UserManager.getUser(announcementMap.get("username"));                     				// TODO Denne sender query for hver assignment
 			Timestamp timestamp = Timestamp.valueOf(announcementMap.get("timestamp"));
 			String title = announcementMap.get("title");
 			String text = announcementMap.get("text");
