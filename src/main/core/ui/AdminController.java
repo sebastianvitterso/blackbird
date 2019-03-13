@@ -21,6 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -490,16 +491,31 @@ public class AdminController implements Refreshable {
     
     @FXML
     void handleDeleteCourseClick(ActionEvent event) {
-//    	JFXDialogLayout content = new JFXDialogLayout();
-//    	content.setHeading(new Text("Delete course"));
-//    	content.setBody(new Text("Are you sure you want to delete this course"));
-//    	JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
-//    	JFXButton deleteButton = new JFXButton("Delete");
-//    	JFXButton cancelButton = new JFXButton("Cancel");
+    	JFXDialogLayout content = new JFXDialogLayout();
+    	content.setHeading(new Text("Delete course"));
+    	content.setBody(new Text("Are you sure you want to delete this course?"));
+    	JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
     	
-    	
-		CourseManager.deleteCourses(selectedCourses);
-		updateCourseView();
+    	JFXButton deleteButton = new JFXButton("Delete");
+    	deleteButton.setStyle("-fx-background-color: #903030; -fx-text-fill: #DDDDDD;");
+    	JFXButton cancelButton = new JFXButton("Cancel");
+    	cancelButton.setStyle("-fx-background-color: #979797; -fx-text-fill: #DDDDDD;");
+    	deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				CourseManager.deleteCourses(selectedCourses);
+				updateCourseView();
+				dialog.close();
+			}
+		});
+    	cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				dialog.close();
+			}
+		});
+    	content.setActions(cancelButton, deleteButton);
+    	dialog.show();
     }
     
     /*
