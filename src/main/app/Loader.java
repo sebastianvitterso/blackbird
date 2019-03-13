@@ -133,7 +133,6 @@ public class Loader implements Runnable {
 	 * Returns a newly initialized FXMLLoader represented by the given {@code View}.
 	 */
 	public static FXMLLoader createFXMLLoader(View view) {
-		System.out.println("Creates FXML loader");
 		URL pathToFXML = Loader.class.getClassLoader().getResource(view.getPathToFXML());
 		FXMLLoader loader = new FXMLLoader(pathToFXML);
 		try {
