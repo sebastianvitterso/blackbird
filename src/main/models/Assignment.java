@@ -92,4 +92,11 @@ public class Assignment {
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return String.format(
+				"Assignment [assignmentID=%s, course=%s, title=%s, description=%10.10s, deadLine=%s, maxScore=%s, passingScore=%s]",
+				assignmentID, course, title, description, deadLine, maxScore, passingScore);
+	}
+
 }
