@@ -55,11 +55,13 @@
                            </children>
                         </HBox>
                         <Separator styleClass="header-separator" />
-                        <Region maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" />
                         <ScrollPane fx:id="announcementScrollPane" fitToWidth="true" maxHeight="1.7976931348623157E308" prefWidth="200.0" stylesheets="@../../stylesheets/announcementsview.css" VBox.vgrow="ALWAYS">
                            <content>
                               <VBox fx:id="announcementVBox" maxHeight="1.7976931348623157E308" prefWidth="100.0" />
                            </content>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
                         </ScrollPane>
 
                      </children>
