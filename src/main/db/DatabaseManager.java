@@ -76,7 +76,7 @@ public class DatabaseManager {
 			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), query);
 			ResultSetMetaData rsmd = resultSet.getMetaData();
 			
-			List<Map<String, String>> resultArray = new ArrayList<>(); 
+			List<Map<String, String>> resultArray = new ArrayList<>();
 			while (resultSet.next()) {
 				Map<String, String> currentRow = new HashMap<String, String>();
 			       for (int i = 1; i <= rsmd.getColumnCount(); i++) {
@@ -92,6 +92,52 @@ public class DatabaseManager {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	/*
+	 * Returns ArrayList of HashMaps, where each HashMap refers to a row in the resultset you get.
+	 * The HashMap's keys are the column headers, while the values are the row's values. 
+	 */
+	public static List<Map<String, String>> sendQueryNew(String query) {
+		try {
+			return sendQueryExample(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	/*
+	 * Sends query and reestablishes connection if lost.
+	 */
+	public static List<Map<String, String>> sendQueryExample(String query) throws SQLException {
+		Statement statement = null;
+		ResultSet resultSet = null;
+		ResultSetMetaData rsmd = null;
+		
+		try {
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
+			rsmd = resultSet.getMetaData();
+		} catch (SQLException e) {
+			openConnection();
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(query);
+			rsmd = resultSet.getMetaData();
+			System.err.println("SQL Query failed, reestablishing connection.");
+		}
+		
+		List<Map<String, String>> resultArray = new ArrayList<>();
+		while (resultSet.next()) {
+			Map<String, String> currentRow = new HashMap<String, String>();
+			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+				currentRow.put(rsmd.getColumnName(i), resultSet.getString(i));
+			} 
+			resultArray.add(currentRow); 
+		}
+		statement.close();
+		return resultArray;
 	}
 
 	public static int sendUpdate(String update) {
