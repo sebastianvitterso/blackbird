@@ -10,14 +10,19 @@
       <HBox>
          <children>
             <StackPane fx:id="menuPane" prefWidth="270.0" />
-            <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" pannable="true" prefHeight="800.0" prefWidth="1010.0" styleClass="edge-to-edge" HBox.hgrow="ALWAYS">
-               <content>
-                  <StackPane fx:id="contentPane">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets></StackPane>
-               </content>
-            </ScrollPane>
+            <StackPane fx:id="outerStackPane" HBox.hgrow="ALWAYS">
+               <children>
+                  <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" pannable="true" prefHeight="800.0" prefWidth="1010.0" styleClass="edge-to-edge">
+                     <content>
+                        <StackPane fx:id="contentPane">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </StackPane>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </StackPane>
          </children>
       </HBox>
    </children>

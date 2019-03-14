@@ -36,8 +36,8 @@ import main.utils.View;
 public class AssignmentPopupController {
 	
 	@FXML private Label headerLabel;
-    @FXML private JFXTextField courseNameTextField;
-    @FXML private JFXTextArea courseDescriptionTextArea;
+    @FXML private JFXTextField nameTextField;
+    @FXML private JFXTextArea descriptionTextArea;
     @FXML private JFXDatePicker datePicker;
     @FXML private JFXTimePicker timePicker;
     @FXML private Label pointLabel;
@@ -92,23 +92,23 @@ public class AssignmentPopupController {
 	private Assignment createAssignmentFromInput() {
 		Course course = menuController.getSelectedCourse();
 		String title = headerLabel.getText();
-		String description = courseDescriptionTextArea.getText();
+		String description = descriptionTextArea.getText();
 		Timestamp deadline = getDeadline();
 		int maxScore = Integer.parseInt(maxPointLabel.getText());
 		int passingScore = Integer.parseInt(pointLabel.getText());
-		String name = courseNameTextField.getText();
+		String name = nameTextField.getText();
 
 		return new Assignment(-1, course, title, description, deadline, maxScore, passingScore);
 
 	}
 
 	public void clear() {
-		courseNameTextField.clear();
-		courseDescriptionTextArea.clear();
+		nameTextField.clear();
+		descriptionTextArea.clear();
 		datePicker.setValue(null);
 		timePicker.setValue(null);
 		maxPointLabel.setText("");
-		courseNameTextField.setDisable(false);
+		nameTextField.setDisable(false);
 	}
 	
 	//laste opp fil

@@ -20,6 +20,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import main.app.Loader;
+import main.core.ui.MainController;
 import main.core.ui.MenuController;
 import main.core.ui.components.AssignmentBoxController;
 import main.core.ui.popups.AssignmentPopupController;
@@ -37,6 +38,7 @@ public class AssignmentsController implements Refreshable {
 	@FXML private StackPane rootPane;
 	@FXML private VBox assignmentVBox;
 
+	private MainController mainController;
 	private MenuController menuController;
 	private AssignmentPopupController assignmentController; 
 	private Map<FXMLLoader, Assignment> containers;
@@ -56,7 +58,9 @@ public class AssignmentsController implements Refreshable {
      */
     @PostInitialize
     private void postInitialize() {
+    	mainController = Loader.getController(View.MAIN_VIEW);
 		menuController = Loader.getController(View.MENU_VIEW);
+		assignmentController = Loader.getController(View.POPUP_ASSIGNMENT_VIEW);
     }
 	
     /**
@@ -156,7 +160,7 @@ public class AssignmentsController implements Refreshable {
 	@FXML
 	public void handleNewAssignmentClick(ActionEvent event)	{
 		// Create dialog box
-    	JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_COURSE_VIEW), DialogTransition.CENTER);
+    	JFXDialog dialog = new JFXDialog(mainController.getOuterStackPane(), (Region) Loader.getParent(View.POPUP_ASSIGNMENT_VIEW), DialogTransition.CENTER);
     	
     	// Initialize popup
     	assignmentController.clear();

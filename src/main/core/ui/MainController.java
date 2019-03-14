@@ -29,6 +29,7 @@ public class MainController implements Refreshable {
 
 	@FXML private StackPane rootPane;
     @FXML private StackPane menuPane;
+    @FXML private StackPane outerStackPane;
     @FXML private StackPane contentPane;
     @FXML private ScrollPane scrollPane;
     
@@ -115,6 +116,9 @@ public class MainController implements Refreshable {
 		return currentController;
 	}
 	
+	public StackPane getOuterStackPane() {
+		return outerStackPane;
+	}
 	
 	/**
 	 * Implements custom scrolling behavior for ScrollPanes.
