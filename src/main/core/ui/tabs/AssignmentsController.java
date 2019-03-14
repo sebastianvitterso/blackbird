@@ -161,7 +161,6 @@ public class AssignmentsController implements Refreshable {
     	// Initialize popup
     	assignmentController.clear();
     	assignmentController.connectDialog(dialog);
-    	assignmentController.loadNewExercise();
     	dialog.show();
 	}
 }

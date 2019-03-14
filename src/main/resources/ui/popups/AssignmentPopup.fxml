@@ -16,13 +16,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefWidth="400.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.AssignmentPopupController">
+<StackPane prefWidth="400.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.AssignmentPopupController">
    <children>
       <VBox focusTraversable="true" spacing="30.0">
          <children>
             <Label fx:id="headerLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="header-text" text="Registrer ny øving" />
-            <JFXTextField fx:id="courseNameTextField1" labelFloat="true" prefHeight="27.0" prefWidth="319.0" promptText="Navn" styleClass="input-field-light-bg" />
-            <JFXTextArea fx:id="courseDescriptionTextArea" labelFloat="true" prefHeight="100.0" promptText="Beskrivelse" styleClass="input-field-light-bg">
+            <JFXTextField fx:id="assignmentNameTextField1" labelFloat="true" prefHeight="27.0" prefWidth="319.0" promptText="Navn" styleClass="input-field-light-bg" />
+            <JFXTextArea fx:id="assignmentDescriptionTextArea" labelFloat="true" prefHeight="100.0" promptText="Beskrivelse" styleClass="input-field-light-bg">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -39,7 +39,7 @@
             </HBox>
             <HBox>
                <children>
-                  <Label fx:id="pointLabel" text="Maks poeng: " />
+                  <Label text="Maks poeng: " />
                   <Label fx:id="maxPointLabel">
                      <HBox.margin>
                         <Insets left="20.0" />
@@ -49,7 +49,7 @@
             </HBox>
             <HBox>
                <children>
-                  <JFXTextField fx:id="fileNameTextField" labelFloat="true" prefHeight="27.0" prefWidth="292.0" promptText="Navn" styleClass="input-field-light-bg" />
+                  <JFXTextField fx:id="fileNameTextField" labelFloat="true" prefHeight="27.0" prefWidth="292.0" promptText="Filnavn" styleClass="input-field-light-bg" />
                   <Region prefWidth="40.0" />
                   <JFXButton fx:id="uploadFileButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" styleClass="primary-button-orange" text=" ">
                      <graphic>

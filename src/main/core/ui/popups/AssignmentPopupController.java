@@ -22,6 +22,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import main.app.Loader;
 import main.core.ui.MenuController;
+import main.core.ui.tabs.AssignmentsController;
 import main.db.AssignmentManager;
 import main.models.Assignment;
 import main.models.Course;
@@ -49,6 +50,7 @@ public class AssignmentPopupController {
     private JFXDialog dialog;
     private File selectedFile;
     private boolean editMode;
+    private AssignmentsController assignmentController; 
     
     @FXML
     private void initialize() {
@@ -63,6 +65,7 @@ public class AssignmentPopupController {
 	@PostInitialize
 	private void postInitialize() {
 		menuController = Loader.getController(View.MENU_VIEW);
+		assignmentController = Loader.getController(View.ASSIGNMENTS_VIEW);
 	}
 
 	/**
@@ -70,17 +73,6 @@ public class AssignmentPopupController {
 	 */
 	public void connectDialog(JFXDialog dialog) {
 		this.dialog = dialog;
-	}
-
-	/**
-	 * Prepares popup for displaying 'new exercise' mode. This method must be called
-	 * prior to displaying the dialog box.
-	 */
-	public void loadNewExercise() {
-		// Layout configurations for 'new' mode.
-		editMode = false;
-		headerLabel.setText("Registrer ny øving");
-		registerButton.setText("Registrer");
 	}
 
 	/**
@@ -118,7 +110,8 @@ public class AssignmentPopupController {
 		maxPointLabel.setText("");
 		courseNameTextField.setDisable(false);
 	}
-
+	
+	//laste opp fil
 	@FXML
 	private void handleFileOpenClick(ActionEvent event) {
 		// Retrive parent for file chooser
@@ -140,20 +133,10 @@ public class AssignmentPopupController {
 	void handleRegisterClick(ActionEvent event) {
 		Assignment assignment = createAssignmentFromInput();
 		AssignmentManager.addAssignment(assignment, fileNameTextField.getText());
-		// String courseCode = (assignment.getCourse()).getCourseCode();
-		// AssignmentManager.addAssignment(courseCode, assignment.getTitle(),
-		// assignment.getDeadLine().toString(), assignment.getMaxScore(),
-		// assignment.getPassingScore(), fileNameTextField.getText());
-
-		/*
-		 * TODO: gjøre ferdig denne! Hva skjer med editmode?
-		 */
-		/*
-		 * if (editMode) { CourseManager.updateCourse(course); } else {
-		 * CourseManager.registerCourse(course); }
-		 * 
-		 * adminController.updateCourseView(); dialog.close();
-		 */
+		
+		assignmentController.update();
+		dialog.close();
+		 
 	}
 
 }
