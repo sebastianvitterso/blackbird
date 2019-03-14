@@ -37,7 +37,8 @@ public class AnnouncementsView {
 	VBox view = new VBox();
 	public AnnouncementsView(Course course) {
 		//AnnouncementManager.addAnnouncement(CourseManager.getCourse("TDT4100"),UserManager.getUser("seb"),Timestamp.valueOf(LocalDateTime.now()), "Ingen forelesning 13.37", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-		//view.getStylesheets().add("stylesheets/announcementsview.css"); 
+		//view.getStylesheets().add("stylesheets/announcementsview.css");
+		addMargin(view, 15);
 		List<Announcement> announcements = AnnouncementManager.getAnnouncementsFromCourse(course);
 		Collections.sort(announcements);
 		for(Announcement announcement : announcements) {

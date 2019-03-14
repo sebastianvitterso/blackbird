@@ -29,7 +29,7 @@
                         <Separator styleClass="header-separator" />
                         <Label fx:id="courseDescriptionLabel" minHeight="-Infinity" styleClass="breadtext" text="Lorem ipsum dolor sit amet, qui ut docendi vivendum splendide, oblique phaedrum referrentur duo ne, eum adolescens intellegebat no. Qui ne ipsum assum aperiri, unum justo detraxit eos ex. Et salutatus scribentur sea. Per ei quem interesset, sed tantas nusquam quaerendum et. Meis habemus mandamus nam ea.&#10;&#10;Habeo legere blandit his in. Ex sea lorem ridens. Eu eos mandamus periculis definitiones, postea ornatus usu ne. In natum error pri, an mutat reprimique eam. Ei nibh mazim placerat ius. Mei omittam facilisi postulant no, ut sit vidit omnes. Falli dolorem oportere an per." wrapText="true">
                            <VBox.margin>
-                              <Insets left="10.0" top="20.0" />
+                              <Insets left="10.0" top="15.0" />
                            </VBox.margin>
                         </Label>
                      </children>
@@ -46,7 +46,7 @@
                               <Region maxHeight="1.0" maxWidth="1.7976931348623157E308" minHeight="1.0" prefHeight="1.0" HBox.hgrow="ALWAYS" />
                               <JFXButton fx:id="newAnnouncementButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleNewAnnouncementClick">
                                  <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../icons/plusNoFrame.png" />
                                        </image>
@@ -55,11 +55,13 @@
                            </children>
                         </HBox>
                         <Separator styleClass="header-separator" />
-                        <Region maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" />
                         <ScrollPane fx:id="announcementScrollPane" fitToWidth="true" maxHeight="1.7976931348623157E308" prefWidth="200.0" stylesheets="@../../stylesheets/announcementsview.css" VBox.vgrow="ALWAYS">
                            <content>
                               <VBox fx:id="announcementVBox" maxHeight="1.7976931348623157E308" prefWidth="100.0" />
                            </content>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
                         </ScrollPane>
 
                      </children>
@@ -78,7 +80,7 @@
                         <Separator styleClass="header-separator" />
                         <Label styleClass="breadtext" text="Lorem ipsum dolor sit amet, qui ut docendi vivendum splendide, oblique phaedrum referrentur duo ne, eum adolescens intellegebat no. Qui ne ipsum assum aperiri, unum justo detraxit eos ex. &#10;&#10;Et salutatus scribentur sea. Per ei quem interesset, sed tantas nusquam quaerendum et. Meis habemus mandamus nam ea.&#10;" wrapText="true">
                            <VBox.margin>
-                              <Insets left="10.0" top="20.0" />
+                              <Insets left="10.0" top="15.0" />
                            </VBox.margin>
                         </Label>
                      </children>
