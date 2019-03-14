@@ -495,8 +495,18 @@ public class AdminController implements Refreshable {
     void handleDeleteCourseClick(ActionEvent event) {
     	JFXDialogLayout content = new JFXDialogLayout();
     	content.setHeading(new Text("Slett Fag"));
-    	content.setBody(new Text("Er du sikker på at du vil slette faget?\n" 
-				+ "All data som forbindes med dette faget vil gå tapt."));
+    	String f1 = null;
+    	String f2 = null;
+    	if(selectedCourses.size() == 1) {
+    		f1 = "faget";
+    		f2 = "dette ";
+    	}
+    	else {
+    		f1= "fagene";
+    		f2 = "disse ";
+    	}
+    	content.setBody(new Text("Er du sikker på at du vil slette " + f1 + "?\n" 
+				+ "All data som forbindes med " + f2 + f1 + " vil gå tapt."));
     	
     	JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
     	JFXButton deleteButton = new JFXButton("Slett");

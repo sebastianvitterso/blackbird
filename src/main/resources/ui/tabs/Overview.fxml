@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="rootPane" prefHeight="731.0" prefWidth="1010.0" styleClass="background" stylesheets="@../../stylesheets/overview.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.OverviewController">
+<StackPane fx:id="rootPane" prefHeight="731.0" prefWidth="1010.0" styleClass="background" stylesheets="@../../stylesheets/overview.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.OverviewController">
    <children>
       <HBox spacing="50.0">
          <children>
@@ -46,7 +46,7 @@
                               <Region maxHeight="1.0" maxWidth="1.7976931348623157E308" minHeight="1.0" prefHeight="1.0" HBox.hgrow="ALWAYS" />
                               <JFXButton fx:id="newAnnouncementButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleNewAnnouncementClick">
                                  <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../icons/plusNoFrame.png" />
                                        </image>
