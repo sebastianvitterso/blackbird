@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
+import apple.laf.JRSUIConstants.Size;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.SimpleStringProperty;
@@ -29,6 +30,8 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import main.app.Loader;
 import main.core.ui.popups.CoursePopupController;
@@ -489,16 +492,19 @@ public class AdminController implements Refreshable {
 
     }
     
+    
+    
     @FXML
     void handleDeleteCourseClick(ActionEvent event) {
     	JFXDialogLayout content = new JFXDialogLayout();
-    	content.setHeading(new Text("Delete course"));
-    	content.setBody(new Text("Are you sure you want to delete this course?"));
-    	JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
+    	content.setHeading(new Text("Slett Fag"));
+    	content.setBody(new Text("Er du sikker på at du vil slette faget?\n" 
+				+ "All data som forbindes med dette faget vil gå tapt."));
     	
-    	JFXButton deleteButton = new JFXButton("Delete");
+    	JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
+    	JFXButton deleteButton = new JFXButton("Slett");
     	deleteButton.setStyle("-fx-background-color: #903030; -fx-text-fill: #DDDDDD;");
-    	JFXButton cancelButton = new JFXButton("Cancel");
+    	JFXButton cancelButton = new JFXButton("Avbryt");
     	cancelButton.setStyle("-fx-background-color: #979797; -fx-text-fill: #DDDDDD;");
     	deleteButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
