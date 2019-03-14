@@ -7,11 +7,14 @@ import com.jfoenix.controls.JFXDialog.DialogTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import main.announcement.AnnouncementsView;
 import main.app.Loader;
+import main.core.ui.MainController;
 import main.core.ui.MenuController;
 import main.core.ui.popups.AnnouncementPopupController;
 import main.models.Course;
@@ -27,9 +30,15 @@ public class OverviewController implements Refreshable {
 	
 	@FXML private StackPane rootPane;
 	@FXML private Label courseDescriptionLabel;
-	@FXML private Pane announcementPane;
+	@FXML private VBox announcementVBox;
+	@FXML private ScrollPane announcementScrollPane;
 	@FXML private JFXButton newAnnouncementButton;
 	
+	
+	@FXML
+	private void initialize() {
+		MainController.customScrolling(announcementScrollPane, announcementScrollPane.vvalueProperty(), bounds -> bounds.getHeight());
+	}
 	
 	/**
      * Runs any methods that require every controller to be initialized.
@@ -58,8 +67,8 @@ public class OverviewController implements Refreshable {
 		if (selectedCourse != null)
 			courseDescriptionLabel.setText(selectedCourse.getDescription());
 		//OBS: Denne loades inn to ganger samtidig. En av dem bør fjernes for opptimalisering
-		announcementPane.getChildren().clear();
-		announcementPane.getChildren().add(new AnnouncementsView(selectedCourse).getView());
+		announcementVBox.getChildren().clear();
+		announcementVBox.getChildren().add(new AnnouncementsView(selectedCourse).getView());
 		if(menuController.getSelectedRole() == Role.PROFESSOR)
 			newAnnouncementButton.setVisible(true);
 		else
