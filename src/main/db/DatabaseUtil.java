@@ -1,8 +1,6 @@
 package main.db;
 
 import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,15 +118,8 @@ public class DatabaseUtil {
 	}
 	
 	public static List<Submission> SAMapsAndUserToSubmissions(List<Map<String, String>> saMaps, User user) {
-		Instant time1 = Instant.now();
 		FillCourseLookupMap();
-		Instant time2 = Instant.now();
-		System.out.format("FillCourseLookupMap = %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""));
 		List<Submission> submissionList = new ArrayList<>();
-		// TODO TIMER
-		
-		
-		Instant time3 = Instant.now();
 		for (Map<String, String> saMap : saMaps) {
 			int assignment_id = Integer.parseInt(saMap.get("assignment_id"));
 			String course_code = saMap.get("course_code");
@@ -144,12 +135,7 @@ public class DatabaseUtil {
 					new Assignment(assignment_id, CourseLookupMap.get(course_code), title, description, deadline, max_score, passing_score), 
 					user, Timestamp.valueOf(delivered_timestamp), score, comment));
 		}
-
-		Instant time4 = Instant.now();
-		System.out.format("for-loop = %s%n", Duration.between(time3, time4).toString().replaceFirst("PT", ""));
 		ClearCourseLookupMap();
-		Instant time5 = Instant.now();
-		System.out.format("ClearCourseLookupMap = %s%n", Duration.between(time4, time5).toString().replaceFirst("PT", ""));
 		return submissionList;
 	}	
 	

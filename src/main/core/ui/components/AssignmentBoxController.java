@@ -1,5 +1,7 @@
 package main.core.ui.components;
 
+import java.text.SimpleDateFormat;
+
 import com.jfoenix.controls.JFXButton;
 
 import javafx.fxml.FXML;
@@ -33,7 +35,8 @@ public class AssignmentBoxController implements Refreshable {
 	public void loadAssignment(Assignment assignment) {
 		headerLabel.setText(assignment.getTitle());
 		descriptionLabel.setText(assignment.getDescription());
-		deadlineLabel.setText(assignment.getDeadLine().toString());
+		String formattedDeadline = new SimpleDateFormat("dd. MMM HH:mm").format(assignment.getDeadLine());
+		deadlineLabel.setText(formattedDeadline);
 	}
 	
 	public void loadStatus(Status status) {

@@ -119,7 +119,12 @@ public class DatabaseManager {
 			
 			try {
 				statement = connection.createStatement();
+
+				Instant time1 = Instant.now();
 				resultSet = statement.executeQuery(query);
+				Instant time2 = Instant.now();
+				System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), query);
+				
 				rsmd = resultSet.getMetaData();
 			} catch (SQLException e) {
 				openConnection();
@@ -147,26 +152,25 @@ public class DatabaseManager {
 
 	public static int sendUpdate(String update) {
 		try {
-			if(!connection.isValid(5)) {
-				System.err.println("SQL Connection closed, attempting to re-open.");
-				openConnection();
-			}
-			Statement statement = connection.createStatement();
+			Statement statement = null;
+			int rowsAffected = 0;
 			
-			// TODO TIMING
-			Instant time1 = Instant.now();
-			int rowsAffected = statement.executeUpdate(update);
-			Instant time2 = Instant.now();
-			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), update);
-			// TODO TIMING
+			try {
+				statement = connection.createStatement();
 
-			statement.close();
-			
+				Instant time1 = Instant.now();
+				rowsAffected = statement.executeUpdate(update);
+				Instant time2 = Instant.now();
+				System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), update);
+			} catch (SQLException e) {
+				openConnection();
+				System.err.println("SQL Query failed, reestablishing connection.");
+				statement = connection.createStatement();
+				rowsAffected = statement.executeUpdate(update);
+			}
+			statement.close();			
 			return rowsAffected;
-			
 		} catch (SQLException e) {
-			System.err.println("SQL Query failed, connection lost.");
-			System.err.println("Check your connection to the internet and to the NTNU-VPN.");
 			e.printStackTrace();
 			return 0;
 		}
