@@ -41,7 +41,7 @@ public class AssignmentPopupController {
     @FXML private JFXDatePicker datePicker;
     @FXML private JFXTimePicker timePicker;
     @FXML private Label pointLabel;
-    @FXML private Label maxPointLabel; 
+    @FXML private JFXTextField maxPoints; 
     @FXML private JFXTextField fileNameTextField;
     @FXML private JFXButton uploadFileButton;
     @FXML private JFXButton registerButton;
@@ -49,7 +49,6 @@ public class AssignmentPopupController {
     private MenuController menuController;
     private JFXDialog dialog;
     private File selectedFile;
-    private boolean editMode;
     private AssignmentsController assignmentController; 
     
     @FXML
@@ -94,7 +93,7 @@ public class AssignmentPopupController {
 		String title = headerLabel.getText();
 		String description = descriptionTextArea.getText();
 		Timestamp deadline = getDeadline();
-		int maxScore = Integer.parseInt(maxPointLabel.getText());
+		int maxScore = Integer.parseInt(maxPoints.getText());
 		int passingScore = Integer.parseInt(pointLabel.getText());
 		String name = nameTextField.getText();
 
@@ -107,7 +106,7 @@ public class AssignmentPopupController {
 		descriptionTextArea.clear();
 		datePicker.setValue(null);
 		timePicker.setValue(null);
-		maxPointLabel.setText("");
+		maxPoints.setText("");
 		nameTextField.setDisable(false);
 	}
 	

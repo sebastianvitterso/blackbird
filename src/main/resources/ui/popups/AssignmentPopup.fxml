@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefWidth="400.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.AssignmentPopupController">
+<StackPane prefWidth="400.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.AssignmentPopupController">
    <children>
       <VBox focusTraversable="true" spacing="30.0">
          <children>
@@ -39,12 +39,13 @@
             </HBox>
             <HBox>
                <children>
-                  <Label text="Maks poeng: " />
-                  <Label fx:id="maxPointLabel">
+                  <JFXTextField fx:id="max" prefHeight="27.0" prefWidth="144.0" promptText="Max poeng: ">
                      <HBox.margin>
-                        <Insets left="20.0" />
+                        <Insets />
                      </HBox.margin>
-                  </Label>
+                  </JFXTextField>
+                  <Region prefHeight="0.0" prefWidth="142.0" />
+                  <JFXTextField labelFloat="true" promptText="Minste krav:" />
                </children>
             </HBox>
             <HBox>
