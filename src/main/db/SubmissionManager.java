@@ -76,11 +76,13 @@ public class SubmissionManager {
 	}
 	
 	public static List<Submission> getSubmissionsFromCourseAndUser(Course course, User user){
+		Instant time1 = Instant.now();
 		List<Map<String, String>> submissionAssignmentMaps = DatabaseManager.sendQuery(String.format(
 				"SELECT assignment_id, username, delivered_timestamp, score, "
 				+ "comment, course_code, title, description, deadline, max_score, passing_score "
 				+ "FROM submission NATURAL JOIN assignment WHERE username = '%s' AND course_code = '%s';",
 				user.getUsername(), course.getCourseCode()));
+		Instant time2 = Instant.now();
 		return DatabaseUtil.SAMapsAndUserToSubmissions(submissionAssignmentMaps, user);
 	}
 	
@@ -92,7 +94,7 @@ public class SubmissionManager {
 	}
 
 	public static void main(String[] args) {
-		addSubmission(AssignmentManager.getAssignment(2), 
+		addSubmission(AssignmentManager.getAssignment(4), 
 				UserManager.getUser("pat"), 
 				Timestamp.valueOf("2019-03-13 18:47:02"), 
 				"C:/Users/Patrik/Google Drive/Studier/TDT4140 (PU)/Risikoanalyse.pdf");
