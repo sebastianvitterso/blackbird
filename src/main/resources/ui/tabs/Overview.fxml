@@ -6,6 +6,8 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
@@ -42,7 +44,14 @@
                                  </effect>
                               </Label>
                               <Region maxHeight="1.0" maxWidth="1.7976931348623157E308" minHeight="1.0" prefHeight="1.0" HBox.hgrow="ALWAYS" />
-                              <JFXButton fx:id="newAnnouncementButton" buttonType="RAISED" onAction="#handleNewAnnouncementClick" text="+" />
+                              <JFXButton fx:id="newAnnouncementButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleNewAnnouncementClick">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../icons/plusNoFrame.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></JFXButton>
                            </children>
                         </HBox>
                         <Separator styleClass="header-separator" />
