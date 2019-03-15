@@ -14,6 +14,10 @@
 .tree-table-view .tree-table-row-cell:filled:odd {
 	-fx-background-color: #F4F4F4;
 }
+
+.tree-table-view .tree-table-row-cell:filled:even {
+	-fx-background-color: #FFFFFF;
+}
 .tree-table-column .label
 {
     -fx-border-color: #000000;
