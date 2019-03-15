@@ -8,10 +8,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXTextField;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,8 +20,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import main.app.Loader;
 import main.core.ui.tabs.AssignmentsController;
 import main.db.AssignmentManager;
@@ -29,6 +31,7 @@ import main.db.SubmissionManager;
 import main.models.Assignment;
 import main.models.Submission;
 import main.models.User;
+import main.utils.FileIO;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Status;
@@ -51,7 +54,7 @@ public class ViewAssignmentPopupController implements Refreshable {
     @FXML private Label commentLabel;
     @FXML private HBox fileUploadHBox;
     @FXML private HBox lowerHBox;
-    @FXML private JFXTextField filenameTextField;
+    @FXML private JFXComboBox<File> fileComboBox;
     @FXML private Label submissionFileLinkLabel;
     @FXML private JFXButton cancelButton;
     @FXML private JFXButton deliverButton;
@@ -65,9 +68,22 @@ public class ViewAssignmentPopupController implements Refreshable {
     private JFXDialog dialog;
     private AssignmentsController assignmentController; 
     
-    
     @FXML
     private void initialize() {
+    	File folder = new File(getClass().getClassLoader().getResource("pdfs/").getPath());
+    	List<File> files = FileIO.importPDFs(folder);
+    	fileComboBox.getItems().addAll(files);
+    	fileComboBox.setConverter(new StringConverter<File>() {
+			@Override
+			public String toString(File file) {
+				return file.getName();
+			}
+			
+			@Override
+			public File fromString(String arg) {
+				return null;
+			}
+		});
     }
     
     @Override
@@ -113,7 +129,6 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setVisible(true);
 			commentLabel.setText(submission.getComment());
 			fileUploadHBox.setVisible(false);
-			filenameTextField.setText("");
 			submissionFileLinkButton.setVisible(true);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
 					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
@@ -126,7 +141,6 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setVisible(false);
 			commentLabel.setText("");
 			fileUploadHBox.setVisible(false);
-			filenameTextField.setText("");
 			submissionFileLinkButton.setVisible(true);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
 					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
@@ -140,7 +154,6 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setVisible(true);
 			commentLabel.setText(submission.getComment());
 			fileUploadHBox.setVisible(false);
-			filenameTextField.setText("");
 			submissionFileLinkButton.setVisible(true);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
 					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
@@ -153,7 +166,6 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setVisible(false);
 			commentLabel.setText("");
 			fileUploadHBox.setVisible(true);
-			filenameTextField.setText("");
 			submissionFileLinkButton.setVisible(false);
 			if(!lowerHBox.getChildren().contains(deliverButton)) {
 				lowerHBox.getChildren().add(deliverButton);
@@ -165,7 +177,6 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setVisible(true);
 			commentLabel.setText("Øvingen ble ikke levert innen tidsfristen.");
 			fileUploadHBox.setVisible(false);
-			filenameTextField.setText("");
 			submissionFileLinkButton.setVisible(false);
 			lowerHBox.getChildren().remove(deliverButton);
 			break;
@@ -184,22 +195,10 @@ public class ViewAssignmentPopupController implements Refreshable {
     @FXML
     void handleDeliverClick(ActionEvent event) {
     	User user = LoginManager.getActiveUser();
+    	File file  = fileComboBox.getSelectionModel().getSelectedItem();
     	Timestamp time = Timestamp.valueOf(Instant.now().toString().replaceFirst("T", " ").substring(0, 19));
     	submission = new Submission(assignment, user, time, -1, null);
-    	String filepath = filenameTextField.getText();
-    	String extension = "";
-    	int dotIndex = filepath.lastIndexOf('.');
-    	if(filepath.equals("")) {
-    		return;
-    	}
-    	else if (dotIndex > 0) {
-    	    extension = filepath.substring(dotIndex+1);
-    	}
-    	if(!extension.equals("pdf")) {
-    		System.err.printf("Only pdf's should be uploaded, your file is of type '%s'.", extension);
-    		return;
-    	}
-    	SubmissionManager.addSubmission(submission, filepath);
+    	SubmissionManager.addSubmission(submission, file);
     	assignmentController.update();
     	dialog.close();
     }
@@ -211,7 +210,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 
 		// Construct file chooser
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open Data File");
+		fileChooser.setTitle("Select file");
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF file (*.pdf)", "*.pdf"));
 
 		// Launch file chooser and retrive selected file
@@ -221,7 +220,9 @@ public class ViewAssignmentPopupController implements Refreshable {
 		if (file == null)
 			return;
 			
-		filenameTextField.setText(file.getAbsolutePath());
+		// Select file and add to list of selectable files
+		fileComboBox.getItems().add(file);
+		fileComboBox.getSelectionModel().select(file);
     }	
 	
     @FXML

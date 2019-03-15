@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" prefWidth="600.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.ViewAssignmentPopupController">
+<StackPane fx:id="rootPane" prefWidth="600.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.ViewAssignmentPopupController">
    <children>
       <VBox spacing="10.0">
          <children>
@@ -127,11 +127,11 @@
                      <children>
                         <HBox fx:id="fileUploadHBox">
                            <children>
-                              <JFXTextField fx:id="filenameTextField" disable="true" promptText="Filepath">
+                              <JFXComboBox fx:id="fileComboBox" prefWidth="200.0" promptText="Ingen fil valgt">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
-                              </JFXTextField>
+                              </JFXComboBox>
                               <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleBrowseClick" styleClass="primary-button-grey" text=" ">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -143,7 +143,7 @@
                               </JFXButton>
                            </children>
                         </HBox>
-                        <JFXButton fx:id="submissionFileLinkButton" graphicTextGap="10.0" onAction="#handleSubmissionDownloadButton" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="_innlevering_oving_1_pat.pdf" textFill="WHITE">
+                        <JFXButton fx:id="submissionFileLinkButton" graphicTextGap="10.0" onAction="#handleSubmissionDownloadButton" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="_innlevering_oving_1_pat.pdf" textFill="WHITE" visible="false">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
