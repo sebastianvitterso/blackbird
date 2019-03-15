@@ -19,8 +19,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import main.app.Loader;
 import main.core.ui.tabs.AssignmentsController;
 import main.db.AssignmentManager;
@@ -51,7 +51,7 @@ public class ViewAssignmentPopupController implements Refreshable {
     @FXML private Label commentLabel;
     @FXML private HBox fileUploadHBox;
     @FXML private HBox lowerHBox;
-    @FXML private JFXTextField filenameTextField;
+    @FXML private JFXTextField fileTextField;
     @FXML private Label submissionFileLinkLabel;
     @FXML private JFXButton cancelButton;
     @FXML private JFXButton deliverButton;
@@ -64,7 +64,7 @@ public class ViewAssignmentPopupController implements Refreshable {
     private String submissionFileName;
     private JFXDialog dialog;
     private AssignmentsController assignmentController; 
-    
+    private File selectedFile;
     
     @FXML
     private void initialize() {
@@ -113,7 +113,6 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setVisible(true);
 			commentLabel.setText(submission.getComment());
 			fileUploadHBox.setVisible(false);
-			filenameTextField.setText("");
 			submissionFileLinkButton.setVisible(true);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
 					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
@@ -126,7 +125,6 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setVisible(false);
 			commentLabel.setText("");
 			fileUploadHBox.setVisible(false);
-			filenameTextField.setText("");
 			submissionFileLinkButton.setVisible(true);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
 					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
@@ -140,7 +138,6 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setVisible(true);
 			commentLabel.setText(submission.getComment());
 			fileUploadHBox.setVisible(false);
-			filenameTextField.setText("");
 			submissionFileLinkButton.setVisible(true);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
 					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
@@ -153,7 +150,6 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setVisible(false);
 			commentLabel.setText("");
 			fileUploadHBox.setVisible(true);
-			filenameTextField.setText("");
 			submissionFileLinkButton.setVisible(false);
 			if(!lowerHBox.getChildren().contains(deliverButton)) {
 				lowerHBox.getChildren().add(deliverButton);
@@ -165,7 +161,6 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setVisible(true);
 			commentLabel.setText("Øvingen ble ikke levert innen tidsfristen.");
 			fileUploadHBox.setVisible(false);
-			filenameTextField.setText("");
 			submissionFileLinkButton.setVisible(false);
 			lowerHBox.getChildren().remove(deliverButton);
 			break;
@@ -184,22 +179,10 @@ public class ViewAssignmentPopupController implements Refreshable {
     @FXML
     void handleDeliverClick(ActionEvent event) {
     	User user = LoginManager.getActiveUser();
+    	File file  = selectedFile;
     	Timestamp time = Timestamp.valueOf(Instant.now().toString().replaceFirst("T", " ").substring(0, 19));
     	submission = new Submission(assignment, user, time, -1, null);
-    	String filepath = filenameTextField.getText();
-    	String extension = "";
-    	int dotIndex = filepath.lastIndexOf('.');
-    	if(filepath.equals("")) {
-    		return;
-    	}
-    	else if (dotIndex > 0) {
-    	    extension = filepath.substring(dotIndex+1);
-    	}
-    	if(!extension.equals("pdf")) {
-    		System.err.printf("Only pdf's should be uploaded, your file is of type '%s'.", extension);
-    		return;
-    	}
-    	SubmissionManager.addSubmission(submission, filepath);
+    	SubmissionManager.addSubmission(submission, file);
     	assignmentController.update();
     	dialog.close();
     }
@@ -211,17 +194,14 @@ public class ViewAssignmentPopupController implements Refreshable {
 
 		// Construct file chooser
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open Data File");
+		fileChooser.setTitle("Velg fil");
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF file (*.pdf)", "*.pdf"));
 
 		// Launch file chooser and retrive selected file
-		File file = fileChooser.showOpenDialog(mainStage);
+		selectedFile = fileChooser.showOpenDialog(mainStage);
 
-		// Break if no file was selected
-		if (file == null)
-			return;
-			
-		filenameTextField.setText(file.getAbsolutePath());
+		// Update displayed text
+		fileTextField.setText(selectedFile != null ? selectedFile.getName() : "");
     }	
 	
     @FXML
@@ -229,7 +209,7 @@ public class ViewAssignmentPopupController implements Refreshable {
     	Stage mainStage = (Stage) dialog.getScene().getWindow();
     	InputStream is = AssignmentManager.getInputStreamFromAssignment(assignment);
     	FileChooser fileChooser = new FileChooser();
-    	fileChooser.setTitle("Save Assignment as...");
+    	fileChooser.setTitle("Lagre som");
     	fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF file (*.pdf)", "*.pdf"));
     	fileChooser.setInitialFileName(assignmentFileName);
     	File file = fileChooser.showSaveDialog(mainStage);
@@ -257,7 +237,7 @@ public class ViewAssignmentPopupController implements Refreshable {
     	Stage mainStage = (Stage) dialog.getScene().getWindow();
     	InputStream is = SubmissionManager.getInputStreamFromSubmission(submission);
     	FileChooser fileChooser = new FileChooser();
-    	fileChooser.setTitle("Save Assignment as...");
+    	fileChooser.setTitle("Lagre som");
     	fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF file (*.pdf)", "*.pdf"));
     	fileChooser.setInitialFileName(submissionFileName);
     	File file = fileChooser.showSaveDialog(mainStage);

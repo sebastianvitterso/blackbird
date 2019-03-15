@@ -28,8 +28,8 @@ public class SubmissionManager {
 		return DatabaseUtil.MapsToSubmissions(submissionMaps).get(0);
 	}
 	
-	public static int addSubmission(Submission submission, String filepath) {
-		return addSubmission(submission.getAssignment(), submission.getUser(), submission.getDeliveredTime(), filepath);
+	public static int addSubmission(Submission submission, File file) {
+		return addSubmission(submission.getAssignment(), submission.getUser(), submission.getDeliveredTime(), file);
 	}
 	
 	public static InputStream getInputStreamFromSubmission(Submission submission) {
@@ -49,12 +49,12 @@ public class SubmissionManager {
 		return null;
 	}
 	
-	public static int addSubmission(Assignment assignment, User user, Timestamp deliveredTime, String filepath) {
+	public static int addSubmission(Assignment assignment, User user, Timestamp deliveredTime, File file) {
 		try {
 			PreparedStatement ps = DatabaseManager.getPreparedStatement(
 					"INSERT INTO submission(assignment_id, username, delivered_timestamp, submission_file) "
 					+ "VALUES(?, ?, ?, ?);");
-			InputStream is = new FileInputStream(new File(filepath));
+			InputStream is = new FileInputStream(file);
 			ps.setString(1, Integer.toString(assignment.getAssignmentID()));
 			ps.setString(2, user.getUsername());
 			ps.setString(3, deliveredTime.toString()); 

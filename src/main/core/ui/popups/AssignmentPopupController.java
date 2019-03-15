@@ -118,11 +118,10 @@ public class AssignmentPopupController implements Refreshable {
 	void handleFileOpenClick(ActionEvent event) {
 		// Retrive parent for file chooser
 		Stage mainStage = (Stage) dialog.getScene().getWindow();
-		System.out.println("Open file clicked");
 
 		// Construct file chooser
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open Data File");
+		fileChooser.setTitle("Velg fil");
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF file (*.pdf)", "*.pdf"));
 
 		// Launch file chooser and retrive selected file
