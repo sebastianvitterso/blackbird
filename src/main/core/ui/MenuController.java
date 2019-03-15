@@ -99,6 +99,10 @@ public class MenuController implements Refreshable {
 		
 		// Actions specified bv the changelistener are invoked whenever courses are (re)selected
 		courseRelationsComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			// Break if there is no new selection
+			if (newValue == null)
+				return;
+			
 			// Update current tab
 			Refreshable controller = mainController.getCurrentController();
 			if (controller != null)
