@@ -127,7 +127,7 @@
                      <children>
                         <HBox fx:id="fileUploadHBox">
                            <children>
-                              <JFXTextField fx:id="filenameTextField" promptText="Filepath">
+                              <JFXTextField fx:id="filenameTextField" disable="true" promptText="Filepath">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
