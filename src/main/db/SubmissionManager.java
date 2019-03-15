@@ -8,8 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -62,17 +60,11 @@ public class SubmissionManager {
 			ps.setString(3, deliveredTime.toString()); 
 			ps.setBlob(4, is);
 			
-			// TODO TIMING
-			Instant time1 = Instant.now();
 			int result = ps.executeUpdate();
-			Instant time2 = Instant.now();
-			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), ps.toString());
-			// TODO TIMING
 			return result;
 			
 		} catch (FileNotFoundException e) {
 			System.err.println("addAssignment got a FileNotFoundException.");
-			/* TODO: Add exception-handler here, so it doesn't crash, just shows an error in the app. */
 			e.printStackTrace();
 			return -1;
 			
@@ -94,13 +86,11 @@ public class SubmissionManager {
 	}
 	
 	public static List<Submission> getSubmissionsFromCourseAndUser(Course course, User user){
-		Instant time1 = Instant.now();
 		List<Map<String, String>> submissionAssignmentMaps = DatabaseManager.sendQuery(String.format(
 				"SELECT assignment_id, username, delivered_timestamp, score, "
 				+ "comment, course_code, title, description, deadline, max_score, passing_score "
 				+ "FROM submission NATURAL JOIN assignment WHERE username = '%s' AND course_code = '%s';",
 				user.getUsername(), course.getCourseCode()));
-		Instant time2 = Instant.now();
 		return DatabaseUtil.SAMapsAndUserToSubmissions(submissionAssignmentMaps, user);
 	}
 	
@@ -110,12 +100,4 @@ public class SubmissionManager {
 				assignment.getAssignmentID()));
 		return DatabaseUtil.MapsToSubmissions(submissionMaps);
 	}
-
-//	public static void main(String[] args) {
-//		addSubmission(AssignmentManager.getAssignment(4), 
-//				UserManager.getUser("pat"), 
-//				Timestamp.valueOf("2019-03-13 18:47:02"), 
-//				"C:/Users/Patrik/Google Drive/Studier/TDT4140 (PU)/Risikoanalyse.pdf");
-//		DatabaseManager.downloadSubmissionFile(getSubmission(AssignmentManager.getAssignment(1), UserManager.getUser("seb")), new File("C:/Users/sebas/"));
-//	}
 }

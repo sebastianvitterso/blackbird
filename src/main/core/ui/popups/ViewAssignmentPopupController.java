@@ -226,8 +226,8 @@ public class ViewAssignmentPopupController implements Refreshable {
     	File file = fileChooser.showSaveDialog(mainStage);
     	
     	// Break if no file was selected
-    			if (file == null)
-    				return;
+		if (file == null)
+			return;
     	
     	FileOutputStream fos = null;
     	try {
@@ -238,7 +238,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally { // Love making horrible code. You're welcome. 
+		} finally { // I love making horrible code, you're welcome.
 			try {fos.close();} catch (IOException e) {e.printStackTrace();}
 		}
     }
@@ -254,8 +254,8 @@ public class ViewAssignmentPopupController implements Refreshable {
     	File file = fileChooser.showSaveDialog(mainStage);
     	
     	// Break if no file was selected
-    			if (file == null)
-    				return;
+		if (file == null)
+			return;
     	
     	FileOutputStream fos = null;
     	try {

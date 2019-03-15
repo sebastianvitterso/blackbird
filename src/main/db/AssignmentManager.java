@@ -7,16 +7,12 @@ import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.sql.Types;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
 import main.models.Assignment;
 import main.models.Course;
-import main.models.Submission;
 
 public class AssignmentManager {
 	
@@ -57,18 +53,11 @@ public class AssignmentManager {
 			} else {
 				ps.setNull(7, Types.BLOB);
 			}
-			
-			// TODO TIMING
-			Instant time1 = Instant.now();
 			int result = ps.executeUpdate();
-			Instant time2 = Instant.now();
-			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), ps.toString());
-			// TODO TIMING
 			return result;
 			
 		} catch (FileNotFoundException e) {
 			System.err.println("addAssignment got a FileNotFoundException.");
-			/* TODO: Add exception-handler here, so it doesn't crash, just shows an error in the app. */
 			e.printStackTrace();
 			return -1;
 			
@@ -114,16 +103,4 @@ public class AssignmentManager {
 		}
 		return null;
 	}
-	
-//	public static void main(String[] args) {
-//		addAssignment(new Assignment(
-//				-1, 
-//				CourseManager.getCourse("TDT4140"), 
-//				"Øving 5", 
-//				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla lectus non ante euismod aliquet. Sed cursus bibendum lacus non porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 
-//				Timestamp.valueOf("2019-04-17 23:59:00"),
-//				100, 
-//				50), 
-//				"C:/Users/Patrik/Google Drive/Studier/TDT4140 (PU)/Risikoanalyse.pdf");
-//	}
 }
