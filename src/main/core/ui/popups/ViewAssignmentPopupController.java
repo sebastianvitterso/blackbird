@@ -50,6 +50,7 @@ public class ViewAssignmentPopupController implements Refreshable {
     @FXML private Label scoreLabel;
     @FXML private Label commentLabel;
     @FXML private HBox fileUploadHBox;
+    @FXML private HBox lowerHBox;
     @FXML private JFXTextField filenameTextField;
     @FXML private Label submissionFileLinkLabel;
     @FXML private JFXButton cancelButton;
@@ -61,15 +62,16 @@ public class ViewAssignmentPopupController implements Refreshable {
     private String assignmentFileName;
     private Submission submission;
     private String submissionFileName;
-    
-    
-//    private MenuController menuController;
     private JFXDialog dialog;
-//    private File selectedFile;
     private AssignmentsController assignmentController; 
+    
     
     @FXML
     private void initialize() {
+    }
+    
+    @Override
+    public void clear() {
     }
 
 	/**
@@ -78,7 +80,6 @@ public class ViewAssignmentPopupController implements Refreshable {
 	 */
 	@PostInitialize
 	private void postInitialize() {
-//		menuController = Loader.getController(View.MENU_VIEW);
 		assignmentController = Loader.getController(View.ASSIGNMENTS_VIEW);
 	}
 
@@ -116,7 +117,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
 					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
 			submissionFileLinkButton.setText(submissionFileName);
-			deliverButton.setVisible(false);
+			lowerHBox.getChildren().remove(deliverButton);
 			break;
 		case WAITING:
 			statusLabel.setText("Status: Venter på godkjenning"); 
@@ -128,7 +129,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
 					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
 			submissionFileLinkButton.setText(submissionFileName);
-			deliverButton.setVisible(false);
+			lowerHBox.getChildren().remove(deliverButton);
 			break;
 		case FAILED:
 			statusLabel.setText("Status: Ikke godkjent"); 
@@ -141,7 +142,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
 					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
 			submissionFileLinkButton.setText(submissionFileName);
-			deliverButton.setVisible(false);
+			lowerHBox.getChildren().remove(deliverButton);
 			break;
 		case NOT_DELIVERED:
 			statusLabel.setText("Status: Ikke levert"); 
@@ -150,7 +151,9 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setText("");
 			fileUploadHBox.setVisible(true);
 			submissionFileLinkButton.setVisible(false);
-			deliverButton.setVisible(true);
+			if(!lowerHBox.getChildren().contains(deliverButton)) {
+				lowerHBox.getChildren().add(deliverButton);
+			}
 			break;
 		case DEADLINE_EXCEEDED:
 			statusLabel.setText("Status: For seint, lulz"); 
@@ -159,7 +162,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setText("Øvingen ble ikke levert innen tidsfristen.");
 			fileUploadHBox.setVisible(false);
 			submissionFileLinkButton.setVisible(false);
-			deliverButton.setVisible(false);
+			lowerHBox.getChildren().remove(deliverButton);
 			break;
 		default:
 			break;
@@ -263,7 +266,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally { // Love making horrible code. You're welcome. 
+		} finally { // I love making horrible code, you're welcome. 
 			try {fos.close();} catch (IOException e) {e.printStackTrace();}
 		}
     }
