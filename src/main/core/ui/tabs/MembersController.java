@@ -98,6 +98,7 @@ public class MembersController implements Refreshable {
 		users.clear();
 		users.addAll(formattedUsers);
 		userTreeTableView.getSelectionModel().clearSelection();
+		userTreeTableView.getSortOrder().clear();
 	}
 	
 	public String getRoleInfo(User user, Course course) {
