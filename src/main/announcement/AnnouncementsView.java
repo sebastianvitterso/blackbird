@@ -58,7 +58,7 @@ public class AnnouncementsView {
 		announcementView.getChildren().add(date);
 		addMargin(announcementView, 5);
 		Text body = new Text(announcement.getText());
-		body.setWrappingWidth(580);
+		body.setWrappingWidth(570);
 		announcementView.getChildren().add(body);
 		addMargin(announcementView, 20);
 		return announcementView;
