@@ -14,8 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane prefWidth="600.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+<StackPane fx:id="rootPane" prefWidth="600.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.ViewAssignmentPopupController">
    <children>
       <VBox spacing="10.0">
          <children>
@@ -23,7 +22,7 @@
                <children>
                   <VBox spacing="5.0">
                      <children>
-                        <Label fx:id="vapHeader" styleClass="header-label" stylesheets="@../../stylesheets/overview.css" text="Øving 1">
+                        <Label fx:id="headerLabel" styleClass="header-label" stylesheets="@../../stylesheets/overview.css" text="Øving 1">
                            <font>
                               <Font size="29.0" />
                            </font>
@@ -31,26 +30,38 @@
                               <DropShadow color="#bbbbbb" height="5.0" radius="2.0" width="5.0" />
                            </effect>
                         </Label>
-                        <Label fx:id="vapDeadline" text="Tidsfrist: 2. mars 2019 -23:59">
-                           <padding>
-                              <Insets bottom="5.0" />
-                           </padding>
-                        </Label>
+                        <HBox>
+                           <children>
+                              <Label fx:id="deadlineLabel" layoutX="10.0" layoutY="10.0" text="Tidsfrist: 2. mars 2019 -23:59">
+                                 <padding>
+                                    <Insets bottom="5.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                   <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                   <VBox alignment="TOP_RIGHT">
                      <children>
-                        <Label fx:id="vapMaxScore" text="Maks: 100 poeng">
-                           <padding>
-                              <Insets bottom="5.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="vapPassingScore" text="Bestått: 50 poeng">
-                           <padding>
-                              <Insets bottom="5.0" />
-                           </padding>
-                        </Label>
+                        <HBox>
+                           <children>
+                              <Label fx:id="maxScoreLabel" layoutX="10.0" layoutY="10.0" text="Maks: 100 poeng">
+                                 <padding>
+                                    <Insets bottom="5.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="20.0" layoutY="20.0">
+                           <children>
+                              <Label fx:id="passingScoreLabel" layoutX="10.0" layoutY="10.0" text="Bestått: 50 poeng">
+                                 <padding>
+                                    <Insets bottom="5.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -61,16 +72,31 @@
                   <Insets />
                </VBox.margin>
             </HBox>
-            <Label fx:id="vapDescription" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet." wrapText="true">
+            <Label fx:id="descriptionLabel" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet." wrapText="true">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="vapAssignmentFileLink" text="oppgaver_oving_1.pdf" textFill="#0d10c9" underline="true">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
+            <Label layoutX="30.0" layoutY="104.0" text="Vedlegg:" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
             </Label>
+            <JFXButton fx:id="assignmentFileLinkButton" graphicTextGap="10.0" onAction="#handleAssignmentDownloadButton" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="_oppgaver_oving_1.pdf" textFill="WHITE">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0">
+                     <image>
+                        <Image url="@../../icons/pdf.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
             <Separator prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
@@ -81,52 +107,59 @@
                   <Insets />
                </VBox.margin>
                <children>
-                  <Label fx:id="vapStatus" text="Status: Godkjent">
+                  <Label fx:id="statusLabel" layoutX="10.0" layoutY="10.0" text="Status: Godkjent">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
                   <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                  <Label fx:id="vapScore" text="Score: 60/100" />
+                  <Label fx:id="scoreLabel" layoutX="497.0" layoutY="10.0" text="Score: 60/100" />
                </children>
             </HBox>
-            <Label fx:id="vapComment" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irurele." wrapText="true">
+            <Label fx:id="commentLabel" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irurele." wrapText="true">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <HBox spacing="10.0">
+            <HBox fx:id="lowerHBox" spacing="10.0">
                <children>
                   <StackPane>
                      <children>
-                        <HBox>
+                        <HBox fx:id="fileUploadHBox">
                            <children>
-                              <JFXTextField fx:id="vapFilename" promptText="Filename">
+                              <JFXTextField fx:id="filenameTextField" promptText="Filepath">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </JFXTextField>
-                              <JFXButton fx:id="vapUploadFileButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleUploadFileClick" styleClass="primary-button-grey" text=" ">
+                              <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleBrowseClick" styleClass="primary-button-grey" text=" ">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../icons/icons8-favorite-folder.png" />
+                                          <Image url="@../../icons/pdf.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
                            </children>
                         </HBox>
-                        <Label fx:id="vapSubmissionFileLink" text="oving_1.pdf" textFill="#0d10c9" underline="true" StackPane.alignment="CENTER_LEFT">
-                           <StackPane.margin>
-                              <Insets left="20.0" />
-                           </StackPane.margin>
-                        </Label>
+                        <JFXButton fx:id="submissionFileLinkButton" graphicTextGap="10.0" onAction="#handleSubmissionDownloadButton" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="_innlevering_oving_1_pat.pdf" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0">
+                                 <image>
+                                    <Image url="@../../icons/pdf.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
                      </children>
                   </StackPane>
                   <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                  <JFXButton fx:id="vapCancelButton" onAction="#handleCancelClick" styleClass="primary-button-grey" text="Avbryt" />
-                  <JFXButton fx:id="vapDeliverButton" onAction="#handleDeliverClick" styleClass="primary-button-grey" text="Levér" />
+                  <JFXButton fx:id="cancelButton" onAction="#handleCancelClick" styleClass="primary-button-grey" text="Avbryt" />
+                  <JFXButton fx:id="deliverButton" onAction="#handleDeliverClick" styleClass="primary-button-grey" text="Levér" />
                </children>
                <VBox.margin>
                   <Insets />

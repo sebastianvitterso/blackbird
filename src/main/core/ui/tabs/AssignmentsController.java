@@ -68,30 +68,9 @@ public class AssignmentsController implements Refreshable {
 	 */
 	@Override
 	public void update() {
-		System.out.println();
-		System.out.println("\n-------- update start -------- ");
-		System.out.println();
-
-		Instant time1 = Instant.now();
-
-		System.out.println("updateAssignments() start");
 		updateAssignments();
-		Instant time2 = Instant.now();
-		System.out.println("updateAssignments() end = " + Duration.between(time1, time2).toString().replaceFirst("PT", "") + "\n");
-
-		System.out.println("updateContainerMapping() start");
 		updateContainerMapping();
-		Instant time3 = Instant.now();
-		System.out.println("updateContainerMapping() end = " + Duration.between(time2, time3).toString().replaceFirst("PT", "") + "\n");
-
-		System.out.println("updateDisplayedContainers() start");
 		updateDisplayedContainers();
-		Instant time4 = Instant.now();
-		System.out.println("updateDisplayedContainers() end = " + Duration.between(time3, time4).toString().replaceFirst("PT", "") + "\n");
-
-		System.out.println("IN TOTAL = " + Duration.between(time1, time4).toString().replaceFirst("PT", ""));
-		System.out.println();
-		System.out.println("-------- update end -------- \n");
 	}
 
 	/**
@@ -134,6 +113,7 @@ public class AssignmentsController implements Refreshable {
 					.filter(sub -> sub.getAssignment().getAssignmentID() == assignment.getAssignmentID())
 					.findFirst()
 					.orElse(null);
+			controller.loadSubmission(submission);
 			controller.loadStatus(Assignment.determineStatus(assignment, submission));
 		}
 	}

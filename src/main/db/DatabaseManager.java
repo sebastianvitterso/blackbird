@@ -119,12 +119,7 @@ public class DatabaseManager {
 			
 			try {
 				statement = connection.createStatement();
-
-				Instant time1 = Instant.now();
 				resultSet = statement.executeQuery(query);
-				Instant time2 = Instant.now();
-				System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), query);
-				
 				rsmd = resultSet.getMetaData();
 			} catch (SQLException e) {
 				openConnection();
@@ -157,11 +152,7 @@ public class DatabaseManager {
 			
 			try {
 				statement = connection.createStatement();
-
-				Instant time1 = Instant.now();
 				rowsAffected = statement.executeUpdate(update);
-				Instant time2 = Instant.now();
-				System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), update);
 			} catch (SQLException e) {
 				openConnection();
 				System.err.println("SQL Query failed, reestablishing connection.");
@@ -211,14 +202,7 @@ public class DatabaseManager {
 		String path = folder.getAbsolutePath().concat(filename);
 		try {
 			PreparedStatement prep = getPreparedStatement(String.format("SELECT assignment_file FROM assignment WHERE assignment_id = %s;", assignmentID));
-			
-			// TODO TIMING
-			Instant time1 = Instant.now();
 			rs = prep.executeQuery();
-			Instant time2 = Instant.now();
-			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), prep.toString());
-			// TODO TIMING
-						
 			while(rs.next()) {
 				InputStream input = rs.getBinaryStream("assignment_file");
 				File file = new File(path);
@@ -263,14 +247,7 @@ public class DatabaseManager {
 		try {
 			PreparedStatement prep = getPreparedStatement(String.format("SELECT submission_file FROM submission "
 					+ "WHERE assignment_id = '%s' and username = '%s';", assignmentID, username));
-			
-			// TODO TIMING
-			Instant time1 = Instant.now();
 			rs = prep.executeQuery();
-			Instant time2 = Instant.now();
-			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), prep.toString());
-			// TODO TIMING
-						
 			while(rs.next()) {
 				InputStream input = rs.getBinaryStream("submission_file");
 				File file = new File(path);

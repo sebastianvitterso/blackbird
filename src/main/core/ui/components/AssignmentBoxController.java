@@ -3,18 +3,28 @@ package main.core.ui.components;
 import java.text.SimpleDateFormat;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialog.DialogTransition;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import main.app.Loader;
+import main.core.ui.MainController;
+import main.core.ui.popups.ViewAssignmentPopupController;
 import main.models.Assignment;
+import main.models.Submission;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Status;
+import main.utils.View;
 
 public class AssignmentBoxController implements Refreshable {
+	@FXML private StackPane rootPane;
 	@FXML private Rectangle headerRectangle;
 	@FXML private StackPane headerPane;
 	@FXML private HBox contentHBox;
@@ -24,19 +34,31 @@ public class AssignmentBoxController implements Refreshable {
     @FXML private Label statusLabel;
     @FXML private JFXButton actionButton;
 
+    private ViewAssignmentPopupController viewController;
+    private MainController mainController;
+    private Assignment assignment;
+    private Submission submission;
+    
 	@FXML
 	private void initialize() {
 		// Dynamic header rectangle resizing
 		headerRectangle.setManaged(false);
 		headerRectangle.widthProperty().bind(headerPane.widthProperty());
 		headerRectangle.heightProperty().bind(headerPane.heightProperty());
+    	viewController = Loader.getController(View.POPUP_VIEW_ASSIGNMENT_VIEW);
+    	mainController = Loader.getController(View.MAIN_VIEW);
 	}
 	
 	public void loadAssignment(Assignment assignment) {
+		this.assignment = assignment;
 		headerLabel.setText(assignment.getTitle());
 		descriptionLabel.setText(assignment.getDescription());
 		String formattedDeadline = new SimpleDateFormat("dd. MMM HH:mm").format(assignment.getDeadLine());
 		deadlineLabel.setText(formattedDeadline);
+	}
+	
+	public void loadSubmission(Submission submission) {
+		this.submission = submission;
 	}
 	
 	public void loadStatus(Status status) {
@@ -71,6 +93,7 @@ public class AssignmentBoxController implements Refreshable {
 		}
 	}
 	
+	
 	/**
      * Runs any methods that require every controller to be initialized.
      * This method should only be invoked by the FXML Loader class.
@@ -88,5 +111,15 @@ public class AssignmentBoxController implements Refreshable {
 	public void clear() {
 	}
 	
+	@FXML
+	void handleOpenAssignmentClick(ActionEvent event) {
+		JFXDialog dialog = new JFXDialog(mainController.getOuterStackPane(), (Region) Loader.getParent(View.POPUP_VIEW_ASSIGNMENT_VIEW), DialogTransition.CENTER);
+		
+		viewController.clear();
+		viewController.connectDialog(dialog);
+		viewController.loadAssignment(assignment);
+		viewController.loadSubmission(submission);
+		dialog.show();		
+	}
 	
 }
