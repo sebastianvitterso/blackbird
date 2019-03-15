@@ -90,7 +90,7 @@ public class AssignmentBoxController implements Refreshable {
 		viewController.clear();
 		viewController.connectDialog(dialog);
 		
-		
+		dialog.show();		
 	}
 	
 	/**
