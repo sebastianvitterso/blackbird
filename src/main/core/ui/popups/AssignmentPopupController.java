@@ -27,13 +27,14 @@ import main.db.AssignmentManager;
 import main.models.Assignment;
 import main.models.Course;
 import main.utils.PostInitialize;
+import main.utils.Refreshable;
 import main.utils.View;
 
 /**
  * @author Beatrice
  *
  */
-public class AssignmentPopupController {
+public class AssignmentPopupController implements Refreshable {
 	
 	@FXML private Label headerLabel;
     @FXML private JFXTextField nameTextField;
@@ -41,7 +42,8 @@ public class AssignmentPopupController {
     @FXML private JFXDatePicker datePicker;
     @FXML private JFXTimePicker timePicker;
     @FXML private Label pointLabel;
-    @FXML private JFXTextField maxPoints; 
+    @FXML private JFXTextField maxScoreTextField; 
+    @FXML private JFXTextField passingScoreTextField; 
     @FXML private JFXTextField fileNameTextField;
     @FXML private JFXButton uploadFileButton;
     @FXML private JFXButton registerButton;
@@ -90,31 +92,34 @@ public class AssignmentPopupController {
 	 */
 	private Assignment createAssignmentFromInput() {
 		Course course = menuController.getSelectedCourse();
-		String title = headerLabel.getText();
+		String title = nameTextField.getText();
 		String description = descriptionTextArea.getText();
 		Timestamp deadline = getDeadline();
-		int maxScore = Integer.parseInt(maxPoints.getText());
-		int passingScore = Integer.parseInt(pointLabel.getText());
+		int maxScore = Integer.parseInt(maxScoreTextField.getText());
+		int passingScore = Integer.parseInt(passingScoreTextField.getText());
 		String name = nameTextField.getText();
 
 		return new Assignment(-1, course, title, description, deadline, maxScore, passingScore);
 
 	}
 
+	@Override
 	public void clear() {
 		nameTextField.clear();
 		descriptionTextArea.clear();
 		datePicker.setValue(null);
 		timePicker.setValue(null);
-		maxPoints.setText("");
-		nameTextField.setDisable(false);
+		maxScoreTextField.clear();
+		passingScoreTextField.clear();
+		fileNameTextField.clear();
 	}
 	
 	//laste opp fil
 	@FXML
-	private void handleFileOpenClick(ActionEvent event) {
+	void handleFileOpenClick(ActionEvent event) {
 		// Retrive parent for file chooser
 		Stage mainStage = (Stage) dialog.getScene().getWindow();
+		System.out.println("Open file clicked");
 
 		// Construct file chooser
 		FileChooser fileChooser = new FileChooser();
@@ -124,6 +129,10 @@ public class AssignmentPopupController {
 		// Launch file chooser and retrive selected file
 		selectedFile = fileChooser.showOpenDialog(mainStage);
 
+		// Break if no file was selected
+		if (selectedFile == null)
+			return;
+			
 		fileNameTextField.setText(selectedFile.getPath());
 
 	}

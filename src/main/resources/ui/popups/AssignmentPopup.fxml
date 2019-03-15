@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefWidth="400.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.AssignmentPopupController">
+<StackPane prefWidth="400.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.AssignmentPopupController">
    <children>
       <VBox focusTraversable="true" spacing="30.0">
          <children>
@@ -39,20 +39,20 @@
             </HBox>
             <HBox>
                <children>
-                  <JFXTextField fx:id="max" prefHeight="27.0" prefWidth="144.0" promptText="Max poeng: ">
+                  <JFXTextField fx:id="maxScoreTextField" prefHeight="27.0" prefWidth="144.0" promptText="Max poeng: ">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </JFXTextField>
                   <Region prefHeight="0.0" prefWidth="142.0" />
-                  <JFXTextField labelFloat="true" promptText="Minste krav:" />
+                  <JFXTextField fx:id="passingScoreTextField" labelFloat="true" promptText="Minste krav:" />
                </children>
             </HBox>
             <HBox>
                <children>
                   <JFXTextField fx:id="fileNameTextField" labelFloat="true" prefHeight="27.0" prefWidth="292.0" promptText="Filnavn" styleClass="input-field-light-bg" />
                   <Region prefWidth="40.0" />
-                  <JFXButton fx:id="uploadFileButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" styleClass="primary-button-orange" text=" ">
+                  <JFXButton fx:id="uploadFileButton" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleFileOpenClick" styleClass="primary-button-orange" text=" ">
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
