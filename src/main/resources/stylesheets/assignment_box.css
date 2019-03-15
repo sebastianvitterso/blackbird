@@ -100,3 +100,14 @@
 	-fx-font: normal 13px "Segoe UI";
 	-fx-text-fill: -grey-1;
 }
+
+.new-button {
+	-fx-font: normal 20px "Segoe UI";
+	-fx-text-fill: #5B5B5B;
+	-jfx-rippler-fill: #979797;
+	
+}
+
+.new-button .jfx-rippler {
+	-jfx-rippler-fill: #979797;
+}

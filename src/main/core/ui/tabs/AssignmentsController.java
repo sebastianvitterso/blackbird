@@ -1,7 +1,5 @@
 package main.core.ui.tabs;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 
@@ -32,11 +31,13 @@ import main.models.Course;
 import main.models.Submission;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
+import main.utils.Role;
 import main.utils.View;
 
 public class AssignmentsController implements Refreshable {
 	@FXML private StackPane rootPane;
 	@FXML private VBox assignmentVBox;
+	@FXML private JFXButton newAssignmentButton;
 
 	private MainController mainController;
 	private MenuController menuController;
@@ -127,6 +128,10 @@ public class AssignmentsController implements Refreshable {
 				.map(entry -> (StackPane) entry.getKey().getRoot())
 				.collect(Collectors.toList());
 		assignmentVBox.getChildren().setAll(parents);
+		
+		// Append 'new assignment' button if logged in user is a professor
+		if (menuController.getSelectedRole() == Role.PROFESSOR)
+			assignmentVBox.getChildren().add(newAssignmentButton);
 	}
 	
 	@Override
