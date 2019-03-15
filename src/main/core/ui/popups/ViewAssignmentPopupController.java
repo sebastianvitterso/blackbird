@@ -1,6 +1,11 @@
 package main.core.ui.popups;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -18,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 import main.app.Loader;
 import main.core.ui.tabs.AssignmentsController;
+import main.db.AssignmentManager;
 import main.db.LoginManager;
 import main.db.SubmissionManager;
 import main.models.Assignment;
@@ -208,15 +214,58 @@ public class ViewAssignmentPopupController implements Refreshable {
 	
     @FXML
     void handleAssignmentDownloadButton(ActionEvent event) {
-    	//TODO: Implement method
-    	System.out.println("'handleAssignmentDownloadButton' not implemented.");
+    	Stage mainStage = (Stage) dialog.getScene().getWindow();
+    	InputStream is = AssignmentManager.getInputStreamFromAssignment(assignment);
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.setTitle("Save Assignment as...");
+    	fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF file (*.pdf)", "*.pdf"));
+    	fileChooser.setInitialFileName(assignmentFileName);
+    	File file = fileChooser.showSaveDialog(mainStage);
     	
+    	// Break if no file was selected
+    			if (file == null)
+    				return;
+    	
+    	FileOutputStream fos = null;
+    	try {
+			fos = new FileOutputStream(file);
+			fos.write(is.readAllBytes());
+			Desktop.getDesktop().open(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally { // Love making horrible code. You're welcome. 
+			try {fos.close();} catch (IOException e) {e.printStackTrace();}
+		}
     }
     
     @FXML
     void handleSubmissionDownloadButton(ActionEvent event) {
-    	System.out.println("'handleSubmissionDownloadButton' not implemented.");
+    	Stage mainStage = (Stage) dialog.getScene().getWindow();
+    	InputStream is = SubmissionManager.getInputStreamFromSubmission(submission);
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.setTitle("Save Assignment as...");
+    	fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF file (*.pdf)", "*.pdf"));
+    	fileChooser.setInitialFileName(submissionFileName);
+    	File file = fileChooser.showSaveDialog(mainStage);
     	
+    	// Break if no file was selected
+    			if (file == null)
+    				return;
+    	
+    	FileOutputStream fos = null;
+    	try {
+			fos = new FileOutputStream(file);
+			fos.write(is.readAllBytes());
+			Desktop.getDesktop().open(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally { // Love making horrible code. You're welcome. 
+			try {fos.close();} catch (IOException e) {e.printStackTrace();}
+		}
     }
 
 }

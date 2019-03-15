@@ -40,7 +40,10 @@ public class SubmissionManager {
 				submission.getAssignment().getAssignmentID(), submission.getUser().getUsername()));
 		try {
 			ResultSet rs = ps.executeQuery();
-			InputStream is = rs.getBinaryStream("submission_file");
+			InputStream is = null;
+			while (rs.next()) {
+				is = rs.getBinaryStream("submission_file");
+			}
 			return is;
 		} catch (SQLException e) {
 			e.printStackTrace();

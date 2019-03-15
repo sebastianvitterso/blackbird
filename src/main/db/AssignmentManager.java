@@ -104,7 +104,10 @@ public class AssignmentManager {
 				assignment.getAssignmentID()));
 		try {
 			ResultSet rs = ps.executeQuery();
-			InputStream is = rs.getBinaryStream("assignment_file");
+			InputStream is = null;
+			while(rs.next()) {
+				is = rs.getBinaryStream("assignment_file");
+			}
 			return is;
 		} catch (SQLException e) {
 			e.printStackTrace();
