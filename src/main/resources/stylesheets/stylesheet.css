@@ -185,6 +185,12 @@
 	-fx-text-fill: -fx-dark-grey-1-text;
 }
 
+.primary-button-orange {
+	-fx-background-color: darkorange;
+	-fx-font: bold 13px "System";
+	-fx-text-fill: -fx-dark-grey-1-text;
+}
+
 .primary-button-grey .jfx-rippler {
 	-jfx-rippler-fill: -fx-dark-grey-1-rippler;
 }

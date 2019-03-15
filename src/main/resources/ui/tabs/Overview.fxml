@@ -24,7 +24,7 @@
                         <Separator styleClass="header-separator" />
                         <Label fx:id="courseDescriptionLabel" styleClass="breadtext" text="Lorem ipsum dolor sit amet, qui ut docendi vivendum splendide, oblique phaedrum referrentur duo ne, eum adolescens intellegebat no. Qui ne ipsum assum aperiri, unum justo detraxit eos ex. Et salutatus scribentur sea. Per ei quem interesset, sed tantas nusquam quaerendum et. Meis habemus mandamus nam ea.&#10;&#10;Habeo legere blandit his in. Ex sea lorem ridens. Eu eos mandamus periculis definitiones, postea ornatus usu ne. In natum error pri, an mutat reprimique eam. Ei nibh mazim placerat ius. Mei omittam facilisi postulant no, ut sit vidit omnes. Falli dolorem oportere an per." wrapText="true">
                            <VBox.margin>
-                              <Insets left="10.0" top="20.0" />
+                              <Insets left="10.0" right="10.0" top="20.0" />
                            </VBox.margin>
                         </Label>
                      </children>
@@ -39,7 +39,7 @@
                         <Separator styleClass="header-separator" />
                         <Label maxHeight="-Infinity" minHeight="-Infinity" styleClass="breadtext" text="Lorem ipsum dolor sit amet, qui ut docendi vivendum splendide, oblique phaedrum referrentur duo ne, eum adolescens intellegebat no. Qui ne ipsum assum aperiri, unum justo detraxit eos ex. Et salutatus scribentur sea. Per ei quem interesset, sed tantas nusquam quaerendum et. Meis habemus mandamus nam ea.&#10;&#10;Habeo legere blandit his in. Ex sea lorem ridens. Eu eos mandamus periculis definitiones, postea ornatus usu ne. In natum error pri, an mutat reprimique eam. Ei nibh mazim placerat ius. Mei omittam facilisi postulant no, ut sit vidit omnes. Falli dolorem oportere an per.Lorem ipsum dolor sit amet, qui ut docendi vivendum splendide, oblique phaedrum referrentur duo ne, eum adolescens intellegebat no. Qui ne ipsum assum aperiri, unum justo detraxit eos ex. Et salutatus scribentur sea. Per ei quem interesset, sed tantas nusquam quaerendum et. Meis habemus mandamus nam ea.&#10;" wrapText="true">
                            <VBox.margin>
-                              <Insets left="10.0" top="20.0" />
+                              <Insets left="10.0" right="10.0" top="20.0" />
                            </VBox.margin>
                         </Label>
                      </children>
@@ -58,7 +58,7 @@
                         <Separator styleClass="header-separator" />
                         <Label styleClass="breadtext" text="Lorem ipsum dolor sit amet, qui ut docendi vivendum splendide, oblique phaedrum referrentur duo ne, eum adolescens intellegebat no. Qui ne ipsum assum aperiri, unum justo detraxit eos ex. &#10;&#10;Et salutatus scribentur sea. Per ei quem interesset, sed tantas nusquam quaerendum et. Meis habemus mandamus nam ea.&#10;" wrapText="true">
                            <VBox.margin>
-                              <Insets left="10.0" top="20.0" />
+                              <Insets left="10.0" right="10.0" top="20.0" />
                            </VBox.margin>
                         </Label>
                      </children>

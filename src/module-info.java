@@ -9,11 +9,12 @@ module blackbird {
 	exports main.utils;
 	exports main.calendar;
 
-	requires java.sql;
+	requires transitive java.sql;
 	requires javafx.base;
-	requires javafx.fxml;
-	requires javafx.graphics;
-	requires javafx.controls;
+	requires transitive javafx.fxml;
+	requires transitive javafx.graphics;
+	requires transitive javafx.controls;
 	requires com.jfoenix;
 	requires junit;
+	requires java.desktop;
 }

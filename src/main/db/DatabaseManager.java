@@ -1,11 +1,19 @@
 package main.db;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +23,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 import main.app.MainApp;
+import main.models.Assignment;
+import main.models.Submission;
 
 public class DatabaseManager {
 	private static final String DB_DRIVER_PATH = "com.mysql.cj.jdbc.Driver";
@@ -49,33 +59,87 @@ public class DatabaseManager {
 		}
 	}
 	
+//	/*
+//	 * Returns ArrayList of HashMaps, where each HashMap refers to a row in the resultset you get.
+//	 * The HashMap's keys are the column headers, while the values are the row's values. 
+//	 */
+//	public static List<Map<String, String>> sendQuery(String query) {
+//		try {
+//			if(!connection.isValid(5)) { // asks the connection (with a ping) if it's still open, waits up to 5 seconds for a response
+//				System.err.println("SQL Connection closed, attempting to re-open.");
+//				openConnection();
+//			}
+//			Statement statement = connection.createStatement();
+//			Instant time1 = Instant.now();
+//			ResultSet resultSet = statement.executeQuery(query);
+//			Instant time2 = Instant.now();
+//			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), query);
+//			ResultSetMetaData rsmd = resultSet.getMetaData();
+//			
+//			List<Map<String, String>> resultArray = new ArrayList<>();
+//			while (resultSet.next()) {
+//				Map<String, String> currentRow = new HashMap<String, String>();
+//			       for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+//			           currentRow.put(rsmd.getColumnName(i), resultSet.getString(i));
+//			       } 
+//			       resultArray.add(currentRow); 
+//		    }
+//			statement.close();
+//			return resultArray;
+//		} catch (SQLException e) {
+//			System.err.println("SQL Query failed, connection lost.");
+//			System.err.println("Check your connection to the internet and to the NTNU-VPN.");
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
+	
+//	/*
+//	 * Returns ArrayList of HashMaps, where each HashMap refers to a row in the resultset you get.
+//	 * The HashMap's keys are the column headers, while the values are the row's values. 
+//	 */
+//	public static List<Map<String, String>> sendQueryNew(String query) {
+//		try {
+//			return sendQueryExample(query);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
+	
+	
 	/*
-	 * Returns ArrayList of HashMaps, where each HashMap refers to a row in the resultset you get.
-	 * The HashMap's keys are the column headers, while the values are the row's values. 
+	 * Sends query and reestablishes connection if lost.
 	 */
 	public static List<Map<String, String>> sendQuery(String query) {
 		try {
-			if(!connection.isValid(5)) { // asks the connection (with a ping) if it's still open, waits up to 5 seconds for a response
-				System.err.println("SQL Connection closed, attempting to re-open.");
-				openConnection();
-			}
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
-			ResultSetMetaData rsmd = resultSet.getMetaData();
+			Statement statement = null;
+			ResultSet resultSet = null;
+			ResultSetMetaData rsmd = null;
 			
-			List<Map<String, String>> resultArray = new ArrayList<>(); 
+			try {
+				statement = connection.createStatement();
+				resultSet = statement.executeQuery(query);
+				rsmd = resultSet.getMetaData();
+			} catch (SQLException e) {
+				openConnection();
+				statement = connection.createStatement();
+				resultSet = statement.executeQuery(query);
+				rsmd = resultSet.getMetaData();
+				System.err.println("SQL Query failed, reestablishing connection.");
+			}
+			
+			List<Map<String, String>> resultArray = new ArrayList<>();
 			while (resultSet.next()) {
 				Map<String, String> currentRow = new HashMap<String, String>();
-			       for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-			           currentRow.put(rsmd.getColumnName(i), resultSet.getString(i));
-			       } 
-			       resultArray.add(currentRow); 
-		    }
+				for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+					currentRow.put(rsmd.getColumnName(i), resultSet.getString(i));
+				} 
+				resultArray.add(currentRow); 
+			}
 			statement.close();
 			return resultArray;
 		} catch (SQLException e) {
-			System.err.println("SQL Query failed, connection lost.");
-			System.err.println("Check your connection to the internet and to the NTNU-VPN.");
 			e.printStackTrace();
 			return null;
 		}
@@ -83,19 +147,21 @@ public class DatabaseManager {
 
 	public static int sendUpdate(String update) {
 		try {
-			if(!connection.isValid(5)) {
-				System.err.println("SQL Connection closed, attempting to re-open.");
+			Statement statement = null;
+			int rowsAffected = 0;
+			
+			try {
+				statement = connection.createStatement();
+				rowsAffected = statement.executeUpdate(update);
+			} catch (SQLException e) {
 				openConnection();
+				System.err.println("SQL Query failed, reestablishing connection.");
+				statement = connection.createStatement();
+				rowsAffected = statement.executeUpdate(update);
 			}
-			Statement statement = connection.createStatement();
-			int rowsAffected = statement.executeUpdate(update);
-			statement.close();
-			
+			statement.close();			
 			return rowsAffected;
-			
 		} catch (SQLException e) {
-			System.err.println("SQL Query failed, connection lost.");
-			System.err.println("Check your connection to the internet and to the NTNU-VPN.");
 			e.printStackTrace();
 			return 0;
 		}
@@ -109,6 +175,113 @@ public class DatabaseManager {
 		}
 	}
 	
+	
+	/*
+	 * TODO: Needs testing.
+	 */
+	public static PreparedStatement getPreparedStatement(String query) {
+		try {
+			return connection.prepareStatement(query);
+		} catch (SQLException e) {
+			System.err.printf("Couldn't return PreparedStatement from getPreparedStatement(%s)", query);
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/*
+	 * TODO: Remove hardcoding.
+	 * TODO: Move some code into other methods? Not sure about what parts, and if we need to generalize parts of it.
+	 * 		 Most of the code is only repeated up to twice, not a big problem. 
+	 * Downloads the AssignmentFile to *hardcoded* folder, and returns filepath as String.   
+	 */
+	public static String downloadAssignmentFile(Assignment assignment, File folder){
+		ResultSet rs = null;
+		int assignmentID = assignment.getAssignmentID();
+		String filename = String.format("/assignment_%s.pdf", String.valueOf(assignmentID));
+		String path = folder.getAbsolutePath().concat(filename);
+		try {
+			PreparedStatement prep = getPreparedStatement(String.format("SELECT assignment_file FROM assignment WHERE assignment_id = %s;", assignmentID));
+			rs = prep.executeQuery();
+			while(rs.next()) {
+				InputStream input = rs.getBinaryStream("assignment_file");
+				File file = new File(path);
+				FileOutputStream output = new FileOutputStream(file);
+				
+				byte[] buffer = new byte[1024];
+				while (input.read(buffer) > 0) {
+					output.write(buffer);
+				}
+				output.close();
+			}
+		} catch (SQLException e) {
+			System.err.println("Error when executing query in downloadAssignmentFile().");
+			e.printStackTrace();
+			return null;
+		} catch (FileNotFoundException e) {
+			System.err.println("Error that shouldn't happen, concerning file-handling in downloadAssignmentFile().");
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			System.err.println("Error when putting all the shit into a file.");
+			e.printStackTrace();
+			return null;
+		} finally {
+			try{
+				if(rs != null)
+					rs.close();
+			}catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return path;
+	}
+	
+	public static String downloadSubmissionFile(Submission submission, File folder){
+		ResultSet rs = null;
+		int assignmentID = submission.getAssignment().getAssignmentID();
+		String username = submission.getUser().getUsername();
+		String filename = String.format("/submission_student_%s_assignment_%s.pdf", username, assignmentID);
+		String path = folder.getAbsolutePath().concat(filename);
+		try {
+			PreparedStatement prep = getPreparedStatement(String.format("SELECT submission_file FROM submission "
+					+ "WHERE assignment_id = '%s' and username = '%s';", assignmentID, username));
+			rs = prep.executeQuery();
+			while(rs.next()) {
+				InputStream input = rs.getBinaryStream("submission_file");
+				File file = new File(path);
+				FileOutputStream output = new FileOutputStream(file);
+				
+				byte[] buffer = new byte[1024];
+				while (input.read(buffer) > 0) {
+					output.write(buffer);
+				}
+				output.close();
+			}
+		} catch (SQLException e) {
+			System.err.println("Error when executing query in downloadSubmissionFile().");
+			e.printStackTrace();
+			return null;
+		} catch (FileNotFoundException e) {
+			System.err.println("Error that shouldn't happen, concerning file-handling in downloadSubmissionFile().");
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			System.err.println("Error when putting all the shit into a file."); // TODO: Change this error message?
+			e.printStackTrace();
+			return null;
+		} finally {
+			try{
+				if(rs != null)
+					rs.close();
+			}catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return path;
+	}
 	
 	/*
 	 * submitCallable and submitRunnable are to be used later in the project. 
