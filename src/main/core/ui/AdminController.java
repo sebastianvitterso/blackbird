@@ -376,6 +376,7 @@ public class AdminController implements Refreshable {
 		users.clear();
 		users.addAll(formattedUsers);
 		userTreeTableView.getSelectionModel().clearSelection();
+    	userTreeTableView.getSortOrder().clear();
 	}
 	
 	
