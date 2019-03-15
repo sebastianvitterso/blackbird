@@ -134,6 +134,7 @@ public class AssignmentsController implements Refreshable {
 					.filter(sub -> sub.getAssignment().getAssignmentID() == assignment.getAssignmentID())
 					.findFirst()
 					.orElse(null);
+			controller.loadSubmission(submission);
 			controller.loadStatus(Assignment.determineStatus(assignment, submission));
 		}
 	}
