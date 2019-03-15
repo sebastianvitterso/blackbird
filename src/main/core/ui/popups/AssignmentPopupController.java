@@ -97,7 +97,6 @@ public class AssignmentPopupController implements Refreshable {
 		Timestamp deadline = getDeadline();
 		int maxScore = Integer.parseInt(maxScoreTextField.getText());
 		int passingScore = Integer.parseInt(passingScoreTextField.getText());
-		String name = nameTextField.getText();
 
 		return new Assignment(-1, course, title, description, deadline, maxScore, passingScore);
 
