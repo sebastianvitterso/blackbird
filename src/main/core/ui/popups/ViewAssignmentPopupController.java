@@ -1,5 +1,9 @@
 package main.core.ui.popups;
 
+import java.io.File;
+import java.sql.Timestamp;
+import java.time.Instant;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
@@ -9,11 +13,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
+import main.app.Loader;
+import main.core.ui.tabs.AssignmentsController;
+import main.db.LoginManager;
+import main.db.SubmissionManager;
 import main.models.Assignment;
 import main.models.Submission;
+import main.models.User;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Status;
+import main.utils.View;
 
 /**
  * @author Beatrice
@@ -39,13 +52,15 @@ public class ViewAssignmentPopupController implements Refreshable {
     @FXML private JFXButton submissionFileLinkButton;
     
     private Assignment assignment;
+    private String assignmentFileName;
     private Submission submission;
+    private String submissionFileName;
     
     
 //    private MenuController menuController;
     private JFXDialog dialog;
 //    private File selectedFile;
-//    private AssignmentsController assignmentController; 
+    private AssignmentsController assignmentController; 
     
     @FXML
     private void initialize() {
@@ -58,7 +73,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 	@PostInitialize
 	private void postInitialize() {
 //		menuController = Loader.getController(View.MENU_VIEW);
-//		assignmentController = Loader.getController(View.ASSIGNMENTS_VIEW);
+		assignmentController = Loader.getController(View.ASSIGNMENTS_VIEW);
 	}
 
 //	/**
@@ -76,7 +91,8 @@ public class ViewAssignmentPopupController implements Refreshable {
 		maxScoreLabel.setText(String.format("Maks: %s poeng", assignment.getMaxScore()));
 		passingScoreLabel.setText(String.format("Krav: %s poeng", assignment.getPassingScore()));
 		//TODO: Normalizer.normalize ? Bør oppgavene kunne hete "oppgaver-TDT4140-Øving 0"? Bør vi fikse æøå?
-		assignmentFileLinkButton.setText(String.format("oppgaver-%s-%s.pdf", assignment.getCourse().getCourseCode(), assignment.getTitle()));
+		assignmentFileName = String.format("oppgaver-%s-%s.pdf", assignment.getCourse().getCourseCode(), assignment.getTitle());
+		assignmentFileLinkButton.setText(assignmentFileName);
 	}
 	
 	public void loadSubmission(Submission submission) {
@@ -91,8 +107,9 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setText(submission.getComment());
 			fileUploadHBox.setVisible(false);
 			submissionFileLinkButton.setVisible(true);
-			submissionFileLinkButton.setText(String.format("innlevering-%s-%s-%s.pdf", 
-					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername()));
+			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
+					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
+			submissionFileLinkButton.setText(submissionFileName);
 			deliverButton.setVisible(false);
 			break;
 		case WAITING:
@@ -102,8 +119,9 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setText("");
 			fileUploadHBox.setVisible(false);
 			submissionFileLinkButton.setVisible(true);
-			submissionFileLinkButton.setText(String.format("innlevering-%s-%s-%s.pdf", 
-					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername()));
+			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
+					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
+			submissionFileLinkButton.setText(submissionFileName);
 			deliverButton.setVisible(false);
 			break;
 		case FAILED:
@@ -114,8 +132,9 @@ public class ViewAssignmentPopupController implements Refreshable {
 			commentLabel.setText(submission.getComment());
 			fileUploadHBox.setVisible(false);
 			submissionFileLinkButton.setVisible(true);
-			submissionFileLinkButton.setText(String.format("innlevering-%s-%s-%s.pdf", 
-					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername()));
+			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
+					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
+			submissionFileLinkButton.setText(submissionFileName);
 			deliverButton.setVisible(false);
 			break;
 		case NOT_DELIVERED:
@@ -150,16 +169,42 @@ public class ViewAssignmentPopupController implements Refreshable {
 
     @FXML
     void handleDeliverClick(ActionEvent event) {
-    	System.out.println("'handleDeliverClick' not implemented.");
-    	
+    	User user = LoginManager.getActiveUser();
+    	String filepath = filenameTextField.getText();
+    	Timestamp time = Timestamp.valueOf(Instant.now().toString().replaceFirst("T", " ").substring(0, 19));
+    	String extension = "";
+    	int dotIndex = filepath.lastIndexOf('.');
+    	if (dotIndex > 0) {
+    	    extension = filepath.substring(dotIndex+1);
+    	}
+    	if(!extension.equals("pdf")) {
+    		System.err.printf("Only pdf's should be uploaded, your file is of type '%s'.", extension);
+    	}
+    	submission = new Submission(assignment, user, time, -1, null);
+    	SubmissionManager.addSubmission(submission, filepath);
+    	assignmentController.update();
     	dialog.close();
     }
 
     @FXML
     void handleBrowseClick(ActionEvent event) {
-    	System.out.println("'handleBrowseClick' not implemented.");
+		Stage mainStage = (Stage) dialog.getScene().getWindow();
+		System.out.println("Open file clicked");
 
-    }
+		// Construct file chooser
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Data File");
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF file (*.pdf)", "*.pdf"));
+
+		// Launch file chooser and retrive selected file
+		File file = fileChooser.showOpenDialog(mainStage);
+
+		// Break if no file was selected
+		if (file == null)
+			return;
+			
+		filenameTextField.setText(file.getAbsolutePath());
+    }	
 	
     @FXML
     void handleAssignmentDownloadButton(ActionEvent event) {
