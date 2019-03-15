@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" prefWidth="600.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.ViewAssignmentPopupController">
+<StackPane fx:id="rootPane" prefWidth="600.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.ViewAssignmentPopupController">
    <children>
       <VBox spacing="10.0">
          <children>
@@ -32,12 +32,7 @@
                         </Label>
                         <HBox>
                            <children>
-                              <Label text="Tidsfrist: ">
-                                 <padding>
-                                    <Insets bottom="5.0" />
-                                 </padding>
-                              </Label>
-                              <Label fx:id="deadlineLabel" layoutX="10.0" layoutY="10.0" text="2. mars 2019 -23:59">
+                              <Label fx:id="deadlineLabel" layoutX="10.0" layoutY="10.0" text="Tidsfrist: 2. mars 2019 -23:59">
                                  <padding>
                                     <Insets bottom="5.0" />
                                  </padding>
@@ -51,12 +46,7 @@
                      <children>
                         <HBox>
                            <children>
-                              <Label text="Maks: ">
-                                 <padding>
-                                    <Insets bottom="5.0" />
-                                 </padding>
-                              </Label>
-                              <Label fx:id="maxScoreLabel" layoutX="10.0" layoutY="10.0" text="100 poeng">
+                              <Label fx:id="maxScoreLabel" layoutX="10.0" layoutY="10.0" text="Maks: 100 poeng">
                                  <padding>
                                     <Insets bottom="5.0" />
                                  </padding>
@@ -65,12 +55,7 @@
                         </HBox>
                         <HBox layoutX="20.0" layoutY="20.0">
                            <children>
-                              <Label text="Bestått: ">
-                                 <padding>
-                                    <Insets bottom="5.0" />
-                                 </padding>
-                              </Label>
-                              <Label fx:id="passingScoreLabel" layoutX="10.0" layoutY="10.0" text="50 poeng">
+                              <Label fx:id="passingScoreLabel" layoutX="10.0" layoutY="10.0" text="Bestått: 50 poeng">
                                  <padding>
                                     <Insets bottom="5.0" />
                                  </padding>
@@ -97,7 +82,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <JFXButton graphicTextGap="10.0" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="oppgaver_oving_1.pdf" textFill="WHITE">
+            <JFXButton fx:id="assignmentFileLinkButton" graphicTextGap="10.0" onAction="#handleAssignmentDownloadButton" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="_oppgaver_oving_1.pdf" textFill="WHITE">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -112,11 +97,6 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <Label fx:id="assignmentFileLinkLabel" text="oppgaver_oving_1.pdf" textFill="#0d10c9" underline="true" visible="false">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-            </Label>
             <Separator prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
@@ -127,19 +107,13 @@
                   <Insets />
                </VBox.margin>
                <children>
-                  <Label text="Status: ">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="statusLabel" layoutX="10.0" layoutY="10.0" text="Godkjent">
+                  <Label fx:id="statusLabel" layoutX="10.0" layoutY="10.0" text="Status: Godkjent">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
                   <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                  <Label text="Score: " />
-                  <Label fx:id="scoreLabel" layoutX="497.0" layoutY="10.0" text="60/100" />
+                  <Label fx:id="scoreLabel" layoutX="497.0" layoutY="10.0" text="Score: 60/100" />
                </children>
             </HBox>
             <Label fx:id="commentLabel" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irurele." wrapText="true">
@@ -153,27 +127,34 @@
                      <children>
                         <HBox fx:id="fileUploadHBox">
                            <children>
-                              <JFXTextField fx:id="filenameTextField" promptText="Filename">
+                              <JFXTextField fx:id="filenameTextField" promptText="Filepath">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </JFXTextField>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleUploadFileClick" styleClass="primary-button-grey" text=" ">
+                              <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleBrowseClick" styleClass="primary-button-grey" text=" ">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../icons/icons8-favorite-folder.png" />
+                                          <Image url="@../../icons/pdf.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
                            </children>
                         </HBox>
-                        <Label fx:id="submissionFileLinkLabel" text="oving_1.pdf" textFill="#0d10c9" underline="true" StackPane.alignment="CENTER_LEFT">
-                           <StackPane.margin>
-                              <Insets left="20.0" />
-                           </StackPane.margin>
-                        </Label>
+                        <JFXButton fx:id="submissionFileLinkButton" graphicTextGap="10.0" onAction="#handleSubmissionDownloadButton" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="_innlevering_oving_1_pat.pdf" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0">
+                                 <image>
+                                    <Image url="@../../icons/pdf.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
                      </children>
                   </StackPane>
                   <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -31,6 +32,20 @@ public class SubmissionManager {
 	
 	public static int addSubmission(Submission submission, String filepath) {
 		return addSubmission(submission.getAssignment(), submission.getUser(), submission.getDeliveredTime(), filepath);
+	}
+	
+	public static InputStream getInputStreamFromSubmission(Submission submission) {
+		PreparedStatement ps = DatabaseManager.getPreparedStatement(String.format(
+				"SELECT submission_file FROM submission WHERE assignment_id = '%s' AND username = '%s';",
+				submission.getAssignment().getAssignmentID(), submission.getUser().getUsername()));
+		try {
+			ResultSet rs = ps.executeQuery();
+			InputStream is = rs.getBinaryStream("submission_file");
+			return is;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static int addSubmission(Assignment assignment, User user, Timestamp deliveredTime, String filepath) {
@@ -93,11 +108,11 @@ public class SubmissionManager {
 		return DatabaseUtil.MapsToSubmissions(submissionMaps);
 	}
 
-	public static void main(String[] args) {
-		addSubmission(AssignmentManager.getAssignment(4), 
-				UserManager.getUser("pat"), 
-				Timestamp.valueOf("2019-03-13 18:47:02"), 
-				"C:/Users/Patrik/Google Drive/Studier/TDT4140 (PU)/Risikoanalyse.pdf");
+//	public static void main(String[] args) {
+//		addSubmission(AssignmentManager.getAssignment(4), 
+//				UserManager.getUser("pat"), 
+//				Timestamp.valueOf("2019-03-13 18:47:02"), 
+//				"C:/Users/Patrik/Google Drive/Studier/TDT4140 (PU)/Risikoanalyse.pdf");
 //		DatabaseManager.downloadSubmissionFile(getSubmission(AssignmentManager.getAssignment(1), UserManager.getUser("seb")), new File("C:/Users/sebas/"));
-	}
+//	}
 }

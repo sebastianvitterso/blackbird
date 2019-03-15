@@ -17,6 +17,7 @@ import main.app.Loader;
 import main.core.ui.MainController;
 import main.core.ui.popups.ViewAssignmentPopupController;
 import main.models.Assignment;
+import main.models.Submission;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Status;
@@ -36,6 +37,7 @@ public class AssignmentBoxController implements Refreshable {
     private ViewAssignmentPopupController viewController;
     private MainController mainController;
     private Assignment assignment;
+    private Submission submission;
     
 	@FXML
 	private void initialize() {
@@ -53,6 +55,10 @@ public class AssignmentBoxController implements Refreshable {
 		descriptionLabel.setText(assignment.getDescription());
 		String formattedDeadline = new SimpleDateFormat("dd. MMM HH:mm").format(assignment.getDeadLine());
 		deadlineLabel.setText(formattedDeadline);
+	}
+	
+	public void loadSubmission(Submission submission) {
+		this.submission = submission;
 	}
 	
 	public void loadStatus(Status status) {
@@ -111,7 +117,8 @@ public class AssignmentBoxController implements Refreshable {
 		
 		viewController.clear();
 		viewController.connectDialog(dialog);
-		
+		viewController.loadAssignment(assignment);
+		viewController.loadSubmission(submission);
 		dialog.show();		
 	}
 	
