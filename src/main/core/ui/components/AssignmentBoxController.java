@@ -3,18 +3,25 @@ package main.core.ui.components;
 import java.text.SimpleDateFormat;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialog.DialogTransition;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import main.app.Loader;
+import main.core.ui.popups.ViewAssignmentPopupController;
 import main.models.Assignment;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Status;
+import main.utils.View;
 
 public class AssignmentBoxController implements Refreshable {
+	@FXML private StackPane rootPane;
 	@FXML private Rectangle headerRectangle;
 	@FXML private StackPane headerPane;
 	@FXML private HBox contentHBox;
@@ -24,6 +31,9 @@ public class AssignmentBoxController implements Refreshable {
     @FXML private Label statusLabel;
     @FXML private JFXButton actionButton;
 
+    private ViewAssignmentPopupController viewController;
+    private Assignment assignment;
+    
 	@FXML
 	private void initialize() {
 		// Dynamic header rectangle resizing
@@ -33,6 +43,7 @@ public class AssignmentBoxController implements Refreshable {
 	}
 	
 	public void loadAssignment(Assignment assignment) {
+		this.assignment = assignment;
 		headerLabel.setText(assignment.getTitle());
 		descriptionLabel.setText(assignment.getDescription());
 		String formattedDeadline = new SimpleDateFormat("dd. MMM HH:mm").format(assignment.getDeadLine());
@@ -69,6 +80,16 @@ public class AssignmentBoxController implements Refreshable {
 		default:
 			break;
 		}
+	}
+	
+	@FXML
+	private void handleOpenAssignmentClick(ActionEvent event) {
+		JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_VIEW_ASSIGNMENT_VIEW), (DialogTransition) DialogTransition.CENTER);
+		
+		viewController.clear();
+		viewController.connectDialog(dialog);
+		
+		
 	}
 	
 	/**
