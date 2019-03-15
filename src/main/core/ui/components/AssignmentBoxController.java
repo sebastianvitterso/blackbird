@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import main.app.Loader;
@@ -84,8 +85,8 @@ public class AssignmentBoxController implements Refreshable {
 	
 	@FXML
 	private void handleOpenAssignmentClick(ActionEvent event) {
-		JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_VIEW_ASSIGNMENT_VIEW), (DialogTransition) DialogTransition.CENTER);
-		
+		JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_VIEW_ASSIGNMENT_VIEW), DialogTransition.CENTER);
+
 		viewController.clear();
 		viewController.connectDialog(dialog);
 		
