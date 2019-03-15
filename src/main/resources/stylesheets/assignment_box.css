@@ -61,6 +61,10 @@
 	-fx-font: normal 16px "Segoe UI";
 	-fx-text-fill: #DDDDDD;
 }
+.header-label-2 {
+	-fx-font: normal 32px "Segoe UI";
+	-fx-text-fill: #808080;
+}
 
 
 .status-label-default {
