@@ -14,6 +14,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import main.app.Loader;
+import main.core.ui.MainController;
 import main.core.ui.popups.ViewAssignmentPopupController;
 import main.models.Assignment;
 import main.utils.PostInitialize;
@@ -33,6 +34,7 @@ public class AssignmentBoxController implements Refreshable {
     @FXML private JFXButton actionButton;
 
     private ViewAssignmentPopupController viewController;
+    private MainController mainController;
     private Assignment assignment;
     
 	@FXML
@@ -41,6 +43,8 @@ public class AssignmentBoxController implements Refreshable {
 		headerRectangle.setManaged(false);
 		headerRectangle.widthProperty().bind(headerPane.widthProperty());
 		headerRectangle.heightProperty().bind(headerPane.heightProperty());
+    	viewController = Loader.getController(View.POPUP_VIEW_ASSIGNMENT_VIEW);
+    	mainController = Loader.getController(View.MAIN_VIEW);
 	}
 	
 	public void loadAssignment(Assignment assignment) {
@@ -83,15 +87,6 @@ public class AssignmentBoxController implements Refreshable {
 		}
 	}
 	
-	@FXML
-	private void handleOpenAssignmentClick(ActionEvent event) {
-		JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_VIEW_ASSIGNMENT_VIEW), DialogTransition.CENTER);
-
-		viewController.clear();
-		viewController.connectDialog(dialog);
-		
-		dialog.show();		
-	}
 	
 	/**
      * Runs any methods that require every controller to be initialized.
@@ -110,5 +105,14 @@ public class AssignmentBoxController implements Refreshable {
 	public void clear() {
 	}
 	
+	@FXML
+	void handleOpenAssignmentClick(ActionEvent event) {
+		JFXDialog dialog = new JFXDialog(mainController.getOuterStackPane(), (Region) Loader.getParent(View.POPUP_VIEW_ASSIGNMENT_VIEW), DialogTransition.CENTER);
+		
+		viewController.clear();
+		viewController.connectDialog(dialog);
+		
+		dialog.show();		
+	}
 	
 }

@@ -65,7 +65,7 @@
                               <Label styleClass="status-label-default" text="Frist:" />
                               <Label fx:id="deadlineLabel" styleClass="status-label-default" text="08.02.2019" GridPane.columnIndex="1" />
                               <Label styleClass="status-label-default" text="Status:" GridPane.rowIndex="1" />
-                              <JFXButton fx:id="actionButton" buttonType="RAISED" styleClass="primary-button-grey" text="Åpne" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                              <JFXButton fx:id="actionButton" buttonType="RAISED" onAction="#handleOpenAssignmentClick" styleClass="primary-button-grey" text="Åpne" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                                  <padding>
                                     <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
                                  </padding>

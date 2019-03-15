@@ -1,56 +1,41 @@
 package main.core.ui.popups;
 
-import java.io.File;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneOffset;
-
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTimePicker;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
-import main.app.Loader;
-import main.core.ui.MenuController;
-import main.core.ui.tabs.AssignmentsController;
-import main.db.AssignmentManager;
-import main.models.Assignment;
-import main.models.Course;
 import main.utils.PostInitialize;
-import main.utils.View;
+import main.utils.Refreshable;
 
 /**
  * @author Beatrice
  *
  */
-public class ViewAssignmentPopupController {
-	//TODO: Change vapNames to something else
+public class ViewAssignmentPopupController implements Refreshable {
+	
 	@FXML private StackPane rootPane;
-	@FXML private Label vapHeader;
-	@FXML private Label vapDeadline;
-	@FXML private Label vapMaxScore;
-	@FXML private Label vapPassingScore;
-	@FXML private Label vapDescription;
-	@FXML private Label vapAssignmentFileLink;
-	@FXML private Label vapStatus;
-	@FXML private Label vapScore;
-	@FXML private Label vapComment;
-	@FXML private Label vapSubmissionFileLink;
-	@FXML private JFXTextField vapFilename;
-	@FXML private JFXButton vapUploadFileButton;
-	@FXML private JFXButton vapDeliverButton;
-	@FXML private JFXButton vapCancelButton;
+    @FXML private Label headerLabel;
+    @FXML private Label deadlineLabel;
+    @FXML private Label maxScoreLabel;
+    @FXML private Label passingScoreLabel;
+    @FXML private Label descriptionLabel;
+    @FXML private Label assignmentFileLinkLabel;
+    @FXML private Label statusLabel;
+    @FXML private Label scoreLabel;
+    @FXML private Label commentLabel;
+    @FXML private HBox fileUploadHBox;
+    @FXML private JFXTextField filenameTextField;
+    @FXML private Label submissionFileLinkLabel;
+    @FXML private JFXButton cancelButton;
+    @FXML private JFXButton deliverButton;
+    
+    
+    
     
 //    private MenuController menuController;
     private JFXDialog dialog;
@@ -78,10 +63,24 @@ public class ViewAssignmentPopupController {
 		this.dialog = dialog;
 	}
 
-
-	public void clear() {
-	}
 	
+	@FXML
+    void handleCancelClick(ActionEvent event) {
+
+		dialog.close();
+    }
+
+    @FXML
+    void handleDeliverClick(ActionEvent event) {
+
+    	
+    	dialog.close();
+    }
+
+    @FXML
+    void handleUploadFileClick(ActionEvent event) {
+
+    }
 	
 
 }
