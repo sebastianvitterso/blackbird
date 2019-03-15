@@ -1,23 +1,24 @@
 .tree-table-view{
 	-fx-border-color: #000000;
+	-fx-background-color: #F4F4F4;
 }
 .tree-table-column{
 	-fx-alignment: center;
-	-fx-border-color: #FFFFFF;
+	-fx-border-color: #F4F4F4;
 	-fx-font-size: 14px;
 }
 .tree-table-view .column-header-background .nested-column-header .column-header{
 	-fx-font-size: 20px;
+}
+
+.tree-table-view .tree-table-row-cell:filled:odd {
+	-fx-background-color: #F4F4F4;
 }
 .tree-table-column .label
 {
     -fx-border-color: #000000;
     -fx-border-insets: 0px -30px 0px -30px;
     -fx-border-width: 0px 0px 1px 0px;
-}
-
-.test {
-	-fx-opacity: 0;
 }
 
 
