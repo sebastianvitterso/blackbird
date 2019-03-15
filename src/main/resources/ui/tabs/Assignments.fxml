@@ -27,7 +27,7 @@
                   <Insets left="10.0" right="10.0" top="20.0" />
                </VBox.margin>
                <children>
-                  <JFXButton fx:id="newAssignmentButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxWidth="1.7976931348623157E308" onAction="#handleNewAssignmentClick" prefHeight="100.0" stylesheets="@../../stylesheets/assignment_box.css" text="Ny øving">
+                  <JFXButton fx:id="newAssignmentButton" contentDisplay="GRAPHIC_ONLY" maxWidth="1.7976931348623157E308" onAction="#handleNewAssignmentClick" prefHeight="100.0" stylesheets="@../../stylesheets/assignment_box.css" text="Ny øving">
                      <graphic>
                         <HBox alignment="CENTER" fillHeight="false" spacing="6.0">
                            <children>
@@ -43,6 +43,7 @@
                      <styleClass>
                         <String fx:value="body-background" />
                         <String fx:value="new-button" />
+                        <String fx:value="root" />
                      </styleClass>
                   </JFXButton>
                </children>
