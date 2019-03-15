@@ -62,4 +62,9 @@ public class User {
 		return getName();
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		return o != null && o.getClass() == User.class && ((User)o).getUsername().equals(username);
+	}
+	
 }

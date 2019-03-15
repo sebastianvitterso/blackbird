@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefWidth="1010.0" styleClass="background" stylesheets="@../../stylesheets/overview.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.MembersController">
+   <children>
+      <VBox>
+         <children>
+            <Label styleClass="header-label" text="Medlemmer">
+               <effect>
+                  <DropShadow color="#bbbbbb" height="5.0" radius="2.0" spread="0.7" width="5.0" />
+               </effect>
+            </Label>
+            <Separator styleClass="header-separator" />
+            <JFXTreeTableView fx:id="userTreeTableView" stylesheets="@../../stylesheets/members.css" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TreeTableColumn fx:id="firstNameColumn" prefWidth="75.0" styleClass="tree-table-column" text="Fornavn" />
+                  <TreeTableColumn fx:id="lastNameColumn" prefWidth="75.0" styleClass="tree-table-column" text="Etternavn" />
+                  <TreeTableColumn fx:id="emailColumn" prefWidth="75.0" styleClass="tree-table-column" text="Email" />
+                  <TreeTableColumn fx:id="roleColumn" prefWidth="75.0" styleClass="tree-table-column" text="Rolle" />
+               </columns>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+               <columnResizePolicy>
+                  <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </JFXTreeTableView>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <StackPane.margin>
+            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+         </StackPane.margin>
+      </VBox>
+   </children>
+</StackPane>

@@ -1,0 +1,97 @@
+.tree-table-view{
+	-fx-border-color: #000000;
+	-fx-background-color: #F4F4F4;
+}
+.tree-table-column{
+	-fx-alignment: center;
+	-fx-border-color: #F4F4F4;
+	-fx-font-size: 14px;
+}
+.tree-table-view .column-header-background .nested-column-header .column-header{
+	-fx-font-size: 20px;
+}
+
+.tree-table-view .tree-table-row-cell:filled:odd {
+	-fx-background-color: #F4F4F4;
+}
+.tree-table-column .label
+{
+    -fx-border-color: #000000;
+    -fx-border-insets: 0px -30px 0px -30px;
+    -fx-border-width: 0px 0px 1px 0px;
+}
+
+
+
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color :transparent;
+    -fx-border-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-border-radius :2.0em;
+}
+
+.scroll-bar:vertical,
+.scroll-bar:horizontal{
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .track-background,
+.scroll-bar:horizontal .track-background {
+  -fx-opacity: 0;
+}
+.address .scroll-bar:vertical .track,
+.address .scroll-bar:horizontal .track {
+   -fx-opacity: 0;
+}
+
+
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 10.0 0.0 0.0;
+
+}
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 10.0 0.0 0.0;
+
+}
+
+ .scroll-bar .increment-arrow,
+ .scroll-bar .decrement-arrow{
+    -fx-shape : " ";    
+    -fx-padding :0.0 0.0;
+}
+
+ .scroll-bar:vertical .increment-arrow,
+ .scroll-bar:vertical .decrement-arrow{
+    -fx-shape : " ";    
+    -fx-padding :0.0 0.0;
+}
+
+.scroll-bar:horizontal .thumb{
+	-fx-background-color : transparent;
+}
+.scroll-bar:vertical .thumb {
+    -fx-background-color :derive(black,90.0%);
+    -fx-background-insets : 1.0, 0.0, 0.0;
+    -fx-background-radius : 1.0em;
+}
+
+.scroll-bar:horizontal .thumb:hover{
+	-fx-background-color : transparent;
+}
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color :derive(#4D4C4F,10.0%);
+    -fx-background-insets : 1.0, 0.0, 0.0;
+    -fx-background-radius : 1.0em;
+}
+
+
+
