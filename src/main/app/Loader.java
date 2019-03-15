@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
@@ -53,6 +54,10 @@ public class Loader implements Runnable {
 			if (view.getPathToFXML() == null)
 				continue;
 			
+			// Break if view should not load on startup
+			if (!view.isLoadOnStartup())
+				continue;
+			
 			// Login has already been loaded
 			if (view == View.LOGIN_VIEW)
 				continue;
@@ -81,6 +86,10 @@ public class Loader implements Runnable {
 		for (View view : View.values()) {
 			// Break if view is not implemented
 			if (view.getPathToFXML() == null)
+				continue;
+
+			// Break if view should not load on startup
+			if (!view.isLoadOnStartup())
 				continue;
 			
 			Object controller = getController(view);
@@ -118,6 +127,20 @@ public class Loader implements Runnable {
 	 */
 	public static <T> T getController(View view) {
 		return viewToLoader.get(view).getController();
+	}
+	
+	/**
+	 * Returns a newly initialized FXMLLoader represented by the given {@code View}.
+	 */
+	public static FXMLLoader createFXMLLoader(View view) {
+		URL pathToFXML = Loader.class.getClassLoader().getResource(view.getPathToFXML());
+		FXMLLoader loader = new FXMLLoader(pathToFXML);
+		try {
+			loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return loader;
 	}
 	
 	/**

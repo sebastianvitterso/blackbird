@@ -49,4 +49,9 @@ public class Submission {
 		this.comment = comment;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("Submission [assignment=%s, user=%s, deliveredTime=%s, score=%s, comment=%s]", assignment.getAssignmentID(),
+				user, deliveredTime, score, comment);
+	}
 }

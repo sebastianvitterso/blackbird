@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
@@ -54,9 +55,9 @@ public class AssignmentManager {
 			}
 			int result = ps.executeUpdate();
 			return result;
+			
 		} catch (FileNotFoundException e) {
 			System.err.println("addAssignment got a FileNotFoundException.");
-			/* TODO: Add exception-handler here, so it doesn't crash, just shows an error in the app. */
 			e.printStackTrace();
 			return -1;
 			
@@ -73,8 +74,9 @@ public class AssignmentManager {
 	}
 	
 	public static List<Assignment> getAssignmentsFromCourse(Course course){
-		List<Map<String, String>> assignmentMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM assignment WHERE course_code = '%s'", course.getCourseCode()));
-		return DatabaseUtil.MapsToAssignments(assignmentMaps);
+		List<Map<String, String>> assignmentMaps = DatabaseManager.sendQuery(String.format(
+				"SELECT assignment_id, course_code, title, description, deadline, max_score, passing_score FROM assignment WHERE course_code = '%s'", course.getCourseCode()));
+		return DatabaseUtil.MapsAndCourseToAssignments(assignmentMaps, course);
 	}
 	
 	/*
@@ -82,5 +84,23 @@ public class AssignmentManager {
 	 */
 	public static boolean hasFile(int assignmentID) {
 		return 0 == DatabaseManager.sendQuery("SELECT * FROM assignment WHERE assignment_id = '%s' AND assignment_file IS NULL;").size();
+	}
+	
+
+	public static InputStream getInputStreamFromAssignment(Assignment assignment) {
+		PreparedStatement ps = DatabaseManager.getPreparedStatement(String.format(
+				"SELECT assignment_file FROM assignment WHERE assignment_id = '%s';",
+				assignment.getAssignmentID()));
+		try {
+			ResultSet rs = ps.executeQuery();
+			InputStream is = null;
+			while(rs.next()) {
+				is = rs.getBinaryStream("assignment_file");
+			}
+			return is;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

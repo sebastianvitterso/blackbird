@@ -16,4 +16,5 @@ module blackbird {
 	requires transitive javafx.controls;
 	requires com.jfoenix;
 	requires junit;
+	requires java.desktop;
 }
