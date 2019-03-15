@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane fx:id="rootPane" prefHeight="120.0" prefWidth="910.0" stylesheets="@../../stylesheets/assignment_box.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.components.AssignmentBoxController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/icons8-add-64-grey.png" />
+               </image>
+               <effect>
+                  <DropShadow color="#c3c3c3" height="23.97" radius="13.7075" spread="0.6" width="32.86" />
+               </effect>
+            </ImageView>
+            <Label styleClass="header-label-2" text="Ny øving">
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#c3c3c3" height="23.96" radius="12.9625" spread="0.66" width="29.89" />
+               </effect>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Label>
+         </children>
+      </HBox>
+   </children>
+</StackPane>
