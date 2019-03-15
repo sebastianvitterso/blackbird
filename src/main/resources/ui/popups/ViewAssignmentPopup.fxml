@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -127,12 +127,12 @@
                      <children>
                         <HBox fx:id="fileUploadHBox">
                            <children>
-                              <JFXComboBox fx:id="fileComboBox" prefWidth="200.0" promptText="Ingen fil valgt">
+                              <JFXTextField fx:id="fileTextField" editable="false" prefWidth="200.0" promptText="Ingen fil valgt">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
-                              </JFXComboBox>
-                              <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleBrowseClick" styleClass="primary-button-grey" text=" ">
+                              </JFXTextField>
+                              <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleBrowseClick" styleClass="primary-button-grey" text="Velg fil...">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
