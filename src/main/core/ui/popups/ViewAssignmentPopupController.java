@@ -112,6 +112,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 			scoreLabel.setText(String.format("Poeng: %s/%s", submission.getScore(), assignment.getMaxScore()));
 			commentLabel.setVisible(true);
 			commentLabel.setText(submission.getComment());
+			fileTextField.clear();
 			fileUploadHBox.setVisible(false);
 			submissionFileLinkButton.setVisible(true);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
@@ -124,6 +125,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 			scoreLabel.setVisible(false);
 			commentLabel.setVisible(false);
 			commentLabel.setText("");
+			fileTextField.clear();
 			fileUploadHBox.setVisible(false);
 			submissionFileLinkButton.setVisible(true);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
@@ -137,6 +139,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 			scoreLabel.setText(String.format("Poeng: %s/%s", submission.getScore(), assignment.getMaxScore()));
 			commentLabel.setVisible(true);
 			commentLabel.setText(submission.getComment());
+			fileTextField.clear();
 			fileUploadHBox.setVisible(false);
 			submissionFileLinkButton.setVisible(true);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
@@ -149,6 +152,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 			scoreLabel.setVisible(false);
 			commentLabel.setVisible(false);
 			commentLabel.setText("");
+			fileTextField.clear();
 			fileUploadHBox.setVisible(true);
 			submissionFileLinkButton.setVisible(false);
 			if(!lowerHBox.getChildren().contains(deliverButton)) {
@@ -160,6 +164,7 @@ public class ViewAssignmentPopupController implements Refreshable {
 			scoreLabel.setVisible(false);
 			commentLabel.setVisible(true);
 			commentLabel.setText("Øvingen ble ikke levert innen tidsfristen.");
+			fileTextField.clear();
 			fileUploadHBox.setVisible(false);
 			submissionFileLinkButton.setVisible(false);
 			lowerHBox.getChildren().remove(deliverButton);
