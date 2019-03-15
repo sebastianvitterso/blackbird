@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 import main.models.Assignment;
 import main.models.Course;
+import main.models.Submission;
 
 public class AssignmentManager {
 	
@@ -95,15 +97,30 @@ public class AssignmentManager {
 		return 0 == DatabaseManager.sendQuery("SELECT * FROM assignment WHERE assignment_id = '%s' AND assignment_file IS NULL;").size();
 	}
 	
-	public static void main(String[] args) {
-		addAssignment(new Assignment(
-				-1, 
-				CourseManager.getCourse("TDT4140"), 
-				"Øving 5", 
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla lectus non ante euismod aliquet. Sed cursus bibendum lacus non porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 
-				Timestamp.valueOf("2019-04-17 23:59:00"),
-				100, 
-				50), 
-				"C:/Users/Patrik/Google Drive/Studier/TDT4140 (PU)/Risikoanalyse.pdf");
+
+	public static InputStream getInputStreamFromAssignment(Assignment assignment) {
+		PreparedStatement ps = DatabaseManager.getPreparedStatement(String.format(
+				"SELECT assignment_file FROM assignment WHERE assignment_id = '%s';",
+				assignment.getAssignmentID()));
+		try {
+			ResultSet rs = ps.executeQuery();
+			InputStream is = rs.getBinaryStream("assignment_file");
+			return is;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
+	
+//	public static void main(String[] args) {
+//		addAssignment(new Assignment(
+//				-1, 
+//				CourseManager.getCourse("TDT4140"), 
+//				"Øving 5", 
+//				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla lectus non ante euismod aliquet. Sed cursus bibendum lacus non porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 
+//				Timestamp.valueOf("2019-04-17 23:59:00"),
+//				100, 
+//				50), 
+//				"C:/Users/Patrik/Google Drive/Studier/TDT4140 (PU)/Risikoanalyse.pdf");
+//	}
 }
