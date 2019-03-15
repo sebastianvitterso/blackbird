@@ -82,7 +82,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <JFXButton fx:id="assignmentFileLinkButton" graphicTextGap="10.0" onAction="#handleAssignmentDownloadButton" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="_oppgaver_oving_1.pdf" textFill="WHITE">
+            <JFXButton fx:id="assignmentFileLinkButton" graphicTextGap="10.0" onAction="#handleAssignmentDownloadClick" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="_oppgaver_oving_1.pdf" textFill="WHITE">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -143,7 +143,7 @@
                               </JFXButton>
                            </children>
                         </HBox>
-                        <JFXButton fx:id="submissionFileLinkButton" graphicTextGap="10.0" onAction="#handleSubmissionDownloadButton" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="_innlevering_oving_1_pat.pdf" textFill="WHITE" visible="false">
+                        <JFXButton fx:id="submissionFileLinkButton" graphicTextGap="10.0" onAction="#handleSubmissionDownloadClick" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="_innlevering_oving_1_pat.pdf" textFill="WHITE" visible="false">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>

@@ -2,7 +2,6 @@ package main.core.ui.popups;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -210,7 +209,7 @@ public class ViewAssignmentPopupController implements Refreshable {
     }	
 	
     @FXML
-    void handleAssignmentDownloadButton(ActionEvent event) {
+    void handleAssignmentDownloadClick(ActionEvent event) {
     	Stage mainStage = (Stage) dialog.getScene().getWindow();
     	InputStream is = AssignmentManager.getInputStreamFromAssignment(assignment);
     	FileChooser fileChooser = new FileChooser();
@@ -223,22 +222,16 @@ public class ViewAssignmentPopupController implements Refreshable {
 		if (file == null)
 			return;
     	
-    	FileOutputStream fos = null;
-    	try {
-			fos = new FileOutputStream(file);
+		try (FileOutputStream fos = new FileOutputStream(file)) {
 			fos.write(is.readAllBytes());
 			Desktop.getDesktop().open(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally { // I love making horrible code, you're welcome.
-			try {fos.close();} catch (IOException e) {e.printStackTrace();}
-		}
+		} 
     }
     
     @FXML
-    void handleSubmissionDownloadButton(ActionEvent event) {
+    void handleSubmissionDownloadClick(ActionEvent event) {
     	Stage mainStage = (Stage) dialog.getScene().getWindow();
     	InputStream is = SubmissionManager.getInputStreamFromSubmission(submission);
     	FileChooser fileChooser = new FileChooser();
@@ -251,18 +244,12 @@ public class ViewAssignmentPopupController implements Refreshable {
 		if (file == null)
 			return;
     	
-    	FileOutputStream fos = null;
-    	try {
-			fos = new FileOutputStream(file);
+    	try (FileOutputStream fos = new FileOutputStream(file)) {
 			fos.write(is.readAllBytes());
 			Desktop.getDesktop().open(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally { // I love making horrible code, you're welcome. 
-			try {fos.close();} catch (IOException e) {e.printStackTrace();}
-		}
+		} 
     }
 
 }
