@@ -37,7 +37,7 @@ import main.utils.View;
  * @author Beatrice
  *
  */
-public class ViewAssignmentPopupController implements Refreshable {
+public class SubmissionPopupController implements Refreshable {
 	
 	@FXML private StackPane rootPane;
     @FXML private Label headerLabel;

@@ -23,7 +23,7 @@ import main.components.AnnouncementBox;
 import main.core.ui.MainController;
 import main.core.ui.MenuController;
 import main.core.ui.popups.AnnouncementPopupController;
-import main.core.ui.popups.ViewAssignmentPopupController;
+import main.core.ui.popups.SubmissionPopupController;
 import main.db.AnnouncementManager;
 import main.db.AssignmentManager;
 import main.db.LoginManager;
@@ -108,8 +108,8 @@ public class OverviewController implements Refreshable {
 			AssignmentButton button = new AssignmentButton(assignment, submission);
 			button.setOnAction(event -> {
 				menuController.loadTab(View.ASSIGNMENTS_VIEW);
-				ViewAssignmentPopupController popupController = Loader.getController(View.POPUP_VIEW_ASSIGNMENT_VIEW);
-				JFXDialog dialog = new JFXDialog(mainController.getOuterStackPane(), (Region) Loader.getParent(View.POPUP_VIEW_ASSIGNMENT_VIEW), DialogTransition.CENTER);
+				SubmissionPopupController popupController = Loader.getController(View.POPUP_SUBMISSION_VIEW);
+				JFXDialog dialog = new JFXDialog(mainController.getOuterStackPane(), (Region) Loader.getParent(View.POPUP_SUBMISSION_VIEW), DialogTransition.CENTER);
 				popupController.clear();
 				popupController.connectDialog(dialog);
 				popupController.loadAssignment(assignment);

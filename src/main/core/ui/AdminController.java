@@ -128,24 +128,6 @@ public class AdminController implements Refreshable {
 
     	// Create references to selections
     	selectedCourses = courseListView.getSelectionModel().getSelectedItems();
-    	
-    	// Assign string converter for displaying courses
-//    	courseListView.setCellFactory(new Callback<ListView<Course>, ListCell<Course>>() {
-//			@Override
-//			public ListCell<Course> call(ListView<Course> listView) {
-//				return new ListCell<Course>() {
-//					@Override
-//					protected void updateItem(Course course, boolean empty) {
-//						super.updateItem(course, empty);
-//						
-//						if (course != null && !empty)
-//							setText(String.format("%s - %s", course.getCourseCode(), course.getName()));
-//						else
-//							setText(null);
-//					}
-//				};
-//			}
-//		});
     }
 
 	/**
