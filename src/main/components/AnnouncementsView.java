@@ -1,37 +1,17 @@
-package main.announcement;
+package main.components;
 
-import java.io.File;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
-import javafx.geometry.Insets;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import main.db.AnnouncementManager;
-import main.db.CourseManager;
-import main.db.LoginManager;
-import main.db.UserManager;
 import main.models.Announcement;
 import main.models.Course;
-import main.models.User;
 
 public class AnnouncementsView {
 	VBox view = new VBox();

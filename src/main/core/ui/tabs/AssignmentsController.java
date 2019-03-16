@@ -12,6 +12,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +32,7 @@ import main.db.SubmissionManager;
 import main.models.Assignment;
 import main.models.Course;
 import main.models.Submission;
+import main.models.User;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Role;
@@ -151,5 +155,16 @@ public class AssignmentsController implements Refreshable {
     	assignmentController.clear();
     	assignmentController.connectDialog(dialog);
     	dialog.show();
+	}
+	
+	public static void main(String[] args) {
+		ObservableList<User> users = FXCollections.observableArrayList();
+		users.addListener((ListChangeListener.Change<? extends User> change) -> {
+			System.out.println(change);
+		});
+		 User user = new User("patkj", "sad", "sdsd", "sdasd", "dssd");
+		 users.add(user);
+		 System.out.println("Changing name");
+		 user.setFirstName("ola nor");
 	}
 }

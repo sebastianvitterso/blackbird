@@ -1,4 +1,4 @@
-package main.calendar;
+package main.models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -6,8 +6,6 @@ import java.util.List;
 
 import main.db.LoginManager;
 import main.db.PeriodManager;
-import main.models.Course;
-import main.models.Period;
 import main.models.Period.PeriodType;
 
 public class TimeSlot {
