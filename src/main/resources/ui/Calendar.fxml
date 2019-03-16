@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" minHeight="-Infinity" prefHeight="720.0" prefWidth="1010.0" stylesheets="@../stylesheets/calendarstyle.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController">
+<AnchorPane fx:id="root" minHeight="-Infinity" prefHeight="720.0" prefWidth="1010.0" stylesheets="@../stylesheets/calendarstyle.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.CalendarController">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -109,7 +109,7 @@
                      <graphic>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/minus.png" />
+                              <Image url="@../icons/icons8-minus-64%20(1).png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -134,7 +134,7 @@
                      <graphic>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/plus.png" />
+                              <Image url="@../icons/icons8-add-64.png" />
                            </image>
                         </ImageView>
                      </graphic>
