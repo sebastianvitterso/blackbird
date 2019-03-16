@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,9 +41,7 @@ public class MembersController implements Refreshable {
     
     private ObservableList<RecursiveTreeUser> users;
     
-	private List<User> userProfessorList;
-	private List<User> userAssistantList;
-	private List<User> userStudentList;
+    Map<User, List<Role>> allUserRolesInCourse;
 	
 	/**
      * Runs any methods that require every controller to be initialized.
@@ -81,17 +80,11 @@ public class MembersController implements Refreshable {
 			
 	}
 	public void updateUserView(Course course) {
-		userProfessorList = UserManager.getUsersByRole(course, Role.PROFESSOR);
-		userAssistantList = UserManager.getUsersByRole(course, Role.ASSISTANT);
-		userStudentList = UserManager.getUsersByRole(course, Role.STUDENT);
-		Set<User> userList = new HashSet<User>();
-		userList.addAll(userProfessorList);
-		userList.addAll(userAssistantList);
-		userList.addAll(userStudentList);
-		
+		allUserRolesInCourse = UserManager.getAllUserRoles(course);
+		Set<User> usersInCourse = allUserRolesInCourse.keySet();
 		// Convert users to internal format
-		List<RecursiveTreeUser> formattedUsers = userList.stream()
-				.map(u -> new RecursiveTreeUser(u.getFirstName(), u.getLastName(), u.getEmail(), getRoleInfo(u, course)))
+		List<RecursiveTreeUser> formattedUsers = usersInCourse.stream()
+				.map(u -> new RecursiveTreeUser(u.getFirstName(), u.getLastName(), u.getEmail(), getRoleInfo(u)))
 				.collect(Collectors.toList());
 		
 		Collections.sort(formattedUsers);
@@ -102,13 +95,14 @@ public class MembersController implements Refreshable {
 		userTreeTableView.getSortOrder().clear();
 	}
 	
-	public String getRoleInfo(User user, Course course) {
+	public String getRoleInfo(User user) {
 		String info = "";
-		if (userProfessorList.contains(user))
+		List<Role> userRoleInCourse = allUserRolesInCourse.get(user);
+		if (userRoleInCourse.contains(Role.PROFESSOR))
 			info += ", Emneansvarlig";
-		if (userAssistantList.contains(user))
+		if (userRoleInCourse.contains(Role.ASSISTANT))
 			info += ", Studass";
-		if (userStudentList.contains(user))
+		if (userRoleInCourse.contains(Role.STUDENT))
 			info += ", Student";
 		if (info.equals(""))
 			throw new IllegalStateException("User had no role in this course?: " + user.getUsername());
