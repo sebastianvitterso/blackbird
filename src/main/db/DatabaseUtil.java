@@ -38,6 +38,21 @@ public class DatabaseUtil {
 		CourseLookupMap = null;
 	}
 	
+	public static Map<String, User> UserLookupMap;
+	
+	public static void FillUserLookupMap() {
+		List<User> users = UserManager.getUsers();
+		Map<String, User> tempMap = new HashMap<>();
+		for(User user : users) {
+			tempMap.put(user.getUsername(), user);
+		}
+		UserLookupMap = tempMap;
+	}
+	
+	public static void ClearUserLookupMap() {
+		UserLookupMap = null;
+	}
+	
 	public static List<Course> MapsToCourses(List<Map<String, String>> courseMaps){
 		List<Course> courses = new ArrayList<Course>();
 		for (Map<String, String> courseMap : courseMaps) {
@@ -143,10 +158,12 @@ public class DatabaseUtil {
 	
 	public static List<Announcement> MapsToAnnouncements(List<Map<String, String>> announcementMaps) {
 		List<Announcement> announcements = new ArrayList<Announcement>();
+		FillCourseLookupMap();
+		FillUserLookupMap();
 		for (Map<String, String> announcementMap : announcementMaps) {
 			int announcement_id = Integer.valueOf(announcementMap.get("announcement_id"));
-			Course course = CourseManager.getCourse(announcementMap.get("course_code"));  						// TODO Denne sender query for hver assignment
-			User user = UserManager.getUser(announcementMap.get("username"));                     				// TODO Denne sender query for hver assignment
+			Course course = CourseLookupMap.get(announcementMap.get("course_code"));  						// TODO Denne sender query for hver assignment
+			User user = UserLookupMap.get(announcementMap.get("username"));                     				// TODO Denne sender query for hver assignment
 			Timestamp timestamp = Timestamp.valueOf(announcementMap.get("timestamp"));
 			String title = announcementMap.get("title");
 			String text = announcementMap.get("text");
