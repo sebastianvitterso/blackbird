@@ -2,6 +2,7 @@ package main.db;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import main.models.Course;
 import main.models.Period;
 import main.models.Submission;
 import main.models.User;
+import main.utils.Role;
 
 public class DatabaseUtil {
 	
@@ -165,5 +167,24 @@ public class DatabaseUtil {
 			timeSlotMap.put(timeStamp, new TimeSlot(timePeriodMap.get(timeStamp)));
 		}
 		return timeSlotMap;
+	}
+
+	public static Map<User, List<Role>> MapsToUserRoleMap(List<Map<String, String>> userMaps) {
+		Map<User, List<Role>> userRoleMap = new HashMap<>();
+		for (Map<String, String> userMap : userMaps) {
+			String username = userMap.get("username");
+			String password = userMap.get("password");
+			String firstName = userMap.get("first_name");
+			String lastName = userMap.get("last_name");
+			String email = userMap.get("email");
+			User user = new User(username, password, firstName, lastName, email);
+			Role role = Role.valueOf(userMap.get("role"));
+			if(userRoleMap.containsKey(user)) {
+				userRoleMap.get(user).add(role);
+			} else {
+				userRoleMap.put(user, Arrays.asList(role));
+			}
+		}
+		return userRoleMap;
 	}
 }
