@@ -3,14 +3,23 @@ package main.core.ui.tabs;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
-
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import main.announcement.AnnouncementsView;
+import main.app.Loader;
+import main.core.ui.MainController;
+import main.core.ui.MenuController;
+import main.core.ui.popups.AnnouncementPopupController;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -29,13 +38,26 @@ import main.utils.Refreshable;
 import main.utils.Status;
 import main.utils.View;
 
+import main.utils.Role;
+
 public class OverviewController implements Refreshable {
-	@FXML private Label courseDescriptionLabel;
-	@FXML private VBox assignmentVBox;
-	
+
 	private MainController mainController;
 	private MenuController menuController;
-
+	private AnnouncementPopupController announcementController;
+	
+	@FXML private StackPane rootPane;
+	@FXML private Label courseDescriptionLabel;
+	@FXML private VBox announcementVBox;
+	@FXML private ScrollPane announcementScrollPane;
+	@FXML private JFXButton newAnnouncementButton;
+	@FXML private VBox assignmentVBox;
+	
+	
+	@FXML
+	private void initialize() {
+		MainController.customScrolling(announcementScrollPane, announcementScrollPane.vvalueProperty(), bounds -> bounds.getHeight());
+	}
 	
 	/**
      * Runs any methods that require every controller to be initialized.
@@ -45,15 +67,32 @@ public class OverviewController implements Refreshable {
     private void postInitialize() {
 		mainController = Loader.getController(View.MAIN_VIEW);
 		menuController = Loader.getController(View.MENU_VIEW);
-	}
+		announcementController = Loader.getController(View.POPUP_ANNOUNCEMENT_VIEW);
+    }
 	
-	
+    @FXML
+    void handleNewAnnouncementClick(ActionEvent event) {
+    	// Create dialog box
+    	JFXDialog dialog = new JFXDialog(rootPane, (Region) Loader.getParent(View.POPUP_ANNOUNCEMENT_VIEW), DialogTransition.CENTER);
+    	
+    	// Initialize popup
+    	announcementController.clear();
+    	announcementController.connectDialog(dialog);
+    	dialog.show();
+    }
 	
 	@Override
 	public void update() {
 		Course selectedCourse = menuController.getSelectedCourse();
 		if (selectedCourse != null)
 			courseDescriptionLabel.setText(selectedCourse.getDescription());
+		//OBS: Denne loades inn to ganger samtidig. En av dem bør fjernes for opptimalisering
+		announcementVBox.getChildren().clear();
+		announcementVBox.getChildren().add(new AnnouncementsView(selectedCourse).getView());
+		if(menuController.getSelectedRole() == Role.PROFESSOR)
+			newAnnouncementButton.setVisible(true);
+		else
+			newAnnouncementButton.setVisible(false);
 		updateAssignmentButtons();
 	}
 	

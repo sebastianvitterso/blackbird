@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -20,6 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -27,6 +29,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import main.app.Loader;
 import main.core.ui.popups.CoursePopupController;
 import main.core.ui.popups.UserPopupController;
@@ -487,10 +490,46 @@ public class AdminController implements Refreshable {
 
     }
     
+    
+    
     @FXML
     void handleDeleteCourseClick(ActionEvent event) {
-		CourseManager.deleteCourses(selectedCourses);
-		updateCourseView();
+    	JFXDialogLayout content = new JFXDialogLayout();
+    	content.setHeading(new Text("Slett Fag"));
+    	String f1 = null;
+    	String f2 = null;
+    	if(selectedCourses.size() == 1) {
+    		f1 = "faget";
+    		f2 = "dette ";
+    	}
+    	else {
+    		f1= "fagene";
+    		f2 = "disse ";
+    	}
+    	content.setBody(new Text("Er du sikker på at du vil slette " + f1 + "?\n" 
+				+ "All data som forbindes med " + f2 + f1 + " vil gå tapt."));
+    	
+    	JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
+    	JFXButton deleteButton = new JFXButton("Slett");
+    	deleteButton.setStyle("-fx-background-color: #903030; -fx-text-fill: #DDDDDD;");
+    	JFXButton cancelButton = new JFXButton("Avbryt");
+    	cancelButton.setStyle("-fx-background-color: #979797; -fx-text-fill: #DDDDDD;");
+    	deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				CourseManager.deleteCourses(selectedCourses);
+				updateCourseView();
+				dialog.close();
+			}
+		});
+    	cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				dialog.close();
+			}
+		});
+    	content.setActions(cancelButton, deleteButton);
+    	dialog.show();
     }
     
     /*

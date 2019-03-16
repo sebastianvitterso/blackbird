@@ -1,8 +1,9 @@
 package main.models;
 
 import java.sql.Timestamp;
+import java.util.Iterator;
 
-public class Announcement {
+public class Announcement implements Comparable<Announcement>{
 	private final int AnnouncementID;
 	private Course course;
 	private User user;
@@ -52,6 +53,12 @@ public class Announcement {
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	//Sorterer fra senest -> tidligst
+	@Override
+	public int compareTo(Announcement o) {
+		return o.getTimestamp().compareTo(timestamp);
 	}
 	
 	
