@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" prefWidth="600.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.ViewAssignmentPopupController">
+<StackPane fx:id="rootPane" prefWidth="600.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.SubmissionPopupController">
    <children>
       <VBox spacing="10.0">
          <children>

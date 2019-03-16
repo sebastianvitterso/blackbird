@@ -16,7 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import main.app.Loader;
 import main.core.ui.MainController;
-import main.core.ui.popups.ViewAssignmentPopupController;
+import main.core.ui.popups.SubmissionPopupController;
 import main.models.Assignment;
 import main.models.Submission;
 import main.utils.PostInitialize;
@@ -35,7 +35,7 @@ public class AssignmentBoxController implements Refreshable {
     @FXML private Label statusLabel;
     @FXML private JFXButton actionButton;
 
-    private ViewAssignmentPopupController viewController;
+    private SubmissionPopupController viewController;
     private MainController mainController;
     private Assignment assignment;
     private Submission submission;
@@ -46,7 +46,7 @@ public class AssignmentBoxController implements Refreshable {
 		headerRectangle.setManaged(false);
 		headerRectangle.widthProperty().bind(headerPane.widthProperty());
 		headerRectangle.heightProperty().bind(headerPane.heightProperty());
-    	viewController = Loader.getController(View.POPUP_VIEW_ASSIGNMENT_VIEW);
+    	viewController = Loader.getController(View.POPUP_SUBMISSION_VIEW);
     	mainController = Loader.getController(View.MAIN_VIEW);
 	}
 	
@@ -114,7 +114,7 @@ public class AssignmentBoxController implements Refreshable {
 	
 	@FXML
 	void handleOpenAssignmentClick(ActionEvent event) {
-		JFXDialog dialog = new JFXDialog(mainController.getOuterStackPane(), (Region) Loader.getParent(View.POPUP_VIEW_ASSIGNMENT_VIEW), DialogTransition.CENTER);
+		JFXDialog dialog = new JFXDialog(mainController.getOuterStackPane(), (Region) Loader.getParent(View.POPUP_SUBMISSION_VIEW), DialogTransition.CENTER);
 		Loader.getParent(View.MENU_VIEW).addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
 			dialog.close();
 		});

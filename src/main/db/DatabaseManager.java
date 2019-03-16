@@ -12,8 +12,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,55 +56,6 @@ public class DatabaseManager {
 			e.printStackTrace();
 		}
 	}
-	
-//	/*
-//	 * Returns ArrayList of HashMaps, where each HashMap refers to a row in the resultset you get.
-//	 * The HashMap's keys are the column headers, while the values are the row's values. 
-//	 */
-//	public static List<Map<String, String>> sendQuery(String query) {
-//		try {
-//			if(!connection.isValid(5)) { // asks the connection (with a ping) if it's still open, waits up to 5 seconds for a response
-//				System.err.println("SQL Connection closed, attempting to re-open.");
-//				openConnection();
-//			}
-//			Statement statement = connection.createStatement();
-//			Instant time1 = Instant.now();
-//			ResultSet resultSet = statement.executeQuery(query);
-//			Instant time2 = Instant.now();
-//			System.out.format("\tTime: %s     Query: %s%n", Duration.between(time1, time2).toString().replaceFirst("PT", ""), query);
-//			ResultSetMetaData rsmd = resultSet.getMetaData();
-//			
-//			List<Map<String, String>> resultArray = new ArrayList<>();
-//			while (resultSet.next()) {
-//				Map<String, String> currentRow = new HashMap<String, String>();
-//			       for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-//			           currentRow.put(rsmd.getColumnName(i), resultSet.getString(i));
-//			       } 
-//			       resultArray.add(currentRow); 
-//		    }
-//			statement.close();
-//			return resultArray;
-//		} catch (SQLException e) {
-//			System.err.println("SQL Query failed, connection lost.");
-//			System.err.println("Check your connection to the internet and to the NTNU-VPN.");
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
-	
-//	/*
-//	 * Returns ArrayList of HashMaps, where each HashMap refers to a row in the resultset you get.
-//	 * The HashMap's keys are the column headers, while the values are the row's values. 
-//	 */
-//	public static List<Map<String, String>> sendQueryNew(String query) {
-//		try {
-//			return sendQueryExample(query);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
-	
 	
 	/*
 	 * Sends query and reestablishes connection if lost.

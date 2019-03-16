@@ -19,13 +19,13 @@ import main.models.User;
 public class SubmissionManager {
 	public static List<Submission> getSubmissions(){
 		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery("SELECT * FROM submission");
-		return DatabaseUtil.MapsToSubmissions(submissionMaps);
+		return DatabaseUtil.mapsToSubmissions(submissionMaps);
 	}
 
 	public static Submission getSubmission(Assignment assignment, User user) {
 		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery(String.format(
 				"SELECT * FROM submission WHERE assignment_id = '%s' AND username = '%s';", assignment.getAssignmentID(), user.getUsername()));
-		return DatabaseUtil.MapsToSubmissions(submissionMaps).get(0);
+		return DatabaseUtil.mapsToSubmissions(submissionMaps).get(0);
 	}
 	
 	public static int addSubmission(Submission submission, File file) {
@@ -91,13 +91,13 @@ public class SubmissionManager {
 				+ "comment, course_code, title, description, deadline, max_score, passing_score "
 				+ "FROM submission NATURAL JOIN assignment WHERE username = '%s' AND course_code = '%s';",
 				user.getUsername(), course.getCourseCode()));
-		return DatabaseUtil.SAMapsAndUserToSubmissions(submissionAssignmentMaps, user);
+		return DatabaseUtil.mapsAssignmentSubmissionsAndUserToSubmissions(submissionAssignmentMaps, user);
 	}
 	
 	public static List<Submission> getSubmissionsFromAssignment(Assignment assignment){
 		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery(String.format(
 				"SELECT * FROM submission WHERE assignment_id = '%s';",
 				assignment.getAssignmentID()));
-		return DatabaseUtil.MapsToSubmissions(submissionMaps);
+		return DatabaseUtil.mapsToSubmissions(submissionMaps);
 	}
 }

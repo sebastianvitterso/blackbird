@@ -1,4 +1,4 @@
-package main.calendar;
+package main.components;
 
 import java.time.LocalDateTime;
 

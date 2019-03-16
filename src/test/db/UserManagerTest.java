@@ -92,7 +92,7 @@ public class UserManagerTest {
 	
 	@Test 
 	public void usersFromCourseTest() {
-		List<String> result = UserManager.usersFromCourse("TDT4140").stream().map(user -> user.getUsername()).collect(Collectors.toList());
+		List<String> result = UserManager.getUsersFromCourse("TDT4140").stream().map(user -> user.getUsername()).collect(Collectors.toList());
 		for(String username : usernames)
 			if(!result.contains(username))
 				fail("Did not get all students from the course");

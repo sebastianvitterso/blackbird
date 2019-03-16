@@ -11,13 +11,13 @@ import main.models.User;
 public class AnnouncementManager {
 	public static List<Announcement> getAnnouncements(){
 		List<Map<String, String>> announcementMaps = DatabaseManager.sendQuery("SELECT * FROM announcement");
-		return DatabaseUtil.MapsToAnnouncements(announcementMaps);
+		return DatabaseUtil.mapsToAnnouncements(announcementMaps);
 	}
 	
 	public static List<Announcement> getAnnouncementsFromCourse(Course course){
 		List<Map<String, String>> announcementMaps = DatabaseManager.sendQuery(
 				String.format("SELECT * FROM announcement WHERE course_code = '%s'", course.getCourseCode()));
-		return DatabaseUtil.MapsToAnnouncements(announcementMaps);
+		return DatabaseUtil.mapsToAnnouncements(announcementMaps);
 	}
 	
 	public static void addAnnouncement(Course course, User user, Timestamp timestamp, String title, String text){

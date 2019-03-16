@@ -2,17 +2,16 @@ package main.db;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import main.calendar.TimeSlot;
 import main.models.Announcement;
 import main.models.Assignment;
 import main.models.Course;
 import main.models.Period;
 import main.models.Submission;
+import main.models.TimeSlot;
 import main.models.User;
 import main.utils.Role;
 
@@ -25,7 +24,7 @@ public class DatabaseUtil {
 	 */
 	public static Map<String, Course> CourseLookupMap;
 	
-	public static void FillCourseLookupMap() {
+	public static void fillCourseLookupMap() {
 		List<Course> courses = CourseManager.getCourses();
 		Map<String, Course> tempMap = new HashMap<String, Course>();
 		for(Course course : courses) {
@@ -34,13 +33,13 @@ public class DatabaseUtil {
 		CourseLookupMap = tempMap;
 	}
 	
-	public static void ClearCourseLookupMap() {
+	public static void clearCourseLookupMap() {
 		CourseLookupMap = null;
 	}
 	
 	public static Map<String, User> UserLookupMap;
 	
-	public static void FillUserLookupMap() {
+	public static void fillUserLookupMap() {
 		List<User> users = UserManager.getUsers();
 		Map<String, User> tempMap = new HashMap<>();
 		for(User user : users) {
@@ -49,11 +48,11 @@ public class DatabaseUtil {
 		UserLookupMap = tempMap;
 	}
 	
-	public static void ClearUserLookupMap() {
+	public static void clearUserLookupMap() {
 		UserLookupMap = null;
 	}
 	
-	public static List<Course> MapsToCourses(List<Map<String, String>> courseMaps){
+	public static List<Course> mapsToCourses(List<Map<String, String>> courseMaps){
 		List<Course> courses = new ArrayList<Course>();
 		for (Map<String, String> courseMap : courseMaps) {
 			String courseCode = courseMap.get("course_code");
@@ -64,7 +63,7 @@ public class DatabaseUtil {
 		return courses;
 	}
 	
-	public static List<User> MapsToUsers(List<Map<String, String>> userMaps){
+	public static List<User> mapsToUsers(List<Map<String, String>> userMaps){
 		List<User> users = new ArrayList<User>();
 		for (Map<String, String> userMap : userMaps) {
 			String username = userMap.get("username");
@@ -77,7 +76,7 @@ public class DatabaseUtil {
 		return users;
 	}
 
-	public static List<Period> MapsToPeriods(List<Map<String, String>> periodMaps){
+	public static List<Period> mapsToPeriods(List<Map<String, String>> periodMaps){
 		List<Period> periods = new ArrayList<Period>();
 		for (Map<String, String> periodMap : periodMaps) {
 			int periodID = Integer.parseInt(periodMap.get("period_id"));
@@ -91,7 +90,7 @@ public class DatabaseUtil {
 		return periods;
 	}
 	
-	public static List<Assignment> MapsToAssignments(List<Map<String, String>> assignmentMaps) {
+	public static List<Assignment> mapsToAssignments(List<Map<String, String>> assignmentMaps) {
 		List<Assignment> assignmentList = new ArrayList<>();
 		for (Map<String, String> assignmentMap : assignmentMaps) {
 			int assignment_id = Integer.parseInt(assignmentMap.get("assignment_id"));
@@ -107,7 +106,7 @@ public class DatabaseUtil {
 		return assignmentList;
 	}
 
-	public static List<Assignment> MapsAndCourseToAssignments(List<Map<String, String>> assignmentMaps, Course course) {
+	public static List<Assignment> mapsAndCourseToAssignments(List<Map<String, String>> assignmentMaps, Course course) {
 		List<Assignment> assignmentList = new ArrayList<>();
 		for (Map<String, String> assignmentMap : assignmentMaps) {
 			int assignment_id = Integer.parseInt(assignmentMap.get("assignment_id"));
@@ -121,7 +120,7 @@ public class DatabaseUtil {
 		return assignmentList;
 	}
 	
-	public static List<Submission> MapsToSubmissions(List<Map<String, String>> submissionMaps) {
+	public static List<Submission> mapsToSubmissions(List<Map<String, String>> submissionMaps) {
 		List<Submission> submissionList = new ArrayList<>();
 		for (Map<String, String> submissionMap : submissionMaps) {
 			int assignment_id = Integer.parseInt(submissionMap.get("assignment_id"));
@@ -134,8 +133,8 @@ public class DatabaseUtil {
 		return submissionList;
 	}
 	
-	public static List<Submission> SAMapsAndUserToSubmissions(List<Map<String, String>> saMaps, User user) {
-		FillCourseLookupMap();
+	public static List<Submission> mapsAssignmentSubmissionsAndUserToSubmissions(List<Map<String, String>> saMaps, User user) {
+		fillCourseLookupMap();
 		List<Submission> submissionList = new ArrayList<>();
 		for (Map<String, String> saMap : saMaps) {
 			int assignment_id = Integer.parseInt(saMap.get("assignment_id"));
@@ -152,14 +151,14 @@ public class DatabaseUtil {
 					new Assignment(assignment_id, CourseLookupMap.get(course_code), title, description, deadline, max_score, passing_score), 
 					user, Timestamp.valueOf(delivered_timestamp), score, comment));
 		}
-		ClearCourseLookupMap();
+		clearCourseLookupMap();
 		return submissionList;
 	}	
 	
-	public static List<Announcement> MapsToAnnouncements(List<Map<String, String>> announcementMaps) {
+	public static List<Announcement> mapsToAnnouncements(List<Map<String, String>> announcementMaps) {
 		List<Announcement> announcements = new ArrayList<Announcement>();
-		FillCourseLookupMap();
-		FillUserLookupMap();
+		fillCourseLookupMap();
+		fillUserLookupMap();
 		for (Map<String, String> announcementMap : announcementMaps) {
 			int announcement_id = Integer.valueOf(announcementMap.get("announcement_id"));
 			Course course = CourseLookupMap.get(announcementMap.get("course_code"));  						// TODO Denne sender query for hver assignment
@@ -172,7 +171,7 @@ public class DatabaseUtil {
 		return announcements;
 	}
 
-	public static Map<String, TimeSlot> PeriodsToTimeSlotMap(List<Period> periods){
+	public static Map<String, TimeSlot> periodsToTimeSlotMap(List<Period> periods){
 		Map<String, List<Period>> timePeriodMap = new HashMap<>();
 		for(Period period : periods) {
 			if(!timePeriodMap.containsKey(period.getTimeStamp()))
@@ -186,7 +185,7 @@ public class DatabaseUtil {
 		return timeSlotMap;
 	}
 
-	public static Map<User, List<Role>> MapsToUserRoleMap(List<Map<String, String>> userMaps) {
+	public static Map<User, List<Role>> mapsToUserRoleMap(List<Map<String, String>> userMaps) {
 		Map<User, List<Role>> userRoleMap = new HashMap<>();
 		for (Map<String, String> userMap : userMaps) {
 			String username = userMap.get("username");

@@ -12,7 +12,7 @@ public class UserManager {
 	
 	public static List<User> getUsers(){
 		List<Map<String, String>> userMaps = DatabaseManager.sendQuery("SELECT * FROM user");
-		return DatabaseUtil.MapsToUsers(userMaps);
+		return DatabaseUtil.mapsToUsers(userMaps);
 	}
 	
 	public static User getUser(String username) {
@@ -22,7 +22,7 @@ public class UserManager {
 		} else if(userMaps.size() > 1) {
 			throw new IllegalStateException("Two primary keys in user");
 		}
-		return DatabaseUtil.MapsToUsers(userMaps).get(0);
+		return DatabaseUtil.mapsToUsers(userMaps).get(0);
 	}
 
 	public static int deleteUser(String username) {
@@ -48,10 +48,10 @@ public class UserManager {
 						user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail() ));
 	}
 
-	public static List<User> usersFromCourse(String courseCode){
+	public static List<User> getUsersFromCourse(String courseCode){
 		String query = String.format("SELECT * FROM user WHERE username IN (SELECT username FROM user_course WHERE course_code = '%s')", courseCode);
 		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
-		return DatabaseUtil.MapsToUsers(userMaps);
+		return DatabaseUtil.mapsToUsers(userMaps);
 	}
 	
 	
@@ -59,14 +59,14 @@ public class UserManager {
 		String query = String.format("SELECT * FROM user WHERE username IN "
 				+ "(SELECT username FROM user_course WHERE course_code = '%s' AND role = '%s');", course.getCourseCode(), role.name());
 		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
-		return DatabaseUtil.MapsToUsers(userMaps);
+		return DatabaseUtil.mapsToUsers(userMaps);
 	}
 	
 	public static Map<User, List<Role>> getAllUserRoles(Course course) {
 		String query = String.format("SELECT * FROM user NATURAL JOIN user_course WHERE course_code = "
 				+ "'%s' ORDER BY username;", course.getCourseCode());
 		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
-		return DatabaseUtil.MapsToUserRoleMap(userMaps);
+		return DatabaseUtil.mapsToUserRoleMap(userMaps);
 	}
 	
 	public static List<User> getUsersExcludingCourse(Course course) {
@@ -76,7 +76,7 @@ public class UserManager {
 				course.getCourseCode());
 		
 		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
-		return DatabaseUtil.MapsToUsers(userMaps);
+		return DatabaseUtil.mapsToUsers(userMaps);
 	}
 	
 	public static List<User> getUsersExcludingRole(Course course, Role role) {
@@ -85,7 +85,7 @@ public class UserManager {
 				+ course.getCourseCode() + "' and role = '" + role.name() + "') "
 				+ "AND NOT username = 'admin';";
 		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
-		return DatabaseUtil.MapsToUsers(userMaps);
+		return DatabaseUtil.mapsToUsers(userMaps);
 	}
 	
 	public static int addUsersToCourse(List<User> users, Course course, Role role) {

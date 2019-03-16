@@ -14,7 +14,7 @@ public class CourseManager {
 	
 	public static List<Course> getCourses(){
 		List<Map<String, String>> courseMaps = DatabaseManager.sendQuery("SELECT * FROM course");
-		return DatabaseUtil.MapsToCourses(courseMaps);
+		return DatabaseUtil.mapsToCourses(courseMaps);
 	}
 	
 	public static Course getCourse(String courseCode) {
@@ -25,7 +25,7 @@ public class CourseManager {
 			throw new IllegalStateException(String.format("Too many courses matching primary key courseCode: %s", courseCode));
 		}
 				
-		return DatabaseUtil.MapsToCourses(courseMaps).get(0);
+		return DatabaseUtil.mapsToCourses(courseMaps).get(0);
 	}
 
 	public static void deleteCourse(String courseCode) {
@@ -50,7 +50,7 @@ public class CourseManager {
 	public static List<Course> getCoursesFromUser(String username){
 		String query = "SELECT * FROM course WHERE course_code IN (SELECT course_code FROM user_course WHERE username = '" + username + "')";
 		List<Map<String, String>> courseMaps = DatabaseManager.sendQuery(query);
-		return DatabaseUtil.MapsToCourses(courseMaps);
+		return DatabaseUtil.mapsToCourses(courseMaps);
 	}
 	
 	public static List<Course> getCoursesFromUser(User user){

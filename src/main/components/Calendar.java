@@ -1,4 +1,4 @@
-package main.calendar;
+package main.components;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +22,7 @@ import main.db.LoginManager;
 import main.db.PeriodManager;
 import main.models.Course;
 import main.models.Period;
+import main.models.TimeSlot;
 import main.models.Period.PeriodType;
 import main.utils.Role;
 
