@@ -48,7 +48,7 @@ public class UserManager {
 						user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail() ));
 	}
 
-	public static List<User> usersFromCourse(String courseCode){
+	public static List<User> getUsersFromCourse(String courseCode){
 		String query = String.format("SELECT * FROM user WHERE username IN (SELECT username FROM user_course WHERE course_code = '%s')", courseCode);
 		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
 		return DatabaseUtil.mapsToUsers(userMaps);
