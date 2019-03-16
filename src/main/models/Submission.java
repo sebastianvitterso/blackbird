@@ -7,12 +7,14 @@ public class Submission {
 	private final User user;
 	private Timestamp deliveredTime;
 	private int score;
+	private String comment;
 	
-	public Submission(Assignment assignment, User user, Timestamp deliveredTime, int score){
+	public Submission(Assignment assignment, User user, Timestamp deliveredTime, int score, String comment){
 		this.assignment = assignment;
 		this.user = user;
 		this.deliveredTime = deliveredTime;
 		this.score = score;
+		this.comment = comment;
 	}
 	
 	public Assignment getAssignment() {
@@ -38,5 +40,18 @@ public class Submission {
 	public void setScore(int score) {
 		this.score = score;
 	}
+	
+	public String getComment() {
+		return comment;
+	}
+	
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
+	@Override
+	public String toString() {
+		return String.format("Submission [assignment=%s, user=%s, deliveredTime=%s, score=%s, comment=%s]", assignment.getAssignmentID(),
+				user, deliveredTime, score, comment);
+	}
 }

@@ -62,6 +62,13 @@ public class UserManager {
 		return DatabaseUtil.MapsToUsers(userMaps);
 	}
 	
+	public static Map<User, List<Role>> getAllUserRoles(Course course) {
+		String query = String.format("SELECT * FROM user NATURAL JOIN user_course WHERE course_code = "
+				+ "'%s' ORDER BY username;", course.getCourseCode());
+		List<Map<String, String>> userMaps = DatabaseManager.sendQuery(query);
+		return DatabaseUtil.MapsToUserRoleMap(userMaps);
+	}
+	
 	public static List<User> getUsersExcludingCourse(Course course) {
 		String query = String.format("SELECT * FROM user WHERE username NOT IN "
 				+ "(SELECT username FROM user_course WHERE course_code = '%s') "
