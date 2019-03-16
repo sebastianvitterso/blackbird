@@ -179,11 +179,9 @@ public class DatabaseUtil {
 			String email = userMap.get("email");
 			User user = new User(username, password, firstName, lastName, email);
 			Role role = Role.valueOf(userMap.get("role"));
-			if(userRoleMap.containsKey(user)) {
-				userRoleMap.get(user).add(role);
-			} else {
-				userRoleMap.put(user, Arrays.asList(role));
-			}
+			if(!userRoleMap.containsKey(user))
+				userRoleMap.put(user, new ArrayList<Role>());
+			userRoleMap.get(user).add(role);
 		}
 		return userRoleMap;
 	}
