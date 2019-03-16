@@ -67,4 +67,9 @@ public class User {
 		return o != null && o.getClass() == User.class && ((User)o).getUsername().equals(username);
 	}
 	
+	@Override
+	public int hashCode() {
+		return username.hashCode();
+	}
+	
 }

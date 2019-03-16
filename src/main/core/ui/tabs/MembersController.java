@@ -1,8 +1,11 @@
 package main.core.ui.tabs;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXTreeTableView;
@@ -78,10 +81,13 @@ public class MembersController implements Refreshable {
 			
 	}
 	public void updateUserView(Course course) {
-		List<User> userList = UserManager.usersFromCourse(course.getCourseCode());
 		userProfessorList = UserManager.getUsersByRole(course, Role.PROFESSOR);
 		userAssistantList = UserManager.getUsersByRole(course, Role.ASSISTANT);
 		userStudentList = UserManager.getUsersByRole(course, Role.STUDENT);
+		Set<User> userList = new HashSet<User>();
+		userList.addAll(userProfessorList);
+		userList.addAll(userAssistantList);
+		userList.addAll(userStudentList);
 		
 		// Convert users to internal format
 		List<RecursiveTreeUser> formattedUsers = userList.stream()
