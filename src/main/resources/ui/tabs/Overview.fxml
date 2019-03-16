@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefWidth="1010.0" styleClass="background" stylesheets="@../../stylesheets/overview.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.OverviewController">
+<StackPane prefWidth="1010.0" styleClass="background" stylesheets="@../../stylesheets/overview.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.OverviewController">
    <children>
       <HBox spacing="50.0">
          <children>
@@ -59,7 +59,7 @@
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin></Separator>
-                        <VBox fx:id="assignmentVBox" />
+                        <VBox fx:id="assignmentVBox" spacing="6.0" />
                      </children>
                   </VBox>
                </children>

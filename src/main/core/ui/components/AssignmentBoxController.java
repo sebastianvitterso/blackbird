@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXDialog.DialogTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -114,7 +115,9 @@ public class AssignmentBoxController implements Refreshable {
 	@FXML
 	void handleOpenAssignmentClick(ActionEvent event) {
 		JFXDialog dialog = new JFXDialog(mainController.getOuterStackPane(), (Region) Loader.getParent(View.POPUP_VIEW_ASSIGNMENT_VIEW), DialogTransition.CENTER);
-		
+		Loader.getParent(View.MENU_VIEW).addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
+			dialog.close();
+		});
 		viewController.clear();
 		viewController.connectDialog(dialog);
 		viewController.loadAssignment(assignment);
