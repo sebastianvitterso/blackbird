@@ -7,6 +7,8 @@
 	
 	-green-1: #ACCEB9;
 	-green-2: #006110;
+
+	-orange-1: #D6BA9D;
 	
 	-red-1: #CEACAC;
 	-red-2: #7E0000;
@@ -35,3 +37,28 @@
 .header-separator {
 	-fx-background-color: -grey-1;
 }
+
+
+/*   Assignment Button   */
+.button-default {
+	-fx-background-color: #BBBBBB;
+}
+.button-green {
+	-fx-background-color: -green-1;
+}
+.button-orange {
+	-fx-background-color: -orange-1;
+}
+.button-red {
+	-fx-background-color: -red-1;
+}
+.button-text {
+	-fx-font: normal 14px "Segoe UI Semibold";
+	-fx-text-fill: #1C1C2E;
+}
+.border {
+	-fx-border-color: #707070;
+	-fx-border-width: 1;
+	-fx-border-radius: 2;
+}
+

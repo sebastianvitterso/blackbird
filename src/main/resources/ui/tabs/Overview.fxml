@@ -55,12 +55,11 @@
                               <DropShadow color="#bbbbbb" height="5.0" radius="2.0" spread="0.7" width="5.0" />
                            </effect>
                         </Label>
-                        <Separator styleClass="header-separator" />
-                        <Label styleClass="breadtext" text="Lorem ipsum dolor sit amet, qui ut docendi vivendum splendide, oblique phaedrum referrentur duo ne, eum adolescens intellegebat no. Qui ne ipsum assum aperiri, unum justo detraxit eos ex. &#10;&#10;Et salutatus scribentur sea. Per ei quem interesset, sed tantas nusquam quaerendum et. Meis habemus mandamus nam ea.&#10;" wrapText="true">
+                        <Separator styleClass="header-separator">
                            <VBox.margin>
-                              <Insets left="10.0" right="10.0" top="20.0" />
-                           </VBox.margin>
-                        </Label>
+                              <Insets bottom="10.0" />
+                           </VBox.margin></Separator>
+                        <VBox fx:id="assignmentVBox" spacing="6.0" />
                      </children>
                   </VBox>
                </children>

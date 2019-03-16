@@ -184,7 +184,7 @@ public class ViewAssignmentPopupController implements Refreshable {
     void handleDeliverClick(ActionEvent event) {
     	User user = LoginManager.getActiveUser();
     	File file  = selectedFile;
-    	Timestamp time = Timestamp.valueOf(Instant.now().toString().replaceFirst("T", " ").substring(0, 19));
+    	Timestamp time = Timestamp.from(Instant.now());
     	submission = new Submission(assignment, user, time, -1, null);
     	SubmissionManager.addSubmission(submission, file);
     	assignmentController.update();
