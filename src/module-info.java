@@ -9,7 +9,7 @@ module blackbird {
 	exports main.utils;
 
 	requires transitive java.sql;
-	requires javafx.base;
+	requires transitive javafx.base;
 	requires transitive javafx.fxml;
 	requires transitive javafx.graphics;
 	requires transitive javafx.controls;

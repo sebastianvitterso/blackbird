@@ -17,11 +17,13 @@ import main.models.Submission;
 import main.models.User;
 
 public class SubmissionManager {
+	// TODO Uses two queries
 	public static List<Submission> getSubmissions(){
 		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery("SELECT * FROM submission");
 		return DatabaseUtil.mapsToSubmissions(submissionMaps);
 	}
 
+	// TODO Uses two queries
 	public static Submission getSubmission(Assignment assignment, User user) {
 		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery(String.format(
 				"SELECT * FROM submission WHERE assignment_id = '%s' AND username = '%s';", assignment.getAssignmentID(), user.getUsername()));
