@@ -41,6 +41,8 @@ createjar-job:
     - 'mvn clean compile assembly:single'
   dependencies:
     - unittest-job
+  cache:
+    untracked: true
 #  only:
 #    - master
   artifacts:
