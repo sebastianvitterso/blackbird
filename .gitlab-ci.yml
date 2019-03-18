@@ -41,26 +41,29 @@ unittest-job:
   allow_failure: true
 
 
+#generate-report:
+#  stage: deploy
+#  script:
+#    - 'mvn surefire-report:report-only "-DoutputName=index"'
+#  dependencies:
+#    - unittest-job
+#  artifacts:
+#    paths:
+#    - target/surefire-reports
+#    - target/site/
+
 generate-report:
+  image: busybox:latest
   stage: deploy
   script:
     - 'mvn surefire-report:report-only "-DoutputName=index"'
+    - 'mv target/site public'
   dependencies:
     - unittest-job
   artifacts:
     paths:
     - target/surefire-reports
     - target/site/
-
-pages:
-  image: busybox:latest
-  stage: deploy
-  script:
-    - mv target/site public
-  dependencies:
-    - unittest-job
-  artifacts:
-    paths:
     - public
 
 createjar-job:
