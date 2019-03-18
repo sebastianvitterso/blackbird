@@ -87,7 +87,7 @@ public class AssignmentBoxController implements Refreshable {
 		case DEADLINE_EXCEEDED:
 			headerRectangle.getStyleClass().setAll("header-background-red");
 			statusLabel.getStyleClass().setAll("status-label-red");
-			statusLabel.setText("Too late haha");
+			statusLabel.setText("For seint");
 			break;
 		default:
 			break;

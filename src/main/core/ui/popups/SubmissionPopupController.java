@@ -159,7 +159,7 @@ public class SubmissionPopupController implements Refreshable {
 			}
 			break;
 		case DEADLINE_EXCEEDED:
-			statusLabel.setText("Status: For seint, lulz"); 
+			statusLabel.setText("Status: Tidsfrist utgått"); 
 			scoreLabel.setVisible(false);
 			commentLabel.setVisible(true);
 			commentLabel.setText("Øvingen ble ikke levert innen tidsfristen.");
