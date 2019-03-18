@@ -28,6 +28,9 @@ unittest-job:
   cache:
     untracked: true
   artifacts:
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
     paths:
     - target/surefire-reports
     when: always
