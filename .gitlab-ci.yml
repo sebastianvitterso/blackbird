@@ -22,7 +22,7 @@ compile-job:
 unittest-job:
   stage: test
   script:
-    - 'mvn test'
+    - ''
   dependencies:
     - compile-job
   cache:
