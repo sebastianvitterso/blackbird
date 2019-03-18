@@ -61,7 +61,7 @@ pages:
   image: busybox:latest
   stage: deploy
   script:
-    - mv target/staging public
+    - mv target/site public
   dependencies:
     - unittest-job
   artifacts:
