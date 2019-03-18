@@ -27,7 +27,7 @@ compile-job:
 unittest-job:
   stage: test
   script:
-    - 'mvn surefire-report'
+    - 'mvn surefire-report:report'
 #    - 'mvn test $MAVEN_CLI_OPTS'
   dependencies:
     - compile-job
@@ -39,10 +39,13 @@ unittest-job:
         - target/surefire-reports/TEST-*.xml
     paths:
     - target/surefire-reports
+    - target/site/
     when: always
   retry:
     max: 2
     when: runner_system_failure
+  allow_failure: true
+
 
 #deploy-site:
 #  stage: test
