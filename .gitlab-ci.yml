@@ -30,6 +30,10 @@ unittest-job:
   retry:
     max: 2
     when: runner_system_failure
+  artifacts:
+    paths:
+    - target/surefire-reports
+    when: always
 
 createjar-job:
   stage: deploy
