@@ -18,9 +18,6 @@ compile-job:
   retry:
     max: 2
     when: runner_system_failure
-#  artifacts:
-#    paths:
-#    - target/staging
     
 unittest-job:
   stage: test
@@ -33,9 +30,6 @@ unittest-job:
   retry:
     max: 2
     when: runner_system_failure
-#  artifacts:
-#    paths:
-#    - target/staging
 
 createjar-job:
   stage: deploy
@@ -45,9 +39,11 @@ createjar-job:
     - unittest-job
 #  only:
 #    - master
+artifacts:
   artifacts:
     paths:
     - release/*.jar
+    when: always
   retry:
     max: 2
     when: runner_system_failure
