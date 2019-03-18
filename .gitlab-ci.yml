@@ -27,7 +27,7 @@ compile-job:
 unittest-job:
   stage: test
   script:
-    - 'mvn surefire-report:report'
+    - 'mvn surefire-report:report "-DoutputName=index"'
 #    - 'mvn test $MAVEN_CLI_OPTS'
   dependencies:
     - compile-job
