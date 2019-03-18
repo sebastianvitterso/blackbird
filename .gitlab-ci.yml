@@ -18,8 +18,6 @@ compile-job:
   stage: build
   script:
     - 'mvn clean compile $MAVEN_CLI_OPTS'
-#  cache:
-#    untracked: true
   retry:
     max: 2
     when: runner_system_failure
@@ -27,19 +25,15 @@ compile-job:
 unittest-job:
   stage: test
   script:
-    - 'mvn surefire-report:report "-DoutputName=index"'
-#    - 'mvn test $MAVEN_CLI_OPTS'
+    - 'mvn test $MAVEN_CLI_OPTS'
   dependencies:
     - compile-job
-#  cache:
-#    untracked: true
   artifacts:
     reports:
       junit:
         - target/surefire-reports/TEST-*.xml
     paths:
     - target/surefire-reports
-    - target/site/
     when: always
   retry:
     max: 2
@@ -47,15 +41,16 @@ unittest-job:
   allow_failure: true
 
 
-#deploy-site:
-#  stage: test
-#  script:
-#    - 'surefire-report:report-only'
-#  dependencies:
-#    - unittest-job
-#  artifacts:
-#    paths:
-#    - target/staging
+generate-report:
+  stage: deploy
+  script:
+    - 'mvn surefire-report:report-only "-DoutputName=index"'
+  dependencies:
+    - unittest-job
+  artifacts:
+    paths:
+    - target/surefire-reports
+    - target/site/
 
 pages:
   image: busybox:latest
@@ -74,10 +69,6 @@ createjar-job:
     - 'mvn clean compile assembly:single $MAVEN_CLI_OPTS'
   dependencies:
     - unittest-job
-#  cache:
-#    untracked: true
-#  only:
-#    - master
   artifacts:
     paths:
     - release/*.jar
