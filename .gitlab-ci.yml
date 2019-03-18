@@ -39,7 +39,6 @@ createjar-job:
     - unittest-job
 #  only:
 #    - master
-artifacts:
   artifacts:
     paths:
     - release/*.jar
