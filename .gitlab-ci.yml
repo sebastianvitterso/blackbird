@@ -13,9 +13,14 @@ compile-job:
   stage: build
   script:
     - 'mvn clean compile'
-  artifacts:
-    paths:
-    - target/staging
+  cache:
+    untracked: true
+  retry:
+    max: 2
+    when: runner_system_failure
+#  artifacts:
+#    paths:
+#    - target/staging
     
 unittest-job:
   stage: test
@@ -23,9 +28,14 @@ unittest-job:
     - 'mvn test'
   dependencies:
     - compile-job
-  artifacts:
-    paths:
-    - target/staging
+  cache:
+    untracked: true
+  retry:
+    max: 2
+    when: runner_system_failure
+#  artifacts:
+#    paths:
+#    - target/staging
 
 createjar-job:
   stage: deploy
@@ -33,8 +43,11 @@ createjar-job:
     - 'mvn assembly:single'
   dependencies:
     - unittest-job
-  only:
-    - master
+#  only:
+#    - master
   artifacts:
     paths:
-    - target/staging
+    - release/*.jar
+  retry:
+    max: 2
+    when: runner_system_failure
