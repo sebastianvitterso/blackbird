@@ -20,7 +20,7 @@ compile-job:
 unittest-job:
   stage: test
   script:
-    - 'mvn -Dtest=LoginManagerTest test'
+    - 'mvn test'
   dependencies:
     - compile-job
   artifacts:
