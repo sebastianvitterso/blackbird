@@ -21,12 +21,13 @@
 					<target>11</target>
 				</configuration>
 			</plugin>
-			
+			<!-- 
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.0</version>
             </plugin>
+			 -->
 
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -176,12 +177,14 @@
 			<!-- <scope>test</scope> -->
 		</dependency>
 
+<!-- 
 		<dependency> 
 			<groupId>org.junit.jupiter</groupId> 
 			<artifactId>junit-jupiter-api</artifactId> 
 			<version>5.4.0</version> 
 			<scope>test</scope> 
 		</dependency>
+ -->
 		
 		<dependency>
 			<groupId>com.jfoenix</groupId>
