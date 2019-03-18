@@ -83,6 +83,7 @@ public class OverviewController implements Refreshable {
 		Course selectedCourse = menuController.getSelectedCourse();
 		List<Announcement> announcements = AnnouncementManager.getAnnouncementsFromCourse(selectedCourse);
 		List<AnnouncementBox> boxes = announcements.stream()
+				.sorted()
 				.map(AnnouncementBox::new)
 				.collect(Collectors.toList());
 		
