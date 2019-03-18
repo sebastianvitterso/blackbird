@@ -22,18 +22,18 @@ compile-job:
 unittest-job:
   stage: test
   script:
-    - ''
+    - 'mvn test'
   dependencies:
     - compile-job
   cache:
     untracked: true
-  retry:
-    max: 2
-    when: runner_system_failure
   artifacts:
     paths:
     - target/surefire-reports
     when: always
+  retry:
+    max: 2
+    when: runner_system_failure
 
 createjar-job:
   stage: deploy
