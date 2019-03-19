@@ -33,6 +33,7 @@ import main.models.Submission;
 import main.models.User;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
+import main.utils.Role;
 import main.utils.Status;
 import main.utils.View;
 
@@ -42,44 +43,36 @@ import main.utils.View;
  */
 public class SubmissionPopupController implements Refreshable {
     @FXML private StackPane rootPane;
+    @FXML private StackPane submissionGradingPane;
+    @FXML private HBox outerHBox;
+
     @FXML private HBox submissionListHBox;
     @FXML private JFXListView<?> submissionListView;
+
     @FXML private Label assignmentTitleLabel;
     @FXML private Label assignmentDeadlineLabel;
     @FXML private Label assignmentMaxScoreLabel;
     @FXML private Label assignmentPassingScoreLabel;
     @FXML private Label assignmentDescriptionLabel;
     @FXML private JFXButton assignmentFileLinkButton;
-    @FXML private VBox studentVBox;
-    @FXML private Label statusLabel;
-    @FXML private Label scoreLabel;
-    @FXML private Label commentLabel;
-    @FXML private HBox lowerHBox;
-    @FXML private HBox fileUploadHBox;
-    @FXML private JFXTextField fileTextField;
+    
+    @FXML private VBox submissionVBox;
+    @FXML private HBox submissionLowerHBox;
+    @FXML private Label submissionStatusLabel;
+    @FXML private Label submissionScoreLabel;
+    @FXML private Label submissionCommentLabel;
+    @FXML private HBox submissionFileUploadHBox;
+    @FXML private JFXTextField submissionFileTextField;
     @FXML private JFXButton submissionFileLinkButton;
-    @FXML private JFXButton cancelButton;
-    @FXML private JFXButton deliverButton;
+    @FXML private JFXButton submissionDeliverButton;
+    
     @FXML private VBox gradingVBox;
     @FXML private Label gradingStatusLabel;
     @FXML private JFXTextField gradingScoreTextField;
     @FXML private Label gradingMaxScoreLabel;
     @FXML private JFXTextArea gradingCommentTextArea;
-    @FXML private JFXButton submissionFileLinkButton1;
     @FXML private JFXButton gradingEvaluateButton;
 
-    @FXML
-    void handleEvaluateClick(ActionEvent event) {
-
-    }
-
-	
-	
-	
-	// ---------------------------------
-	
-    
-    
     private Assignment assignment;
     private String assignmentFileName;
     private Submission submission;
@@ -94,6 +87,28 @@ public class SubmissionPopupController implements Refreshable {
     
     @Override
     public void clear() {
+    	// Set visibility
+    	submissionFileUploadHBox.setVisible(true);
+    	submissionScoreLabel.setVisible(true);
+    	submissionCommentLabel.setVisible(true);
+    	submissionFileLinkButton.setVisible(true);
+    	
+    	// Clear data
+    	submissionCommentLabel.setText("");
+    	
+    	// Grading
+    	gradingCommentTextArea.clear();
+    	gradingScoreTextField.setText("-");
+    	gradingMaxScoreLabel.setText("/ -");
+    	gradingStatusLabel.setText("");
+    	
+    	submissionListView.getItems().clear();
+    	submissionGradingPane.getChildren().setAll(submissionVBox, gradingVBox);
+    	
+    	if (!outerHBox.getChildren().contains(submissionListHBox))
+    		outerHBox.getChildren().add(0, submissionListHBox);
+    	
+    	
     }
 
 	/**
@@ -111,14 +126,33 @@ public class SubmissionPopupController implements Refreshable {
 	public void connectDialog(JFXDialog dialog) {
 		this.dialog = dialog;
 	}
+	
+	public void load(Assignment assignment, Submission submission, Role role) {
+		switch (role) {
+		case PROFESSOR:
+		case ASSISTANT:
+			submissionVBox.setVisible(false);
+			break;
+		case STUDENT:
+			
+			break;
 
+		default:
+			break;
+		}
+		
+		loadAssignment(assignment);
+		loadSubmission(submission);
+	}
+	
+	
 	public void loadAssignment(Assignment assignment) {
 		this.assignment = assignment;
-		headerLabel.setText(assignment.getTitle());
-		descriptionLabel.setText(assignment.getDescription());
-		deadlineLabel.setText(String.format("Tidsfrist: %s", assignment.getDeadLine()));
-		maxScoreLabel.setText(String.format("Maks: %s poeng", assignment.getMaxScore()));
-		passingScoreLabel.setText(String.format("Krav: %s poeng", assignment.getPassingScore()));
+		assignmentTitleLabel.setText(assignment.getTitle());
+		assignmentDescriptionLabel.setText(assignment.getDescription());
+		assignmentDeadlineLabel.setText(String.format("Tidsfrist: %s", assignment.getDeadLine()));
+		assignmentMaxScoreLabel.setText(String.format("Maks: %s poeng", assignment.getMaxScore()));
+		assignmentPassingScoreLabel.setText(String.format("Krav: %s poeng", assignment.getPassingScore()));
 		//TODO: Normalizer.normalize ? Bør oppgavene kunne hete "oppgaver-TDT4140-Øving 0"? Bør vi fikse æøå?
 		assignmentFileName = String.format("oppgaver-%s-%s.pdf", assignment.getCourse().getCourseCode(), assignment.getTitle());
 		assignmentFileLinkButton.setText(assignmentFileName);
@@ -127,76 +161,66 @@ public class SubmissionPopupController implements Refreshable {
 	public void loadSubmission(Submission submission) {
 		this.submission = submission;
 		Status status = Assignment.determineStatus(assignment, this.submission);
+		
+		// Common attributes
+		// TODO : No submission available
+		submissionStatusLabel.setText(status.getNorwegianName());
+		
 		switch(status){
 		case PASSED:
-			statusLabel.setText("Status: Godkjent"); 
-			scoreLabel.setVisible(true);
-			scoreLabel.setText(String.format("Poeng: %s/%s", submission.getScore(), assignment.getMaxScore()));
-			commentLabel.setVisible(true);
-			commentLabel.setText(submission.getComment());
-			fileTextField.clear();
-			fileUploadHBox.setVisible(false);
-			submissionFileLinkButton.setVisible(true);
+			submissionScoreLabel.setText(String.format("%s / %s", submission.getScore(), assignment.getMaxScore()));
+			submissionCommentLabel.setText(submission.getComment());
+			submissionFileUploadHBox.setVisible(false);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
-					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
+					assignment.getCourse().getCourseCode(), 
+					assignment.getTitle(), 
+					submission.getUser().getUsername());
 			submissionFileLinkButton.setText(submissionFileName);
-			lowerHBox.getChildren().remove(deliverButton);
+			lowerHBox.getChildren().remove(submissionDeliverButton);
 			break;
 		case WAITING:
-			statusLabel.setText("Status: Venter på godkjenning"); 
-			scoreLabel.setVisible(false);
-			commentLabel.setVisible(false);
-			commentLabel.setText("");
-			fileTextField.clear();
-			fileUploadHBox.setVisible(false);
-			submissionFileLinkButton.setVisible(true);
+			submissionScoreLabel.setVisible(false);
+			submissionCommentLabel.setVisible(false);
+			submissionFileUploadHBox.setVisible(false);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
-					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
+					assignment.getCourse().getCourseCode(), 
+					assignment.getTitle(), 
+					submission.getUser().getUsername());
 			submissionFileLinkButton.setText(submissionFileName);
-			lowerHBox.getChildren().remove(deliverButton);
+			lowerHBox.getChildren().remove(submissionDeliverButton);
 			break;
 		case FAILED:
-			statusLabel.setText("Status: Ikke godkjent"); 
-			scoreLabel.setVisible(true);
-			scoreLabel.setText(String.format("Poeng: %s/%s", submission.getScore(), assignment.getMaxScore()));
-			commentLabel.setVisible(true);
-			commentLabel.setText(submission.getComment());
-			fileTextField.clear();
-			fileUploadHBox.setVisible(false);
-			submissionFileLinkButton.setVisible(true);
+			submissionScoreLabel.setText(String.format("%s / %s", submission.getScore(), assignment.getMaxScore()));
+			submissionCommentLabel.setText(submission.getComment());
+			submissionFileUploadHBox.setVisible(false);
 			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
-					assignment.getCourse().getCourseCode(), assignment.getTitle(), submission.getUser().getUsername());
+					assignment.getCourse().getCourseCode(), 
+					assignment.getTitle(), 
+					submission.getUser().getUsername());
 			submissionFileLinkButton.setText(submissionFileName);
-			lowerHBox.getChildren().remove(deliverButton);
+			lowerHBox.getChildren().remove(submissionDeliverButton);
 			break;
 		case NOT_DELIVERED:
-			statusLabel.setText("Status: Ikke levert"); 
-			scoreLabel.setVisible(false);
-			commentLabel.setVisible(false);
-			commentLabel.setText("");
-			fileTextField.clear();
-			fileUploadHBox.setVisible(true);
+			submissionScoreLabel.setVisible(false);
+			submissionCommentLabel.setVisible(false);
 			submissionFileLinkButton.setVisible(false);
-			if(!lowerHBox.getChildren().contains(deliverButton)) {
-				lowerHBox.getChildren().add(deliverButton);
+			if(!lowerHBox.getChildren().contains(submissionDeliverButton)) {
+				lowerHBox.getChildren().add(submissionDeliverButton);
 			}
 			break;
 		case DEADLINE_EXCEEDED:
-			statusLabel.setText("Status: Tidsfrist utgått"); 
-			scoreLabel.setVisible(false);
-			commentLabel.setVisible(true);
-			commentLabel.setText("Øvingen ble ikke levert innen tidsfristen.");
-			fileTextField.clear();
-			fileUploadHBox.setVisible(false);
+			submissionScoreLabel.setVisible(false);
+			submissionCommentLabel.setText("Øvingen ble ikke levert innen tidsfristen.");
+			submissionFileUploadHBox.setVisible(false);
 			submissionFileLinkButton.setVisible(false);
-			lowerHBox.getChildren().remove(deliverButton);
+			lowerHBox.getChildren().remove(submissionDeliverButton);
 			break;
 		default:
 			break;
 		}
 	}
 	
-	
+
 	@FXML
     void handleCancelClick(ActionEvent event) {
 
@@ -228,7 +252,7 @@ public class SubmissionPopupController implements Refreshable {
 		selectedFile = fileChooser.showOpenDialog(mainStage);
 
 		// Update displayed text
-		fileTextField.setText(selectedFile != null ? selectedFile.getName() : "");
+		submissionFileTextField.setText(selectedFile != null ? selectedFile.getName() : "");
     }	
 	
     @FXML
@@ -273,6 +297,11 @@ public class SubmissionPopupController implements Refreshable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
+    }
+
+    @FXML
+    void handleEvaluateClick(ActionEvent event) {
+
     }
 
 }

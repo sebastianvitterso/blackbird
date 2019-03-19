@@ -35,7 +35,7 @@ public class AssignmentBoxController implements Refreshable {
     @FXML private Label statusLabel;
     @FXML private JFXButton actionButton;
 
-    private SubmissionPopupController viewController;
+    private SubmissionPopupController submissionController;
     private MainController mainController;
     private Assignment assignment;
     private Submission submission;
@@ -46,7 +46,7 @@ public class AssignmentBoxController implements Refreshable {
 		headerRectangle.setManaged(false);
 		headerRectangle.widthProperty().bind(headerPane.widthProperty());
 		headerRectangle.heightProperty().bind(headerPane.heightProperty());
-    	viewController = Loader.getController(View.POPUP_SUBMISSION_VIEW);
+    	submissionController = Loader.getController(View.POPUP_SUBMISSION_VIEW);
     	mainController = Loader.getController(View.MAIN_VIEW);
 	}
 	
@@ -118,10 +118,10 @@ public class AssignmentBoxController implements Refreshable {
 		Loader.getParent(View.MENU_VIEW).addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
 			dialog.close();
 		});
-		viewController.clear();
-		viewController.connectDialog(dialog);
-		viewController.loadAssignment(assignment);
-		viewController.loadSubmission(submission);
+		submissionController.clear();
+		submissionController.connectDialog(dialog);
+		submissionController.loadAssignment(assignment);
+		submissionController.loadSubmission(submission);
 		dialog.show();		
 	}
 	
