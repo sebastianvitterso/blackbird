@@ -10,6 +10,8 @@ import java.time.Instant;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.event.ActionEvent;
@@ -17,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -38,24 +41,44 @@ import main.utils.View;
  *
  */
 public class SubmissionPopupController implements Refreshable {
-	
-	@FXML private StackPane rootPane;
-    @FXML private Label headerLabel;
-    @FXML private Label deadlineLabel;
-    @FXML private Label maxScoreLabel;
-    @FXML private Label passingScoreLabel;
-    @FXML private Label descriptionLabel;
+    @FXML private StackPane rootPane;
+    @FXML private HBox submissionListHBox;
+    @FXML private JFXListView<?> submissionListView;
+    @FXML private Label assignmentTitleLabel;
+    @FXML private Label assignmentDeadlineLabel;
+    @FXML private Label assignmentMaxScoreLabel;
+    @FXML private Label assignmentPassingScoreLabel;
+    @FXML private Label assignmentDescriptionLabel;
+    @FXML private JFXButton assignmentFileLinkButton;
+    @FXML private VBox studentVBox;
     @FXML private Label statusLabel;
     @FXML private Label scoreLabel;
     @FXML private Label commentLabel;
-    @FXML private HBox fileUploadHBox;
     @FXML private HBox lowerHBox;
+    @FXML private HBox fileUploadHBox;
     @FXML private JFXTextField fileTextField;
-    @FXML private Label submissionFileLinkLabel;
+    @FXML private JFXButton submissionFileLinkButton;
     @FXML private JFXButton cancelButton;
     @FXML private JFXButton deliverButton;
-    @FXML private JFXButton assignmentFileLinkButton;
-    @FXML private JFXButton submissionFileLinkButton;
+    @FXML private VBox gradingVBox;
+    @FXML private Label gradingStatusLabel;
+    @FXML private JFXTextField gradingScoreTextField;
+    @FXML private Label gradingMaxScoreLabel;
+    @FXML private JFXTextArea gradingCommentTextArea;
+    @FXML private JFXButton submissionFileLinkButton1;
+    @FXML private JFXButton gradingEvaluateButton;
+
+    @FXML
+    void handleEvaluateClick(ActionEvent event) {
+
+    }
+
+	
+	
+	
+	// ---------------------------------
+	
+    
     
     private Assignment assignment;
     private String assignmentFileName;
