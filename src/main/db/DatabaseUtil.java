@@ -166,7 +166,8 @@ public class DatabaseUtil {
 			Timestamp timestamp = Timestamp.valueOf(announcementMap.get("timestamp"));
 			String title = announcementMap.get("title");
 			String text = announcementMap.get("text");
-			announcements.add(new Announcement(announcement_id, course, user, timestamp, title, text));
+			Role audience = Role.valueOf(announcementMap.get("audience")); 
+			announcements.add(new Announcement(announcement_id, course, user, timestamp, title, text, audience));
 		}
 		return announcements;
 	}

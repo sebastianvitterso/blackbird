@@ -27,10 +27,10 @@ public class Announcement implements Comparable<Announcement>{
 			case "STUDENT": 
 				this.audienceID = 1; 
 				break;
-			case "LÆRINGSASSISTENT": 
+			case "ASSISTANT": 
 				this.audienceID = 2; 
 				break;
-			case "EMNEANSVARLIG": 
+			case "PROFESSOR": 
 				this.audienceID = 3; 
 				break;
 		}
