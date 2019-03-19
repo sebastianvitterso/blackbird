@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import main.app.Loader;
+import main.core.ui.popups.CalendarPopupController;
 import main.db.LoginManager;
 import main.db.PeriodManager;
 import main.models.Course;
@@ -44,6 +45,8 @@ public class Calendar {
 	public static Course course;
 	private Role role;
 	
+	private CalendarPopupController calendarPopupController;
+	
 	public Calendar(StackPane stackPane) {
 		weeknum = getRelevantWeek();
 		startOfWeek = calculateStartOfWeek();
@@ -54,6 +57,8 @@ public class Calendar {
 		GridPane calendar = createCalendarGridPane();
 		view = new VBox(dayLabels, calendar);
 		this.stackPane = stackPane;
+		
+		calendarPopupController = Loader.getController(View.POPUP_CALENDAR_VIEW);
 	}
 	
 	public void setCourse(Course course) {
@@ -283,6 +288,7 @@ public class Calendar {
 		TimeSlot timeSlot = timeSlots.get(dateTime);
 		if (timeSlot.amStudentInTimeSlot() || timeSlot.getPeriodCountByType(PeriodType.BOOKABLE) > 0){
 			JFXDialog dialog = new JFXDialog(stackPane, (Region) Loader.getParent(View.POPUP_CALENDAR_VIEW), DialogTransition.CENTER);
+			calendarPopupController.connectDialog(dialog);
 			dialog.show();
 		}
 		updateCell(x, y);
