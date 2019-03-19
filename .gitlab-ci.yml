@@ -57,10 +57,10 @@ unittest-job:
 #    - target/site/
 
 generate-report:
-  image: busybox:latest
+#  image: busybox:latest
   stage: deploy
   script:
-    - '$MAVEN_HOME/bin/mvn -Dmaven.test.skip=true surefire-report:report "-DoutputName=index"'
+    - 'mvn -Dmaven.test.skip=true surefire-report:report "-DoutputName=index"'
 #    - 'mvn surefire-report:report-only "-DoutputName=index"'
     - 'mv target/site public'
   dependencies:
