@@ -60,7 +60,7 @@ generate-report:
   image: busybox:latest
   stage: deploy
   script:
-    - 'mvn -Dmaven.test.skip=true site'
+    - 'mvn -Dmaven.test.skip=true surefire-report:report "-DoutputName=index"'
 #    - 'mvn surefire-report:report-only "-DoutputName=index"'
     - 'mv target/site public'
   dependencies:
