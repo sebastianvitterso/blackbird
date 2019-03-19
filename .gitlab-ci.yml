@@ -62,6 +62,7 @@ generate-report:
   script:
     - 'mvn -Dmaven.test.skip=true surefire-report:report "-DoutputName=index"'
 #    - 'mvn surefire-report:report-only "-DoutputName=index"'
+    - 'rm public'
     - 'mv target/site public'
   dependencies:
     - unittest-job
