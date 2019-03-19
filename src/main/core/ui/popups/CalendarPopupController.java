@@ -20,7 +20,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import main.components.AnnouncementBox;
+import main.components.Calendar;
+import main.db.CourseManager;
 import main.db.LoginManager;
+import main.db.PeriodManager;
 import main.db.UserManager;
 import main.models.Period;
 import main.models.TimeSlot;
@@ -33,68 +36,60 @@ public class CalendarPopupController {
 	@FXML private JFXDialog dialog;
 	@FXML private Label title;
 	@FXML private VBox bookingVBox;
-	
-	private User user;
-	
-	
-	////Initialization ////
-	   /**
-	    * Initializes every component in the user interface.
-	    * This method is automatically invoked when loading the corresponding FXML file.
-	    */
-		@FXML 
-		private void initialize() {
-			// Bind 'register' button to being disabled when no title and description is given.
-//			registerButton.disableProperty().bind(announcementTitleTextField.textProperty().isEmpty());
-//			registerButton.disableProperty().bind(announcementDescriptionTextArea.textProperty().isEmpty());
-			
-		}
-		
-		/**
-	     * Connects this controller to associated JFXDialog.
-	     */
-	    public void connectDialog(JFXDialog dialog) {
-	    	this.dialog = dialog;
-	    }
-	    
-	    public void createBookList(TimeSlot timeSlot, LocalDateTime localDateTime) {
-	    	user = LoginManager.getActiveUser();
-	    	String firstText = new SimpleDateFormat("dd. MMM HH:mm").format(Timestamp.valueOf(localDateTime));
-	    	String secondText = new SimpleDateFormat("HH:mm").format(Timestamp.valueOf(localDateTime.plusMinutes(30)));
-	    	title.setText(firstText + " - " + secondText);
-	    	List<HBox> hBoxes = timeSlot.getPeriods().stream()
-	    			.filter(period -> period.getAssistantUsername() != null)
-	    			.filter(period -> user.getUsername().equals(period.getStudentUsername()) || period.getStudentUsername() == null)
-	    			.map(period -> createHBox(period))
-	    			.collect(Collectors.toList());
-	    	bookingVBox.getChildren().clear();
-	    	bookingVBox.getChildren().addAll(hBoxes);
-	    	bookingVBox.getStylesheets().add("stylesheets/assignment_box.css");
-	    }
-	    public HBox createHBox(Period period) {
-	    	HBox hBox = new HBox();
-	    	hBox.setPadding(new Insets(0,8,0,0));
-	    	hBox.setSpacing(20);
-	    	hBox.setAlignment(Pos.CENTER);
-	    	
-	    	Label label = new Label(UserManager.getUser(period.getAssistantUsername()).getName());
-	    	Region region = new Region();
-	    	JFXButton button = new JFXButton("Book");
-	    	
-	    	button.getStyleClass().add("body-background");
-			button.getStyleClass().add("root");
-	    	
-	    	hBox.getChildren().addAll(label, region, button);
-	    	HBox.setHgrow(region, Priority.ALWAYS);
-	    	return hBox;
-	    }
-		 /**
-	     * Runs any methods that require every controller to be initialized.
-	     * This method should only be invoked by the FXML Loader class.
-	     */
-	    @PostInitialize
-	    private void postInitialize() {
-	    	
-	    }
 
+	private Calendar calendar;
+	private User user;
+	private LocalDateTime localDateTime;
+	private boolean amStudentInTimeSlot;
+
+    public void connectCalendar(Calendar calendar) {
+    	this.calendar = calendar;
+    }
+    
+    public void createBookList(TimeSlot timeSlot, LocalDateTime localDateTime) {
+    	this.localDateTime = localDateTime;
+    	
+    	amStudentInTimeSlot = timeSlot.amStudentInTimeSlot();
+    	
+    	user = LoginManager.getActiveUser();
+    	String firstText = new SimpleDateFormat("dd. MMM HH:mm").format(Timestamp.valueOf(localDateTime));
+    	String secondText = new SimpleDateFormat("HH:mm").format(Timestamp.valueOf(localDateTime.plusMinutes(30)));
+    	title.setText(firstText + " - " + secondText);
+    	List<HBox> bookHBoxes = timeSlot.getPeriods().stream()
+    			.filter(period -> period.getAssistantUsername() != null)
+    			.filter(period -> user.getUsername().equals(period.getStudentUsername()) || period.getStudentUsername() == null)
+    			.map(period -> createBookHBox(timeSlot, period))
+    			.collect(Collectors.toList());
+    	bookingVBox.getChildren().clear();
+    	bookingVBox.getChildren().addAll(bookHBoxes);
+    	bookingVBox.getStylesheets().add("stylesheets/assignment_box.css");
+    }
+    public HBox createBookHBox(TimeSlot timeSlot, Period period) {
+    	HBox hBox = new HBox();
+    	hBox.setPadding(new Insets(0,8,0,0));
+    	hBox.setSpacing(20);
+    	hBox.setAlignment(Pos.CENTER);
+    	
+    	Label nameLabel = new Label(UserManager.getUser(period.getAssistantUsername()).getName());
+    	Region region = new Region();
+    	
+    	boolean booked = user.getUsername().equals(period.getStudentUsername());
+    	JFXButton bookButton = new JFXButton(booked ? "Unbook" : "Book");
+    	bookButton.setDisable(amStudentInTimeSlot && !booked);
+    	bookButton.setOnAction(e -> {
+    		if (booked)
+    			PeriodManager.unbookPeriod(period); 	
+    		else
+    			PeriodManager.bookPeriod(period, user);	
+    		calendar.updateAllCells();
+    		createBookList(calendar.getTimeSlot(localDateTime), localDateTime);
+    	});
+    	
+    	bookButton.getStyleClass().add("body-background");
+    	bookButton.getStyleClass().add("root");
+    	
+    	hBox.getChildren().addAll(nameLabel, region, bookButton);
+    	HBox.setHgrow(region, Priority.ALWAYS);
+    	return hBox;
+    }
 }

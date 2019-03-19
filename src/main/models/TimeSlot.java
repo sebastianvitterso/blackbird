@@ -72,27 +72,7 @@ public class TimeSlot {
 				return UserManager.getUser(period.getStudentUsername()).getName();
 			}
 		}
-		return "--Ingen--";
-	}
-	
-	public boolean bookTimeSlot() {
-		for (Period period : periods) {
-			if(period.isOfPeriodType(PeriodType.BOOKABLE)) {
-				PeriodManager.bookPeriod(period, LoginManager.getActiveUser());
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean unbookTimeSlot() {
-		for (Period period : periods) {
-			if(LoginManager.getActiveUser().getUsername().equals(period.getStudentUsername())) {
-				PeriodManager.unbookPeriod(period);
-				return true;
-			}
-		}
-		return false;
+		return "-Ingen-";
 	}
 	
 	public boolean tutorTimeSlot() {

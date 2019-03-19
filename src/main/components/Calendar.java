@@ -71,6 +71,7 @@ public class Calendar {
 		return role;
 	}
 	
+	
 	public void updateCell(int x, int y) {
 		LocalDateTime cellDateTime = calculateDateTime(x, y);
 		TimeSlot timeSlot = new TimeSlot(course, cellDateTime);
@@ -287,7 +288,7 @@ public class Calendar {
 		if (timeSlot.amStudentInTimeSlot() || timeSlot.getPeriodCountByType(PeriodType.BOOKABLE) > 0){
 			JFXDialog dialog = new JFXDialog(stackPane, (Region) Loader.getParent(View.POPUP_CALENDAR_VIEW), DialogTransition.CENTER);
 			calendarPopupController = Loader.getController(View.POPUP_CALENDAR_VIEW);
-			calendarPopupController.connectDialog(dialog);
+			calendarPopupController.connectCalendar(this);
 			calendarPopupController.createBookList(timeSlot, dateTime);
 			dialog.show();
 		}
@@ -333,6 +334,10 @@ public class Calendar {
 	public static LocalTime localTimeOf(double hours) {
 		int minutes = (int) ((hours % 1) * 60);
 		return LocalTime.of((int) hours, minutes);
+	}
+	
+	public TimeSlot getTimeSlot(LocalDateTime localDateTime) {
+		return timeSlots.get(localDateTime); 
 	}
 	
 	/*
