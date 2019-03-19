@@ -115,4 +115,8 @@ public class TimeSlot {
 		return false;
 	}
 	
+	public List<Period> getPeriods(){
+		return periods;
+	}
+	
 }
