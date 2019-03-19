@@ -176,7 +176,8 @@
                                     </Label>
                                     <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                                     <Label layoutX="497.0" layoutY="10.0" text="Score:" />
-                                    <Label fx:id="submissionScoreLabel" text="60/100 poeng" />
+                                    <Label fx:id="submissionScoreLabel" text="60/100" />
+                                    <Label text="poeng" />
                                  </children>
                               </HBox>
                               <Label fx:id="submissionCommentLabel" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irurele." wrapText="true">
