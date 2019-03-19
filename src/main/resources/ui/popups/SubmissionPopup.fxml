@@ -160,7 +160,7 @@
                   </Separator>
                   <StackPane fx:id="submissionGradingPane">
                      <children>
-                        <VBox fx:id="submissionVBox" spacing="10.0" visible="false">
+                        <VBox fx:id="submissionVBox" spacing="10.0">
                            <children>
                               <HBox spacing="3.0">
                                  <children>
@@ -255,6 +255,18 @@
                               <JFXTextArea fx:id="gradingCommentTextArea" focusColor="#7a7a7a" prefHeight="120.0" promptText="Skriv inn kommentar..." style="-fx-background-color: #FFFFFF;" wrapText="true" />
                               <HBox spacing="10.0">
                                  <children>
+                                    <JFXButton fx:id="gradingFileLinkButton" graphicTextGap="10.0" onAction="#handleSubmissionDownloadClick" style="-fx-background-color: #909090; -fx-background-radius: 20;" text="_innlevering_oving_1_pat.pdf" textFill="WHITE" visible="false">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0">
+                                             <image>
+                                                <Image url="@../../icons/pdf.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
                                     <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                                     <JFXButton onAction="#handleCancelClick" styleClass="primary-button-grey" text="Lukk" />
                                     <JFXButton fx:id="gradingEvaluateButton" onAction="#handleEvaluateClick" styleClass="primary-button-grey" text="Evaluer" />

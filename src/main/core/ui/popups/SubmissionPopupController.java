@@ -72,13 +72,14 @@ public class SubmissionPopupController implements Refreshable {
     @FXML private Label gradingMaxScoreLabel;
     @FXML private JFXTextArea gradingCommentTextArea;
     @FXML private JFXButton gradingEvaluateButton;
+    @FXML private JFXButton gradingFileLinkButton;
 
     private Assignment assignment;
-    private String assignmentFileName;
     private Submission submission;
+    private String assignmentFileName;
     private String submissionFileName;
     private JFXDialog dialog;
-    private AssignmentsController assignmentController; 
+    private AssignmentsController assignmentsController; 
     private File selectedFile;
     
     @FXML
@@ -92,6 +93,7 @@ public class SubmissionPopupController implements Refreshable {
     	submissionScoreLabel.setVisible(true);
     	submissionCommentLabel.setVisible(true);
     	submissionFileLinkButton.setVisible(true);
+    	gradingFileLinkButton.setVisible(true);
     	
     	// Clear data
     	submissionCommentLabel.setText("");
@@ -102,11 +104,11 @@ public class SubmissionPopupController implements Refreshable {
     	gradingMaxScoreLabel.setText("/ -");
     	gradingStatusLabel.setText("");
     	
-    	submissionListView.getItems().clear();
     	submissionGradingPane.getChildren().setAll(submissionVBox, gradingVBox);
     	
     	if (!outerHBox.getChildren().contains(submissionListHBox))
     		outerHBox.getChildren().add(0, submissionListHBox);
+    	submissionListView.getItems().clear();
     	
     	
     }
@@ -117,7 +119,7 @@ public class SubmissionPopupController implements Refreshable {
 	 */
 	@PostInitialize
 	private void postInitialize() {
-		assignmentController = Loader.getController(View.ASSIGNMENTS_VIEW);
+		assignmentsController = Loader.getController(View.ASSIGNMENTS_VIEW);
 	}
 
 //	/**
@@ -128,12 +130,124 @@ public class SubmissionPopupController implements Refreshable {
 	}
 	
 	public void load(Assignment assignment, Submission submission, Role role) {
+		this.assignment = assignment;
+		assignmentTitleLabel.setText(assignment.getTitle());
+		assignmentDescriptionLabel.setText(assignment.getDescription());
+		assignmentDeadlineLabel.setText(String.valueOf(assignment.getDeadLine()));
+		assignmentMaxScoreLabel.setText(String.valueOf(assignment.getMaxScore()));
+		assignmentPassingScoreLabel.setText(String.valueOf(assignment.getPassingScore()));
+		assignmentFileName = String.format("oppgaver-%s-%s.pdf", assignment.getCourse().getCourseCode(), assignment.getTitle());
+		assignmentFileLinkButton.setText(assignmentFileName);
+		
+		this.submission = submission;
+		Status status = Assignment.determineStatus(assignment, this.submission);
+		submissionStatusLabel.setText(status.getNorwegianName());
+		gradingStatusLabel.setText(status.getNorwegianName());
+		
 		switch (role) {
 		case PROFESSOR:
 		case ASSISTANT:
-			submissionVBox.setVisible(false);
+			submissionGradingPane.getChildren().remove(submissionVBox);
+			switch(status){
+			case PASSED:
+				gradingStatusLabel.setText(status.getNorwegianName());
+				gradingScoreTextField.setText(String.valueOf(submission.getScore()));
+				gradingMaxScoreLabel.setText(String.format("/ %s", assignment.getMaxScore()));
+				gradingCommentTextArea.setText(submission.getComment());
+				submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
+						assignment.getCourse().getCourseCode(), 
+						assignment.getTitle(), 
+						submission.getUser().getUsername());
+				gradingFileLinkButton.setText(submissionFileName);
+				break;
+			case WAITING:
+				gradingStatusLabel.setText(status.getNorwegianName());
+				gradingMaxScoreLabel.setText(String.format("/ %s", assignment.getMaxScore()));
+				submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
+						assignment.getCourse().getCourseCode(), 
+						assignment.getTitle(), 
+						submission.getUser().getUsername());
+				gradingFileLinkButton.setText(submissionFileName);
+				break;
+			case FAILED:
+				gradingStatusLabel.setText(status.getNorwegianName());
+				gradingScoreTextField.setText(String.valueOf(submission.getScore()));
+				gradingMaxScoreLabel.setText(String.format("/ %s", assignment.getMaxScore()));
+				gradingCommentTextArea.setText(submission.getComment());
+				submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
+						assignment.getCourse().getCourseCode(), 
+						assignment.getTitle(), 
+						submission.getUser().getUsername());
+				gradingFileLinkButton.setText(submissionFileName);
+				break;
+			case NOT_DELIVERED:
+				throw(new IllegalStateException("Should not get PROFESSOR/ASSISTANT and NOT_DELIVERED at the same time."));
+			case DEADLINE_EXCEEDED:
+				throw(new IllegalStateException("Should not get PROFESSOR/ASSISTANT and DEADLINE_EXCEEDED at the same time."));
+			default:
+				break;
+			}
+			
 			break;
+			
+			
 		case STUDENT:
+			outerHBox.getChildren().remove(submissionListHBox);
+			submissionGradingPane.getChildren().remove(gradingVBox);
+			
+			
+			switch(status){
+			case PASSED:
+				submissionScoreLabel.setText(String.format("%s / %s", submission.getScore(), assignment.getMaxScore()));
+				submissionCommentLabel.setText(submission.getComment());
+				submissionFileUploadHBox.setVisible(false);
+				submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
+						assignment.getCourse().getCourseCode(), 
+						assignment.getTitle(), 
+						submission.getUser().getUsername());
+				submissionFileLinkButton.setText(submissionFileName);
+				submissionLowerHBox.getChildren().remove(submissionDeliverButton);
+				break;
+			case WAITING:
+				submissionScoreLabel.setVisible(false);
+				submissionCommentLabel.setVisible(false);
+				submissionFileUploadHBox.setVisible(false);
+				submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
+						assignment.getCourse().getCourseCode(), 
+						assignment.getTitle(), 
+						submission.getUser().getUsername());
+				submissionFileLinkButton.setText(submissionFileName);
+				submissionLowerHBox.getChildren().remove(submissionDeliverButton);
+				break;
+			case FAILED:
+				submissionScoreLabel.setText(String.format("%s / %s", submission.getScore(), assignment.getMaxScore()));
+				submissionCommentLabel.setText(submission.getComment());
+				submissionFileUploadHBox.setVisible(false);
+				submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
+						assignment.getCourse().getCourseCode(), 
+						assignment.getTitle(), 
+						submission.getUser().getUsername());
+				submissionFileLinkButton.setText(submissionFileName);
+				submissionLowerHBox.getChildren().remove(submissionDeliverButton);
+				break;
+			case NOT_DELIVERED:
+				submissionScoreLabel.setVisible(false);
+				submissionCommentLabel.setVisible(false);
+				submissionFileLinkButton.setVisible(false);
+				if(!submissionLowerHBox.getChildren().contains(submissionDeliverButton)) {
+					submissionLowerHBox.getChildren().add(submissionDeliverButton);
+				}
+				break;
+			case DEADLINE_EXCEEDED:
+				submissionScoreLabel.setVisible(false);
+				submissionCommentLabel.setText("Øvingen ble ikke levert innen tidsfristen.");
+				submissionFileUploadHBox.setVisible(false);
+				submissionFileLinkButton.setVisible(false);
+				submissionLowerHBox.getChildren().remove(submissionDeliverButton);
+				break;
+			default:
+				break;
+			}
 			
 			break;
 
@@ -141,83 +255,18 @@ public class SubmissionPopupController implements Refreshable {
 			break;
 		}
 		
-		loadAssignment(assignment);
 		loadSubmission(submission);
 	}
 	
 	
 	public void loadAssignment(Assignment assignment) {
-		this.assignment = assignment;
-		assignmentTitleLabel.setText(assignment.getTitle());
-		assignmentDescriptionLabel.setText(assignment.getDescription());
-		assignmentDeadlineLabel.setText(String.format("Tidsfrist: %s", assignment.getDeadLine()));
-		assignmentMaxScoreLabel.setText(String.format("Maks: %s poeng", assignment.getMaxScore()));
-		assignmentPassingScoreLabel.setText(String.format("Krav: %s poeng", assignment.getPassingScore()));
-		//TODO: Normalizer.normalize ? Bør oppgavene kunne hete "oppgaver-TDT4140-Øving 0"? Bør vi fikse æøå?
-		assignmentFileName = String.format("oppgaver-%s-%s.pdf", assignment.getCourse().getCourseCode(), assignment.getTitle());
-		assignmentFileLinkButton.setText(assignmentFileName);
+		
 	}
 	
 	public void loadSubmission(Submission submission) {
-		this.submission = submission;
-		Status status = Assignment.determineStatus(assignment, this.submission);
 		
-		// Common attributes
-		// TODO : No submission available
-		submissionStatusLabel.setText(status.getNorwegianName());
 		
-		switch(status){
-		case PASSED:
-			submissionScoreLabel.setText(String.format("%s / %s", submission.getScore(), assignment.getMaxScore()));
-			submissionCommentLabel.setText(submission.getComment());
-			submissionFileUploadHBox.setVisible(false);
-			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
-					assignment.getCourse().getCourseCode(), 
-					assignment.getTitle(), 
-					submission.getUser().getUsername());
-			submissionFileLinkButton.setText(submissionFileName);
-			lowerHBox.getChildren().remove(submissionDeliverButton);
-			break;
-		case WAITING:
-			submissionScoreLabel.setVisible(false);
-			submissionCommentLabel.setVisible(false);
-			submissionFileUploadHBox.setVisible(false);
-			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
-					assignment.getCourse().getCourseCode(), 
-					assignment.getTitle(), 
-					submission.getUser().getUsername());
-			submissionFileLinkButton.setText(submissionFileName);
-			lowerHBox.getChildren().remove(submissionDeliverButton);
-			break;
-		case FAILED:
-			submissionScoreLabel.setText(String.format("%s / %s", submission.getScore(), assignment.getMaxScore()));
-			submissionCommentLabel.setText(submission.getComment());
-			submissionFileUploadHBox.setVisible(false);
-			submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
-					assignment.getCourse().getCourseCode(), 
-					assignment.getTitle(), 
-					submission.getUser().getUsername());
-			submissionFileLinkButton.setText(submissionFileName);
-			lowerHBox.getChildren().remove(submissionDeliverButton);
-			break;
-		case NOT_DELIVERED:
-			submissionScoreLabel.setVisible(false);
-			submissionCommentLabel.setVisible(false);
-			submissionFileLinkButton.setVisible(false);
-			if(!lowerHBox.getChildren().contains(submissionDeliverButton)) {
-				lowerHBox.getChildren().add(submissionDeliverButton);
-			}
-			break;
-		case DEADLINE_EXCEEDED:
-			submissionScoreLabel.setVisible(false);
-			submissionCommentLabel.setText("Øvingen ble ikke levert innen tidsfristen.");
-			submissionFileUploadHBox.setVisible(false);
-			submissionFileLinkButton.setVisible(false);
-			lowerHBox.getChildren().remove(submissionDeliverButton);
-			break;
-		default:
-			break;
-		}
+		
 	}
 	
 
@@ -234,7 +283,7 @@ public class SubmissionPopupController implements Refreshable {
     	Timestamp time = Timestamp.from(Instant.now());
     	submission = new Submission(assignment, user, time, -1, null);
     	SubmissionManager.addSubmission(submission, file);
-    	assignmentController.update();
+    	assignmentsController.update();
     	dialog.close();
     }
 
@@ -301,7 +350,11 @@ public class SubmissionPopupController implements Refreshable {
 
     @FXML
     void handleEvaluateClick(ActionEvent event) {
-
+    	String comment = gradingCommentTextArea.getText();
+    	int score = Integer.valueOf(gradingScoreTextField.getText());
+    	SubmissionManager.gradeSubmission(submission, score, comment);
+    	assignmentsController.update();
+    	dialog.close();
     }
 
 }

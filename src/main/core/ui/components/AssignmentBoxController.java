@@ -16,7 +16,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import main.app.Loader;
 import main.core.ui.MainController;
+import main.core.ui.MenuController;
 import main.core.ui.popups.SubmissionPopupController;
+import main.db.LoginManager;
 import main.models.Assignment;
 import main.models.Submission;
 import main.utils.PostInitialize;
@@ -39,6 +41,7 @@ public class AssignmentBoxController implements Refreshable {
     private MainController mainController;
     private Assignment assignment;
     private Submission submission;
+    private MenuController menuController;
     
 	@FXML
 	private void initialize() {
@@ -48,6 +51,7 @@ public class AssignmentBoxController implements Refreshable {
 		headerRectangle.heightProperty().bind(headerPane.heightProperty());
     	submissionController = Loader.getController(View.POPUP_SUBMISSION_VIEW);
     	mainController = Loader.getController(View.MAIN_VIEW);
+    	menuController = Loader.getController(View.MENU_VIEW);
 	}
 	
 	public void loadAssignment(Assignment assignment) {
@@ -120,8 +124,7 @@ public class AssignmentBoxController implements Refreshable {
 		});
 		submissionController.clear();
 		submissionController.connectDialog(dialog);
-		submissionController.loadAssignment(assignment);
-		submissionController.loadSubmission(submission);
+		submissionController.load(assignment, submission, menuController.getSelectedRole());
 		dialog.show();		
 	}
 	
