@@ -13,7 +13,6 @@ public class AnnouncementBox extends VBox {
 
 		String formattedTimestamp = new SimpleDateFormat("dd. MMM HH:mm").format(announcement.getTimestamp());
 		String audienceName = announcement.getAudience();
-		System.out.println(audienceName);
 		Label dateAndAudience = new Label(String.format("Publisert %s", formattedTimestamp) + ", for " + audienceName);
 		
 		dateAndAudience.getStyleClass().add("date");
