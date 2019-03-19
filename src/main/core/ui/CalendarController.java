@@ -41,7 +41,7 @@ public class CalendarController implements Refreshable {
 	
 	@FXML
 	void initialize() {
-		calendar = new Calendar();
+		calendar = new Calendar(calendarPane);
 	}
 	
 	/**

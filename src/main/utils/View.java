@@ -22,6 +22,7 @@ public enum View {
 	POPUP_ANNOUNCEMENT_VIEW(	null, 					true,				"ui/popups/AnnouncementPopup.fxml"),
 	POPUP_ASSIGNMENT_VIEW(		null, 					true,				"ui/popups/AssignmentPopup.fxml"),
 	POPUP_SUBMISSION_VIEW(		null, 					true,				"ui/popups/SubmissionPopup.fxml"),
+	POPUP_CALENDAR_VIEW(		null,					true,				"ui/popups/CalendarPopup.fxml"),	
 	
 	//// COMPONENTS ////
 	ASSIGNMENT_BOX(				null, 					false,				"ui/components/AssignmentBox.fxml"); 
