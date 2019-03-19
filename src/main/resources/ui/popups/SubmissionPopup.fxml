@@ -160,7 +160,7 @@
                   </Separator>
                   <StackPane>
                      <children>
-                        <VBox fx:id="studentVBox" spacing="10.0">
+                        <VBox fx:id="submissionVBox" spacing="10.0">
                            <children>
                               <HBox spacing="3.0">
                                  <children>
