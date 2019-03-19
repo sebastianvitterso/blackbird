@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -17,29 +16,20 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import main.components.AnnouncementBox;
 import main.components.Calendar;
-import main.db.CourseManager;
 import main.db.LoginManager;
 import main.db.PeriodManager;
 import main.db.UserManager;
 import main.models.Period;
 import main.models.TimeSlot;
 import main.models.User;
-import main.utils.PostInitialize;
 
 public class CalendarPopupController {
-	
-	
-	@FXML private JFXDialog dialog;
 	@FXML private Label title;
 	@FXML private VBox bookingVBox;
 
 	private Calendar calendar;
 	private User user;
-	private LocalDateTime localDateTime;
 	private boolean amStudentInTimeSlot;
 
     public void connectCalendar(Calendar calendar) {
@@ -47,8 +37,6 @@ public class CalendarPopupController {
     }
     
     public void createBookList(TimeSlot timeSlot, LocalDateTime localDateTime) {
-    	this.localDateTime = localDateTime;
-    	
     	amStudentInTimeSlot = timeSlot.amStudentInTimeSlot();
     	
     	user = LoginManager.getActiveUser();
@@ -58,13 +46,13 @@ public class CalendarPopupController {
     	List<HBox> bookHBoxes = timeSlot.getPeriods().stream()
     			.filter(period -> period.getAssistantUsername() != null)
     			.filter(period -> user.getUsername().equals(period.getStudentUsername()) || period.getStudentUsername() == null)
-    			.map(period -> createBookHBox(timeSlot, period))
+    			.map(period -> createBookHBox(period, localDateTime))
     			.collect(Collectors.toList());
     	bookingVBox.getChildren().clear();
     	bookingVBox.getChildren().addAll(bookHBoxes);
     	bookingVBox.getStylesheets().add("stylesheets/assignment_box.css");
     }
-    public HBox createBookHBox(TimeSlot timeSlot, Period period) {
+    public HBox createBookHBox(Period period, LocalDateTime localDateTime) {
     	HBox hBox = new HBox();
     	hBox.setPadding(new Insets(0,8,0,0));
     	hBox.setSpacing(20);
