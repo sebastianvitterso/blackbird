@@ -26,7 +26,7 @@ compile-job:
 unittest-job:
   stage: test
   script:
-    - 'mvn test $MAVEN_CLI_OPTS || true'
+    - 'mvn test $MAVEN_CLI_OPTS'
   dependencies:
     - compile-job
   artifacts:
@@ -44,7 +44,7 @@ unittest-job:
     when: runner_system_failure
   allow_failure: true
 
-generate-report:
+pages:
   stage: deploy
   script:
     - 'mvn -Dmaven.test.skip=true surefire-report:report "-DoutputName=$CI_COMMIT_SHORT_SHA"'
