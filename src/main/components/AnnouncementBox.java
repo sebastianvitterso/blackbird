@@ -12,11 +12,14 @@ public class AnnouncementBox extends VBox {
 		title.getStyleClass().add("title");
 
 		String formattedTimestamp = new SimpleDateFormat("dd. MMM HH:mm").format(announcement.getTimestamp());
-		Label date = new Label(String.format("Publisert %s", formattedTimestamp));
-		date.getStyleClass().add("date");
+		String audienceName = announcement.getAudience();
+		System.out.println(audienceName);
+		Label dateAndAudience = new Label(String.format("Publisert %s", formattedTimestamp) + ", for " + audienceName);
+		
+		dateAndAudience.getStyleClass().add("date");
 		
 		Label body = new Label(announcement.getText());
 		body.setWrapText(true);
-		getChildren().addAll(title, date, body);
+		getChildren().addAll(title, dateAndAudience, body);
 	}
 }

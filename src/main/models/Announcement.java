@@ -12,6 +12,7 @@ public class Announcement implements Comparable<Announcement>{
 	private Timestamp timestamp;
 	private String title;
 	private String text;
+	private Role audience;
 	private int audienceID; 
 
 	public Announcement(int announcementID, Course course, User user, Timestamp timestamp, String title, String text, Role audience) {
@@ -22,6 +23,7 @@ public class Announcement implements Comparable<Announcement>{
 		this.timestamp = timestamp;
 		this.title = title;
 		this.text = text;
+		this.audience = audience;
 		
 		switch(audience.name()) {
 			case "STUDENT": 
@@ -38,6 +40,10 @@ public class Announcement implements Comparable<Announcement>{
 	
 	public int getAnnouncementID() {
 		return AnnouncementID;
+	}
+	
+	public String getAudience() {
+		return audience.getNorwegianName();
 	}
 	
 	public int getAudienceID() {
