@@ -221,7 +221,7 @@
                                        </children>
                                     </StackPane>
                                     <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                                    <JFXButton fx:id="submissionCancelButton" onAction="#handleCancelClick" styleClass="primary-button-grey" text="Avbryt" />
+                                    <JFXButton onAction="#handleCancelClick" styleClass="primary-button-grey" text="Avbryt" />
                                     <JFXButton fx:id="submissionDeliverButton" onAction="#handleDeliverClick" styleClass="primary-button-grey" text="Levér" />
                                  </children>
                               </HBox>
