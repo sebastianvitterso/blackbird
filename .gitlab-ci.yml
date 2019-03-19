@@ -25,14 +25,8 @@ compile-job:
 
 unittest-job:
   stage: test
-#  script:
-#    - 'mvn test $MAVEN_CLI_OPTS'
-  script: |
-    set +euo pipefail  # don't abort if any following command fails
-    mvn test $MAVEN_CLI_OPTS
-    mvn surefire-report:report-only "-DoutputName=index"
-#    - 'mvn test $MAVEN_CLI_OPTS || true'  # don't abort if test fails
-#    - 'mvn surefire-report:report-only "-DoutputName=index"'
+  script:
+    - 'mvn test $MAVEN_CLI_OPTS'
   dependencies:
     - compile-job
   artifacts:
@@ -42,6 +36,8 @@ unittest-job:
     paths:
     - target/surefire-reports
     - target/site/
+    - target/staging
+
     when: always
   retry:
     max: 2
@@ -64,14 +60,15 @@ generate-report:
   image: busybox:latest
   stage: deploy
   script:
+    - 'mvn -Dmaven.test.skip=true site'
 #    - 'mvn surefire-report:report-only "-DoutputName=index"'
     - 'mv target/site public'
   dependencies:
     - unittest-job
   artifacts:
-    paths:
-#    - target/surefire-reports
-#    - target/site/
+    paths:    
+    - target/surefire-reports
+    - target/site/
     - public
 
 createjar-job:
