@@ -185,7 +185,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <HBox fx:id="lowerHBox" spacing="10.0">
+                              <HBox fx:id="submissionLowerHBox" spacing="10.0">
                                  <children>
                                     <StackPane alignment="CENTER_LEFT">
                                        <children>
