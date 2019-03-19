@@ -20,7 +20,7 @@
 
 <StackPane fx:id="rootPane" styleClass="root-background" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.SubmissionPopupController">
    <children>
-      <HBox>
+      <HBox fx:id="outerHBox">
          <children>
             <HBox fx:id="submissionListHBox" spacing="20.0">
                <children>
