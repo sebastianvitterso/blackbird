@@ -35,8 +35,6 @@ unittest-job:
         - target/surefire-reports/TEST-*.xml
     paths:
     - target/surefire-reports
-    - target/site/
-    - target/staging
 
     when: always
   retry:
@@ -55,7 +53,6 @@ pages:
   artifacts:
     paths:    
     - target/surefire-reports
-    - target/site/
     - public
 
 createjar-job:
