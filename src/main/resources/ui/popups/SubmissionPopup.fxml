@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" styleClass="root-background" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.SubmissionPopupController">
+<StackPane fx:id="rootPane" styleClass="root-background" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.SubmissionPopupController">
    <children>
       <HBox>
          <children>
@@ -160,20 +160,26 @@
                   </Separator>
                   <StackPane>
                      <children>
-                        <VBox fx:id="studentVBox" spacing="10.0" visible="false">
+                        <VBox fx:id="studentVBox" spacing="10.0">
                            <children>
-                              <HBox>
+                              <HBox spacing="3.0">
                                  <children>
-                                    <Label fx:id="statusLabel" layoutX="10.0" layoutY="10.0" text="Status: Godkjent">
+                                    <Label layoutX="10.0" layoutY="10.0" text="Status: ">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="submissionStatusLabel" text="Godkjent">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                                    <Label fx:id="scoreLabel" layoutX="497.0" layoutY="10.0" text="Score: 60/100" />
+                                    <Label layoutX="497.0" layoutY="10.0" text="Score:" />
+                                    <Label fx:id="submissionScoreLabel" text="60/100 poeng" />
                                  </children>
                               </HBox>
-                              <Label fx:id="commentLabel" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irurele." wrapText="true">
+                              <Label fx:id="submissionCommentLabel" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irurele." wrapText="true">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -182,9 +188,9 @@
                                  <children>
                                     <StackPane alignment="CENTER_LEFT">
                                        <children>
-                                          <HBox fx:id="fileUploadHBox">
+                                          <HBox fx:id="submissionFileUploadHBox">
                                              <children>
-                                                <JFXTextField fx:id="fileTextField" editable="false" prefWidth="200.0" promptText="Ingen fil valgt">
+                                                <JFXTextField fx:id="submissionFileTextField" editable="false" prefWidth="200.0" promptText="Ingen fil valgt">
                                                    <HBox.margin>
                                                       <Insets right="10.0" />
                                                    </HBox.margin>
@@ -215,13 +221,13 @@
                                        </children>
                                     </StackPane>
                                     <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                                    <JFXButton fx:id="cancelButton" onAction="#handleCancelClick" styleClass="primary-button-grey" text="Avbryt" />
-                                    <JFXButton fx:id="deliverButton" onAction="#handleDeliverClick" styleClass="primary-button-grey" text="Levér" />
+                                    <JFXButton fx:id="submissionCancelButton" onAction="#handleCancelClick" styleClass="primary-button-grey" text="Avbryt" />
+                                    <JFXButton fx:id="submissionDeliverButton" onAction="#handleDeliverClick" styleClass="primary-button-grey" text="Levér" />
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
-                        <VBox fx:id="gradingVBox" layoutX="10.0" layoutY="10.0" spacing="10.0">
+                        <VBox fx:id="gradingVBox" layoutX="10.0" layoutY="10.0" spacing="10.0" visible="false">
                            <children>
                               <HBox spacing="3.0">
                                  <children>
