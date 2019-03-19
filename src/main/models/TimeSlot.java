@@ -6,6 +6,7 @@ import java.util.List;
 
 import main.db.LoginManager;
 import main.db.PeriodManager;
+import main.db.UserManager;
 import main.models.Period.PeriodType;
 
 public class TimeSlot {
@@ -56,11 +57,22 @@ public class TimeSlot {
 	// TODO: Same stuff here, Seb - fix your shit.
 	public boolean amAssistantInTimeSlot() {
 		for(Period period : periods) {
-			if ( LoginManager.getActiveUser().getUsername().equals(period.getAssistantUsername()) ) {
+			if (LoginManager.getActiveUser().getUsername().equals(period.getAssistantUsername()) ) {
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public String whichStudentBooked() {
+		for(Period period : periods) {
+			if (LoginManager.getActiveUser().getUsername().equals(period.getAssistantUsername()) ) {
+				if (period.getStudentUsername() == null)
+					break;
+				return UserManager.getUser(period.getStudentUsername()).getName();
+			}
+		}
+		return "--Ingen--";
 	}
 	
 	public boolean bookTimeSlot() {

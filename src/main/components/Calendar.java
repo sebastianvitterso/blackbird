@@ -252,7 +252,9 @@ public class Calendar {
 				return;
 			} else if (timeSlot.amAssistantInTimeSlot()) {
 				sp.getStyleClass().add("selected" + (y % 2));
-				text = "Valgt";
+				text = "Booked av:\n" + timeSlot.whichStudentBooked();
+				sp.addText(text, true);
+				return;
 			} else if (created == 0) {
 				sp.getStyleClass().add("taken" + (y % 2));
 				text = "Fullt";
