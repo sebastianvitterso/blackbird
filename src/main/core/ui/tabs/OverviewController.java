@@ -84,6 +84,7 @@ public class OverviewController implements Refreshable {
 		List<Announcement> announcements = AnnouncementManager.getAnnouncementsFromCourse(selectedCourse);
 		List<AnnouncementBox> boxes = announcements.stream()
 				.sorted()
+				.filter(announcement -> announcement.getAudienceID() >= MyRole)
 				.map(AnnouncementBox::new)
 				.collect(Collectors.toList());
 		

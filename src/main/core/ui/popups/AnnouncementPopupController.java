@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -20,6 +21,7 @@ import main.models.Course;
 import main.models.User;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
+import main.utils.Role;
 import main.utils.View;
 
 public class AnnouncementPopupController implements Refreshable{
@@ -28,6 +30,7 @@ public class AnnouncementPopupController implements Refreshable{
 	@FXML private JFXTextField announcementTitleTextField;
 	@FXML private JFXTextArea announcementDescriptionTextArea;
 	@FXML private JFXButton registerButton;
+	@FXML private JFXComboBox<String> audienceComboBox; 
 	
 	private MenuController menuController;
 	private OverviewController overviewController;
@@ -44,6 +47,7 @@ public class AnnouncementPopupController implements Refreshable{
 		// Bind 'register' button to being disabled when no title and description is given.
 		registerButton.disableProperty().bind(announcementTitleTextField.textProperty().isEmpty());
 		registerButton.disableProperty().bind(announcementDescriptionTextArea.textProperty().isEmpty());
+		audienceComboBox.getItems().addAll("Studenter", "Læringsassistenter", "Emneansvarlige");
 	}
 	
 	/**
@@ -75,7 +79,19 @@ public class AnnouncementPopupController implements Refreshable{
 		Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
 		String title = announcementTitleTextField.getText();
 		String description = announcementDescriptionTextArea.getText();
-		AnnouncementManager.addAnnouncement(course, user, timestamp, title, description);
+		Role audience = null; 
+		switch (audienceComboBox.getValue()) {
+		case "Studenter":
+			audience = Role.STUDENT; 
+			break;
+		case "Læringsassistenter":
+			audience = Role.ASSISTANT; 
+			break;
+		case "Emneansvarlige":
+			audience = Role.PROFESSOR; 
+			break;
+		}
+		AnnouncementManager.addAnnouncement(course, user, timestamp, title, description, audience);
 	}
 	
 	@FXML

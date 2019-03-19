@@ -3,6 +3,8 @@ package main.models;
 import java.sql.Timestamp;
 import java.util.Iterator;
 
+import main.utils.Role;
+
 public class Announcement implements Comparable<Announcement>{
 	private final int AnnouncementID;
 	private Course course;
@@ -10,8 +12,9 @@ public class Announcement implements Comparable<Announcement>{
 	private Timestamp timestamp;
 	private String title;
 	private String text;
+	private int audienceID; 
 
-	public Announcement(int announcementID, Course course, User user, Timestamp timestamp, String title, String text) {
+	public Announcement(int announcementID, Course course, User user, Timestamp timestamp, String title, String text, Role audience) {
 		super();
 		AnnouncementID = announcementID;
 		this.course = course;
@@ -19,10 +22,26 @@ public class Announcement implements Comparable<Announcement>{
 		this.timestamp = timestamp;
 		this.title = title;
 		this.text = text;
+		
+		switch(audience.name()) {
+			case "STUDENT": 
+				this.audienceID = 1; 
+				break;
+			case "LÆRINGSASSISTENT": 
+				this.audienceID = 2; 
+				break;
+			case "EMNEANSVARLIG": 
+				this.audienceID = 3; 
+				break;
+		}
 	}
 	
 	public int getAnnouncementID() {
 		return AnnouncementID;
+	}
+	
+	public int getAudienceID() {
+		return audienceID; 
 	}
 	public Course getCourse() {
 		return course;
