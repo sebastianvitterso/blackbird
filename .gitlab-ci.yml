@@ -21,11 +21,15 @@ compile-job:
   retry:
     max: 2
     when: runner_system_failure
-    
+
+
 unittest-job:
   stage: test
-  script:
-    - 'mvn test $MAVEN_CLI_OPTS'
+#  script:
+#    - 'mvn test $MAVEN_CLI_OPTS'
+  script: |
+    'mvn test $MAVEN_CLI_OPTS' || true  # don't abort if test fails
+    'mvn surefire-report:report-only "-DoutputName=index"'
   dependencies:
     - compile-job
   artifacts:
@@ -34,6 +38,7 @@ unittest-job:
         - target/surefire-reports/TEST-*.xml
     paths:
     - target/surefire-reports
+    - target/site/
     when: always
   retry:
     max: 2
@@ -56,14 +61,14 @@ generate-report:
   image: busybox:latest
   stage: deploy
   script:
-    - 'mvn surefire-report:report-only "-DoutputName=index"'
+#    - 'mvn surefire-report:report-only "-DoutputName=index"'
     - 'mv target/site public'
   dependencies:
     - unittest-job
   artifacts:
     paths:
-    - target/surefire-reports
-    - target/site/
+#    - target/surefire-reports
+#    - target/site/
     - public
 
 createjar-job:
