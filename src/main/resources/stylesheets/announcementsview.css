@@ -15,9 +15,14 @@
 	-fx-font-size: 16.0px;
 	-fx-font-weight: bold;
 }
-.date{
+.date-name{
 	-fx-font-fill: gray;
 	-fx-font-style: italic;
+}
+
+.audience {
+	-fx-font-size: 10.0px;
+	-fx-text-fill: gray;
 }
 
 .scroll-bar:horizontal .track,

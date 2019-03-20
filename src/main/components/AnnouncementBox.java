@@ -5,20 +5,40 @@ import java.text.SimpleDateFormat;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import main.models.Announcement;
+import main.utils.Role;
+import main.models.UserInCourse;
 
 public class AnnouncementBox extends VBox {
 	public AnnouncementBox(Announcement announcement) {
-		Label title = new Label(announcement.getTitle());
-		title.getStyleClass().add("title");
+		Label titleLabel = new Label(announcement.getTitle());
+		titleLabel.getStyleClass().add("title");
 
 		String formattedTimestamp = new SimpleDateFormat("dd. MMM HH:mm").format(announcement.getTimestamp());
-		String audienceName = announcement.getAudience();
-		Label dateAndAudience = new Label(String.format("Publisert %s", formattedTimestamp) + ", for " + audienceName);
+		String userName = announcement.getUser().getName();
+		Label dateAndNameLabel = new Label(String.format("Publisert %s", formattedTimestamp) + ", av " + userName);
 		
-		dateAndAudience.getStyleClass().add("date");
+		dateAndNameLabel.getStyleClass().add("date-name");
 		
-		Label body = new Label(announcement.getText());
-		body.setWrapText(true);
-		getChildren().addAll(title, dateAndAudience, body);
+		Role audience = announcement.getAudience();
+		String audienceText = "Synlig for ";
+		
+		switch(audience.name()) {
+		case "STUDENT":
+			audienceText += "alle";
+			break;
+		case "ASSISTANT":
+			audienceText += "Læringsassistenter, Emneansvarlige";
+			break;
+		case "PROFESSOR":
+			audienceText += "Emneansvarlige";
+			break;
+		}
+		
+		Label audienceLabel = new Label(audienceText);		
+		audienceLabel.getStyleClass().add("audience");
+		
+		Label bodyLabel = new Label(announcement.getText());
+		bodyLabel.setWrapText(true);
+		getChildren().addAll(titleLabel, dateAndNameLabel, bodyLabel, audienceLabel);
 	}
 }

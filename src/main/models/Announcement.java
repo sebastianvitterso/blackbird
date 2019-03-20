@@ -42,8 +42,8 @@ public class Announcement implements Comparable<Announcement>{
 		return AnnouncementID;
 	}
 	
-	public String getAudience() {
-		return audience.getNorwegianName();
+	public Role getAudience() {
+		return audience;
 	}
 	
 	public int getAudienceID() {
