@@ -16,6 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import main.components.Calendar;
 import main.db.LoginManager;
 import main.db.PeriodManager;
@@ -25,7 +27,7 @@ import main.models.TimeSlot;
 import main.models.User;
 
 public class CalendarPopupController {
-	@FXML private Label title;
+	@FXML private Text title;
 	@FXML private VBox bookingVBox;
 
 	private Calendar calendar;
@@ -75,6 +77,7 @@ public class CalendarPopupController {
     	
     	bookButton.getStyleClass().add("body-background");
     	bookButton.getStyleClass().add("root");
+    	bookButton.setMinWidth(72);
     	
     	hBox.getChildren().addAll(nameLabel, region, bookButton);
     	HBox.setHgrow(region, Priority.ALWAYS);

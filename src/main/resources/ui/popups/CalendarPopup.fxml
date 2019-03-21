@@ -2,17 +2,26 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<StackPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.CalendarPopupController">
+<StackPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.CalendarPopupController">
    <children>
       <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css">
          <children>
-            <Label fx:id="title" text="14. mar. 10:00 - 10:30" />
+            <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="14. mar. 10:00 - 10:30">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow color="#a4a4a4" height="3.0" radius="1.0" width="3.0" />
+               </effect>
+            </Text>
             <Separator styleClass="header-separator" stylesheets="@../../stylesheets/overview.css">
                <VBox.margin>
                   <Insets top="-5.0" />
