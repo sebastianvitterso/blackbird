@@ -6,6 +6,7 @@ import java.util.List;
 
 import main.db.LoginManager;
 import main.db.PeriodManager;
+import main.db.UserManager;
 import main.models.Period.PeriodType;
 
 public class TimeSlot {
@@ -56,31 +57,22 @@ public class TimeSlot {
 	// TODO: Same stuff here, Seb - fix your shit.
 	public boolean amAssistantInTimeSlot() {
 		for(Period period : periods) {
-			if ( LoginManager.getActiveUser().getUsername().equals(period.getAssistantUsername()) ) {
+			if (LoginManager.getActiveUser().getUsername().equals(period.getAssistantUsername()) ) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public boolean bookTimeSlot() {
-		for (Period period : periods) {
-			if(period.isOfPeriodType(PeriodType.BOOKABLE)) {
-				PeriodManager.bookPeriod(period, LoginManager.getActiveUser());
-				return true;
+	public String whichStudentBooked() {
+		for(Period period : periods) {
+			if (LoginManager.getActiveUser().getUsername().equals(period.getAssistantUsername()) ) {
+				if (period.getStudentUsername() == null)
+					break;
+				return UserManager.getUser(period.getStudentUsername()).getName();
 			}
 		}
-		return false;
-	}
-	
-	public boolean unbookTimeSlot() {
-		for (Period period : periods) {
-			if(LoginManager.getActiveUser().getUsername().equals(period.getStudentUsername())) {
-				PeriodManager.unbookPeriod(period);
-				return true;
-			}
-		}
-		return false;
+		return "-Ingen-";
 	}
 	
 	public boolean tutorTimeSlot() {
@@ -101,6 +93,10 @@ public class TimeSlot {
 			}
 		}
 		return false;
+	}
+	
+	public List<Period> getPeriods(){
+		return periods;
 	}
 	
 }

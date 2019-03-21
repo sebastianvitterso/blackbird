@@ -10,14 +10,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialog.DialogTransition;
+
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import main.app.Loader;
+import main.core.ui.popups.CalendarPopupController;
 import main.db.LoginManager;
 import main.db.PeriodManager;
 import main.models.Course;
@@ -25,18 +32,22 @@ import main.models.Period;
 import main.models.TimeSlot;
 import main.models.Period.PeriodType;
 import main.utils.Role;
+import main.utils.View;
 
 public class Calendar {
 	private static int weeknum;
 	private static LocalDate startOfWeek;
 	private VBox view;
+	private StackPane stackPane;
 	private Map<LocalDateTime, TimeSlot> timeSlots = new HashMap<LocalDateTime, TimeSlot>();
 	private StackPaneNode[][] stackPaneNodes = new StackPaneNode[5][16];
 	private StackPaneNode[] dayPaneNodes = new StackPaneNode[5];
 	public static Course course;
 	private Role role;
 	
-	public Calendar() {
+	private CalendarPopupController calendarPopupController;
+	
+	public Calendar(StackPane stackPane) {
 		weeknum = getRelevantWeek();
 		startOfWeek = calculateStartOfWeek();
 		course = null;
@@ -45,6 +56,7 @@ public class Calendar {
 		GridPane dayLabels = createDayLabels();
 		GridPane calendar = createCalendarGridPane();
 		view = new VBox(dayLabels, calendar);
+		this.stackPane = stackPane;
 	}
 	
 	public void setCourse(Course course) {
@@ -58,6 +70,7 @@ public class Calendar {
 	public Role getRole() {
 		return role;
 	}
+	
 	
 	public void updateCell(int x, int y) {
 		LocalDateTime cellDateTime = calculateDateTime(x, y);
@@ -243,7 +256,9 @@ public class Calendar {
 				return;
 			} else if (timeSlot.amAssistantInTimeSlot()) {
 				sp.getStyleClass().add("selected" + (y % 2));
-				text = "Valgt";
+				text = "Booked av:\n" + timeSlot.whichStudentBooked();
+				sp.addText(text, true);
+				return;
 			} else if (created == 0) {
 				sp.getStyleClass().add("taken" + (y % 2));
 				text = "Fullt";
@@ -270,10 +285,12 @@ public class Calendar {
 	public void BookUnbookTimeSlot(LocalDateTime dateTime, int x, int y) {
 		updateCell(x, y);
 		TimeSlot timeSlot = timeSlots.get(dateTime);
-		if (timeSlot.amStudentInTimeSlot()) {
-			timeSlot.unbookTimeSlot();
-		} else if (timeSlot.getPeriodCountByType(PeriodType.BOOKABLE) > 0){
-			timeSlot.bookTimeSlot();
+		if (timeSlot.amStudentInTimeSlot() || timeSlot.getPeriodCountByType(PeriodType.BOOKABLE) > 0){
+			JFXDialog dialog = new JFXDialog(stackPane, (Region) Loader.getParent(View.POPUP_CALENDAR_VIEW), DialogTransition.CENTER);
+			calendarPopupController = Loader.getController(View.POPUP_CALENDAR_VIEW);
+			calendarPopupController.connectCalendar(this);
+			calendarPopupController.createBookList(timeSlot, dateTime);
+			dialog.show();
 		}
 		updateCell(x, y);
 	}
@@ -317,6 +334,10 @@ public class Calendar {
 	public static LocalTime localTimeOf(double hours) {
 		int minutes = (int) ((hours % 1) * 60);
 		return LocalTime.of((int) hours, minutes);
+	}
+	
+	public TimeSlot getTimeSlot(LocalDateTime localDateTime) {
+		return timeSlots.get(localDateTime); 
 	}
 	
 	/*
