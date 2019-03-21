@@ -25,14 +25,14 @@ public class Announcement implements Comparable<Announcement>{
 		this.text = text;
 		this.audience = audience;
 		
-		switch(audience.name()) {
-			case "STUDENT": 
+		switch(audience) {
+			case STUDENT: 
 				this.audienceID = 1; 
 				break;
-			case "ASSISTANT": 
+			case ASSISTANT: 
 				this.audienceID = 2; 
 				break;
-			case "PROFESSOR": 
+			case PROFESSOR: 
 				this.audienceID = 3; 
 				break;
 		}

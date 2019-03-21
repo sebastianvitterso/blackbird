@@ -30,14 +30,14 @@ public class AnnouncementBox extends VBox {
 		Role audience = announcement.getAudience();
 		String audienceText = "Synlig for ";
 		
-		switch(audience.name()) {
-		case "STUDENT":
+		switch(audience) {
+		case STUDENT:
 			audienceText += "alle";
 			break;
-		case "ASSISTANT":
+		case ASSISTANT:
 			audienceText += "Læringsassistenter, Emneansvarlige";
 			break;
-		case "PROFESSOR":
+		case PROFESSOR:
 			audienceText += "Emneansvarlige";
 			break;
 		}
@@ -48,7 +48,7 @@ public class AnnouncementBox extends VBox {
 		Label bodyLabel = new Label(announcement.getText());
 		bodyLabel.setWrapText(true);
 		
-		if(currentRole.name()=="STUDENT") {
+		if(currentRole == Role.STUDENT) {
 			getChildren().addAll(titleLabel, dateAndNameLabel, bodyLabel);
 		}
 		else {

@@ -98,12 +98,12 @@ public class OverviewController implements Refreshable {
 	
 	private int getRoleId() {
 		Role currentRole = menuController.getSelectedRole();
-		switch(currentRole.name()) {
-		case "STUDENT":
+		switch(currentRole) {
+		case STUDENT:
 			return 1;
-		case "ASSISTANT":
+		case ASSISTANT:
 			return 2;
-		case "PROFESSOR":
+		case PROFESSOR:
 			return 3;
 		}
 		return -1; 
