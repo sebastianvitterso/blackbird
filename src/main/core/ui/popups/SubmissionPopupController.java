@@ -81,6 +81,7 @@ public class SubmissionPopupController implements Refreshable {
     private JFXDialog dialog;
     private AssignmentsController assignmentsController; 
     private File selectedFile;
+    private User selectedUser;
     
     @FXML
     private void initialize() {
@@ -162,6 +163,7 @@ public class SubmissionPopupController implements Refreshable {
 				break;
 			case WAITING:
 				gradingStatusLabel.setText(status.getNorwegianName());
+				gradingScoreTextField.setText("-");
 				gradingMaxScoreLabel.setText(String.format("/ %s", assignment.getMaxScore()));
 				submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
 						assignment.getCourse().getCourseCode(), 
@@ -209,7 +211,7 @@ public class SubmissionPopupController implements Refreshable {
 				submissionLowerHBox.getChildren().remove(submissionDeliverButton);
 				break;
 			case WAITING:
-				submissionScoreLabel.setVisible(false);
+				submissionScoreLabel.setText(String.format("%s / %s", "-", assignment.getMaxScore()));
 				submissionCommentLabel.setVisible(false);
 				submissionFileUploadHBox.setVisible(false);
 				submissionFileName = String.format("innlevering-%s-%s-%s.pdf", 
@@ -231,7 +233,7 @@ public class SubmissionPopupController implements Refreshable {
 				submissionLowerHBox.getChildren().remove(submissionDeliverButton);
 				break;
 			case NOT_DELIVERED:
-				submissionScoreLabel.setVisible(false);
+				submissionScoreLabel.setText(String.format("%s / %s", "-", assignment.getMaxScore()));
 				submissionCommentLabel.setVisible(false);
 				submissionFileLinkButton.setVisible(false);
 				if(!submissionLowerHBox.getChildren().contains(submissionDeliverButton)) {
@@ -239,7 +241,7 @@ public class SubmissionPopupController implements Refreshable {
 				}
 				break;
 			case DEADLINE_EXCEEDED:
-				submissionScoreLabel.setVisible(false);
+				submissionScoreLabel.setText(String.format("%s / %s", "0", assignment.getMaxScore()));
 				submissionCommentLabel.setText("Øvingen ble ikke levert innen tidsfristen.");
 				submissionFileUploadHBox.setVisible(false);
 				submissionFileLinkButton.setVisible(false);
