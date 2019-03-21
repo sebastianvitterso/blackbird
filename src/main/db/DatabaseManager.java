@@ -61,6 +61,7 @@ public class DatabaseManager {
 	 * Sends query and reestablishes connection if lost.
 	 */
 	public static List<Map<String, String>> sendQuery(String query) {
+		System.err.println("\t" + "Query: " + query);
 		try {
 			Statement statement = null;
 			ResultSet resultSet = null;
@@ -95,6 +96,7 @@ public class DatabaseManager {
 	}
 
 	public static int sendUpdate(String update) {
+		System.err.println("\t" + "Update: " + update);
 		try {
 			Statement statement = null;
 			int rowsAffected = 0;

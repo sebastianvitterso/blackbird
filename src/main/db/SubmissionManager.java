@@ -97,9 +97,11 @@ public class SubmissionManager {
 	}
 	
 	public static List<Submission> getSubmissionsFromAssignment(Assignment assignment){
-		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery(String.format(
+		String query = String.format(
 				"SELECT * FROM submission WHERE assignment_id = '%s';",
-				assignment.getAssignmentID()));
+				assignment.getAssignmentID());
+		System.err.println("Query: " + query);
+		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery(query);
 		return DatabaseUtil.mapsToSubmissions(submissionMaps);
 	}
 }
