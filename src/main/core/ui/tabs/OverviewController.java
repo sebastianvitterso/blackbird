@@ -84,6 +84,7 @@ public class OverviewController implements Refreshable {
 		List<Announcement> announcements = AnnouncementManager.getAnnouncementsFromCourse(selectedCourse);
 		List<AnnouncementBox> boxes = announcements.stream()
 				.sorted()
+				.filter(announcement -> announcement.getAudienceID() <= getRoleId())
 				.map(AnnouncementBox::new)
 				.collect(Collectors.toList());
 		
@@ -95,6 +96,19 @@ public class OverviewController implements Refreshable {
 			newAnnouncementButton.setVisible(false);
 	}
 	
+	private int getRoleId() {
+		Role currentRole = menuController.getSelectedRole();
+		switch(currentRole) {
+		case STUDENT:
+			return 1;
+		case ASSISTANT:
+			return 2;
+		case PROFESSOR:
+			return 3;
+		}
+		return -1; 
+		
+	}
 	private void updateAssignmentButtons() {
 		Course course = menuController.getSelectedCourse();
 		List<Assignment> assignments = AssignmentManager.getAssignmentsFromCourse(course);

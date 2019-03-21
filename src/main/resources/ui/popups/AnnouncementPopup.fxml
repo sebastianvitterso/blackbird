@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -27,6 +28,7 @@
                   <Insets />
                </VBox.margin>
             </JFXTextArea>
+            <JFXComboBox fx:id="audienceComboBox" labelFloat="true" prefHeight="27.0" prefWidth="192.0" promptText="Synlig for" />
             <HBox nodeOrientation="RIGHT_TO_LEFT">
                <children>
                   <Region HBox.hgrow="ALWAYS" />

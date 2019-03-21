@@ -218,6 +218,7 @@ public class MenuController implements Refreshable {
 		if (!menuButtonsVBox.getChildren().isEmpty())
 			loadTab(((MenuButton) menuButtonsVBox.getChildren().get(0)).getView());
 	}
+
 	
 	/**
 	 * Updates user related components (Name, image and role).
