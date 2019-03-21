@@ -4,12 +4,20 @@ import java.text.SimpleDateFormat;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import main.app.Loader;
+import main.core.ui.MenuController;
 import main.models.Announcement;
 import main.utils.Role;
+import main.utils.View;
 import main.models.UserInCourse;
+
 
 public class AnnouncementBox extends VBox {
 	public AnnouncementBox(Announcement announcement) {
+
+		MenuController menuController = Loader.getController(View.MENU_VIEW);
+		Role currentRole = menuController.getSelectedRole();
+		
 		Label titleLabel = new Label(announcement.getTitle());
 		titleLabel.getStyleClass().add("title");
 
@@ -39,6 +47,12 @@ public class AnnouncementBox extends VBox {
 		
 		Label bodyLabel = new Label(announcement.getText());
 		bodyLabel.setWrapText(true);
-		getChildren().addAll(titleLabel, dateAndNameLabel, bodyLabel, audienceLabel);
+		
+		if(currentRole.name()=="STUDENT") {
+			getChildren().addAll(titleLabel, dateAndNameLabel, bodyLabel);
+		}
+		else {
+			getChildren().addAll(titleLabel, dateAndNameLabel, bodyLabel, audienceLabel);
+		}
 	}
 }

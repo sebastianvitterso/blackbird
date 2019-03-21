@@ -47,7 +47,7 @@ public class AnnouncementPopupController implements Refreshable{
 		// Bind 'register' button to being disabled when no title and description is given.
 		registerButton.disableProperty().bind(announcementTitleTextField.textProperty().isEmpty());
 		registerButton.disableProperty().bind(announcementDescriptionTextArea.textProperty().isEmpty());
-		audienceComboBox.getItems().addAll("Studenter", "Læringsassistenter", "Emneansvarlige");
+		audienceComboBox.getItems().addAll("Alle", "Læringsassistenter, Emneansvarlige", "Emneansvarlige");
 	}
 	
 	/**
@@ -81,10 +81,10 @@ public class AnnouncementPopupController implements Refreshable{
 		String description = announcementDescriptionTextArea.getText();
 		Role audience = null; 
 		switch (audienceComboBox.getValue()) {
-		case "Studenter":
+		case "Alle":
 			audience = Role.STUDENT; 
 			break;
-		case "Læringsassistenter":
+		case "Læringsassistenter, Emneansvarlige":
 			audience = Role.ASSISTANT; 
 			break;
 		case "Emneansvarlige":
