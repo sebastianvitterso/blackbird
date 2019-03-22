@@ -226,7 +226,7 @@ public class SubmissionPopupController implements Refreshable {
 			updateGradingView(submission, String.valueOf(submission.getScore()), submission.getComment());
 			break;
 		case WAITING:
-			updateGradingView(submission, "-", "");
+			updateGradingView(submission, "", "");
 			break;
 		case FAILED:
 			updateGradingView(submission,String.valueOf(submission.getScore()), submission.getComment());
