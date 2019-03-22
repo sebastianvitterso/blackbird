@@ -21,6 +21,7 @@ import main.core.ui.popups.SubmissionPopupController;
 import main.db.LoginManager;
 import main.models.Assignment;
 import main.models.Submission;
+import main.utils.AssignmentStatus;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Status;
@@ -66,7 +67,12 @@ public class AssignmentBoxController implements Refreshable {
 		this.submission = submission;
 	}
 	
-	public void loadStatus(Status status) {
+	/**
+	 * Sets styling of AssignmentBox according to student's submission's status.
+	 * @param status
+	 */
+	public void loadSubmissionStatus(Assignment assignment, Submission submission) {
+		Status status = Submission.determineStatus(assignment, submission);
 		switch (status) {
 		case PASSED:
 			headerRectangle.getStyleClass().setAll("header-background-green");
@@ -98,6 +104,27 @@ public class AssignmentBoxController implements Refreshable {
 		}
 	}
 	
+	/**
+	 * Sets styling of AssignmentBox according to assignment's general status.
+	 * Only uses a few of given statuses, and combines the rest.
+	 * @param status
+	 */
+	public void loadAssignmentStatus(Assignment assignment) {
+		AssignmentStatus assignmentStatus = Assignment.determineStatus(assignment);
+		statusLabel.setText(assignmentStatus.getNorwegianName());
+		switch (assignmentStatus) {
+		case WITHIN_DEADLINE:
+			headerRectangle.getStyleClass().setAll("header-background-green");
+			statusLabel.getStyleClass().setAll("status-label-green");
+			break;
+		case DEADLINE_EXCEEDED:
+			headerRectangle.getStyleClass().setAll("header-background-red");
+			statusLabel.getStyleClass().setAll("status-label-red");
+			break;
+		default:
+			break;
+		}
+	}
 	
 	/**
      * Runs any methods that require every controller to be initialized.

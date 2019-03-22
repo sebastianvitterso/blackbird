@@ -138,7 +138,7 @@ public class SubmissionPopupController implements Refreshable {
 		loadAssignment(assignment);
 		
 		this.submission = submission;
-		Status status = Assignment.determineStatus(assignment, this.submission);
+		Status status = Submission.determineStatus(assignment, this.submission);
 		submissionStatusLabel.setText(status.getNorwegianName());
 		gradingStatusLabel.setText(status.getNorwegianName());
 		
@@ -200,7 +200,7 @@ public class SubmissionPopupController implements Refreshable {
 	
 	private void onSelectedSubmissionChange(Submission submission) {
 		gradingVBox.setVisible(true);
-		Status status = Assignment.determineStatus(assignment, submission);
+		Status status = Submission.determineStatus(assignment, submission);
 		switch(status){
 		case PASSED:
 			updateGradingView(submission, String.valueOf(submission.getScore()), submission.getComment());
@@ -221,7 +221,7 @@ public class SubmissionPopupController implements Refreshable {
 	}
 	
 	private void updateGradingView(Submission submission, String gradingScore, String gradingComment) {
-		gradingStatusLabel.setText(Assignment.determineStatus(assignment, submission).getNorwegianName());  
+		gradingStatusLabel.setText(Submission.determineStatus(assignment, submission).getNorwegianName());  
 		gradingScoreTextField.setText(gradingScore);
 		gradingMaxScoreLabel.setText(String.format("/ %s", assignment.getMaxScore()));
 		gradingCommentTextArea.setText(gradingComment);

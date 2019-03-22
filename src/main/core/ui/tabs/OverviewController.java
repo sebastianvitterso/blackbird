@@ -163,7 +163,7 @@ public class OverviewController implements Refreshable {
 			getStyleClass().addAll("button-text", "border");
 			setButtonType(ButtonType.RAISED);
 			setAlignment(Pos.CENTER_LEFT);
-			Status status = Assignment.determineStatus(assignment, submission);
+			Status status = Submission.determineStatus(assignment, submission);
 			switch (status) {
 			case PASSED:
 				getStyleClass().add("button-green");

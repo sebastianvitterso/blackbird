@@ -119,7 +119,11 @@ public class AssignmentsController implements Refreshable {
 					.findFirst()
 					.orElse(null);
 			controller.loadSubmission(submission);
-			controller.loadStatus(Assignment.determineStatus(assignment, submission));
+			if(menuController.getSelectedRole() == Role.STUDENT)
+				controller.loadSubmissionStatus(assignment, submission);
+			else
+				controller.loadAssignmentStatus(assignment);
+				
 		}
 	}
 
@@ -155,16 +159,5 @@ public class AssignmentsController implements Refreshable {
     	assignmentController.clear();
     	assignmentController.connectDialog(dialog);
     	dialog.show();
-	}
-	
-	public static void main(String[] args) {
-		ObservableList<User> users = FXCollections.observableArrayList();
-		users.addListener((ListChangeListener.Change<? extends User> change) -> {
-			System.out.println(change);
-		});
-		 User user = new User("patkj", "sad", "sdsd", "sdasd", "dssd");
-		 users.add(user);
-		 System.out.println("Changing name");
-		 user.setFirstName("ola nor");
 	}
 }
