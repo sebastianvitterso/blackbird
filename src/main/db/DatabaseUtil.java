@@ -91,11 +91,12 @@ public class DatabaseUtil {
 	}
 	
 	public static List<Assignment> mapsToAssignments(List<Map<String, String>> assignmentMaps) {
+		fillCourseLookupMap();
 		List<Assignment> assignmentList = new ArrayList<>();
 		for (Map<String, String> assignmentMap : assignmentMaps) {
 			int assignment_id = Integer.parseInt(assignmentMap.get("assignment_id"));
 			String course_code = assignmentMap.get("course_code");
-			Course course = CourseManager.getCourse(course_code);                     							// TODO Denne sender query for hver assignment
+			Course course = CourseLookupMap.get(course_code);
 			String title = assignmentMap.get("title");
 			String description = assignmentMap.get("description");
 			String deadline = assignmentMap.get("deadline");
@@ -103,6 +104,7 @@ public class DatabaseUtil {
 			int passing_score = Integer.parseInt(assignmentMap.get("passing_score"));
 			assignmentList.add(new Assignment(assignment_id, course, title, description, Timestamp.valueOf(deadline),max_score, passing_score));
 		}
+		clearCourseLookupMap();
 		return assignmentList;
 	}
 
@@ -156,19 +158,21 @@ public class DatabaseUtil {
 	}	
 	
 	public static List<Announcement> mapsToAnnouncements(List<Map<String, String>> announcementMaps) {
-		List<Announcement> announcements = new ArrayList<Announcement>();
 		fillCourseLookupMap();
 		fillUserLookupMap();
+		List<Announcement> announcements = new ArrayList<Announcement>();
 		for (Map<String, String> announcementMap : announcementMaps) {
 			int announcement_id = Integer.valueOf(announcementMap.get("announcement_id"));
-			Course course = CourseLookupMap.get(announcementMap.get("course_code"));  						// TODO Denne sender query for hver assignment
-			User user = UserLookupMap.get(announcementMap.get("username"));                     				// TODO Denne sender query for hver assignment
+			Course course = CourseLookupMap.get(announcementMap.get("course_code"));
+			User user = UserLookupMap.get(announcementMap.get("username"));
 			Timestamp timestamp = Timestamp.valueOf(announcementMap.get("timestamp"));
 			String title = announcementMap.get("title");
 			String text = announcementMap.get("text");
 			Role audience = Role.valueOf(announcementMap.get("audience")); 
 			announcements.add(new Announcement(announcement_id, course, user, timestamp, title, text, audience));
 		}
+		clearCourseLookupMap();
+		clearUserLookupMap();
 		return announcements;
 	}
 
