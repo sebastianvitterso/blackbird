@@ -18,11 +18,14 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.util.Callback;
 import javafx.stage.Stage;
 import main.app.Loader;
 import main.core.ui.tabs.AssignmentsController;
@@ -149,6 +152,23 @@ public class SubmissionPopupController implements Refreshable {
 			submissionListView.getItems().setAll(submissions);
 			submissionListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
 				onSelectedSubmissionChange(newValue);
+			});
+			submissionListView.setCellFactory(new Callback<ListView<Submission>, ListCell<Submission>>() {
+				
+				@Override
+				public ListCell<Submission> call(ListView<Submission> param) {
+					ListCell<Submission> cell = new ListCell<Submission>() {
+						@Override
+						protected void updateItem(Submission item, boolean empty) {
+							super.updateItem(item, empty);
+							if (item != null)
+								setText(item.getUser().getName());
+							else
+								setText(null);
+						}
+					};
+					return cell;
+				}
 			});
 			submissionGradingPane.getChildren().remove(submissionVBox);
 			gradingVBox.setVisible(false);
