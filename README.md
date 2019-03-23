@@ -28,7 +28,7 @@ java -jar "{path to directory}/BlackBird-1.0.0-RELEASE.jar"
 
 A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
 
-_For more examples and usage, please refer to the [Wiki][https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/wikis/home]._
+_For more examples and usage, please refer to the [Wiki](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/wikis/home)._
 
 ## Development setup
 
@@ -79,5 +79,10 @@ Distributed under the XYZ license. See ``LICENSE`` for more information.
 [wiki]: https://github.com/yourname/yourproject/wiki
 
 
-** GUIDE TIL README.MD: ** _https://medium.com/@meakaakka/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3_
-** TEMPLATE FULGT HER: ** _https://github.com/dbader/readme-template/blob/master/README.md_
+** GUIDE TIL README.MD: ** 
+
+_https://medium.com/@meakaakka/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3_
+
+** TEMPLATE FULGT HER: **
+
+_https://github.com/dbader/readme-template/blob/master/README.md_
