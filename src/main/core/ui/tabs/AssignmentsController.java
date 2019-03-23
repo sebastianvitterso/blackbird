@@ -12,9 +12,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +29,6 @@ import main.db.SubmissionManager;
 import main.models.Assignment;
 import main.models.Course;
 import main.models.Submission;
-import main.models.User;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Role;
