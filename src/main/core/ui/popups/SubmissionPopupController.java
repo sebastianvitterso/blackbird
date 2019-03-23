@@ -159,10 +159,10 @@ public class SubmissionPopupController implements Refreshable {
 				public ListCell<Submission> call(ListView<Submission> param) {
 					ListCell<Submission> cell = new ListCell<Submission>() {
 						@Override
-						protected void updateItem(Submission item, boolean empty) {
-							super.updateItem(item, empty);
-							if (item != null)
-								setText(item.getUser().getName());
+						protected void updateItem(Submission submission, boolean empty) {
+							super.updateItem(submission, empty);
+							if (submission != null)
+								setText(submission.getUser().getName());
 							else
 								setText(null);
 						}

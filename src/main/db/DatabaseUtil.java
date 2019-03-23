@@ -63,6 +63,25 @@ public class DatabaseUtil {
 		UserLookupMap = null;
 	}
 	
+	/**
+	 * The AssignmentLookupMap allows us to do only one query to check what assignment correspond to a series of assignmentIDs,
+	 * e.g. in a function taking a list of submissions, simply do {@code AssignmentLookupMap.get(ASSIGNMENT_ID)} to get the 
+	 * corresponding Assignment-object. 
+	 */
+	public static Map<Integer, Assignment> AssignmentLookupMap;
+	
+	public static void fillAssignmentLookupMap() {
+		List<Assignment> assignments = AssignmentManager.getAssignments();
+		Map<Integer, Assignment> tempMap = new HashMap<>();
+		for(Assignment assignment : assignments) {
+			tempMap.put(assignment.getAssignmentID(), assignment);
+		}
+		AssignmentLookupMap = tempMap;
+	}
+	
+	public static void clearAssignmentLookupMap() {
+		AssignmentLookupMap = null;
+	}
 	
 	public static List<Course> mapsToCourses(List<Map<String, String>> courseMaps){
 		List<Course> courses = new ArrayList<Course>();
@@ -103,11 +122,12 @@ public class DatabaseUtil {
 	}
 	
 	public static List<Assignment> mapsToAssignments(List<Map<String, String>> assignmentMaps) {
+		fillCourseLookupMap();
 		List<Assignment> assignmentList = new ArrayList<>();
 		for (Map<String, String> assignmentMap : assignmentMaps) {
 			int assignment_id = Integer.parseInt(assignmentMap.get("assignment_id"));
 			String course_code = assignmentMap.get("course_code");
-			Course course = CourseManager.getCourse(course_code);                     							// TODO Denne sender query for hver assignment
+			Course course = CourseLookupMap.get(course_code);
 			String title = assignmentMap.get("title");
 			String description = assignmentMap.get("description");
 			String deadline = assignmentMap.get("deadline");
@@ -115,6 +135,7 @@ public class DatabaseUtil {
 			int passing_score = Integer.parseInt(assignmentMap.get("passing_score"));
 			assignmentList.add(new Assignment(assignment_id, course, title, description, Timestamp.valueOf(deadline),max_score, passing_score));
 		}
+		clearCourseLookupMap();
 		return assignmentList;
 	}
 
@@ -133,6 +154,8 @@ public class DatabaseUtil {
 	}
 	
 	public static List<Submission> mapsToSubmissions(List<Map<String, String>> submissionMaps) {
+		fillAssignmentLookupMap();
+		fillUserLookupMap();
 		List<Submission> submissionList = new ArrayList<>();
 		for (Map<String, String> submissionMap : submissionMaps) {
 			int assignment_id = Integer.parseInt(submissionMap.get("assignment_id"));
@@ -140,8 +163,10 @@ public class DatabaseUtil {
 			String delivered_timestamp = submissionMap.get("delivered_timestamp");
 			int score = Integer.parseInt(submissionMap.get("score") == null ? "-1" : submissionMap.get("score"));
 			String comment = submissionMap.get("comment");
-			submissionList.add(new Submission(AssignmentManager.getAssignment(assignment_id), UserManager.getUser(username), Timestamp.valueOf(delivered_timestamp), score, comment));
+			submissionList.add(new Submission(AssignmentLookupMap.get(assignment_id), UserLookupMap.get(username), Timestamp.valueOf(delivered_timestamp), score, comment));
 		}
+		clearAssignmentLookupMap();
+		clearUserLookupMap();
 		return submissionList;
 	}
 	
@@ -173,13 +198,15 @@ public class DatabaseUtil {
 		fillUserLookupMap();
 		for (Map<String, String> announcementMap : announcementMaps) {
 			int announcement_id = Integer.valueOf(announcementMap.get("announcement_id"));
-			Course course = CourseLookupMap.get(announcementMap.get("course_code"));  						// TODO Denne sender query for hver assignment
-			User user = UserLookupMap.get(announcementMap.get("username"));                     				// TODO Denne sender query for hver assignment
+			Course course = CourseLookupMap.get(announcementMap.get("course_code"));
+			User user = UserLookupMap.get(announcementMap.get("username"));
 			Timestamp timestamp = Timestamp.valueOf(announcementMap.get("timestamp"));
 			String title = announcementMap.get("title");
 			String text = announcementMap.get("text");
 			announcements.add(new Announcement(announcement_id, course, user, timestamp, title, text));
 		}
+		clearCourseLookupMap();
+		clearUserLookupMap();
 		return announcements;
 	}
 

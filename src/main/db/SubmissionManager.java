@@ -94,8 +94,8 @@ public class SubmissionManager {
 	
 	public static List<Submission> getSubmissionsFromAssignment(Assignment assignment){
 		String query = String.format(
-				"SELECT * FROM submission WHERE assignment_id = '%s';",
-				assignment.getAssignmentID());
+				"SELECT assignment_id, username, delivered_timestamp, score, comment "
+				+ "FROM submission WHERE assignment_id = '%s';", assignment.getAssignmentID());
 		System.err.println("Query: " + query);
 		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery(query);
 		return DatabaseUtil.mapsToSubmissions(submissionMaps);
