@@ -16,14 +16,16 @@ import main.models.Course;
 import main.models.Submission;
 import main.models.User;
 
+/**
+ * Manager handling database-queries concerning submissions.
+ * @author Sebastian
+ */
 public class SubmissionManager {
-	// TODO Uses two queries
 	public static List<Submission> getSubmissions(){
 		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery("SELECT * FROM submission");
 		return DatabaseUtil.mapsToSubmissions(submissionMaps);
 	}
 
-	// TODO Uses two queries
 	public static Submission getSubmission(Assignment assignment, User user) {
 		List<Map<String, String>> submissionMaps = DatabaseManager.sendQuery(String.format(
 				"SELECT * FROM submission WHERE assignment_id = '%s' AND username = '%s';", assignment.getAssignmentID(), user.getUsername()));
@@ -65,13 +67,7 @@ public class SubmissionManager {
 			int result = ps.executeUpdate();
 			return result;
 			
-		} catch (FileNotFoundException e) {
-			System.err.println("addAssignment got a FileNotFoundException.");
-			e.printStackTrace();
-			return -1;
-			
-		} catch (SQLException e) {
-			System.err.println("SQLException when setting valies to PreparedStatement.");
+		} catch (FileNotFoundException | SQLException e) {
 			e.printStackTrace();
 			return -1;
 		}

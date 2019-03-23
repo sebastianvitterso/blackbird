@@ -5,6 +5,10 @@ import java.time.Instant;
 
 import main.utils.Status;
 
+/**
+ * Datamodel of a submission
+ * @author Sebastian
+ */
 public class Submission {
 	private final Assignment assignment;
 	private final User user;
@@ -57,7 +61,13 @@ public class Submission {
 		return String.format("Submission [assignment=%s, user=%s, deliveredTime=%s, score=%s, comment=%s]", assignment.getAssignmentID(),
 				user, deliveredTime, score, comment);
 	}
-
+	
+	/**
+	 * Determines the delivery/grading-status of a submission, given the corresponding Assignment-object, and the Submission-object.
+	 * @param assignment (Not null) assignment-object.
+	 * @param submission (May be null) submission-object.
+	 * @return {@link Status}-value.
+	 */
 	public static Status determineStatus(Assignment assignment, Submission submission) {
 		if (submission == null  &&  assignment.getDeadLine().before(Timestamp.from(Instant.now())))
 			return Status.DEADLINE_EXCEEDED;

@@ -11,13 +11,11 @@ import main.models.Period;
 import main.models.TimeSlot;
 import main.models.User;
 
+/**
+ * Manager handling database-queries concerning periods.
+ * @author Sebastian
+ */
 public class PeriodManager {
-	
-	/* PERIOD INSERTION:
-	 * INSERT INTO period VALUES(course_code, timestamp[, prof_username, ass_username, stud_username])
-	 * 												   [------THESE CAN BE SET TO NULL AS null------]
-	 * INSERT INTO period VALUES('TDT4100', '2019-02-21 15:00:00', 'hallvard', null, null);
-	 */
 	
 	
 	/*

@@ -4,8 +4,11 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 import main.utils.AssignmentStatus;
-import main.utils.Status;
 
+/**
+ * Datamodel of an assignment.
+ * @author Sebastian
+ */
 public class Assignment {
 	private final int assignmentID;
 	private Course course;
@@ -85,6 +88,12 @@ public class Assignment {
 				assignmentID, course, title, description, deadLine, maxScore, passingScore);
 	}
 	
+	/**
+	 * Checks the deadline-status of an assignment.
+	 * @param assignment Assignment to check status of.
+	 * @return {@link AssignmentStatus}-value: <br>
+	 * {@code DEADLINE_EXCEEDED} or {@code WITHIN_DEADLINE}.
+	 */
 	public static AssignmentStatus determineStatus(Assignment assignment) {
 		if (assignment.getDeadLine().before(Timestamp.from(Instant.now())))
 			return AssignmentStatus.DEADLINE_EXCEEDED;

@@ -2,6 +2,10 @@ package main.models;
 
 import main.utils.Role;
 
+/**
+ * Datamodel of an the relation between a user and a course, also describing the user's role.
+ * @author Sebastian
+ */
 public class UserInCourse {
 	private User user;
 	private Course course;

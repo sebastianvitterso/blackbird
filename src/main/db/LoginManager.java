@@ -5,6 +5,11 @@ import java.util.Map;
 
 import main.models.User;
 
+/**
+ * Manager handling database-queries concerning login.
+ * Also stores which user is logged in, in the the variable {@code activeUser}.
+ * @author Sebastian
+ */
 public class LoginManager {
 	private static User activeUser;
 

@@ -8,6 +8,10 @@ import main.db.LoginManager;
 import main.db.PeriodManager;
 import main.models.Period.PeriodType;
 
+/**
+ * Datamodel of a calendar-timeslot.
+ * @author Sebastian
+ */
 public class TimeSlot {
 	private List<Period> periods;
 	

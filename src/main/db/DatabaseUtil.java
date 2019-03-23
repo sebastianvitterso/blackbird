@@ -15,11 +15,17 @@ import main.models.TimeSlot;
 import main.models.User;
 import main.utils.Role;
 
+/**
+ * <h1> Database utilities! </h1>
+ * Utility-methods for transforming between different data-objects, e.g. {@code List<HashMap<String, String>>} 
+ * from {@link DatabaseManager} transformed into {@code List<Assignment>}. 
+ * @author Sebastian
+ */
 public class DatabaseUtil {
 	
-	/*
+	/**
 	 * The CourseLookupMap allows us to do only one query to check what courses correspond to a series of courseCodes,
-	 * e.g. in a function taking a list of assignments, simply do "CourseLookupMap.get(COURSE_CODE)" to get the 
+	 * e.g. in a function taking a list of assignments, simply do {@code CourseLookupMap.get(COURSE_CODE)} to get the 
 	 * corresponding Course-object. 
 	 */
 	public static Map<String, Course> CourseLookupMap;
@@ -37,6 +43,11 @@ public class DatabaseUtil {
 		CourseLookupMap = null;
 	}
 	
+	/**
+	 * The UserLookupMap allows us to do only one query to check what users correspond to a series of usernames,
+	 * e.g. in a function taking a list of submissions, simply do {@code UserLookupMap.get(USERNAME)} to get the 
+	 * corresponding User-object. 
+	 */
 	public static Map<String, User> UserLookupMap;
 	
 	public static void fillUserLookupMap() {
@@ -51,6 +62,7 @@ public class DatabaseUtil {
 	public static void clearUserLookupMap() {
 		UserLookupMap = null;
 	}
+	
 	
 	public static List<Course> mapsToCourses(List<Map<String, String>> courseMaps){
 		List<Course> courses = new ArrayList<Course>();

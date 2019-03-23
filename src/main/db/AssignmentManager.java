@@ -14,6 +14,10 @@ import java.util.Map;
 import main.models.Assignment;
 import main.models.Course;
 
+/**
+ * Manager handling database-queries concerning assignments.
+ * @author Sebastian
+ */
 public class AssignmentManager {
 	
 	public static List<Assignment> getAssignments(){
