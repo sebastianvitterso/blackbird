@@ -47,7 +47,6 @@ public class TimeSlot {
 		return (int) periods.stream().filter(x -> periodType.equals(x.getPeriodType())).count();
 	}
 	
-	// TODO: Fix title of this method... I mean come on Seb, this is bad. 
 	public boolean amStudentInTimeSlot() {
 		for(Period period : periods) {
 			if ( LoginManager.getActiveUser().getUsername().equals(period.getStudentUsername()) ) {
@@ -57,7 +56,6 @@ public class TimeSlot {
 		return false;
 	}
 	
-	// TODO: Same stuff here, Seb - fix your shit.
 	public boolean amAssistantInTimeSlot() {
 		for(Period period : periods) {
 			if ( LoginManager.getActiveUser().getUsername().equals(period.getAssistantUsername()) ) {
