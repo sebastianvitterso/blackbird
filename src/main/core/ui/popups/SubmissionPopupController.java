@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -152,12 +153,17 @@ public class SubmissionPopupController implements Refreshable {
 		switch (role) {
 		case PROFESSOR: case ASSISTANT:
 			List<Submission> submissions = SubmissionManager.getSubmissionsFromAssignment(assignment);
-			System.out.format("Submissions: %s%n", submissions);
+			System.out.format("Submissions: %s%n", submissions.stream().map(Submission::toString).collect(Collectors.joining("\n\t")));
 			
 			//TODO PRINT
 			
 			submissionListView.getItems().setAll(submissions);
 			submissionListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+				if (newValue == null) {
+					gradingVBox.setVisible(false);
+					return;
+				}
+				System.out.format("Selected submission change listener: \n\tOld: %s \n\tNew: %s]\n", oldValue, newValue);
 				onSelectedSubmissionChange(newValue);
 			});
 //			submissionListView.setCellFactory(new Callback<ListView<Submission>, ListCell<Submission>>() {
@@ -227,6 +233,7 @@ public class SubmissionPopupController implements Refreshable {
 	}
 	
 	private void onSelectedSubmissionChange(Submission submission) {
+		this.submission = submission;
 		gradingVBox.setVisible(true);
 		Status status = Submission.determineStatus(assignment, submission);
 		switch(status){
@@ -384,7 +391,9 @@ public class SubmissionPopupController implements Refreshable {
 //			button.getStyleClass().add("sectioned-list-cell");
 			button.setAlignment(Pos.CENTER_LEFT);
 			button.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+				System.out.println("Button event handler");
 				listView.getSelectionModel().select(getIndex());
+				event.consume();
 			});
 			Label symbol = createSymbolLabel(submission);
 			button.setGraphic(symbol);

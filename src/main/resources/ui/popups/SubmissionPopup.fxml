@@ -268,10 +268,7 @@
                                        </graphic>
                                     </JFXButton>
                                     <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                                    <JFXButton graphicTextGap="10.0" onAction="#handleCancelClick" styleClass="primary-button-grey" text="Lukk">
-                                       <graphic>
-                                          <Label text="●" textFill="#ff3232" />
-                                       </graphic></JFXButton>
+                                    <JFXButton graphicTextGap="10.0" onAction="#handleCancelClick" styleClass="primary-button-grey" text="Lukk" />
                                     <JFXButton fx:id="gradingEvaluateButton" onAction="#handleEvaluateClick" styleClass="primary-button-grey" text="Evaluer" />
                                  </children>
                               </HBox>
