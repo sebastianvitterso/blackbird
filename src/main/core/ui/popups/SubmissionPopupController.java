@@ -11,21 +11,25 @@ import java.util.List;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.util.Callback;
 import javafx.stage.Stage;
 import main.app.Loader;
 import main.core.ui.tabs.AssignmentsController;
@@ -149,27 +153,31 @@ public class SubmissionPopupController implements Refreshable {
 		case PROFESSOR: case ASSISTANT:
 			List<Submission> submissions = SubmissionManager.getSubmissionsFromAssignment(assignment);
 			System.out.format("Submissions: %s%n", submissions);
+			
+			//TODO PRINT
+			
 			submissionListView.getItems().setAll(submissions);
 			submissionListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
 				onSelectedSubmissionChange(newValue);
 			});
-			submissionListView.setCellFactory(new Callback<ListView<Submission>, ListCell<Submission>>() {
-				
-				@Override
-				public ListCell<Submission> call(ListView<Submission> param) {
-					ListCell<Submission> cell = new ListCell<Submission>() {
-						@Override
-						protected void updateItem(Submission submission, boolean empty) {
-							super.updateItem(submission, empty);
-							if (submission != null)
-								setText(submission.getUser().getName());
-							else
-								setText(null);
-						}
-					};
-					return cell;
-				}
-			});
+//			submissionListView.setCellFactory(new Callback<ListView<Submission>, ListCell<Submission>>() {
+//				
+//				@Override
+//				public ListCell<Submission> call(ListView<Submission> param) {
+//					ListCell<Submission> cell = new ListCell<Submission>() {
+//						@Override
+//						protected void updateItem(Submission submission, boolean empty) {
+//							super.updateItem(submission, empty);
+//							if (submission != null)
+//								setText(submission.getUser().getName());
+//							else
+//								setText(null);
+//						}
+//					};
+//					return cell;
+//				}
+//			});
+			submissionListView.setCellFactory(listView -> new SubmissionListCell(listView));
 			submissionGradingPane.getChildren().remove(submissionVBox);
 			gradingVBox.setVisible(false);
 			break;
@@ -350,4 +358,80 @@ public class SubmissionPopupController implements Refreshable {
     	dialog.close();
     }
 
+    
+    /**
+	 * Custom implementation of JFXListCell to be used in ListView cell factories for 
+	 * representing submissions.
+	 */
+	private class SubmissionListCell extends JFXListCell<Submission> {
+		private final ListView<Submission> listView;
+		
+		public SubmissionListCell(ListView<Submission> listView) {
+			super();
+			this.listView = listView;
+			
+			// ListCell properties
+			setPadding(Insets.EMPTY);
+			setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+		}
+		
+		private JFXButton createButton(String text, Submission submission){
+			JFXButton button = new JFXButton();
+			button.setText(text);
+			button.setMinWidth(Control.USE_PREF_SIZE);
+			button.setMaxWidth(Double.MAX_VALUE);
+			button.setPadding(new Insets(8, 12, 8, 20));
+//			button.getStyleClass().add("sectioned-list-cell");
+			button.setAlignment(Pos.CENTER_LEFT);
+			button.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+				listView.getSelectionModel().select(getIndex());
+			});
+			Label symbol = createSymbolLabel(submission);
+			button.setGraphic(symbol);
+			button.setGraphicTextGap(10);
+			return button;
+		}
+
+		private Label createSymbolLabel(Submission submission) {
+			Status status = Submission.determineStatus(submission.getAssignment(), submission);
+			Label symbol = new Label("●");
+			symbol.getStyleClass().add("symbol-label");
+			switch (status) {
+			case FAILED:
+				symbol.getStyleClass().add("symbol-label-red");
+				break;
+			
+			case WAITING:
+				symbol.getStyleClass().add("symbol-label-orange");
+				break;
+			
+			case PASSED:
+				symbol.getStyleClass().add("symbol-label-green");
+				break;
+
+			default:
+				break;
+			}
+			return symbol;
+		}
+		
+		@Override
+		protected void updateItem(Submission submission, boolean empty) {
+			super.updateItem(submission, empty);
+			
+			// Break if cell has no content
+			if (empty || submission == null) {
+				setText(null);
+				setGraphic(null);
+				return;
+			}
+
+			// Create button, required for all cells
+			String text = submission.getUser().getName();
+			JFXButton button = createButton(text, submission);
+			
+			// Update graphic
+			setGraphic(button);
+		}
+	}
 }

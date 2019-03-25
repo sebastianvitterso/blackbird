@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" styleClass="root-background" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.SubmissionPopupController">
+<StackPane fx:id="rootPane" styleClass="root-background" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.SubmissionPopupController">
    <children>
       <HBox fx:id="outerHBox">
          <children>
@@ -31,7 +31,7 @@
                               <DropShadow color="#909090" height="23.97" radius="11.1125" width="22.48" />
                            </effect>
                         </Label>
-                        <JFXListView fx:id="submissionListView" VBox.vgrow="ALWAYS" />
+                        <JFXListView fx:id="submissionListView" styleClass="submission-listview" VBox.vgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" top="20.0" />
@@ -268,7 +268,10 @@
                                        </graphic>
                                     </JFXButton>
                                     <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                                    <JFXButton onAction="#handleCancelClick" styleClass="primary-button-grey" text="Lukk" />
+                                    <JFXButton graphicTextGap="10.0" onAction="#handleCancelClick" styleClass="primary-button-grey" text="Lukk">
+                                       <graphic>
+                                          <Label text="●" textFill="#ff3232" />
+                                       </graphic></JFXButton>
                                     <JFXButton fx:id="gradingEvaluateButton" onAction="#handleEvaluateClick" styleClass="primary-button-grey" text="Evaluer" />
                                  </children>
                               </HBox>
@@ -287,5 +290,6 @@
    <stylesheets>
       <URL value="@../../stylesheets/stylesheet.css" />
       <URL value="@../../stylesheets/overview.css" />
+      <URL value="@../../stylesheets/submission_popup.css" />
    </stylesheets>
 </StackPane>
