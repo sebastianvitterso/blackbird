@@ -152,12 +152,7 @@ public class SubmissionPopupController implements Refreshable {
 		
 		switch (role) {
 		case PROFESSOR: case ASSISTANT:
-			List<Submission> submissions = SubmissionManager.getSubmissionsFromAssignment(assignment);
-			System.out.format("Submissions: %s%n", submissions.stream().map(Submission::toString).collect(Collectors.joining("\n\t")));
-			
-			//TODO PRINT
-			
-			submissionListView.getItems().setAll(submissions);
+			loadSubmissions(assignment);
 			submissionListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
 				if (newValue == null) {
 					gradingVBox.setVisible(false);
@@ -209,6 +204,12 @@ public class SubmissionPopupController implements Refreshable {
 				break;
 			}
 		}
+	}
+
+	private void loadSubmissions(Assignment assignment) {
+		List<Submission> submissions = SubmissionManager.getSubmissionsFromAssignment(assignment);
+		System.out.format("Submissions: %s%n", submissions.stream().map(Submission::toString).collect(Collectors.joining("\n\t")));
+		submissionListView.getItems().setAll(submissions);
 	}
 
 	private void updateSubmissionViewIfDelivered(Submission submission, String submissionScore, String submissionComment) {
@@ -362,7 +363,9 @@ public class SubmissionPopupController implements Refreshable {
     	int score = Integer.valueOf(gradingScoreTextField.getText());
     	SubmissionManager.gradeSubmission(submission, score, comment);
     	assignmentsController.update();
-    	dialog.close();
+    	loadSubmissions(assignment);
+    	submissionListView.getSelectionModel().clearSelection();
+//    	dialog.close();
     }
 
     
