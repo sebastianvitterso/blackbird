@@ -35,5 +35,14 @@ public class Course {
 		return String.format("%s - %s", courseCode, name);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		return o != null && o.getClass() == Course.class && ((Course)o).getCourseCode().equals(courseCode);
+	}
+	
+	@Override
+	public int hashCode() {
+		return courseCode.hashCode();
+	}
 	
 }
