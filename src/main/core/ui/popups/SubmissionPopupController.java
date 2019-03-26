@@ -183,7 +183,7 @@ public class SubmissionPopupController implements Refreshable {
 //					return (arg0 == null) ? null : String.valueOf(arg0);}
 //			};
 			
-			commentUnchanged = originalSubmissionComment.isEqualTo(gradingCommentTextArea.textProperty());
+			commentUnchanged = Bindings.and(originalSubmissionComment.isNotNull(), originalSubmissionComment.isEqualTo(gradingCommentTextArea.textProperty()));
 			scoreUnchanged = originalSubmissionScore.asString().isEqualTo(gradingScoreTextField.textProperty());
 			gradingEvaluateButton.disableProperty().bind(Bindings.and(commentUnchanged, scoreUnchanged));
 //			submissionListView.setCellFactory(new Callback<ListView<Submission>, ListCell<Submission>>() {
