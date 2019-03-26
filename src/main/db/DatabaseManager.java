@@ -1,7 +1,6 @@
 package main.db;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,21 +15,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 import main.app.MainApp;
 import main.models.Assignment;
 import main.models.Submission;
 
+
+	/**
+	 * <h1> Static database-manager. </h1>
+	 * The DatabaseManager provides the needed methods to get and update information
+	 * in the program's MySQL-database. 
+	 * @author Sebastian Vittersø
+	 */
 public class DatabaseManager {
 	private static final String DB_DRIVER_PATH = "com.mysql.cj.jdbc.Driver";
 	private static final String CONNECTION_STRING = "jdbc:mysql://mysql.stud.ntnu.no/sebastvi_blackbird_db?serverTimezone=UTC";
 	private static final String DB_USERNAME = "sebastvi_blackbird";
 	private static final String DB_PASSWORD = "blackbird";
 	
-	private static ExecutorService IOExecutor;
 	private static Connection connection;
 	
 	// Setting up a connection to the database
@@ -43,8 +45,7 @@ public class DatabaseManager {
 		});
 	}
 	
-	
-	/*
+	/**
 	 * Opens SQL connection for the app.
 	 * Runs at launch, and if the connection times out etc. 
 	 */
@@ -57,10 +58,14 @@ public class DatabaseManager {
 		}
 	}
 	
-	/*
-	 * Sends query and reestablishes connection if lost.
+	/**
+	 * Sends a fetch-query to the connected MySQL-database.
+	 * @param query SQL-query (String)
+	 * @return List of rows, where each row is represented as a map, 
+	 * where the column-header is the key, and the attribute-value is the value.
 	 */
 	public static List<Map<String, String>> sendQuery(String query) {
+		System.err.println("\t" + "Query: " + query);
 		try {
 			Statement statement = null;
 			ResultSet resultSet = null;
@@ -93,8 +98,14 @@ public class DatabaseManager {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Sends an update-query to the connected MySQL-database.
+	 * @param update Update-query (String)
+	 * @return Number of updated lines in database.
+	 */
 	public static int sendUpdate(String update) {
+		System.err.println("\t" + "Update: " + update);
 		try {
 			Statement statement = null;
 			int rowsAffected = 0;
@@ -116,6 +127,10 @@ public class DatabaseManager {
 		}
 	}
 	
+	/**
+	 * Closes static, open SQL-connection.
+	 * @throws SQLException if e.g. connection is already closed or severed. 
+	 */
 	public static void closeConnection() {
 		try {
 			connection.close();
@@ -124,11 +139,13 @@ public class DatabaseManager {
 		}
 	}
 	
-	
-	/*
-	 * TODO: Needs testing.
+	/**
+	 * 
+	 * @param query The query-string 
+	 * @return A prepared statement with the given query.
 	 */
 	public static PreparedStatement getPreparedStatement(String query) {
+		System.err.println("\t" + "Prepared statement: " + query);
 		try {
 			return connection.prepareStatement(query);
 		} catch (SQLException e) {
@@ -138,19 +155,19 @@ public class DatabaseManager {
 		}
 	}
 	
-	/*
-	 * TODO: Remove hardcoding.
-	 * TODO: Move some code into other methods? Not sure about what parts, and if we need to generalize parts of it.
-	 * 		 Most of the code is only repeated up to twice, not a big problem. 
-	 * Downloads the AssignmentFile to *hardcoded* folder, and returns filepath as String.   
+	/**
+	 * Downloads the AssignmentFile to given folder, and returns filepath as String.
+	 * @param assignment Assignment to download file from.
+	 * @param folder Folder (File-object) to download file into.
+	 * @return Complete filepath (String) of downloaded file.  
 	 */
 	public static String downloadAssignmentFile(Assignment assignment, File folder){
 		ResultSet rs = null;
 		int assignmentID = assignment.getAssignmentID();
 		String filename = String.format("/assignment_%s.pdf", String.valueOf(assignmentID));
 		String path = folder.getAbsolutePath().concat(filename);
-		try {
-			PreparedStatement prep = getPreparedStatement(String.format("SELECT assignment_file FROM assignment WHERE assignment_id = %s;", assignmentID));
+		try (PreparedStatement prep = getPreparedStatement(String.format(
+					"SELECT assignment_file FROM assignment WHERE assignment_id = %s;", assignmentID));){
 			rs = prep.executeQuery();
 			while(rs.next()) {
 				InputStream input = rs.getBinaryStream("assignment_file");
@@ -163,39 +180,27 @@ public class DatabaseManager {
 				}
 				output.close();
 			}
-		} catch (SQLException e) {
-			System.err.println("Error when executing query in downloadAssignmentFile().");
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 			return null;
-		} catch (FileNotFoundException e) {
-			System.err.println("Error that shouldn't happen, concerning file-handling in downloadAssignmentFile().");
-			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			System.err.println("Error when putting all the shit into a file.");
-			e.printStackTrace();
-			return null;
-		} finally {
-			try{
-				if(rs != null)
-					rs.close();
-			}catch (SQLException e) {
-				e.printStackTrace();
-				return null;
-			}
 		}
 		return path;
 	}
 	
+	/**
+	 * Downloads the SubmissionFile to given folder, and returns filepath as String.
+	 * @param submission Submission to download file from.
+	 * @param folder Folder (File-object) to download file into.
+	 * @return Complete filepath (String) of downloaded file.  
+	 */
 	public static String downloadSubmissionFile(Submission submission, File folder){
 		ResultSet rs = null;
 		int assignmentID = submission.getAssignment().getAssignmentID();
 		String username = submission.getUser().getUsername();
 		String filename = String.format("/submission_student_%s_assignment_%s.pdf", username, assignmentID);
 		String path = folder.getAbsolutePath().concat(filename);
-		try {
-			PreparedStatement prep = getPreparedStatement(String.format("SELECT submission_file FROM submission "
-					+ "WHERE assignment_id = '%s' and username = '%s';", assignmentID, username));
+		try (PreparedStatement prep = getPreparedStatement(String.format("SELECT submission_file FROM submission "
+					+ "WHERE assignment_id = '%s' and username = '%s';", assignmentID, username));){
 			rs = prep.executeQuery();
 			while(rs.next()) {
 				InputStream input = rs.getBinaryStream("submission_file");
@@ -208,39 +213,11 @@ public class DatabaseManager {
 				}
 				output.close();
 			}
-		} catch (SQLException e) {
-			System.err.println("Error when executing query in downloadSubmissionFile().");
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 			return null;
-		} catch (FileNotFoundException e) {
-			System.err.println("Error that shouldn't happen, concerning file-handling in downloadSubmissionFile().");
-			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			System.err.println("Error when putting all the shit into a file."); // TODO: Change this error message?
-			e.printStackTrace();
-			return null;
-		} finally {
-			try{
-				if(rs != null)
-					rs.close();
-			}catch (SQLException e) {
-				e.printStackTrace();
-				return null;
-			}
 		}
 		return path;
-	}
-	
-	/*
-	 * submitCallable and submitRunnable are to be used later in the project. 
-	 */
-	public static <T> Future<T> submitCallable(Callable<T> callable) {
-		return IOExecutor.submit(callable);
-	}
-	
-	public static void submitRunnable(Runnable runnable) {
-		IOExecutor.execute(runnable);
 	}
 
 }

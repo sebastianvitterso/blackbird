@@ -1,5 +1,9 @@
 package main.models;
 
+/**
+ * Datamodel of course.
+ * @author Sebastian
+ */
 public class Course {
 	private final String courseCode;
 	private String name;

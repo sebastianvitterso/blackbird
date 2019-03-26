@@ -10,6 +10,10 @@ import main.models.User;
 import main.models.UserInCourse;
 import main.utils.Role;
 
+/**
+ * Manager handling database-queries concerning courses.
+ * @author Sebastian
+ */
 public class CourseManager {
 	
 	public static List<Course> getCourses(){

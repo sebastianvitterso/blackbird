@@ -127,8 +127,7 @@ public class OverviewController implements Refreshable {
 				JFXDialog dialog = new JFXDialog(mainController.getOuterStackPane(), (Region) Loader.getParent(View.POPUP_SUBMISSION_VIEW), DialogTransition.CENTER);
 				popupController.clear();
 				popupController.connectDialog(dialog);
-				popupController.loadAssignment(assignment);
-				popupController.loadSubmission(submission);
+				popupController.load(assignment, submission, menuController.getSelectedRole());;
 				Loader.getParent(View.MENU_VIEW).addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
 					dialog.close();
 					e.consume();
@@ -178,7 +177,7 @@ public class OverviewController implements Refreshable {
 			getStyleClass().addAll("button-text", "border");
 			setButtonType(ButtonType.RAISED);
 			setAlignment(Pos.CENTER_LEFT);
-			Status status = Assignment.determineStatus(assignment, submission);
+			Status status = Submission.determineStatus(assignment, submission);
 			switch (status) {
 			case PASSED:
 				getStyleClass().add("button-green");

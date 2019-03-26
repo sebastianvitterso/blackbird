@@ -15,11 +15,17 @@ import main.models.TimeSlot;
 import main.models.User;
 import main.utils.Role;
 
+/**
+ * <h1> Database utilities! </h1>
+ * Utility-methods for transforming between different data-objects, e.g. {@code List<HashMap<String, String>>} 
+ * from {@link DatabaseManager} transformed into {@code List<Assignment>}. 
+ * @author Sebastian
+ */
 public class DatabaseUtil {
 	
-	/*
+	/**
 	 * The CourseLookupMap allows us to do only one query to check what courses correspond to a series of courseCodes,
-	 * e.g. in a function taking a list of assignments, simply do "CourseLookupMap.get(COURSE_CODE)" to get the 
+	 * e.g. in a function taking a list of assignments, simply do {@code CourseLookupMap.get(COURSE_CODE)} to get the 
 	 * corresponding Course-object. 
 	 */
 	public static Map<String, Course> CourseLookupMap;
@@ -37,6 +43,11 @@ public class DatabaseUtil {
 		CourseLookupMap = null;
 	}
 	
+	/**
+	 * The UserLookupMap allows us to do only one query to check what users correspond to a series of usernames,
+	 * e.g. in a function taking a list of submissions, simply do {@code UserLookupMap.get(USERNAME)} to get the 
+	 * corresponding User-object. 
+	 */
 	public static Map<String, User> UserLookupMap;
 	
 	public static void fillUserLookupMap() {
@@ -50,6 +61,26 @@ public class DatabaseUtil {
 	
 	public static void clearUserLookupMap() {
 		UserLookupMap = null;
+	}
+	
+	/**
+	 * The AssignmentLookupMap allows us to do only one query to check what assignment correspond to a series of assignmentIDs,
+	 * e.g. in a function taking a list of submissions, simply do {@code AssignmentLookupMap.get(ASSIGNMENT_ID)} to get the 
+	 * corresponding Assignment-object. 
+	 */
+	public static Map<Integer, Assignment> AssignmentLookupMap;
+	
+	public static void fillAssignmentLookupMap() {
+		List<Assignment> assignments = AssignmentManager.getAssignments();
+		Map<Integer, Assignment> tempMap = new HashMap<>();
+		for(Assignment assignment : assignments) {
+			tempMap.put(assignment.getAssignmentID(), assignment);
+		}
+		AssignmentLookupMap = tempMap;
+	}
+	
+	public static void clearAssignmentLookupMap() {
+		AssignmentLookupMap = null;
 	}
 	
 	public static List<Course> mapsToCourses(List<Map<String, String>> courseMaps){
@@ -123,6 +154,8 @@ public class DatabaseUtil {
 	}
 	
 	public static List<Submission> mapsToSubmissions(List<Map<String, String>> submissionMaps) {
+		fillAssignmentLookupMap();
+		fillUserLookupMap();
 		List<Submission> submissionList = new ArrayList<>();
 		for (Map<String, String> submissionMap : submissionMaps) {
 			int assignment_id = Integer.parseInt(submissionMap.get("assignment_id"));
@@ -130,8 +163,10 @@ public class DatabaseUtil {
 			String delivered_timestamp = submissionMap.get("delivered_timestamp");
 			int score = Integer.parseInt(submissionMap.get("score") == null ? "-1" : submissionMap.get("score"));
 			String comment = submissionMap.get("comment");
-			submissionList.add(new Submission(AssignmentManager.getAssignment(assignment_id), UserManager.getUser(username), Timestamp.valueOf(delivered_timestamp), score, comment));
+			submissionList.add(new Submission(AssignmentLookupMap.get(assignment_id), UserLookupMap.get(username), Timestamp.valueOf(delivered_timestamp), score, comment));
 		}
+		clearAssignmentLookupMap();
+		clearUserLookupMap();
 		return submissionList;
 	}
 	

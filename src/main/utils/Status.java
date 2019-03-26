@@ -1,5 +1,19 @@
 package main.utils;
 
 public enum Status {
-	PASSED, WAITING, FAILED, NOT_DELIVERED, DEADLINE_EXCEEDED;
+	PASSED("Godkjent"), 
+	WAITING("Til vurdering"), 
+	FAILED("Ikke godkjent"), 
+	NOT_DELIVERED("Ikke levert"), 
+	DEADLINE_EXCEEDED("For sent");
+	
+	private final String norwegianName;
+	
+	private Status(String norwegianName) {
+		this.norwegianName = norwegianName;
+	}
+	
+	public String getNorwegianName() {
+		return norwegianName;
+	}
 }

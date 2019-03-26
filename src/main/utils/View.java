@@ -4,7 +4,7 @@ public enum View {
 	// 							TITLE					Load on startup		FXML path
 	//// STAGES ////
 	LOGIN_VIEW(					"BlackBird - Login", 	true,				"ui/Login.fxml"), 
-	MAIN_VIEW(					"BlackBird - Main", 	true,				"ui/Main.fxml"), 
+	MAIN_VIEW(					"BlackBird", 			true,				"ui/Main.fxml"), 
 	MENU_VIEW(					null, 					true,				"ui/Menu.fxml"),
 	
 	//// TABS ////

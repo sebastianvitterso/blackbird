@@ -1,10 +1,12 @@
 package main.models;
 
 import java.sql.Timestamp;
-import java.util.Iterator;
-
 import main.utils.Role;
 
+/**
+ * Datamodel of an announcement.
+ * @author Sebastian
+ */
 public class Announcement implements Comparable<Announcement>{
 	private final int AnnouncementID;
 	private Course course;

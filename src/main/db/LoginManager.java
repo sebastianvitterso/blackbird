@@ -5,6 +5,11 @@ import java.util.Map;
 
 import main.models.User;
 
+/**
+ * Manager handling database-queries concerning login.
+ * Also stores which user is logged in, in the the variable {@code activeUser}.
+ * @author Francis Dao
+ */
 public class LoginManager {
 	private static User activeUser;
 
@@ -22,7 +27,6 @@ public class LoginManager {
 
 	/**
 	 * Helper method for sending login query.
-	 * TODO: Use 'SELECT EXISTS' syntax to speed up query.
 	 */
 	private static boolean loginQuery(String username, String password) {
 		String query = String.format("SELECT username, password FROM user WHERE username = '%s' AND password = '%s'", username, password);

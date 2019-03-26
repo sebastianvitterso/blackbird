@@ -8,6 +8,10 @@ import main.models.Course;
 import main.models.User;
 import main.utils.Role;
 
+/**
+ * Manager handling database-queries concerning users.
+ * @author Sebastian
+ */
 public class UserManager {
 	
 	public static List<User> getUsers(){

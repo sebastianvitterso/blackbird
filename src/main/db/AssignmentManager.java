@@ -14,10 +14,15 @@ import java.util.Map;
 import main.models.Assignment;
 import main.models.Course;
 
+/**
+ * Manager handling database-queries concerning assignments.
+ * @author Sebastian
+ */
 public class AssignmentManager {
 	
 	public static List<Assignment> getAssignments(){
-		List<Map<String, String>> assignmentMaps = DatabaseManager.sendQuery("SELECT * FROM assignment");
+		List<Map<String, String>> assignmentMaps = DatabaseManager.sendQuery(
+				"SELECT assignment_id, course_code, title, description, deadline, max_score, passing_score FROM assignment");
 		return DatabaseUtil.mapsToAssignments(assignmentMaps);
 	}
 

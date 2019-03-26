@@ -9,6 +9,10 @@ import main.models.Course;
 import main.models.User;
 import main.utils.Role;
 
+/**
+ * Manager handling database-queries concerning announcements.
+ * @author Sebastian
+ */
 public class AnnouncementManager {
 	public static List<Announcement> getAnnouncements(){
 		List<Map<String, String>> announcementMaps = DatabaseManager.sendQuery("SELECT * FROM announcement");

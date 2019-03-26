@@ -11,13 +11,11 @@ import main.models.Period;
 import main.models.TimeSlot;
 import main.models.User;
 
+/**
+ * Manager handling database-queries concerning periods.
+ * @author Sebastian
+ */
 public class PeriodManager {
-	
-	/* PERIOD INSERTION:
-	 * INSERT INTO period VALUES(course_code, timestamp[, prof_username, ass_username, stud_username])
-	 * 												   [------THESE CAN BE SET TO NULL AS null------]
-	 * INSERT INTO period VALUES('TDT4100', '2019-02-21 15:00:00', 'hallvard', null, null);
-	 */
 	
 	
 	/*
@@ -147,7 +145,6 @@ public class PeriodManager {
 	/*
 	 * Unbooks a period from a student by removing their username from the studentUsername-attribute in the database, from given Period- and User-objects.
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
-	 * TODO: What happens if you try to untutor a booked session? As of right now, 
 	 */
 	public static int untutorPeriod(Period period) {
 		String query = String.format("UPDATE period SET assistant_username = NULL, student_username = NULL WHERE period_id = %s",

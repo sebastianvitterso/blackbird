@@ -124,7 +124,7 @@
                </children>
             </VBox>
             <Region VBox.vgrow="ALWAYS" />
-            <JFXButton alignment="BASELINE_LEFT" layoutX="10.0" layoutY="337.0" maxWidth="1.7976931348623157E308" onAction="#handleLogOutClick" opacity="0.5" prefHeight="35.0" text="Logg ut" textFill="#b5b5b5">
+            <JFXButton alignment="BASELINE_LEFT" layoutX="10.0" layoutY="337.0" maxWidth="1.7976931348623157E308" onAction="#handleLogOutClick" opacity="0.5" prefHeight="35.0" styleClass="menu-button" text="Logg ut" textFill="#b5b5b5">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="25.0">
                      <image>

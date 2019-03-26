@@ -1,5 +1,9 @@
 package main.models;
 
+/**
+ * Datamodel of a user, containing all stored user-data.
+ * @author Sebastian
+ */
 public class User {
 	private final String username;
 	private String password;
