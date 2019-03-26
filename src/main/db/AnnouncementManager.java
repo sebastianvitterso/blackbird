@@ -7,6 +7,7 @@ import java.util.Map;
 import main.models.Announcement;
 import main.models.Course;
 import main.models.User;
+import main.utils.Role;
 
 /**
  * Manager handling database-queries concerning announcements.
@@ -24,9 +25,9 @@ public class AnnouncementManager {
 		return DatabaseUtil.mapsToAnnouncements(announcementMaps);
 	}
 	
-	public static void addAnnouncement(Course course, User user, Timestamp timestamp, String title, String text){
-		DatabaseManager.sendUpdate(String.format("INSERT INTO announcement(course_code, username, timestamp, title, text) "
-				+ "VALUES('%s', '%s', '%s', '%s', '%s');", course.getCourseCode(), user.getUsername(), timestamp.toString(), title, text));
+	public static void addAnnouncement(Course course, User user, Timestamp timestamp, String title, String text, Role audience){
+		DatabaseManager.sendUpdate(String.format("INSERT INTO announcement(course_code, username, timestamp, title, text, audience) "
+				+ "VALUES('%s', '%s', '%s', '%s', '%s', '%s');", course.getCourseCode(), user.getUsername(), timestamp.toString(), title, text, audience.name()));
 	}
 	
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.popups.CalendarPopupController">
+   <children>
+      <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="root-background" stylesheets="@../../stylesheets/stylesheet.css">
+         <children>
+            <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="14. mar. 10:00 - 10:30">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow color="#a4a4a4" height="3.0" radius="1.0" width="3.0" />
+               </effect>
+            </Text>
+            <Separator styleClass="header-separator" stylesheets="@../../stylesheets/overview.css">
+               <VBox.margin>
+                  <Insets top="-5.0" />
+               </VBox.margin>
+            </Separator>
+            <ScrollPane maxHeight="200.0">
+               <content>
+                  <VBox fx:id="bookingVBox" alignment="TOP_CENTER" spacing="10.0">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+               </content>
+               <stylesheets>
+                  <URL value="@../../stylesheets/announcementsview.css" />
+                  <URL value="@../../stylesheets/members.css" />
+               </stylesheets>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </ScrollPane>
+         </children>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>

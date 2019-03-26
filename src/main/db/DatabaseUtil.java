@@ -193,9 +193,9 @@ public class DatabaseUtil {
 	}	
 	
 	public static List<Announcement> mapsToAnnouncements(List<Map<String, String>> announcementMaps) {
-		List<Announcement> announcements = new ArrayList<Announcement>();
 		fillCourseLookupMap();
 		fillUserLookupMap();
+		List<Announcement> announcements = new ArrayList<Announcement>();
 		for (Map<String, String> announcementMap : announcementMaps) {
 			int announcement_id = Integer.valueOf(announcementMap.get("announcement_id"));
 			Course course = CourseLookupMap.get(announcementMap.get("course_code"));
@@ -203,7 +203,8 @@ public class DatabaseUtil {
 			Timestamp timestamp = Timestamp.valueOf(announcementMap.get("timestamp"));
 			String title = announcementMap.get("title");
 			String text = announcementMap.get("text");
-			announcements.add(new Announcement(announcement_id, course, user, timestamp, title, text));
+			Role audience = Role.valueOf(announcementMap.get("audience")); 
+			announcements.add(new Announcement(announcement_id, course, user, timestamp, title, text, audience));
 		}
 		clearCourseLookupMap();
 		clearUserLookupMap();
