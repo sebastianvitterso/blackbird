@@ -20,6 +20,8 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -105,6 +107,8 @@ public class SubmissionPopupController implements Refreshable {
     
     @FXML
     private void initialize() {
+    	originalSubmissionComment = new SimpleStringProperty("");
+    	originalSubmissionScore = new SimpleIntegerProperty(0);
     }
     
     @Override
@@ -172,37 +176,12 @@ public class SubmissionPopupController implements Refreshable {
 				System.out.format("Selected submission change listener: \n\tOld: %s \n\tNew: %s]\n", oldValue, newValue);
 				onSelectedSubmissionChange(newValue);
 			});
-			
-//			stringConverter = new StringConverter<>() {
-//				@Override
-//				public Integer fromString(String arg0) {
-//					return (arg0.equals("")) ? -1 : Integer.valueOf(arg0.replace(',', '.'));}
-//				
-//				@Override
-//				public String toString(Integer arg0) {
-//					return (arg0 == null) ? null : String.valueOf(arg0);}
-//			};
-			
-			commentUnchanged = Bindings.and(originalSubmissionComment.isNotNull(), originalSubmissionComment.isEqualTo(gradingCommentTextArea.textProperty()));
+
+//			submissionListView.getSelectionModel().select(submission);
+
+			commentUnchanged = originalSubmissionComment.isEqualTo(gradingCommentTextArea.textProperty());
 			scoreUnchanged = originalSubmissionScore.asString().isEqualTo(gradingScoreTextField.textProperty());
 			gradingEvaluateButton.disableProperty().bind(Bindings.and(commentUnchanged, scoreUnchanged));
-//			submissionListView.setCellFactory(new Callback<ListView<Submission>, ListCell<Submission>>() {
-//				
-//				@Override
-//				public ListCell<Submission> call(ListView<Submission> param) {
-//					ListCell<Submission> cell = new ListCell<Submission>() {
-//						@Override
-//						protected void updateItem(Submission submission, boolean empty) {
-//							super.updateItem(submission, empty);
-//							if (submission != null)
-//								setText(submission.getUser().getName());
-//							else
-//								setText(null);
-//						}
-//					};
-//					return cell;
-//				}
-//			});
 			submissionListView.setCellFactory(listView -> new SubmissionListCell(listView));
 			submissionGradingPane.getChildren().remove(submissionVBox);
 			gradingVBox.setVisible(false);
@@ -261,7 +240,7 @@ public class SubmissionPopupController implements Refreshable {
 	private void onSelectedSubmissionChange(Submission submission) {
 		this.submission = submission;
 		
-		originalSubmissionComment.set(submission.getComment());
+		originalSubmissionComment.set(submission.getComment() != null ? submission.getComment() : "");
 		originalSubmissionScore.set(submission.getScore());
 		
 		gradingVBox.setVisible(true);
