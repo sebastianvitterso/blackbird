@@ -53,14 +53,18 @@ public class AnnouncementManagerTest {
 	
 	@Test
 	public void getAnnouncementsTest() {
-		if (AnnouncementManager.getAnnouncements().stream().map(a -> a.getAnnouncementID()).collect(Collectors.toList()).contains(announcementAID)) {
-			
-		}
+		if(AnnouncementManager.getAnnouncements().stream().map(a -> a.getAnnouncementID()).collect(Collectors.toList()).contains(announcementAID))
+			assertTrue(true);
+		else 
+			assertTrue("Could not get all announcements.", false);
 	}
 	
 	@Test
 	public void getAnnouncementsFromCourseTest() {
-		
+		if(AnnouncementManager.getAnnouncementsFromCourse(testCourse).stream().map(a -> a.getAnnouncementID()).collect(Collectors.toList()).contains(announcementBID))
+			assertTrue(true);
+		else 
+			assertTrue("Could not get the announcement from the course.", false);
 	}
 	
 	@Test
