@@ -4,6 +4,8 @@
 [![NPM Version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Downloads Stats][npm-downloads]][npm-url]
+![Build Status](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/build.svg) 
+![coverage](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/coverage.svg?job=unittest-job)
 
 Blackbird er en fag-platform, utviklet for Norsk Universitet for Ikke-Tekniske Samfunnsvitere, for å forenkle planlegging av læringsassistentenes timeplaner, innlevering av øvinger og kunngjøringer fra emneansvarlige til emnets læringsassistenter og studenter.
 
