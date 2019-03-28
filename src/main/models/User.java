@@ -68,7 +68,14 @@ public class User {
 	
 	@Override
 	public boolean equals(Object o) {
-		return o != null && o.getClass() == User.class && ((User)o).getUsername().equals(username);
+		if (o == null || o.getClass() != User.class)
+			return false;
+		User user = (User)o;
+		return user.getUsername().equals(username)
+			&& user.getPassword().equals(password)
+			&& user.getFirstName().equals(firstName)
+			&& user.getLastName().equals(lastName)
+			&& user.getEmail().equals(email);
 	}
 	
 	@Override
