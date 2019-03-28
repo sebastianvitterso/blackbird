@@ -7,7 +7,7 @@
 ![Build Status](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/build.svg) 
 ![coverage](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/coverage.svg?job=unittest-job)
 
-Blackbird is a learning management system (LMS) that makes scheduling easier for every professor, student-assistent, and students. It also has an assignment system that makes deliveries and grading simplier than ever.
+Blackbird is a learning management system (LMS) that makes scheduling easier for every professor, student-assistent, and student. It also has an assignment system that makes deliveries and grading simplier than ever.
 In addition to that, Blackbird has functionality that lets professors post announcements for either student-assistant only, or for everyone to see. Restrictions are set depending on your role in a course. 
 
 ![](https://i.imgur.com/xPGmAmJ.png)
@@ -28,7 +28,6 @@ In addition to that, Blackbird has functionality that lets professors post annou
 ```sh
 java -jar "{path to directory}/BlackBird-1.0.0-RELEASE.jar"
 ```
-4. Enjoy!
 
 ## Usage example
 
