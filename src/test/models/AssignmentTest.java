@@ -89,10 +89,11 @@ public class AssignmentTest {
 	}
 	@Test
 	public void testEquals() {
-		Assignment nyassignment = new Assignment(assignmentID, course, "ny tittel", "ny text", Timestamp.valueOf(LocalDateTime.now().plusDays(1)), 50, 25);
+		Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now().plusDays(1));
+		Assignment nyassignment = new Assignment(assignmentID, course, "ny tittel", "ny text", timestamp, 50, 25);
 		assignment.setTitle("ny tittel");
 		assignment.setDescription("ny text");
-		assignment.setDeadLine(Timestamp.valueOf(LocalDateTime.now().plusDays(1)));
+		assignment.setDeadLine(timestamp);
 		assignment.setMaxScore(50);
 		assignment.setPassingScore(25);
 		assertEquals(nyassignment, assignment);
