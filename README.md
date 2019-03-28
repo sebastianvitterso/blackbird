@@ -1,5 +1,5 @@
 # Blackbird
-> Blackbird er universitetenes nye beste-venn når det kommer til øvinger, læringsassistent-bruk og kunngjøringer!
+> Blackbird is a university's new best friend when it comes to scheduling, deliveries of exercises, and announcements!
 
 [![NPM Version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
