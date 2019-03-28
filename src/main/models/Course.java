@@ -41,10 +41,16 @@ public class Course {
 
 	@Override
 	public boolean equals(Object o) {
-		return o != null && o.getClass() == Course.class && ((Course)o).getCourseCode().equals(courseCode);
+		if (o == null || o.getClass() != Course.class)
+			return false;
+		Course course = (Course)o;
+		return course.getCourseCode().equals(courseCode)
+			&& course.getName().equals(name)
+			&& course.getDescription().equals(description); 
 	}
 	
 	@Override
+	//Since courseCode is a primary key it can act as a index
 	public int hashCode() {
 		return courseCode.hashCode();
 	}
