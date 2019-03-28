@@ -256,7 +256,7 @@ public class Calendar {
 				return;
 			} else if (timeSlot.amAssistantInTimeSlot()) {
 				sp.getStyleClass().add("selected" + (y % 2));
-				text = "Booked av:\n" + timeSlot.whichStudentBooked();
+				text = "Bestilt av:\n" + timeSlot.whichStudentBooked();
 				sp.addText(text, true);
 				return;
 			} else if (created == 0) {

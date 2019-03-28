@@ -1,34 +1,37 @@
 # Blackbird
-> Blackbird er universitetenes nye beste-venn når det kommer til øvinger, læringsassistent-bruk og kunngjøringer!
+> Blackbird is a university's new best friend when it comes to scheduling, deliveries of exercises, and announcements!
 
 [![NPM Version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Downloads Stats][npm-downloads]][npm-url]
+![Build Status](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/build.svg) 
+![coverage](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/coverage.svg?job=unittest-job)
 
-Blackbird er en fag-platform, utviklet for Norsk Universitet for Ikke-Tekniske Samfunnsvitere, for å forenkle planlegging av læringsassistentenes timeplaner, innlevering av øvinger og kunngjøringer fra emneansvarlige til emnets læringsassistenter og studenter.
-
-Platformen tillater innlogging for emneansvarlige, læringsassistenter og studenter, med tilpasset funksjonalitet til hvert emne - avhengig av brukerens rolle i emnet.
+Blackbird is a learning management system (LMS) that makes scheduling easier for every professor, student-assistent, and student. It also has an assignment system that makes deliveries and grading simplier than ever.
+In addition to that, Blackbird has functionality that lets professors post announcements for either student-assistant only, or for everyone to see. Restrictions are set depending on your role in a course. 
 
 ![](https://i.imgur.com/xPGmAmJ.png)
 
-## Installasjion
+## Installation
 
 **Windows:**
 
-Last ned og dobbelklikk.
+1. Download [BlackBird-1.0.0-RELEASE.jar](release/BlackBird-1.0.0-RELEASE.jar)
+2. Open file by double clicking on the file.
+3. Enjoy! 
 
 **OS X & Linux (fungerer også på Windows):**
 
+1. Download [BlackBird-1.0.0-RELEASE.jar](release/BlackBird-1.0.0-RELEASE.jar)
+2. Open terminal window.
+3. Copy and paste this command in the terminal: 
 ```sh
 java -jar "{path to directory}/BlackBird-1.0.0-RELEASE.jar"
 ```
 
+## How to use 
 
-## Usage example
-
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
-
-_For more examples and usage, please refer to the [Wiki](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/wikis/home)._
+For step by step instructions, go to [Wiki](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/wikis/home).
 
 ## Development setup
 

@@ -64,7 +64,7 @@ public class CalendarPopupController {
     	Region region = new Region();
     	
     	boolean booked = user.getUsername().equals(period.getStudentUsername());
-    	JFXButton bookButton = new JFXButton(booked ? "Unbook" : "Book");
+    	JFXButton bookButton = new JFXButton(booked ? "Avbestill" : "Bestill");
     	bookButton.setDisable(amStudentInTimeSlot && !booked);
     	bookButton.setOnAction(e -> {
     		if (booked)
