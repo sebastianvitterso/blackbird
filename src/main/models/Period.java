@@ -52,9 +52,9 @@ public class Period {
 	 * <br> {@code CREATED}, {@code BOOKABLE} or {@code BOOKED}.
 	 */
 	public PeriodType getPeriodType() {
-		if (( assistantUsername == null ) || ( assistantUsername == "" )) {
+		if (( assistantUsername == null ) || ( assistantUsername.equals("") )) {
 			return PeriodType.CREATED;
-		} else if (( studentUsername == null ) || ( studentUsername == "" )) {
+		} else if (( studentUsername == null ) || ( studentUsername.equals("") )) {
 			return PeriodType.BOOKABLE;
 		} else {
 			return PeriodType.BOOKED;
