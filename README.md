@@ -16,13 +16,13 @@ In addition to that, Blackbird has functionality that lets professors post annou
 
 **Windows:**
 
-1. Download BlackBird-1.0.0-RELEASE.jar 
+1. Download [release/BlackBird-1.0.0-RELEASE.jar] 
 2. Open file by double clicking on the file.
 3. Enjoy! 
 
 **OS X & Linux (fungerer også på Windows):**
 
-1. Download BlackBird-1.0.0-RELEASE.jar
+1. Download [BlackBird-1.0.0-RELEASE.jar]
 2. Open terminal window.
 3. Copy and paste this command in the terminal: 
 ```sh
