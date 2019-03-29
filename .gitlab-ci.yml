@@ -36,7 +36,7 @@ unittest-job:
         - target/surefire-reports/TEST-*.xml
     paths:
     - target/surefire-reports
-    - target/site
+    - target/site/jacoco
 
     when: always
   retry:
@@ -47,9 +47,9 @@ unittest-job:
 pages:
   stage: deploy
   script:    
-    - 'mvn -Dmaven.test.skip=true surefire-report:report "-DoutputName=index"'
+    - 'mvn -Dmaven.test.skip=true surefire-report:report "-DoutputName=report"'
 #    - 'mvn -Dmaven.test.skip=true surefire-report:report "-DoutputName=$CI_COMMIT_SHORT_SHA"'
-    - 'mv target/site public'
+    - 'mv target/site/jacoco public'
   dependencies:
     - unittest-job
   artifacts:
