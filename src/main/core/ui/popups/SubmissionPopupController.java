@@ -19,8 +19,6 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -38,7 +36,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import main.app.Loader;
 import main.core.ui.tabs.AssignmentsController;
 import main.db.AssignmentManager;
@@ -99,8 +96,7 @@ public class SubmissionPopupController implements Refreshable {
     private File selectedFile;
     
     private StringProperty originalSubmissionComment;
-    private IntegerProperty originalSubmissionScore;
-    private StringConverter<Integer> stringConverter;
+    private StringProperty originalSubmissionScore;
     private BooleanBinding commentUnchanged;
     private BooleanBinding scoreUnchanged;
     
@@ -108,7 +104,7 @@ public class SubmissionPopupController implements Refreshable {
     @FXML
     private void initialize() {
     	originalSubmissionComment = new SimpleStringProperty("");
-    	originalSubmissionScore = new SimpleIntegerProperty(0);
+    	originalSubmissionScore = new SimpleStringProperty("");
     }
     
     @Override
@@ -180,7 +176,17 @@ public class SubmissionPopupController implements Refreshable {
 //			submissionListView.getSelectionModel().select(submission);
 
 			commentUnchanged = originalSubmissionComment.isEqualTo(gradingCommentTextArea.textProperty());
-			scoreUnchanged = originalSubmissionScore.asString().isEqualTo(gradingScoreTextField.textProperty());
+			commentUnchanged.addListener((obs, oldValue, newValue) -> {
+				System.out.format("commmentUnchanged: %s, %s%n", oldValue, newValue);
+				System.out.format("\t originalSubmissionComment: %s%n", originalSubmissionComment.get());
+				System.out.format("\t gradingCommentTextArea: %s%n", gradingCommentTextArea.textProperty().get());
+			});
+			scoreUnchanged = originalSubmissionScore.isEqualTo(gradingScoreTextField.textProperty());
+			scoreUnchanged.addListener((obs, oldValue, newValue) -> {
+				System.out.format("scoreUnchanged: %s, %s%n", oldValue, newValue);
+				System.out.format("\t originalSubmissionScore: %s%n", originalSubmissionScore.get());
+				System.out.format("\t gradingScoreTextField: %s%n", gradingScoreTextField.textProperty().get());
+			});
 			gradingEvaluateButton.disableProperty().bind(Bindings.and(commentUnchanged, scoreUnchanged));
 			submissionListView.setCellFactory(listView -> new SubmissionListCell(listView));
 			submissionGradingPane.getChildren().remove(submissionVBox);
@@ -241,7 +247,7 @@ public class SubmissionPopupController implements Refreshable {
 		this.submission = submission;
 		
 		originalSubmissionComment.set(submission.getComment() != null ? submission.getComment() : "");
-		originalSubmissionScore.set(submission.getScore());
+		originalSubmissionScore.set(submission.getScore() != -1 ? Integer.toString(submission.getScore()) : "");
 		
 		gradingVBox.setVisible(true);
 		Status status = Submission.determineStatus(assignment, submission);
@@ -289,7 +295,11 @@ public class SubmissionPopupController implements Refreshable {
 
 	@FXML
     void handleCancelClick(ActionEvent event) {
-
+		System.out.println("Closing");
+		System.out.format("\t originalSubmissionComment: %s%n", originalSubmissionComment.get());
+		System.out.format("\t originalScoreTextField: %s%n", originalSubmissionScore.get());		
+		System.out.format("\t gradingCommentTextArea: %s%n", gradingCommentTextArea.textProperty().get());		
+		System.out.format("\t gradingScoreTextField: %s%n", gradingScoreTextField.textProperty().get());
 		dialog.close();
     }
 
