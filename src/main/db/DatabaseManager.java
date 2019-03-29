@@ -65,7 +65,6 @@ public class DatabaseManager {
 	 * where the column-header is the key, and the attribute-value is the value.
 	 */
 	public static List<Map<String, String>> sendQuery(String query) {
-		System.err.println("\t" + "Query: " + query);
 		try {
 			Statement statement = null;
 			ResultSet resultSet = null;
@@ -105,7 +104,6 @@ public class DatabaseManager {
 	 * @return Number of updated lines in database.
 	 */
 	public static int sendUpdate(String update) {
-		System.err.println("\t" + "Update: " + update);
 		try {
 			Statement statement = null;
 			int rowsAffected = 0;
@@ -145,7 +143,6 @@ public class DatabaseManager {
 	 * @return A prepared statement with the given query.
 	 */
 	public static PreparedStatement getPreparedStatement(String query) {
-		System.err.println("\t" + "Prepared statement: " + query);
 		try {
 			return connection.prepareStatement(query);
 		} catch (SQLException e) {

@@ -208,7 +208,6 @@ public class MenuController implements Refreshable {
 	 */
 	@Override
 	public void update() {
-		System.out.println("Menu update");
 		User activeUser = LoginManager.getActiveUser();
 		updatePersonalia(activeUser);
 		updateCourseComboBox(activeUser);
