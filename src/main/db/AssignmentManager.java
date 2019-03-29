@@ -88,7 +88,7 @@ public class AssignmentManager {
 	 * Returns whether an assignment has a file attached or not. 
 	 */
 	public static boolean hasFile(int assignmentID) {
-		return 1 == DatabaseManager.sendQuery("SELECT * FROM assignment WHERE assignment_id = '%s' AND assignment_file IS NULL;").size();
+		return 1 == DatabaseManager.sendQuery("SELECT assignment_id FROM assignment WHERE assignment_id = '%s' AND assignment_file IS NOT NULL;").size();
 	}
 	
 
