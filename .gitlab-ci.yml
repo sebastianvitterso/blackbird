@@ -36,6 +36,7 @@ unittest-job:
         - target/surefire-reports/TEST-*.xml
     paths:
     - target/surefire-reports
+    - target/site
 
     when: always
   retry:
