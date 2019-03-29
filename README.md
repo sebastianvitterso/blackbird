@@ -1,13 +1,16 @@
 # Blackbird
 > Blackbird is a university's new best friend when it comes to scheduling, deliveries of exercises, and announcements!
 
+![Build Status](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/build.svg) 
+![Test Status](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/test.svg) 
+![Deploy Status](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/deploy.svg) 
+![coverage](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/coverage.svg?job=unittest-job)(https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/commits/sprint-2)
+
+
+[![coverage report](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/coverage.svg)](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/commits/sprint-2)
 [![NPM Version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Downloads Stats][npm-downloads]][npm-url]
-![Build Status](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/build.svg) 
-![coverage](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/coverage.svg?job=unittest-job)
-
-[![coverage report](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/coverage.svg)](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/commits/sprint-2)
 
 Blackbird is a learning management system (LMS) that makes scheduling easier for every professor, student-assistent, and student. It also has an assignment system that makes deliveries and grading simplier than ever.
 In addition to that, Blackbird has functionality that lets professors post announcements for either student-assistant only, or for everyone to see. Restrictions are set depending on your role in a course. 
