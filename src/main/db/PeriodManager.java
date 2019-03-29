@@ -30,8 +30,7 @@ public class PeriodManager {
 	 * Returns a list of all periods in a course given a Course-object.
 	 */
 	public static List<Period> getPeriodsFromCourse(Course course){
-		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s';", course.getCourseCode()));
-		return DatabaseUtil.mapsToPeriods(periodMaps);
+		return getPeriodsFromCourseCode(course.getCourseCode());
 	}
 	
 	public static List<Period> getPeriodsFromCourseAndTime(Course course, String timestamp){
@@ -104,12 +103,10 @@ public class PeriodManager {
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
 	public static int addPeriod(Period period) {
-		String professorUsername = period.getProfessorUsername();
 		String courseCode = period.getCourseCode();
 		String timeStamp = period.getTimeStamp();
-		String query = String.format("INSERT INTO period VALUES(NULL, '%s', '%s', '%s', NULL, NULL);",
-				courseCode, timeStamp, professorUsername);
-		return DatabaseManager.sendUpdate(query);
+		String professorUsername = period.getProfessorUsername();
+		return addPeriod(courseCode, timeStamp, professorUsername);
 	}
 
 	/*
