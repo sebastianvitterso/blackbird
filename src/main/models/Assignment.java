@@ -37,7 +37,7 @@ public class Assignment {
 		return course;
 	}
 
-	public void setCourseCode(Course course) {
+	public void setCourse(Course course) {
 		this.course = course;
 	}
 
@@ -86,6 +86,20 @@ public class Assignment {
 		return String.format(
 				"Assignment [assignmentID=%s, course=%s, title=%s, description=%10.10s, deadLine=%s, maxScore=%s, passingScore=%s]",
 				assignmentID, course, title, description, deadLine, maxScore, passingScore);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || o.getClass() != Assignment.class)
+			return false;
+		Assignment assignment = (Assignment)o;
+		return assignment.getAssignmentID() == assignmentID
+			&& assignment.getCourse().equals(course)
+			&& assignment.getTitle().equals(title)
+			&& assignment.getDescription().equals(description)
+			&& assignment.getDeadLine().equals(deadLine)
+			&& assignment.getMaxScore() == maxScore
+			&& assignment.getPassingScore() == passingScore;
 	}
 	
 	/**
