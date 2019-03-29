@@ -27,6 +27,7 @@ unittest-job:
   stage: test
   script:
     - 'mvn test $MAVEN_CLI_OPTS'
+    - 'cat target/site/jacoco/index.html'
   dependencies:
     - compile-job
   artifacts:
