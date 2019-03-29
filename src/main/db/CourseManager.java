@@ -67,7 +67,6 @@ public class CourseManager {
 	public static int updateCourse(Course course) {
 		String query = String.format("UPDATE course SET name = '%s', description = '%s' where course_code = '%s';", 
 				course.getName(), course.getDescription(), course.getCourseCode() );
-		System.out.println(query);
 		return DatabaseManager.sendUpdate(query);
 	}
 

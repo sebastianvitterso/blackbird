@@ -207,7 +207,6 @@ public class AdminController implements Refreshable {
     	selectedCourses.addListener(new ListChangeListener<Course>() {
 			@Override
 			public void onChanged(Change<? extends Course> arg0) {
-				System.out.println(arg0);
 				updateDescendantViews();
 			}
 		});

@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -169,24 +168,13 @@ public class SubmissionPopupController implements Refreshable {
 					gradingVBox.setVisible(false);
 					return;
 				}
-				System.out.format("Selected submission change listener: \n\tOld: %s \n\tNew: %s]\n", oldValue, newValue);
 				onSelectedSubmissionChange(newValue);
 			});
 
 //			submissionListView.getSelectionModel().select(submission);
 
 			commentUnchanged = originalSubmissionComment.isEqualTo(gradingCommentTextArea.textProperty());
-			commentUnchanged.addListener((obs, oldValue, newValue) -> {
-				System.out.format("commmentUnchanged: %s, %s%n", oldValue, newValue);
-				System.out.format("\t originalSubmissionComment: %s%n", originalSubmissionComment.get());
-				System.out.format("\t gradingCommentTextArea: %s%n", gradingCommentTextArea.textProperty().get());
-			});
 			scoreUnchanged = originalSubmissionScore.isEqualTo(gradingScoreTextField.textProperty());
-			scoreUnchanged.addListener((obs, oldValue, newValue) -> {
-				System.out.format("scoreUnchanged: %s, %s%n", oldValue, newValue);
-				System.out.format("\t originalSubmissionScore: %s%n", originalSubmissionScore.get());
-				System.out.format("\t gradingScoreTextField: %s%n", gradingScoreTextField.textProperty().get());
-			});
 			gradingEvaluateButton.disableProperty().bind(Bindings.and(commentUnchanged, scoreUnchanged));
 			submissionListView.setCellFactory(listView -> new SubmissionListCell(listView));
 			submissionGradingPane.getChildren().remove(submissionVBox);
@@ -218,7 +206,6 @@ public class SubmissionPopupController implements Refreshable {
 
 	private void loadSubmissions(Assignment assignment) {
 		List<Submission> submissions = SubmissionManager.getSubmissionsFromAssignment(assignment);
-		System.out.format("Submissions: %s%n", submissions.stream().map(Submission::toString).collect(Collectors.joining("\n\t")));
 		submissionListView.getItems().setAll(submissions);
 	}
 
@@ -295,11 +282,6 @@ public class SubmissionPopupController implements Refreshable {
 
 	@FXML
     void handleCancelClick(ActionEvent event) {
-		System.out.println("Closing");
-		System.out.format("\t originalSubmissionComment: %s%n", originalSubmissionComment.get());
-		System.out.format("\t originalScoreTextField: %s%n", originalSubmissionScore.get());		
-		System.out.format("\t gradingCommentTextArea: %s%n", gradingCommentTextArea.textProperty().get());		
-		System.out.format("\t gradingScoreTextField: %s%n", gradingScoreTextField.textProperty().get());
 		dialog.close();
     }
 
@@ -317,7 +299,6 @@ public class SubmissionPopupController implements Refreshable {
     @FXML
     void handleBrowseClick(ActionEvent event) {
 		Stage mainStage = (Stage) dialog.getScene().getWindow();
-		System.out.println("Open file clicked");
 
 		// Construct file chooser
 		FileChooser fileChooser = new FileChooser();
@@ -412,7 +393,6 @@ public class SubmissionPopupController implements Refreshable {
 //			button.getStyleClass().add("sectioned-list-cell");
 			button.setAlignment(Pos.CENTER_LEFT);
 			button.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
-				System.out.println("Button event handler");
 				listView.getSelectionModel().select(getIndex());
 				event.consume();
 			});
