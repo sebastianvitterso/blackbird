@@ -34,9 +34,10 @@ public class SubmissionManagerTest {
 	LocalDateTime testTimeA = LocalDateTime.of(2022, Month.AUGUST, 16, 07, 50);
 	LocalDateTime testTimeB = LocalDateTime.of(2025, Month.OCTOBER, 27, 17, 00);
 	
-	
 	Assignment assignmentA = null;
 	Assignment assignmentB = null;
+	
+	Submission submission = null;
 	
 	File file = new File("./src/main/resources/pdfs/dummy.pdf");;
 	
@@ -61,19 +62,44 @@ public class SubmissionManagerTest {
 		assignmentB = new Assignment(assignmentBID, testCourse, "TEST_ASSIGNMENT_B", "THIS IS DESCRIPTION B", Timestamp.valueOf(testTimeB), 100, 50);
 		
 		SubmissionManager.addSubmission(assignmentA, userA, Timestamp.valueOf(testTimeA.plusDays(2)), file);
-		SubmissionManager.addSubmission(assignmentB, userA, Timestamp.valueOf(testTimeB.plusDays(5)), file);
+		SubmissionManager.addSubmission(assignmentB, userA, Timestamp.valueOf(testTimeA.plusDays(5)), file);
+		submission = new Submission(assignmentB, userB, Timestamp.valueOf(testTimeB.plusDays(2)), 90, "Good job!");
+		SubmissionManager.addSubmission(submission, file);
 	}
 	
 	@Test
 	public void addSubmissionTest() {
-		//If SubmissionManagerTest cannot run setUp(), then the method addSubmission() in SubmissionManger, does not work properly.
+		//If SubmissionManagerTest cannot run setUp(), then one of the methods, or both addSubmission() in SubmissionManger, does not work properly.
 	}
 	
 	@Test
 	public void getSubmissionTest() {
-		if(!SubmissionManager.getSubmission(assignmentA, userA).equals(null))
-			return;
-		fail("Could not get submission from assignmentA.");
+		assertEquals("Could not get submission from assignmentA.", false, SubmissionManager.getSubmission(assignmentA, userA).equals(null));
+	}
+	
+	@Test
+	public void getInputStreamFromSubmissionTest() {
+		assertEquals("Could not get submission", false, SubmissionManager.getInputStreamFromSubmission(submission).equals(null));
+	}
+	
+	@Test
+	public void gradeSubmissionTest() {
+		assertEquals("Could not grade submission.", 1, SubmissionManager.gradeSubmission(submission, 80, "Nicely done!"));
+	}
+	
+	@Test 
+	public void removeSubmissionTest() {
+		assertEquals("Could not remove submission.", 1, SubmissionManager.removeSubmission(submission));
+	}
+	
+	@Test
+	public void getSubmissionsFromCourseAndUserTest() {
+		assertEquals("Could not get both submissions from userA in testCourse.", 2, SubmissionManager.getSubmissionsFromCourseAndUser(testCourse, userA).size());
+	}
+	
+	@Test
+	public void getSubmissionsFromAssignmentTest() {
+		assertEquals("Could not get both submissions from assignmentB,", 2, SubmissionManager.getSubmissionsFromAssignment(assignmentB).size());
 	}
 	
 	@Test
