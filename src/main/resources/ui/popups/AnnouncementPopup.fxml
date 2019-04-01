@@ -23,7 +23,7 @@
                   <Insets />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextArea fx:id="announcementDescriptionTextArea" labelFloat="true" prefHeight="143.0" prefWidth="320.0" promptText="Beskrivelse" styleClass="input-field-light-bg">
+            <JFXTextArea fx:id="announcementDescriptionTextArea" labelFloat="true" prefHeight="143.0" prefWidth="320.0" promptText="Brødtekst" styleClass="input-field-light-bg">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
