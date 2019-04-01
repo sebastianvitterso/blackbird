@@ -55,6 +55,9 @@ public class AssignmentPopupController implements Refreshable {
     
     @FXML
     private void initialize() {
+    	// Set 24 hour view for timepicker
+    	timePicker.set24HourView(true);
+
     	// Bind 'register' button to being disabled when no course code is given
 //    	registerButton.disableProperty().bind(courseNameTextField.textProperty().isEmpty());
     }
