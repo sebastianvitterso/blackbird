@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="rootPane" prefWidth="1010.0" styleClass="background" stylesheets="@../../stylesheets/overview.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.tabs.AssignmentsController">
+   <children>
+      <VBox>
+         <children>
+            <Label styleClass="header-label" text="Øvinger">
+               <effect>
+                  <DropShadow color="#bbbbbb" height="5.0" radius="2.0" spread="0.7" width="5.0" />
+               </effect>
+            </Label>
+            <Separator styleClass="header-separator" />
+            <VBox fx:id="assignmentVBox" spacing="20.0">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="20.0" />
+               </VBox.margin>
+               <children>
+                  <JFXButton fx:id="newAssignmentButton" contentDisplay="GRAPHIC_ONLY" maxWidth="1.7976931348623157E308" onAction="#handleNewAssignmentClick" prefHeight="100.0" stylesheets="@../../stylesheets/assignment_box.css" text="Ny øving">
+                     <graphic>
+                        <HBox alignment="CENTER" fillHeight="false" spacing="6.0">
+                           <children>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/add_exercise.png" />
+                                 </image>
+                              </ImageView>
+                              <Label maxHeight="1.7976931348623157E308" styleClass="new-button" text="Ny øving" />
+                           </children>
+                        </HBox>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="body-background" />
+                        <String fx:value="new-button" />
+                        <String fx:value="root" />
+                     </styleClass>
+                  </JFXButton>
+               </children>
+            </VBox>
+         </children>
+         <StackPane.margin>
+            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+         </StackPane.margin>
+      </VBox>
+   </children>
+</StackPane>

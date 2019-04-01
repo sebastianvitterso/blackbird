@@ -1,5 +1,9 @@
 package main.models;
 
+/**
+ * Datamodel of a user, containing all stored user-data.
+ * @author Sebastian
+ */
 public class User {
 	private final String username;
 	private String password;
@@ -60,6 +64,23 @@ public class User {
 	@Override
 	public String toString() {
 		return getName();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || o.getClass() != User.class)
+			return false;
+		User user = (User)o;
+		return user.getUsername().equals(username)
+			&& user.getPassword().equals(password)
+			&& user.getFirstName().equals(firstName)
+			&& user.getLastName().equals(lastName)
+			&& user.getEmail().equals(email);
+	}
+	
+	@Override
+	public int hashCode() {
+		return username.hashCode();
 	}
 	
 }

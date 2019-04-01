@@ -29,6 +29,7 @@ public class MainController implements Refreshable {
 
 	@FXML private StackPane rootPane;
     @FXML private StackPane menuPane;
+    @FXML private StackPane outerStackPane;
     @FXML private StackPane contentPane;
     @FXML private ScrollPane scrollPane;
     
@@ -39,7 +40,7 @@ public class MainController implements Refreshable {
      */
     @FXML
     private void initialize() {
-//    	smoothScrolling(scrollPane);
+    	smoothScrolling(scrollPane);
     }
     
     /**
@@ -115,11 +116,14 @@ public class MainController implements Refreshable {
 		return currentController;
 	}
 	
+	public StackPane getOuterStackPane() {
+		return outerStackPane;
+	}
 	
 	/**
 	 * Implements custom scrolling behavior for ScrollPanes.
 	 */
-	private static void customScrolling(ScrollPane scrollPane, DoubleProperty scrollDirection, Function<Bounds, Double> sizeFunc) {
+	public static void customScrolling(ScrollPane scrollPane, DoubleProperty scrollDirection, Function<Bounds, Double> sizeFunc) {
         final double[] frictions = {0.99, 0.1, 0.05, 0.04, 0.03, 0.02, 0.01, 0.04, 0.01, 0.008, 0.008, 0.008, 0.008, 0.0006, 0.0005, 0.00003, 0.00001};
         final double[] pushes = {1};
         final double[] derivatives = new double[frictions.length];

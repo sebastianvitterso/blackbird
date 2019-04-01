@@ -10,11 +10,15 @@ import main.models.User;
 import main.models.UserInCourse;
 import main.utils.Role;
 
+/**
+ * Manager handling database-queries concerning courses.
+ * @author Sebastian
+ */
 public class CourseManager {
 	
 	public static List<Course> getCourses(){
 		List<Map<String, String>> courseMaps = DatabaseManager.sendQuery("SELECT * FROM course");
-		return DatabaseUtil.MapsToCourses(courseMaps);
+		return DatabaseUtil.mapsToCourses(courseMaps);
 	}
 	
 	public static Course getCourse(String courseCode) {
@@ -25,7 +29,7 @@ public class CourseManager {
 			throw new IllegalStateException(String.format("Too many courses matching primary key courseCode: %s", courseCode));
 		}
 				
-		return DatabaseUtil.MapsToCourses(courseMaps).get(0);
+		return DatabaseUtil.mapsToCourses(courseMaps).get(0);
 	}
 
 	public static void deleteCourse(String courseCode) {
@@ -50,7 +54,7 @@ public class CourseManager {
 	public static List<Course> getCoursesFromUser(String username){
 		String query = "SELECT * FROM course WHERE course_code IN (SELECT course_code FROM user_course WHERE username = '" + username + "')";
 		List<Map<String, String>> courseMaps = DatabaseManager.sendQuery(query);
-		return DatabaseUtil.MapsToCourses(courseMaps);
+		return DatabaseUtil.mapsToCourses(courseMaps);
 	}
 	
 	public static List<Course> getCoursesFromUser(User user){
@@ -63,7 +67,6 @@ public class CourseManager {
 	public static int updateCourse(Course course) {
 		String query = String.format("UPDATE course SET name = '%s', description = '%s' where course_code = '%s';", 
 				course.getName(), course.getDescription(), course.getCourseCode() );
-		System.out.println(query);
 		return DatabaseManager.sendUpdate(query);
 	}
 

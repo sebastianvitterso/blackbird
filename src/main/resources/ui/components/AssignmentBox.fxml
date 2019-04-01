@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<StackPane fx:id="rootPane" prefWidth="910.0" stylesheets="@../../stylesheets/assignment_box.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.core.ui.components.AssignmentBoxController">
+   <children>
+      <VBox styleClass="root">
+         <children>
+            <StackPane fx:id="headerPane" prefHeight="40.0" prefWidth="910.0">
+               <children>
+                  <Rectangle fx:id="headerRectangle" fill="#202020" height="40.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="header-background-green" width="910.0" />
+                  <Label fx:id="headerLabel" maxWidth="1.7976931348623157E308" styleClass="header-label" text="Øving 1" StackPane.alignment="CENTER_LEFT">
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
+                     <effect>
+                        <DropShadow color="#797979" height="5.0" radius="2.0" spread="0.29" width="5.0" />
+                     </effect>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </StackPane>
+            <HBox fx:id="contentHBox" maxWidth="1.7976931348623157E308" spacing="10.0" styleClass="body-background" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label fx:id="descriptionLabel" styleClass="breadtext" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla lectus non ante euismod aliquet. Sed cursus bibendum lacus non porttitor. Nunc vel dui venenatis, hendrerit dui eu, consectetur velit. Nunc eget eleifend massa. Nullam vehicula nulla at nunc aliquam, sed ornare purus rhoncus." wrapText="true" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="10.0" top="15.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <Region minWidth="1.0" prefWidth="1.0" style="-fx-background-color: #BBBBBB;">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Region>
+                  <StackPane>
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
+                     </HBox.margin>
+                     <children>
+                        <GridPane alignment="CENTER" hgap="5.0" minWidth="-Infinity" StackPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label styleClass="status-label-default" text="Frist:" />
+                              <Label fx:id="deadlineLabel" styleClass="status-label-default" text="08.02.2019" GridPane.columnIndex="1" />
+                              <Label styleClass="status-label-default" text="Status:" GridPane.rowIndex="1" />
+                              <JFXButton fx:id="actionButton" buttonType="RAISED" onAction="#handleOpenAssignmentClick" styleClass="primary-button-grey" text="Åpne" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                 <padding>
+                                    <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
+                                 </padding>
+                              </JFXButton>
+                              <Label fx:id="statusLabel" styleClass="status-label-green" text="Godkjent" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </StackPane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

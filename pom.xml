@@ -4,11 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ntnu</groupId>
 	<artifactId>blackbird</artifactId>
-	<version>1.0.0-RELEASE</version>
+	<version>1.1.0-RELEASE</version>
 
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>src/test</testSourceDirectory>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -19,6 +21,8 @@
 					<target>11</target>
 				</configuration>
 			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
+				<version>2.22.0</version> </plugin> -->
 
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -33,7 +37,7 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
-        			<finalName>BlackBird-${project.version}</finalName>
+					<finalName>BlackBird-${project.version}</finalName>
 					<appendAssemblyId>false</appendAssemblyId>
 				</configuration>
 				<executions>
@@ -67,6 +71,26 @@
 					<mainClass>main.app.MainAppLauncher</mainClass>
 					<cleanupDaemonThreads>false</cleanupDaemonThreads>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.3</version>
+				<executions>
+					<execution>
+						<id>pre-unit-test</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -170,6 +194,7 @@
 
 		<!-- <dependency> <groupId>org.junit.jupiter</groupId> <artifactId>junit-jupiter-api</artifactId> 
 			<version>5.4.0</version> <scope>test</scope> </dependency> -->
+
 		<dependency>
 			<groupId>com.jfoenix</groupId>
 			<artifactId>jfoenix</artifactId>
@@ -182,6 +207,16 @@
 			<version>8.0.15</version>
 		</dependency>
 	</dependencies>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.0.0-M3</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

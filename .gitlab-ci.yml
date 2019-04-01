@@ -5,6 +5,11 @@ stages:
     - test
     - deploy
 
+cache:
+  paths:
+    - .m2/repository
+  key: "$CI_BUILD_REF_NAME"
+
 variables:
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
@@ -12,29 +17,62 @@ variables:
 compile-job:
   stage: build
   script:
-    - 'mvn clean compile'
-  artifacts:
-    paths:
-    - target/staging
-    
+    - 'mvn clean compile $MAVEN_CLI_OPTS'
+  retry:
+    max: 2
+    when: runner_system_failure
+
+
 unittest-job:
   stage: test
   script:
-    - ''
+    - 'mvn test $MAVEN_CLI_OPTS'
+    - 'cat target/site/jacoco/index.html'
   dependencies:
     - compile-job
   artifacts:
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
     paths:
-    - target/staging
+    - target/surefire-reports
+    - target/site/jacoco
+
+    when: always
+  retry:
+    max: 2
+    when: runner_system_failure
+  allow_failure: true
+
+pages:
+  stage: deploy
+  script:    
+    - 'mvn -Dmaven.test.skip=true surefire-report:report "-DoutputName=report"'
+#    - 'mvn -Dmaven.test.skip=true surefire-report:report "-DoutputName=$CI_COMMIT_SHORT_SHA"'
+    - 'mv target/site/jacoco public'
+  dependencies:
+    - unittest-job
+  artifacts:
+    paths:    
+    - target/surefire-reports
+    - public
 
 createjar-job:
   stage: deploy
   script:
-    - 'mvn assembly:single'
+    - 'mvn clean compile assembly:single $MAVEN_CLI_OPTS'
   dependencies:
     - unittest-job
-  only:
-    - master
   artifacts:
     paths:
-    - target/staging
+    - release/*.jar
+    when: always
+  retry:
+    max: 2
+    when: runner_system_failure
+
+    
+
+
+
+

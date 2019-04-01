@@ -1,0 +1,83 @@
+* {
+	/* Dark theme */
+	-fx-primary: #202020; 
+	-fx-primary-text: #8e8e8e;
+	-fx-primary-lines: #707070;
+	-fx-primary-rippler: #979797;
+	
+	/* Light theme */
+	-fx-secondary: #D6D6D9;
+	-fx-secondary-text: -fx-primary;
+	-fx-secondary-lines: -fx-primary-lines;
+	-fx-secondary-header: #2F2F40;
+
+	/* Grey tones */	
+	-fx-dark-grey-1: #454545;
+	-fx-dark-grey-1-text: #DDDDDD;
+	-fx-dark-grey-1-rippler: #979797;
+	
+/* -fx-light-grey-1: #E7E7E7;*/
+	-fx-light-grey-1: #F5F5F5;
+	
+	-fx-text-unfocused: #606060;
+	-fx-text-focused: #202020;
+	
+	
+}
+
+@font-face {
+	src: url("/resources/fonts/segoe-ui-semibold.ttf");
+	src: url("/resources/fonts/segoeui.ttf");
+}
+
+
+.course-combobox .sectioned-list-cell {
+	-fx-font: normal 14px "Segoe UI";
+	-fx-text-fill: #BBBBBB;
+}
+.course-combobox .list-view .sectioned-list-cell {
+	-fx-font: normal 12px "Segoe UI";
+	-fx-text-fill: derive(#707070, 20%);
+}
+.course-combobox .list-view .sectioned-list-cell:selected {
+	-fx-font: normal 12px "Segoe UI";
+	-fx-text-fill: derive(#707070, 40%);
+}
+.course-combobox .sectioned-list-cell {
+	-fx-background-color: -fx-primary;
+}
+.course-combobox .sectioned-list-cell:selected .jfx-rippler{
+	-jfx-rippler-fill: derive(-fx-primary, 20%);
+}
+.course-combobox .list-view .sectioned-list-cell:hover {
+	-fx-background-color: derive(-fx-primary, 20%);
+}
+.course-combobox .list-view .sectioned-list-cell:selected {
+	-fx-background-color: derive(-fx-primary, 15%);
+}
+.course-combobox .list-view .sectioned-list-cell:selected:hover {
+	-fx-background-color: derive(-fx-primary, 25%);
+}
+.course-combobox .list-view .sectioned-list-cell .jfx-rippler{
+	-jfx-rippler-fill: derive(-fx-primary, 45%);
+}
+
+.course-combobox .list-view .list-cell:selected .sectioned-list-cell {
+	-fx-background-color: derive(-fx-primary, 15%);
+}
+
+
+.symbol-label-green {
+	-fx-text-fill: derive(#245537, 100%);
+}
+.symbol-label-orange {
+	-fx-text-fill: derive(#7E4700, 100%);
+}
+.symbol-label-red {
+	-fx-text-fill: derive(#7E0000, 100%);
+}
+
+.symbol-label {
+	-fx-font: bold 20px "System";
+}
+

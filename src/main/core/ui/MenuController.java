@@ -99,6 +99,10 @@ public class MenuController implements Refreshable {
 		
 		// Actions specified bv the changelistener are invoked whenever courses are (re)selected
 		courseRelationsComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			// Break if there is no new selection
+			if (newValue == null)
+				return;
+			
 			// Update current tab
 			Refreshable controller = mainController.getCurrentController();
 			if (controller != null)
@@ -154,7 +158,7 @@ public class MenuController implements Refreshable {
 
 		buttons.put(View.OVERVIEW_VIEW, 	new MenuButton(View.OVERVIEW_VIEW, 		"Oversikt", 		new ImageView(Loader.getImage("icons/overview.png"))));
 		buttons.put(View.SCHEDULING_VIEW, 	new MenuButton(View.SCHEDULING_VIEW, 	"Timebestilling", 	new ImageView(Loader.getImage("icons/scheduling.png"))));
-		buttons.put(View.EXERCISES_VIEW, 	new MenuButton(View.EXERCISES_VIEW, 	"Øvinger", 			new ImageView(Loader.getImage("icons/exercises.png"))));
+		buttons.put(View.ASSIGNMENTS_VIEW, 	new MenuButton(View.ASSIGNMENTS_VIEW, 	"Øvinger", 			new ImageView(Loader.getImage("icons/exercises.png"))));
 		buttons.put(View.MEMBERS_VIEW, 		new MenuButton(View.MEMBERS_VIEW, 		"Medlemmer", 		new ImageView(Loader.getImage("icons/members.png"))));
 		buttons.put(View.ADMIN_VIEW, 		new MenuButton(View.ADMIN_VIEW, 		"Administrer", 		new ImageView(Loader.getImage("icons/admin.png"))));
 		
@@ -204,7 +208,6 @@ public class MenuController implements Refreshable {
 	 */
 	@Override
 	public void update() {
-		System.out.println("Menu update");
 		User activeUser = LoginManager.getActiveUser();
 		updatePersonalia(activeUser);
 		updateCourseComboBox(activeUser);
@@ -214,6 +217,7 @@ public class MenuController implements Refreshable {
 		if (!menuButtonsVBox.getChildren().isEmpty())
 			loadTab(((MenuButton) menuButtonsVBox.getChildren().get(0)).getView());
 	}
+
 	
 	/**
 	 * Updates user related components (Name, image and role).
@@ -289,7 +293,7 @@ public class MenuController implements Refreshable {
 		menuButtonsVBox.getChildren().setAll(
 				buttons.get(View.OVERVIEW_VIEW),
 				buttons.get(View.SCHEDULING_VIEW),
-				buttons.get(View.EXERCISES_VIEW),
+				buttons.get(View.ASSIGNMENTS_VIEW),
 				buttons.get(View.MEMBERS_VIEW));
 	}
 	
@@ -342,6 +346,13 @@ public class MenuController implements Refreshable {
 		
 		// Load corresponding tab
 		mainController.loadTab(view);
+	}
+	
+	/**
+	 * Returns the selected user-course relation.
+	 */
+	public UserInCourse getSelectedUserInCourse() {
+		return courseRelationsComboBox.getSelectionModel().getSelectedItem();
 	}
 	
 	/**

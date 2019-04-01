@@ -6,18 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import main.calendar.TimeSlot;
 import main.models.Course;
 import main.models.Period;
+import main.models.TimeSlot;
 import main.models.User;
 
+/**
+ * Manager handling database-queries concerning periods.
+ * @author Sebastian
+ */
 public class PeriodManager {
-	
-	/* PERIOD INSERTION:
-	 * INSERT INTO period VALUES(course_code, timestamp[, prof_username, ass_username, stud_username])
-	 * 												   [------THESE CAN BE SET TO NULL AS null------]
-	 * INSERT INTO period VALUES('TDT4100', '2019-02-21 15:00:00', 'hallvard', null, null);
-	 */
 	
 	
 	/*
@@ -25,28 +23,27 @@ public class PeriodManager {
 	 */
 	public static List<Period> getPeriodsFromCourseCode(String courseCode){
 		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s';", courseCode));
-		return DatabaseUtil.MapsToPeriods(periodMaps);
+		return DatabaseUtil.mapsToPeriods(periodMaps);
 	}
 
 	/*
 	 * Returns a list of all periods in a course given a Course-object.
 	 */
 	public static List<Period> getPeriodsFromCourse(Course course){
-		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s';", course.getCourseCode()));
-		return DatabaseUtil.MapsToPeriods(periodMaps);
+		return getPeriodsFromCourseCode(course.getCourseCode());
 	}
 	
 	public static List<Period> getPeriodsFromCourseAndTime(Course course, String timestamp){
 		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s' and timestamp = '%s';", 
 				course.getCourseCode(), timestamp));
-		return DatabaseUtil.MapsToPeriods(periodMaps);
+		return DatabaseUtil.mapsToPeriods(periodMaps);
 	}
 	
 	public static List<Period> getPeriodsFromCourseAndTime(Course course, LocalDateTime localDateTime){
 		String timestamp = TimeSlot.localDateTimeToSQLDateTime(localDateTime);
 		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s' and timestamp = '%s';", 
 				course.getCourseCode(), timestamp));
-		return DatabaseUtil.MapsToPeriods(periodMaps);
+		return DatabaseUtil.mapsToPeriods(periodMaps);
 	}
 	
 	public static Map<String, TimeSlot> getPeriodsFromCourseAndWeekStartTime(Course course, LocalDateTime localDateTime){
@@ -54,8 +51,8 @@ public class PeriodManager {
 		String weekEndTimestamp = TimeSlot.localDateTimeToSQLDateTime(localDateTime.plusDays(7));
 		List<Map<String, String>> periodMaps = DatabaseManager.sendQuery(String.format("SELECT * FROM period where course_code = '%s' and timestamp > '%s' and timestamp < '%s';", 
 				course.getCourseCode(), weekStartTimestamp, weekEndTimestamp));
-		List<Period> periodList = DatabaseUtil.MapsToPeriods(periodMaps);
-		Map<String, TimeSlot> timeSlotMap = DatabaseUtil.PeriodsToTimeSlotMap(periodList);
+		List<Period> periodList = DatabaseUtil.mapsToPeriods(periodMaps);
+		Map<String, TimeSlot> timeSlotMap = DatabaseUtil.periodsToTimeSlotMap(periodList);
 		return timeSlotMap;
 	}
 	
@@ -106,12 +103,10 @@ public class PeriodManager {
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
 	 */
 	public static int addPeriod(Period period) {
-		String professorUsername = period.getProfessorUsername();
 		String courseCode = period.getCourseCode();
 		String timeStamp = period.getTimeStamp();
-		String query = String.format("INSERT INTO period VALUES(NULL, '%s', '%s', '%s', NULL, NULL);",
-				courseCode, timeStamp, professorUsername);
-		return DatabaseManager.sendUpdate(query);
+		String professorUsername = period.getProfessorUsername();
+		return addPeriod(courseCode, timeStamp, professorUsername);
 	}
 
 	/*
@@ -147,7 +142,6 @@ public class PeriodManager {
 	/*
 	 * Unbooks a period from a student by removing their username from the studentUsername-attribute in the database, from given Period- and User-objects.
 	 * Returns amount of changed lines: 1 (success) or 0 (failure).
-	 * TODO: What happens if you try to untutor a booked session? As of right now, 
 	 */
 	public static int untutorPeriod(Period period) {
 		String query = String.format("UPDATE period SET assistant_username = NULL, student_username = NULL WHERE period_id = %s",

@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import main.app.Loader;
-import main.calendar.Calendar;
+import main.components.Calendar;
 import main.models.Course;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
@@ -41,7 +41,7 @@ public class CalendarController implements Refreshable {
 	
 	@FXML
 	void initialize() {
-		calendar = new Calendar();
+		calendar = new Calendar(calendarPane);
 	}
 	
 	/**
