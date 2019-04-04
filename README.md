@@ -1,8 +1,9 @@
 # Blackbird
 > Blackbird is a university's new best friend when it comes to scheduling, deliveries of exercises, and announcements!
 
-[![pipeline](https://gitlab.stud.iie.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/build.svg)](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/pipelines)
-[![coverage](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/sprint-2/coverage.svg)](http://programvareutvikling-v19.pages.stud.idi.ntnu.no/gruppe-58/index.html)
+[![pipeline](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/master/pipeline.svg)](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/commits/master)
+
+[![coverage](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/master/coverage.svg)](http://programvareutvikling-v19.pages.stud.idi.ntnu.no/gruppe-58/index.html)
 
 Blackbird is a learning management system (LMS) that makes scheduling easier for every professor, student-assistent, and student. It also has an assignment system that makes deliveries and grading simplier than ever.
 In addition to that, Blackbird has functionality that lets professors post announcements for either student-assistant only, or for everyone to see. Restrictions are set depending on your role in a course. 
@@ -13,13 +14,13 @@ In addition to that, Blackbird has functionality that lets professors post annou
 
 **Windows:**
 
-1. Download [BlackBird-1.0.0-RELEASE.jar](release/BlackBird-1.0.0-RELEASE.jar)
+1. Download [BlackBird-1.1.0-RELEASE.jar](/release/BlackBird-1.1.0-RELEASE.jar) (or see all published versions [here](/release)).
 2. Open file by double clicking on the file.
 3. Enjoy! 
 
 **OS X & Linux (fungerer også på Windows):**
 
-1. Download [BlackBird-1.0.0-RELEASE.jar](release/BlackBird-1.0.0-RELEASE.jar)
+1. Download [BlackBird-1.1.0-RELEASE.jar](/release/BlackBird-1.1.0-RELEASE.jar) (or see all published versions [here](/release)).
 2. Open terminal window.
 3. Copy and paste this command in the terminal: 
 ```sh
@@ -41,34 +42,31 @@ npm test
 
 ## Release History
 
-* 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
-* 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
-* 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
-* 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
-* 0.0.1
-    * Work in progress
+* 1.1.0
+    * ADD: Assignment/submission-functionality.
+    * ADD: Announcement-functionality.
+    * ADD: Course member-list functionality.
+* 1.0.0
+    * Initial version.
+    * ADD: Admin view.
+    * ADD: User login with roles.
+    * ADD: Calendar functionality.
 
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+TDT4140 - Programvareutvikling
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+"Planlegge og administrere små programvareutviklings-prosjekter og delta som designer / programmerer / tester i større programvareprosjekter."
 
-[https://github.com/yourname/github-link](https://github.com/dbader/)
+[GitLab: Gruppe 58](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/)
 
-## Contributing
+<!--## Contributing
 
 1. Fork it (<https://github.com/yourname/yourproject/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
+5. Create a new Pull Request -->
 
 <!-- Markdown link & img dfn's -->
 [npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
