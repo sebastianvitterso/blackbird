@@ -32,6 +32,7 @@ import main.models.Announcement;
 import main.models.Assignment;
 import main.models.Course;
 import main.models.Submission;
+import main.utils.AssignmentStatus;
 import main.utils.PostInitialize;
 import main.utils.Refreshable;
 import main.utils.Role;
@@ -177,25 +178,39 @@ public class OverviewController implements Refreshable {
 			getStyleClass().addAll("button-text", "border");
 			setButtonType(ButtonType.RAISED);
 			setAlignment(Pos.CENTER_LEFT);
-			Status status = Submission.determineStatus(assignment, submission);
-			switch (status) {
-			case PASSED:
-				getStyleClass().add("button-green");
-				break;
-			case WAITING:
-				getStyleClass().add("button-orange");
-				break;
-			case FAILED:
-				getStyleClass().add("button-red");
-				break;
-			case DEADLINE_EXCEEDED:
-				getStyleClass().add("button-red");
-				break;
-			case NOT_DELIVERED:
-				getStyleClass().add("button-default");
-				break;
-			default:
-				break;
+			if(menuController.getSelectedRole() == Role.STUDENT) {
+				Status status = Submission.determineStatus(assignment, submission);
+				switch (status) {
+				case PASSED:
+					getStyleClass().add("button-green");
+					break;
+				case WAITING:
+					getStyleClass().add("button-orange");
+					break;
+				case FAILED:
+					getStyleClass().add("button-red");
+					break;
+				case DEADLINE_EXCEEDED:
+					getStyleClass().add("button-red");
+					break;
+				case NOT_DELIVERED:
+					getStyleClass().add("button-default");
+					break;
+				default:
+					break;
+				}
+			}else {
+				AssignmentStatus status = Assignment.determineStatus(assignment);
+				switch (status) {
+				case WITHIN_DEADLINE:
+					getStyleClass().add("button-green");
+					break;
+				case DEADLINE_EXCEEDED:
+					getStyleClass().add("button-red");
+					break;
+				default:
+					break;
+				}
 			}
 			
 			// Set text
