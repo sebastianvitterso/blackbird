@@ -16,7 +16,7 @@ In addition to that, Blackbird has functionality that lets professors post annou
 1. Download [BlackBird-1.1.0-RELEASE.jar](/release/BlackBird-1.1.0-RELEASE.jar) (or see all published versions [here](/release)).
 2. Open file by double clicking on the file.
 
-**OS X & Linux (fungerer også på Windows):**
+**OS X & Linux (also works on Windows):**
 
 1. Download [BlackBird-1.1.0-RELEASE.jar](/release/BlackBird-1.1.0-RELEASE.jar) (or see all published versions [here](/release)).
 2. Open terminal window.
