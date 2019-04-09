@@ -2,7 +2,6 @@
 > Blackbird is a university's new best friend when it comes to scheduling, deliveries of exercises, and announcements!
 
 [![pipeline](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/master/pipeline.svg)](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/commits/master)
-
 [![coverage](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/master/coverage.svg)](http://programvareutvikling-v19.pages.stud.idi.ntnu.no/gruppe-58/index.html)
 
 Blackbird is a learning management system (LMS) that makes scheduling easier for every professor, student-assistent, and student. It also has an assignment system that makes deliveries and grading simplier than ever.
@@ -16,7 +15,6 @@ In addition to that, Blackbird has functionality that lets professors post annou
 
 1. Download [BlackBird-1.1.0-RELEASE.jar](/release/BlackBird-1.1.0-RELEASE.jar) (or see all published versions [here](/release)).
 2. Open file by double clicking on the file.
-3. Enjoy! 
 
 **OS X & Linux (fungerer også på Windows):**
 
@@ -33,12 +31,11 @@ For step by step instructions, go to [Wiki](https://gitlab.stud.idi.ntnu.no/prog
 
 ## Development setup
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
-
-```sh
-make install
-npm test
-```
+Clone the repository into the project folder.  `git clone https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git`  
+Download maven from apache's website. https://maven.apache.org/  
+Download and install all required dependencies with maven. `mvn install`  
+To compile and run the application: `mvn clean compile exec:java`  
+To run unit-tests: `mvn clean test` 
 
 ## Release History
 
@@ -67,20 +64,3 @@ TDT4140 - Programvareutvikling
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request -->
-
-<!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/yourname/yourproject/wiki
-
-
-** GUIDE TIL README.MD: ** 
-
-_https://medium.com/@meakaakka/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3_
-
-** TEMPLATE FULGT HER: **
-
-_https://github.com/dbader/readme-template/blob/master/README.md_
