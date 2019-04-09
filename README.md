@@ -15,7 +15,6 @@ In addition to that, Blackbird has functionality that lets professors post annou
 
 1. Download [BlackBird-1.1.0-RELEASE.jar](/release/BlackBird-1.1.0-RELEASE.jar) (or see all published versions [here](/release)).
 2. Open file by double clicking on the file.
-3. Enjoy! 
 
 **OS X & Linux (fungerer også på Windows):**
 
@@ -35,8 +34,8 @@ For step by step instructions, go to [Wiki](https://gitlab.stud.idi.ntnu.no/prog
 Clone the repository into the project folder.  `git clone https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git`  
 Download maven from apache's website. https://maven.apache.org/  
 Download and install all required dependencies with maven. `mvn install`  
-To compile and run the application we recommend the command `mvn clean compile exec:java`.
-
+To compile and run the application: `mvn clean compile exec:java`  
+To run unit-tests: `mvn clean test` 
 
 ## Release History
 
