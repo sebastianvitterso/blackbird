@@ -35,7 +35,7 @@ Clone the repository into the project folder.  `git clone https://gitlab.stud.id
 Download maven from apache's website. https://maven.apache.org/  
 Download and install all required dependencies with maven. `mvn install`  
 To compile and run the application: `mvn clean compile exec:java`  
-To run unit-tests: `mvn clean test` 
+To run test suite: `mvn clean test` 
 
 ## Release History
 
