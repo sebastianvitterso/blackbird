@@ -32,12 +32,11 @@ For step by step instructions, go to [Wiki](https://gitlab.stud.idi.ntnu.no/prog
 
 ## Development setup
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
+Clone the repository into the project folder.  `git clone https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git`  
+Download maven from apache's website. https://maven.apache.org/  
+Download and install all required dependencies with maven. `mvn install`  
+To compile and run the application we recommend the command `mvn clean compile exec:java`.
 
-```sh
-make install
-npm test
-```
 
 ## Release History
 
@@ -66,20 +65,3 @@ TDT4140 - Programvareutvikling
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request -->
-
-<!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/yourname/yourproject/wiki
-
-
-** GUIDE TIL README.MD: ** 
-
-_https://medium.com/@meakaakka/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3_
-
-** TEMPLATE FULGT HER: **
-
-_https://github.com/dbader/readme-template/blob/master/README.md_
