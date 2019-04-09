@@ -8,7 +8,7 @@
 Blackbird is a learning management system (LMS) that makes scheduling easier for every professor, student-assistent, and student. It also has an assignment system that makes deliveries and grading simplier than ever.
 In addition to that, Blackbird has functionality that lets professors post announcements for either student-assistant only, or for everyone to see. Restrictions are set depending on your role in a course. 
 
-![](https://i.imgur.com/xPGmAmJ.png)
+<img src="https://i.imgur.com/jlE8Np0.png" width="800">
 
 ## Installation
 
