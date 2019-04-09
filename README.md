@@ -24,7 +24,7 @@ In addition to that, Blackbird has functionality that lets professors post annou
 2. Open terminal window.
 3. Copy and paste this command in the terminal: 
 ```sh
-java -jar "{path to directory}/BlackBird-1.0.0-RELEASE.jar"
+java -jar "{path to directory}/BlackBird-1.1.0-RELEASE.jar"
 ```
 
 ## How to use 
