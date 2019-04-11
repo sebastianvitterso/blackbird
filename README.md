@@ -59,7 +59,12 @@ To run test suite:
     * ADD: User login with roles.
     * ADD: Calendar functionality.
 
-## Meta
+## Licence
+
+Blackbird LMS is released under the MIT licence.  
+See [LICENSE](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/blob/master/LICENSE) for more information.
+
+<!--## Meta
 
 TDT4140 - Programvareutvikling
 
@@ -67,7 +72,7 @@ TDT4140 - Programvareutvikling
 
 [GitLab: Gruppe 58](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/)
 
-<!--## Contributing
+--><!--## Contributing
 
 1. Fork it (<https://github.com/yourname/yourproject/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
