@@ -30,12 +30,22 @@ java -jar "{path to directory}/BlackBird-1.1.0-RELEASE.jar"
 For step by step instructions, go to [Wiki](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/wikis/home).
 
 ## Development setup
+#### Installation
+Download maven from [Apache's offical site](https://maven.apache.org/  ).
 
-Clone the repository into the project folder. `git clone https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git`  
-Download maven from apache's website. https://maven.apache.org/  
-Download and install all required dependencies with maven. `mvn install`  
-To compile and run the application: `mvn clean compile exec:java`  
-To run test suite: `mvn clean test` 
+#### Setup
+Clone the repository into the project folder:  
+`git clone https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git`
+
+Navigate to project directory and download required dependencies:  
+`mvn install`
+
+#### Use
+To compile and run the application:  
+`mvn clean compile exec:java`  
+    
+To run test suite:  
+`mvn clean test` 
 
 ## Release History
 
