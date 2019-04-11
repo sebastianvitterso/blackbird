@@ -4,8 +4,8 @@
 [![pipeline](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/master/pipeline.svg)](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/commits/master)
 [![coverage](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/master/coverage.svg)](http://programvareutvikling-v19.pages.stud.idi.ntnu.no/gruppe-58/index.html)
 
-Blackbird is a learning management system (LMS) that makes scheduling easier for every professor, student-assistent, and student. It also has an assignment system that makes deliveries and grading simplier than ever.
-In addition to that, Blackbird has functionality that lets professors post announcements for either student-assistant only, or for everyone to see. Restrictions are set depending on your role in a course. 
+Blackbird is a learning management system (LMS) that makes scheduling easier for professors, assistants and student. It also has an assignment system that makes deliveries and grading simpler than ever.
+In addition, Blackbird has functionality that lets professors post announcements for either assistants only, or for everyone to see. Restrictions are set depending on your role in a course. 
 
 <img src="https://i.imgur.com/jlE8Np0.png" width="800">
 
@@ -30,12 +30,22 @@ java -jar "{path to directory}/BlackBird-1.1.0-RELEASE.jar"
 For step by step instructions, go to [Wiki](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/wikis/home).
 
 ## Development setup
+#### Installation
+Download maven from [Apache's offical site](https://maven.apache.org/  ).
 
-Clone the repository into the project folder.  `git clone https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git`  
-Download maven from apache's website. https://maven.apache.org/  
-Download and install all required dependencies with maven. `mvn install`  
-To compile and run the application: `mvn clean compile exec:java`  
-To run unit-tests: `mvn clean test` 
+#### Setup
+Clone the repository into the project folder:  
+`git clone https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git`
+
+Navigate to project directory and download required dependencies:  
+`mvn install`
+
+#### Use
+To compile and run the application:  
+`mvn clean compile exec:java`  
+    
+To run test suite:  
+`mvn clean test` 
 
 ## Release History
 
@@ -49,7 +59,12 @@ To run unit-tests: `mvn clean test`
     * ADD: User login with roles.
     * ADD: Calendar functionality.
 
-## Meta
+## Licence
+
+Blackbird LMS is released under the MIT licence.  
+See [LICENSE](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/blob/master/LICENSE) for more information.
+
+<!--## Meta
 
 TDT4140 - Programvareutvikling
 
@@ -57,7 +72,7 @@ TDT4140 - Programvareutvikling
 
 [GitLab: Gruppe 58](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/)
 
-<!--## Contributing
+--><!--## Contributing
 
 1. Fork it (<https://github.com/yourname/yourproject/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
