@@ -4,8 +4,8 @@
 [![pipeline](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/master/pipeline.svg)](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/commits/master)
 [![coverage](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/master/coverage.svg)](http://programvareutvikling-v19.pages.stud.idi.ntnu.no/gruppe-58/index.html)
 
-Blackbird is a learning management system (LMS) that makes scheduling easier for every professor, student-assistent, and student. It also has an assignment system that makes deliveries and grading simplier than ever.
-In addition to that, Blackbird has functionality that lets professors post announcements for either student-assistant only, or for everyone to see. Restrictions are set depending on your role in a course. 
+Blackbird is a learning management system (LMS) that makes scheduling easier for professors, assistants and student. It also has an assignment system that makes deliveries and grading simpler than ever.
+In addition, Blackbird has functionality that lets professors post announcements for either assistants only, or for everyone to see. Restrictions are set depending on your role in a course. 
 
 <img src="https://i.imgur.com/jlE8Np0.png" width="800">
 
@@ -31,7 +31,7 @@ For step by step instructions, go to [Wiki](https://gitlab.stud.idi.ntnu.no/prog
 
 ## Development setup
 
-Clone the repository into the project folder.  `git clone https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git`  
+Clone the repository into the project folder. `git clone https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58.git`  
 Download maven from apache's website. https://maven.apache.org/  
 Download and install all required dependencies with maven. `mvn install`  
 To compile and run the application: `mvn clean compile exec:java`  
