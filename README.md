@@ -1,4 +1,4 @@
-### The contributor-graph is not correct on this platform, as it doesn't show non-GitHub-users, and 90 % of all commits were published with GitLab NTNU-usernames, meaning GitHub does not display them. 
+##### The contributor-graph is not correct on this platform, as it doesn't show non-GitHub-users, and 90 % of all commits were published with GitLab NTNU-usernames, meaning GitHub does not display them. 
 
 # Blackbird
 > Blackbird is a university's new best friend when it comes to scheduling, deliveries of exercises, and announcements!
