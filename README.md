@@ -27,7 +27,7 @@ java -jar "{path to directory}/BlackBird-1.1.0-RELEASE.jar"
 
 ## How to use 
 
-For step by step instructions, go to [Wiki](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/wikis/home).
+For step by step instructions, go to Wiki (not available on this repo as of right now, due to migration from GitLab to GitHub.
 
 ## Development setup
 #### Installation
@@ -62,20 +62,10 @@ To run test suite:
 ## Licence
 
 Blackbird LMS is released under the MIT licence.  
-See [LICENSE](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/blob/master/LICENSE) for more information.
+See [LICENSE](/LICENSE) for more information.
 
-<!--## Meta
+## Meta
 
 TDT4140 - Programvareutvikling
 
 "Planlegge og administrere små programvareutviklings-prosjekter og delta som designer / programmerer / tester i større programvareprosjekter."
-
-[GitLab: Gruppe 58](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/)
-
---><!--## Contributing
-
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
-2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request -->
