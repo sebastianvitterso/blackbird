@@ -1,8 +1,8 @@
 # Blackbird
 > Blackbird is a university's new best friend when it comes to scheduling, deliveries of exercises, and announcements!
 
-[![pipeline](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/master/pipeline.svg)](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/commits/master)
-[![coverage](https://gitlab.stud.idi.ntnu.no/programvareutvikling-v19/gruppe-58/badges/master/coverage.svg)](http://programvareutvikling-v19.pages.stud.idi.ntnu.no/gruppe-58/index.html)
+<img src="https://svgur.com/i/CVv.svg">
+<img src="https://svgur.com/i/CX8.svg">
 
 Blackbird is a learning management system (LMS) that makes scheduling easier for professors, assistants and student. It also has an assignment system that makes deliveries and grading simpler than ever.
 In addition, Blackbird has functionality that lets professors post announcements for either assistants only, or for everyone to see. Restrictions are set depending on your role in a course. 
